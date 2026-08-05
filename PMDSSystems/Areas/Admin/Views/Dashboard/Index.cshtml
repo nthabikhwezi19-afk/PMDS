@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+
+    /* ===== PAGE ===== */
+    .dashboard-container {
+        padding: 30px;
+    }
+
+    /* ===== TOP HEADER (LOGO + TITLE) ===== */
+    .top-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+        .top-header img {
+            width: 60px;
+            height: auto;
+        }
+
+        .top-header h2 {
+            color: #006838;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .top-header p {
+            margin: 0;
+            color: #667085;
+            font-size: 0.9rem;
+        }
+
+    /* ===== CARD ===== */
+    .dashboard-card {
+        border: none;
+        border-radius: 18px;
+        padding: 25px;
+        color: white;
+        transition: 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+    /* Gradients */
+    .card-users {
+        background: linear-gradient(135deg, #006838, #009e52);
+    }
+
+    .card-employees {
+        background: linear-gradient(135deg, #004d2b, #006838);
+    }
+
+    .card-supervisors {
+        background: linear-gradient(135deg, #0b7a4b, #00b36b);
+    }
+
+    /* Icon */
+    .dashboard-card i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    /* Text */
+    .dashboard-card h4 {
+        font-weight: 700;
+    }
+
+    .dashboard-card p {
+        font-size: 1.2rem;
+        margin-top: 8px;
+    }
+
+    /* Decoration */
+    .dashboard-card::after {
+        content: "";
+        position: absolute;
+        right: -30px;
+        bottom: -30px;
+        width: 120px;
+        height: 120px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+    }
+
+    /* spacing */
+    .row > div {
+        margin-bottom: 20px;
+    }
+
+</style>
+
+<div class="dashboard-container">
+
+    <!-- 🔥 HEADER WITH LOGO -->
+    <div class="top-header">
+        <img src="~/images/dcslogo.png" alt="DCS Logo" />
+
+        <div>
+            <h2>PMDS Admin Dashboard</h2>
+            <p>Department of Correctional Services · Performance Management System</p>
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="dashboard-card card-users">
+                <i class="fa-solid fa-users"></i>
+                <h4>Total Users</h4>
+                <p>Coming soon</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card card-employees">
+                <i class="fa-solid fa-user"></i>
+                <h4>Employees</h4>
+                <p>Coming soon</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card card-supervisors">
+                <i class="fa-solid fa-user-tie"></i>
+                <h4>Supervisors</h4>
+                <p>Coming soon</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login · PMDS</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Font for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <style>
+        /* ----- reset & base – DCS / PMDS style ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f4f7f5, #eef5f1);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            margin: 0;
+        }
+
+        /* main card – same as welcome page */
+        .login-card {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 80, 40, 0.12);
+            transition: transform 0.2s ease;
+        }
+
+            .login-card:hover {
+                transform: translateY(-3px);
+            }
+
+        /* ----- left side (brand) – DCS green gradient ----- */
+        .login-brand {
+            background: linear-gradient(145deg, #004d2b, #006838, #0b7a4b);
+            color: white;
+            padding: 40px 35px 35px;
+            text-align: center;
+        }
+
+            .login-brand img {
+                width: 90px;
+                margin-bottom: 18px;
+                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.25));
+            }
+
+            .login-brand h1 {
+                font-size: 2.4rem;
+                font-weight: 800;
+                line-height: 1.1;
+                margin-bottom: 8px;
+            }
+
+                .login-brand h1 span {
+                    color: #e2c36d;
+                }
+
+            .login-brand .sub {
+                font-size: 0.95rem;
+                opacity: 0.9;
+                font-weight: 400;
+                margin-top: 4px;
+                color: rgba(255, 255, 255, 0.8);
+            }
+
+        .brand-features {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+            .brand-features span {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 30px;
+                padding: 6px 16px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                letter-spacing: 0.2px;
+                backdrop-filter: blur(4px);
+            }
+
+            .brand-features i {
+                color: #e2c36d;
+                margin-right: 6px;
+            }
+
+        /* ----- right side (form) – clean white ----- */
+        .login-form {
+            padding: 40px 35px 38px;
+            background: white;
+        }
+
+            .login-form h2 {
+                color: #006838;
+                font-weight: 800;
+                font-size: 1.8rem;
+                letter-spacing: -0.3px;
+                margin-bottom: 6px;
+            }
+
+            .login-form .intro {
+                color: #667085;
+                margin-bottom: 28px;
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+        /* form elements – matching DCS style */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                color: #1f2937;
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+                letter-spacing: -0.1px;
+            }
+
+                .form-group label i {
+                    color: #006838;
+                    margin-right: 8px;
+                    width: 18px;
+                    opacity: 0.8;
+                }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #e7ece9;
+            border-radius: 14px;
+            font-size: 1rem;
+            background: #fafcfa;
+            transition: all 0.2s ease;
+            color: #1a2e25;
+            font-weight: 500;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #006838;
+                box-shadow: 0 0 0 4px rgba(0, 104, 56, 0.12);
+                background: white;
+            }
+
+            .form-control::placeholder {
+                color: #aab9b0;
+                font-weight: 400;
+            }
+
+        /* buttons – exactly like welcome page */
+        .btn-login-primary {
+            background: #006838;
+            border: none;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 16px rgba(0, 104, 56, 0.18);
+            margin-top: 4px;
+        }
+
+            .btn-login-primary:hover {
+                background: #004d2b;
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(0, 104, 56, 0.25);
+            }
+
+            .btn-login-primary i {
+                font-size: 1.1rem;
+            }
+
+        /* divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #8d9c93;
+            font-weight: 500;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin: 24px 0 22px;
+        }
+
+        .forgot-password {
+            display: inline-block;
+            color: #006838;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+            .forgot-password:hover {
+                color: #004d2b;
+                text-decoration: underline;
+            }
+
+            .divider::before,
+            .divider::after {
+                content: '';
+                flex: 1;
+                height: 1.5px;
+                background: #e2e9e4;
+            }
+
+        /* Microsoft button – same style as "btn-login" from welcome */
+        .btn-microsoft {
+            background: transparent;
+            border: 2px solid #006838;
+            color: #006838;
+            padding: 12px 22px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+
+            .btn-microsoft:hover {
+                background: #006838;
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 104, 56, 0.15);
+            }
+
+            .btn-microsoft i {
+                font-size: 1.3rem;
+            }
+
+        /* validation summary – subtle DCS style */
+        .validation-summary {
+            margin-top: 24px;
+            border-radius: 16px;
+            background: #fcf6f0;
+            padding: 10px 18px;
+            border-left: 5px solid #c0392b;
+            color: #7a3b2b;
+            font-size: 0.9rem;
+        }
+
+            .validation-summary ul {
+                list-style: none;
+                padding-left: 0;
+                margin: 4px 0;
+            }
+
+            .validation-summary li {
+                padding: 3px 0;
+            }
+
+            .validation-summary i {
+                margin-right: 8px;
+                color: #c0392b;
+            }
+
+        /* small footer */
+        .login-footer {
+            margin-top: 26px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8d9c93;
+            border-top: 1px solid #eef3ef;
+            padding-top: 20px;
+            letter-spacing: 0.2px;
+        }
+
+            .login-footer i {
+                color: #006838;
+                margin-right: 4px;
+            }
+
+        /* responsive */
+        @@media (max-width: 480px) {
+            .login-brand h1
+
+        {
+            font-size: 2rem;
+        }
+
+        .login-form {
+            padding: 30px 22px;
+        }
+
+        .login-brand {
+            padding: 30px 20px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+
+        <!-- BRAND SIDE – exactly like welcome left -->
+        <div class="login-brand">
+            <!-- DCS logo placeholder (same as welcome) -->
+            <img src="~/images/dcslogo.png" alt="Department of Correctional Services" />
+            <h1>
+                Welcome to <span>PMDS</span>
+            </h1>
+            <div class="sub">
+                <i class="fa-regular fa-circle-check" style="margin-right: 6px;"></i> Performance Management &amp; Development
+            </div>
+            <div class="brand-features">
+                <span><i class="fa-solid fa-file-signature"></i> Agreements</span>
+                <span><i class="fa-solid fa-chart-line"></i> Reviews</span>
+                <span><i class="fa-solid fa-user-graduate"></i> Development</span>
+            </div>
+        </div>
+
+        <!-- FORM SIDE – login card (mirrors welcome right) -->
+        <div class="login-form">
+            <h2>Sign in</h2>
+            <p class="intro">
+                <i class="fa-regular fa-circle-user" style="color: #006838; margin-right: 6px;"></i>
+                Welcome back. Login to your PMDS account.
+            </p>
+
+            <!-- Razor form – keeps your original structure -->
+            <form method="post" asp-controller="Account" asp-action="Login">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fa-regular fa-envelope"></i>
+                        Email
+                    </label>
+
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           class="form-control"
+                           placeholder="you@dcs.gov.za"
+                           required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fa-solid fa-lock"></i>
+                        Password
+                    </label>
+
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="••••••••"
+                           required />
+                </div>
+
+                <button type="submit" class="btn-login-primary">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Login to PMDS
+                </button>
+
+                <!-- Forgot Password -->
+                <div style="text-align:center;margin-top:18px;">
+                    <a href="/Account/ForgotPassword"
+                       style="color:#006838;font-weight:700;font-size:15px;">
+                        <i class="fa-solid fa-key"></i>
+                        Forgot your password?
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Microsoft Login -->
+            <a href="/Account/MicrosoftLogin"
+               class="btn-microsoft">
+                <i class="fa-brands fa-microsoft"></i>
+                Sign in with Microsoft
+            </a>
+
+            <!-- Validation -->
+            <div class="validation-summary">
+                @Html.ValidationSummary()
+            </div>
+
+            <div class="login-footer">
+                <i class="fa-regular fa-circle-check"></i>
+                PMDS · Department of Correctional Services
+            </div>
+            </Form>
+
+            @* <!-- OR divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Microsoft sign-in – matches welcome "btn-login" style -->
+            <a href="/Account/MicrosoftLogin" class="btn-microsoft" style="position: relative; z-index: 9999; cursor: pointer;">
+                <i class="fa-brands fa-microsoft"></i> Sign in with Microsoft
+            </a>
+
+            <!-- validation summary (Razor) -->
+            <div class="validation-summary">
+                @Html.ValidationSummary()
+            </div>
+
+            <div class="login-footer">
+                <i class="fa-regular fa-circle-check"></i> PMDS · Department of Correctional Services
+            </div>
+        </div> *@
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,726 @@
+﻿@{
+    ViewData["Title"] = "Personal Development Plan";
+}
+
+<style>
+    /* ===== GLOBAL STYLES ===== */
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-top: 5px solid #006838;
+        border-left: 1px solid #e8edf0;
+        border-right: 1px solid #e8edf0;
+        border-bottom: 1px solid #e8edf0;
+    }
+
+        .page-header h2 {
+            color: #006838;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .page-header .sub-text {
+            color: #999;
+            font-size: 14px;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+    /* ===== FORM CONTAINER ===== */
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 1px solid #e8edf0;
+        border-right: 1px solid #e8edf0;
+        border-bottom: 1px solid #e8edf0;
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+    }
+
+        .section-header h4 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .section-header .section-number {
+            background: #006838;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+    /* ===== SUB-HEADER ===== */
+    .sub-header {
+        color: #006838;
+        font-weight: 600;
+        margin: 20px 0 15px 0;
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    /* ===== FORM GROUPS ===== */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 14px;
+        }
+
+            .form-group label .required {
+                color: #dc3545;
+                margin-left: 3px;
+            }
+
+    .form-control {
+        border-radius: 6px;
+        border: 2px solid #dce3e8;
+        padding: 8px 12px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        width: 100%;
+        background: white;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.15);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #b0b8c0;
+        }
+
+    select.form-control {
+        appearance: auto;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    /* ===== CHECKBOX GROUP ===== */
+    .checkbox-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+
+        .checkbox-group label {
+            font-weight: 400;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #006838;
+            cursor: pointer;
+        }
+
+    /* ===== TABLE STYLES ===== */
+    .table-container {
+        overflow-x: auto;
+        margin: 15px 0;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table thead th {
+            background: #006838;
+            color: white;
+            padding: 12px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #006838;
+        }
+
+        .table tbody td {
+            padding: 6px;
+            border: 1px solid #dce3e8;
+            vertical-align: middle;
+        }
+
+        .table tbody .form-control {
+            border: 1px solid #dce3e8;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+            .table tbody .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+            }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+        border: none;
+        border-top: 2px dashed #006838;
+        margin: 30px 0;
+        opacity: 0.5;
+    }
+
+    /* ===== FORM ACTIONS ===== */
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #e8edf0;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 10px 30px;
+        border-radius: 6px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-success {
+        background: #006838;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background: #004d28;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,104,56,0.3);
+        }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 768px) {
+        .container
+
+    {
+        padding: 10px;
+    }
+
+    .page-header {
+        padding: 20px;
+    }
+
+        .page-header h2 {
+            font-size: 20px;
+        }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .checkbox-group {
+        gap: 12px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+    .table thead th {
+        font-size: 12px;
+        padding: 8px 6px;
+    }
+
+    .table tbody .form-control {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .section-header h4 {
+        font-size: 16px;
+    }
+
+    .section-header .section-number {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .page-header h2
+
+    {
+        font-size: 17px;
+    }
+
+    .page-header .sub-text {
+        font-size: 12px;
+    }
+
+    .form-container {
+        padding: 15px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+        .row .col-md-6,
+        .row .col-md-4 {
+            width: 100%;
+            padding: 0;
+        }
+
+    .mt-2 {
+        margin-top: 10px !important;
+    }
+
+    }
+
+    /* ===== ADDITIONAL UTILITIES ===== */
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mb-2 {
+        margin-bottom: 10px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @@media print {
+        .btn, .form-actions
+
+    {
+        display: none !important;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .form-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .page-header {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    }
+</style>
+
+<div class="container">
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h2>PART B2: DCS Personal Development Plan 2025/2026</h2>
+        <p><strong>Year under Review (Level 3 – 12)</strong></p>
+        <p class="sub-text">
+            <i class="fas fa-info-circle" style="color: #006838;"></i>
+            The information required on this form will solely be used to determine skills gaps
+            and for skills development planning purposes.
+        </p>
+    </div>
+
+    <!-- FORM CONTAINER -->
+    <div class="form-container">
+        <form asp-action="SavePDP" method="post">
+
+            <!-- 1. Personal Details -->
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h4>Personal Details</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Surname & Initials</label>
+                        <input type="text" name="Surname" class="form-control" placeholder="Enter surname and initials" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Supervisor's Position</label>
+                        <input type="text" name="SupervisorPosition" class="form-control" placeholder="Enter supervisor position" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Persal No</label>
+                        <input type="text" name="PersalNo" class="form-control" placeholder="Enter Persal number" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Directorate / Section</label>
+                        <input type="text" name="Directorate" class="form-control" placeholder="Enter directorate or section" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>ID Number</label>
+                        <input type="text" name="IdNumber" class="form-control" placeholder="Enter ID number" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Branch / Region</label>
+                        <input type="text" name="Branch" class="form-control" placeholder="Enter branch or region" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Salary Level</label>
+                        <input type="number" name="SalaryLevel" class="form-control" placeholder="Enter salary level" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="Gender" class="form-control">
+                            <option value="">-- Select Gender --</option>
+                            <option>M</option>
+                            <option>F</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Age Group</label>
+                        <select name="AgeGroup" class="form-control">
+                            <option value="">-- Select Age Group --</option>
+                            <option>Below 35</option>
+                            <option>35 – 55</option>
+                            <option>Above 55</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Race</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="Race" value="African" /> African</label>
+                    <label><input type="checkbox" name="Race" value="Coloured" /> Coloured</label>
+                    <label><input type="checkbox" name="Race" value="Indian" /> Indian</label>
+                    <label><input type="checkbox" name="Race" value="White" /> White</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Disabled</label>
+                        <select name="Disabled" class="form-control">
+                            <option value="">-- Select --</option>
+                            <option>No</option>
+                            <option>Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nature of Disability</label>
+                        <input type="text" name="DisabilityDetails" class="form-control" placeholder="Specify nature of disability (if applicable)" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- 2. Educational Background -->
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h4>Educational Background</h4>
+            </div>
+
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Qualification</th>
+                            <th>NQF Level</th>
+                            <th>Year Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input name="Qualification1" class="form-control" placeholder="Qualification" /></td>
+                            <td><input name="NQF1" class="form-control" placeholder="NQF Level" /></td>
+                            <td><input name="Year1" class="form-control" placeholder="Year" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label class="sub-header">Workshops / Courses (Last 5 Years)</label>
+                <textarea name="Workshops" class="form-control" placeholder="List workshops and courses attended in the last 5 years..."></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Current Studies</label>
+                        <input type="text" name="CurrentStudies" class="form-control" placeholder="Enter current studies" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Bursary Holder?</label>
+                        <select name="Bursary" class="form-control">
+                            <option value="">-- Select --</option>
+                            <option>No</option>
+                            <option>Yes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Bursary Duration</label>
+                <input type="text" name="BursaryDuration" class="form-control" placeholder="Enter bursary duration (if applicable)" />
+            </div>
+
+            <hr class="divider" />
+
+            <!-- 3. Job Requirements vs Training -->
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h4>Job Requirements vs Training Required</h4>
+            </div>
+
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tasks / KPA</th>
+                            <th>Training Needed</th>
+                            <th>Type of Learning</th>
+                            <th>NQF</th>
+                            <th>Cost</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input name="Task1" class="form-control" placeholder="Task/KPA" /></td>
+                            <td><input name="Training1" class="form-control" placeholder="Training needed" /></td>
+                            <td><input name="LearningType1" class="form-control" placeholder="Type of learning" /></td>
+                            <td><input name="NQFLevel1" class="form-control" placeholder="NQF" /></td>
+                            <td><input name="Cost1" class="form-control" placeholder="Cost" /></td>
+                            <td><input name="Impact1" class="form-control" placeholder="Impact" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Signatures -->
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h4>Declaration</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Employee Signature</label>
+                        <input type="text" name="EmployeeSignature" class="form-control" placeholder="Employee signature" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" name="EmployeeDate" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Supervisor Name</label>
+                <input type="text" name="SupervisorName" class="form-control" placeholder="Enter supervisor name" />
+            </div>
+
+            <!-- FORM ACTIONS -->
+            <hr class="divider" />
+
+            <!-- 5. FOR OFFICE USE ONLY -->
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h4>FOR OFFICE USE ONLY</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Captured on database</label>
+                        <select name="CapturedOnDatabase" class="form-control">
+                            <option value="">-- Select --</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Date Captured</label>
+                        <input type="date" name="DateCaptured" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="reset" class="btn btn-secondary">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<script>
+    // Add auto-resize to textareas
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
+
+        // Form validation feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Remove invalid class on input
+        document.querySelectorAll('.form-control').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+        });
+    });
+</script>

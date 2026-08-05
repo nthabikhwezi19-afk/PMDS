@@ -1,0 +1,1133 @@
+﻿@model PMDSSystems.Models.PersonalAssistancePlan
+
+@{
+    ViewData["Title"] = "Personal Assistance Plan";
+}
+
+<style>
+    /* ===== GLOBAL STYLES ===== */
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* ========================================== */
+    /* ALERT STYLES                              */
+    /* ========================================== */
+    .alert-success {
+        background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
+        border-color: #006838;
+        color: #004d28;
+        border-left: 5px solid #006838;
+        border-radius: 10px;
+        padding: 14px 20px;
+        box-shadow: 0 2px 10px rgba(0,104,56,0.1);
+        font-weight: 500;
+    }
+
+        .alert-success .btn-close {
+            color: #006838;
+            filter: brightness(0.8);
+        }
+
+            .alert-success .btn-close:hover {
+                color: #004d28;
+                filter: brightness(0.6);
+            }
+
+    .alert-danger {
+        border-left: 5px solid #dc3545;
+        border-radius: 10px;
+        padding: 14px 20px;
+    }
+
+    .alert-warning {
+        background: linear-gradient(135deg, #fff8e7 0%, #ffeed4 100%);
+        border-left: 5px solid #ffc107;
+        border-radius: 8px;
+        padding: 12px 16px;
+    }
+
+        .alert-warning i {
+            color: #ffc107;
+        }
+
+    /* ========================================== */
+    /* PAP CARD                                  */
+    /* ========================================== */
+    .pap-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        background: #ffffff;
+        border-top: 5px solid #006838;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .pap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0,104,56,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .pap-card.p-4 {
+            padding: 25px !important;
+        }
+
+        .pap-card.p-3 {
+            padding: 18px !important;
+        }
+
+    /* ========================================== */
+    /* CARD HEADER                               */
+    /* ========================================== */
+    .pap-header {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%) !important;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 20px 30px;
+        border-bottom: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .pap-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #a8e6cf, #006838, #a8e6cf);
+        }
+
+        .pap-header h2 {
+            color: white;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .pap-header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin: 6px 0 0 0;
+            font-size: 14px;
+        }
+
+        .pap-header .badge {
+            background: #a8e6cf !important;
+            color: #004d28 !important;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+    /* ========================================== */
+    /* SECTION HEADERS                           */
+    /* ========================================== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+        position: relative;
+    }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, #006838, transparent);
+        }
+
+        .section-header h5 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+            font-size: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .section-header i {
+            color: #006838;
+            font-size: 18px;
+        }
+
+    /* ========================================== */
+    /* FORM CONTROLS                             */
+    /* ========================================== */
+    .form-control {
+        border-radius: 6px;
+        border: 2px solid #dce3e8;
+        padding: 8px 12px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        width: 100%;
+        background: white;
+        color: #333;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            outline: none;
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #b0b8c0;
+            font-size: 13px;
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 60px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-label-custom {
+        font-weight: 600;
+        color: #333;
+        font-size: 13px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+        .form-label-custom i {
+            color: #006838;
+            margin-right: 5px;
+        }
+
+    .text-danger.fs-7 {
+        font-size: 12px;
+        color: #dc3545;
+        display: block;
+        margin-top: 4px;
+    }
+
+    /* ========================================== */
+    /* TIMELINE                                  */
+    /* ========================================== */
+    .timeline {
+        position: relative;
+        padding-left: 5px;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 0;
+        border-left: none;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed #e8edf0;
+    }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+    .month-badge {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(0,104,56,0.25);
+    }
+
+    .timeline-item h6 {
+        font-size: 13px;
+        font-weight: 700;
+        color: #004d28;
+        margin: 0;
+    }
+
+    .timeline-item .ms-5 {
+        margin-left: 50px !important;
+    }
+
+    .timeline-item textarea {
+        margin-top: 6px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+
+        .timeline-item textarea:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+        }
+
+    /* ========================================== */
+    /* RADIO BUTTONS                             */
+    /* ========================================== */
+    .form-check {
+        display: inline-block;
+        margin-right: 18px;
+    }
+
+    .form-check-input {
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+        border: 2px solid #dce3e8;
+        transition: all 0.3s ease;
+        margin-right: 6px;
+    }
+
+        .form-check-input:checked {
+            background-color: #006838;
+            border-color: #006838;
+        }
+
+        .form-check-input:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            outline: none;
+        }
+
+    .form-check-label {
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+        .form-check-label.text-success {
+            color: #006838 !important;
+        }
+
+        .form-check-label.text-danger {
+            color: #dc3545 !important;
+        }
+
+    /* ========================================== */
+    /* SAVE BUTTON - Premium Style               */
+    /* ========================================== */
+    .btn-primary {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        padding: 12px 45px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(0, 104, 56, 0.5);
+            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+            color: white;
+        }
+
+            .btn-primary:hover::before {
+                left: 100%;
+            }
+
+            .btn-primary:hover::after {
+                width: 300px;
+                height: 300px;
+            }
+
+        .btn-primary:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 15px rgba(0, 104, 56, 0.3);
+        }
+
+        .btn-primary i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn-primary.btn-lg {
+            padding: 14px 50px;
+            font-size: 16px;
+        }
+
+    /* ========================================== */
+    /* STICKY BOTTOM                             */
+    /* ========================================== */
+    .sticky-bottom {
+        background: white !important;
+        border-top: 3px solid #006838 !important;
+        border-radius: 12px 12px 0 0 !important;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+        position: sticky;
+        bottom: 0;
+        z-index: 1020;
+    }
+
+        .sticky-bottom .text-muted {
+            color: #006838 !important;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+            .sticky-bottom .text-muted i {
+                color: #006838;
+            }
+
+    /* ========================================== */
+    /* RESPONSIVE                                */
+    /* ========================================== */
+    @@media (max-width: 992px) {
+        .container {
+            padding: 15px;
+        }
+
+        .pap-header {
+            padding: 16px 20px;
+        }
+
+            .pap-header h2 {
+                font-size: 18px;
+            }
+
+        .pap-card.p-4 {
+            padding: 18px !important;
+        }
+
+        .month-badge {
+            width: 30px;
+            height: 30px;
+            font-size: 12px;
+        }
+
+        .timeline-item .ms-5 {
+            margin-left: 40px !important;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        .pap-header {
+            padding: 14px 16px;
+        }
+
+            .pap-header h2 {
+                font-size: 16px;
+                letter-spacing: 0.5px;
+            }
+
+            .pap-header p {
+                font-size: 12px;
+            }
+
+            .pap-header .badge {
+                position: relative !important;
+                top: auto !important;
+                right: auto !important;
+                margin-top: 8px;
+                display: inline-block;
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+
+        .pap-card.p-4 {
+            padding: 14px !important;
+        }
+
+        .pap-card.p-3 {
+            padding: 12px !important;
+        }
+
+        .section-header h5 {
+            font-size: 14px;
+        }
+
+        .section-header i {
+            font-size: 15px;
+        }
+
+        .form-control {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        textarea.form-control {
+            min-height: 40px;
+            font-size: 13px;
+        }
+
+        .form-label-custom {
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            padding: 10px 25px;
+            font-size: 13px;
+            width: 100%;
+            justify-content: center;
+        }
+
+            .btn-primary.btn-lg {
+                padding: 10px 25px;
+                font-size: 13px;
+                width: 100%;
+                justify-content: center;
+            }
+
+        .sticky-bottom .d-flex {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sticky-bottom .text-muted {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .month-badge {
+            width: 28px;
+            height: 28px;
+            font-size: 11px;
+        }
+
+        .timeline-item h6 {
+            font-size: 12px;
+        }
+
+        .timeline-item .ms-5 {
+            margin-left: 0 !important;
+            margin-top: 8px;
+        }
+
+        .timeline-item {
+            padding-left: 0;
+            border-left: none;
+        }
+
+            .timeline-item textarea {
+                min-height: 35px;
+                font-size: 12px;
+            }
+
+        .row.g-4 {
+            gap: 0 !important;
+        }
+
+            .row.g-4 > [class*="col-"] {
+                padding: 0 !important;
+                margin-bottom: 15px;
+            }
+
+        .form-check {
+            display: block;
+            margin-right: 0;
+            margin-bottom: 8px;
+        }
+
+        .form-check-label {
+            font-size: 12px;
+        }
+
+        .pap-card::before {
+            display: none;
+        }
+
+        .text-danger.fs-7 {
+            font-size: 11px;
+        }
+
+        .alert-success {
+            font-size: 13px;
+            padding: 10px 15px;
+        }
+
+        .alert-danger {
+            font-size: 13px;
+            padding: 10px 15px;
+        }
+
+        .alert-warning {
+            font-size: 13px;
+            padding: 10px 14px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .container {
+            padding: 5px;
+        }
+
+        .pap-header h2 {
+            font-size: 14px;
+        }
+
+        .pap-header p {
+            font-size: 11px;
+        }
+
+        .pap-card.p-4 {
+            padding: 10px !important;
+        }
+
+        .section-header h5 {
+            font-size: 13px;
+        }
+
+        .form-control {
+            font-size: 12px;
+            padding: 5px 8px;
+        }
+
+        textarea.form-control {
+            font-size: 12px;
+            min-height: 30px;
+        }
+
+        .btn-primary {
+            font-size: 12px;
+            padding: 8px 18px;
+        }
+
+            .btn-primary.btn-lg {
+                font-size: 12px;
+                padding: 8px 18px;
+            }
+
+        .month-badge {
+            width: 24px;
+            height: 24px;
+            font-size: 10px;
+        }
+
+        .timeline-item h6 {
+            font-size: 11px;
+        }
+
+        .form-check-label {
+            font-size: 11px;
+        }
+
+        .alert-success {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        .alert-danger {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        .alert-warning {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+    }
+
+    /* ========================================== */
+    /* PRINT STYLES                              */
+    /* ========================================== */
+    @@media print {
+        .btn-primary,
+        .sticky-bottom {
+            display: none !important;
+        }
+
+        .pap-card {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .pap-header {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+            .pap-header::after {
+                display: none;
+            }
+
+        .month-badge {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .pap-card::before {
+            display: none;
+        }
+
+        .section-header {
+            border-bottom-color: #006838 !important;
+        }
+
+            .section-header::after {
+                display: none;
+            }
+
+        .form-control {
+            border: 1px solid #ddd !important;
+        }
+
+        .alert-success,
+        .alert-danger,
+        .alert-warning {
+            border: 1px solid #ddd !important;
+            background: #f8f9fa !important;
+        }
+    }
+
+    /* ========================================== */
+    /* ANIMATIONS                                */
+    /* ========================================== */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .pap-card {
+        animation: fadeInUp 0.5s ease;
+    }
+
+    .pap-header {
+        animation: fadeInUp 0.4s ease;
+    }
+
+    /* ========================================== */
+    /* DISPUTE FIELDS CONTAINER                  */
+    /* ========================================== */
+    #incapacityDecisionContainer {
+        animation: fadeInUp 0.3s ease;
+    }
+
+        #incapacityDecisionContainer .form-control {
+            border-color: #006838;
+        }
+
+            #incapacityDecisionContainer .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+            }
+
+    /* ========================================== */
+    /* UTILITY CLASSES                           */
+    /* ========================================== */
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mb-2 {
+        margin-bottom: 10px;
+    }
+
+    .mb-3 {
+        margin-bottom: 15px;
+    }
+
+    .mb-4 {
+        margin-bottom: 20px;
+    }
+
+    .fw-bold {
+        font-weight: 700;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6 !important;
+    }
+
+    .fs-7 {
+        font-size: 0.85rem;
+    }
+
+    .tracking-wider {
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2" style="color: #006838; font-size: 18px;"></i>
+            <div>@TempData["SuccessMessage"]</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    
+    <form asp-controller="Pmds" asp-action="SavePersonalAssistancePlan" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Header Hero Card -->
+        <div class="card pap-card mb-4 overflow-hidden">
+            <div class="card-header pap-header text-white p-4 border-0 position-relative">
+                <span class="badge px-3 py-2 position-absolute top-0 end-0 m-3">Performance Action</span>
+                <p class="text-uppercase tracking-wider fs-7 text-muted mb-1 fw-bold" style="color: rgba(255,255,255,0.7) !important;">Performance Management & Development System</p>
+                <h2 class="mb-0 fw-bold">Personal Assistance Plan (PAP)</h2>
+                <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.85);">To improve on unsatisfactory performance during mid-term and/or final assessments.</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Side: Particulars & Action Steps -->
+            <div class="col-lg-5">
+                <!-- A. Personal Particulars Card -->
+                <div class="card pap-card p-4 mb-4">
+                    <div class="section-header">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <h5>A. Personal Particulars</h5>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="EmployeeName" class="form-label-custom">
+                                <i class="bi bi-person"></i> Employee Full Name
+                            </label>
+                            <input asp-for="EmployeeName" class="form-control" placeholder="Enter name and surname" />
+                            <span asp-validation-for="EmployeeName" class="text-danger fs-7"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Post" class="form-label-custom">
+                                <i class="bi bi-briefcase"></i> Post Designation
+                            </label>
+                            <input asp-for="Post" class="form-control" placeholder="Job title" />
+                            <span asp-validation-for="Post" class="text-danger fs-7"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PersalNo" class="form-label-custom">
+                                <i class="bi bi-hash"></i> Persal No
+                            </label>
+                            <input asp-for="PersalNo" class="form-control" placeholder="9-digit ID" />
+                            <span asp-validation-for="PersalNo" class="text-danger fs-7"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="SupervisorName" class="form-label-custom">
+                                <i class="bi bi-person-check"></i> Name of Supervisor
+                            </label>
+                            <input asp-for="SupervisorName" class="form-control" placeholder="Supervisor initials & surname" />
+                            <span asp-validation-for="SupervisorName" class="text-danger fs-7"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B. Remedial Steps Card -->
+                <div class="card pap-card p-4 mb-4">
+                    <div class="section-header">
+                        <i class="bi bi-tools"></i>
+                        <h5>B. Remedial Steps</h5>
+                    </div>
+                    <p class="text-muted fs-7 mb-3">Remedial steps initiated by Supervisor to improve the skills development of the supervisee.</p>
+                    <div class="mb-3">
+                        <label asp-for="RemedialSteps" class="form-label-custom">
+                            <i class="bi bi-list-check"></i> Initiated Development Actions (Numbered/Bullet List)
+                        </label>
+                        <textarea asp-for="RemedialSteps" class="form-control" rows="8" placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups..."></textarea>
+                        <span asp-validation-for="RemedialSteps" class="text-danger fs-7"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Monthly Progress Tracking Timeline -->
+            <div class="col-lg-7">
+                <!-- C. Monthly Progress Report Card -->
+                <div class="card pap-card p-4 h-100">
+                    <div class="section-header">
+                        <i class="bi bi-calendar-check"></i>
+                        <h5>C. Monthly Progress Reports</h5>
+                    </div>
+
+                    <div class="timeline">
+                        <!-- Month 1 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">1</div>
+                                <h6>Month 1 Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month1Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 1st review meeting..."></textarea>
+                        </div>
+
+                        <!-- Month 2 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">2</div>
+                                <h6>Month 2 Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month2Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 2nd review meeting..."></textarea>
+                        </div>
+
+                        <!-- Month 3 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">3</div>
+                                <h6>Month 3 Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month3Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 3rd review meeting..."></textarea>
+                        </div>
+
+                        <!-- Month 4 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">4</div>
+                                <h6>Month 4 Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month4Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 4th review meeting..."></textarea>
+                        </div>
+
+                        <!-- Month 5 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">5</div>
+                                <h6>Month 5 Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month5Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 5th review meeting..."></textarea>
+                        </div>
+
+                        <!-- Month 6 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="month-badge me-3">6</div>
+                                <h6>Month 6 (Final) Assessment Notes</h6>
+                            </div>
+                            <textarea asp-for="Month6Progress" class="form-control ms-5" rows="2" placeholder="Record feedback from 6th final review meeting..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Outcome & Decision Section -->
+        <div class="card pap-card p-4 mt-4">
+            <div class="section-header">
+                <i class="bi bi-award"></i>
+                <h5>Supervisor Final Decision (After 6th Meeting)</h5>
+            </div>
+            <div class="row align-items-center mb-3">
+                <label class="col-md-5 col-form-label fw-semibold" style="font-size: 13px; color: #333;">
+                    <i class="bi bi-question-circle me-2" style="color: #006838;"></i>
+                    Is the area of the employee's performance now up to standard?
+                </label>
+                <div class="col-md-7">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="IsPerformanceUpToStandard" value="true" id="performanceYes" />
+                        <label class="form-check-label text-success fw-bold" for="performanceYes">
+                            <i class="bi bi-check-circle-fill me-1"></i> YES (Process Ended)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="IsPerformanceUpToStandard" value="false" id="performanceNo" />
+                        <label class="form-check-label text-danger fw-bold" for="performanceNo">
+                            <i class="bi bi-x-circle-fill me-1"></i> NO (Refer for incapacity/extension)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional decision area if performance is not met -->
+            <div id="incapacityDecisionContainer" style="display: @(Model.IsPerformanceUpToStandard ? "none" : "block");" class="border-top pt-3 mt-3">
+                <div class="alert alert-warning border-0 d-flex align-items-start" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-warning"></i>
+                    <div>
+                        <strong>Action Required:</strong> Since performance is not up to standard, a decision must be taken by the next higher Line Manager regarding a further period of applying the Personal Assistance Plan or the institution of formal incapacity procedures.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NextHigherLineManagerDecision" class="form-label-custom">
+                        <i class="bi bi-file-earmark-text"></i> Next Higher Line Manager Decision / Directives:
+                    </label>
+                    <textarea asp-for="NextHigherLineManagerDecision" class="form-control" rows="3" placeholder="Enter decision or steps here..."></textarea>
+                    <span asp-validation-for="NextHigherLineManagerDecision" class="text-danger fs-7"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signatures & Verification -->
+        <div class="card pap-card p-4 mt-4">
+            <div class="section-header">
+                <i class="bi bi-vector-pen"></i>
+                <h5>Signature at the end of the Personal Assistance Plan</h5>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="SuperviseeInitialsAndSurname" class="form-label-custom">
+                        <i class="bi bi-person"></i> Supervisee Name (Initials & Surname):
+                    </label>
+                    <input asp-for="SuperviseeInitialsAndSurname" class="form-control" placeholder="Supervisee signature confirmation" />
+                    <span asp-validation-for="SuperviseeInitialsAndSurname" class="text-danger fs-7"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="SupervisorInitialsAndSurname" class="form-label-custom">
+                        <i class="bi bi-person-check"></i> Supervisor Name (Initials & Surname):
+                    </label>
+                    <input asp-for="SupervisorInitialsAndSurname" class="form-control" placeholder="Supervisor signature confirmation" />
+                    <span asp-validation-for="SupervisorInitialsAndSurname" class="text-danger fs-7"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Bottom Bar -->
+        <<div class="text-center">
+            <a href="/AnnualAssessment/Create" class="btn btn-success btn-lg">
+                Save Changes
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Toggle the supervisor action panel when standard is/is not met
+        document.addEventListener("DOMContentLoaded", function() {
+            const performanceRadios = document.querySelectorAll('input[name="IsPerformanceUpToStandard"]');
+            const decisionBox = document.getElementById("incapacityDecisionContainer");
+
+            function toggleDecisionBox() {
+                const selectedRadio = document.querySelector('input[name="IsPerformanceUpToStandard"]:checked');
+                if (selectedRadio && selectedRadio.value === "false") {
+                    decisionBox.style.display = "block";
+                    decisionBox.style.animation = "fadeInUp 0.3s ease";
+                } else {
+                    decisionBox.style.display = "none";
+                }
+            }
+
+            performanceRadios.forEach(radio => {
+                radio.addEventListener("change", toggleDecisionBox);
+            });
+
+            // Initial state
+            toggleDecisionBox();
+
+            // Auto-resize textareas
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+            });
+
+            // Form validation feedback
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const requiredFields = this.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    // Skip if field is hidden
+                    if (field.closest('#incapacityDecisionContainer') &&
+                        document.getElementById('incapacityDecisionContainer').style.display === 'none') {
+                        field.classList.remove('is-invalid');
+                        return;
+                    }
+
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+
+                if (!isValid) {
+                    e.preventDefault();
+                    const firstError = document.querySelector('.is-invalid');
+                    if (firstError) {
+                        firstError.focus();
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+
+            // Remove invalid class on input
+            document.querySelectorAll('.form-control').forEach(field => {
+                field.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                });
+            });
+        });
+    </script>
+}

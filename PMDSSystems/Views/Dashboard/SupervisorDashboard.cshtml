@@ -1,0 +1,447 @@
+﻿@model List<PMDSSystems.Models.Employee>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Department of Correctional Services Styling */
+        :root {
+            --dcs-green: #006841;
+            --dcs-gold: #c9a84c;
+            --dcs-dark-green: #004d2f;
+            --dcs-light-green: #008a55;
+            --dcs-light-gray: #f5f5f5;
+            --dcs-border: #dde1e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .dashboard-container {
+            background: white;
+            padding: 30px 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-top: 6px solid #006841;
+            position: relative;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e8e8e8;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h2 {
+            color: #006841;
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+            h2::after {
+                content: " — Team Overview";
+                font-size: 16px;
+                font-weight: 300;
+                color: #6b7a8f;
+                letter-spacing: 1px;
+            }
+
+        .team-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, #006841 0%, #008a55 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(0, 104, 65, 0.2);
+        }
+
+            .stat-badge strong {
+                font-size: 18px;
+            }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7a8f;
+        }
+
+            .empty-state .icon {
+                font-size: 64px;
+                display: block;
+                margin-bottom: 20px;
+            }
+
+            .empty-state h3 {
+                color: #006841;
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+
+            .empty-state p {
+                font-size: 16px;
+                color: #9aa9b9;
+            }
+
+        /* Table Styling */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+
+        .table-bordered {
+            border: 2px solid #dde1e6;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #006841 0%, #008a55 100%);
+            color: white;
+        }
+
+            .table thead th {
+                padding: 14px 18px;
+                text-align: left;
+                font-weight: 600;
+                font-size: 13px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border: 1px solid #006841;
+            }
+
+        .table tbody td {
+            padding: 12px 18px;
+            border: 1px solid #dde1e6;
+            color: #1a3c6e;
+            vertical-align: middle;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #fafbfc;
+            }
+
+                .table tbody tr:nth-child(even):hover {
+                    background-color: #f8f9fa;
+                }
+
+        .table tbody td:last-child {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        /* Employee Name with Badge */
+        .employee-name {
+            font-weight: 600;
+            color: #006841;
+        }
+
+        .employee-position {
+            color: #6b7a8f;
+            font-size: 13px;
+        }
+
+        .employee-department {
+            background: #f0f4f0;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #006841;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #006841 0%, #008a55 100%);
+            color: white;
+            border: 2px solid #006841;
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, #008a55 0%, #006841 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 104, 65, 0.3);
+                color: white;
+            }
+
+            .btn-primary:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 10px rgba(0, 104, 65, 0.2);
+            }
+
+        .btn-sm {
+            font-size: 11px;
+            padding: 6px 16px;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .dashboard-container
+
+        {
+            padding: 20px 15px 30px;
+        }
+
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+            h2::after {
+                font-size: 13px;
+                display: block;
+                margin-top: 5px;
+            }
+
+        .team-stats {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .stat-badge {
+            font-size: 12px;
+            padding: 6px 16px;
+        }
+
+            .stat-badge strong {
+                font-size: 16px;
+            }
+
+        .table {
+            font-size: 13px;
+            min-width: 500px;
+        }
+
+            .table thead th,
+            .table tbody td {
+                padding: 10px 12px;
+            }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 10px;
+        }
+
+        }
+
+        @@media (max-width: 480px) {
+            .dashboard-container
+
+        {
+            padding: 15px 10px 25px;
+        }
+
+        h2 {
+            font-size: 18px;
+        }
+
+            h2::after {
+                font-size: 11px;
+            }
+
+        .stat-badge {
+            font-size: 11px;
+            padding: 4px 12px;
+        }
+
+            .stat-badge strong {
+                font-size: 14px;
+            }
+
+        .table {
+            font-size: 11px;
+            min-width: 400px;
+        }
+
+            .table thead th,
+            .table tbody td {
+                padding: 8px 10px;
+            }
+
+            .table thead th {
+                font-size: 10px;
+            }
+
+        .employee-department {
+            font-size: 10px;
+            padding: 2px 8px;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        }
+
+        /* Animation */
+        .dashboard-container {
+            animation: fadeIn 0.4s ease;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Scrollbar Styling */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #006841;
+            border-radius: 4px;
+        }
+
+            .table-container::-webkit-scrollbar-thumb:hover {
+                background: #004d2f;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Supervisor Dashboard</h2>
+            <div class="team-stats">
+                <span class="stat-badge">
+                    👥 <strong>@Model.Count</strong> Team Members
+                </span>
+            </div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <span class="icon">📋</span>
+                <h3>No Employees Assigned</h3>
+                <p>You don't have any team members assigned to you yet.</p>
+                <p style="font-size: 14px; color: #9aa9b9; margin-top: 5px;">
+                    Employees will appear here once they are assigned to your supervision.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var emp in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="employee-name">@emp.FirstName @emp.LastName</span>
+                                </td>
+                                <td>
+                                    <span class="employee-department">@emp.Department</span>
+                                </td>
+                                <td>
+                                    <span class="employee-position">@emp.Position</span>
+                                </td>
+
+                                <td>
+                                    <a asp-controller="Performance"
+                                       asp-action="Review"
+                                       asp-route-id="@emp.Id"
+                                       class="btn btn-primary btn-sm">
+                                        📝 Review
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</body>
+</html>

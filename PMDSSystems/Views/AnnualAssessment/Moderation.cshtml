@@ -1,0 +1,1219 @@
+﻿@model PMDSSystems.Models.AnnualAssessment
+
+@{
+    ViewData["Title"] = "Moderation";
+}
+
+<style>
+    /* ===== GLOBAL STYLES ===== */
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* ========================================== */
+    /* PAGE HEADER                               */
+    /* ========================================== */
+    .page-header {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,104,56,0.25);
+        text-align: center;
+    }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #a8e6cf, #006838, #a8e6cf);
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(168,230,207,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .page-header h3 {
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            font-size: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+            .page-header h3 i {
+                margin-right: 12px;
+                color: #a8e6cf;
+            }
+
+        .page-header .sub-text {
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+            margin-top: 6px;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header .badge-top {
+            display: inline-block;
+            background: rgba(168,230,207,0.15);
+            padding: 4px 16px;
+            border-radius: 50px;
+            color: #a8e6cf;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(168,230,207,0.2);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+    /* ========================================== */
+    /* FORM CONTAINER                            */
+    /* ========================================== */
+    .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+        border-top: 5px solid #006838;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0,104,56,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+    /* ========================================== */
+    /* SECTION HEADERS                           */
+    /* ========================================== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 25px 0 15px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+        position: relative;
+    }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, #006838, transparent);
+        }
+
+        .section-header h5 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-header i {
+            color: #006838;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .section-header .badge-section {
+            margin-left: auto;
+            background: #e8f5ee;
+            color: #006838;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+    /* ========================================== */
+    /* TABLE STYLES                              */
+    /* ========================================== */
+    .table-responsive {
+        overflow-x: auto;
+        margin: 15px 0;
+        border-radius: 8px;
+        border: 1px solid #e8edf0;
+    }
+
+    .table {
+        margin: 0;
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+    }
+
+        .table thead th {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 12px;
+            padding: 12px 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #006838;
+            white-space: nowrap;
+        }
+
+        .table thead.table-dark th {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            color: white;
+        }
+
+        .table thead.table-secondary th {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            color: white;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            padding: 8px 10px;
+            border: 1px solid #dee2e6;
+            background: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8faf9;
+        }
+
+            .table tbody tr:hover td {
+                background-color: #f8faf9;
+            }
+
+        .table .kra-number {
+            font-weight: 700;
+            color: #006838;
+            text-align: center;
+            font-size: 16px;
+            width: 60px;
+        }
+
+        .table .form-control {
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 2px solid #dce3e8;
+        }
+
+            .table .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+            }
+
+        /* ========================================== */
+        /* DROPDOWN STYLES                           */
+        /* ========================================== */
+        .table .form-select {
+            font-size: 13px;
+            padding: 6px 30px 6px 10px;
+            border-radius: 4px;
+            border: 2px solid #dce3e8;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-width: 120px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23006838' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px 12px;
+            appearance: none;
+        }
+
+            .table .form-select:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+                outline: none;
+            }
+
+            .table .form-select:hover {
+                border-color: #006838;
+            }
+
+            .table .form-select option {
+                padding: 8px;
+            }
+
+                .table .form-select option:checked {
+                    background-color: #006838;
+                    color: white;
+                }
+
+            /* Rating color coding for dropdown */
+            .table .form-select.rating-1 {
+                border-left: 4px solid #dc3545;
+            }
+
+            .table .form-select.rating-2 {
+                border-left: 4px solid #ffc107;
+            }
+
+            .table .form-select.rating-3 {
+                border-left: 4px solid #17a2b8;
+            }
+
+            .table .form-select.rating-4 {
+                border-left: 4px solid #006838;
+            }
+
+    /* ========================================== */
+    /* CATEGORY RATING TABLE                     */
+    /* ========================================== */
+    .category-table .rating-1 {
+        border-left: 4px solid #dc3545;
+    }
+
+    .category-table .rating-2 {
+        border-left: 4px solid #ffc107;
+    }
+
+    .category-table .rating-3 {
+        border-left: 4px solid #17a2b8;
+    }
+
+    .category-table .rating-4 {
+        border-left: 4px solid #006838;
+    }
+
+    .category-table td:first-child {
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        width: 60px;
+    }
+
+    .category-table .rating-1 td:first-child {
+        color: #dc3545;
+    }
+
+    .category-table .rating-2 td:first-child {
+        color: #ffc107;
+    }
+
+    .category-table .rating-3 td:first-child {
+        color: #17a2b8;
+    }
+
+    .category-table .rating-4 td:first-child {
+        color: #006838;
+    }
+
+    /* ========================================== */
+    /* FORM CONTROLS                             */
+    /* ========================================== */
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 14px;
+        }
+
+            .form-group label .required {
+                color: #dc3545;
+                margin-left: 3px;
+            }
+
+    .form-control {
+        border-radius: 6px;
+        border: 2px solid #dce3e8;
+        padding: 8px 12px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        width: 100%;
+        background: white;
+        color: #333;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            outline: none;
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #b0b8c0;
+            font-size: 13px;
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+            .form-control.is-invalid:focus {
+                border-color: #dc3545;
+                box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.15);
+            }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 60px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* ========================================== */
+    /* RULES LIST                                */
+    /* ========================================== */
+    .rules-list {
+        background: #f8faf9;
+        border-radius: 8px;
+        padding: 15px 20px;
+        border-left: 4px solid #006838;
+        margin: 10px 0 20px 0;
+    }
+
+        .rules-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+            .rules-list ul li {
+                margin-bottom: 6px;
+                color: #333;
+                font-size: 14px;
+            }
+
+                .rules-list ul li::marker {
+                    color: #006838;
+                }
+
+                .rules-list ul li:last-child {
+                    margin-bottom: 0;
+                }
+
+    /* ========================================== */
+    /* SAVE BUTTON - Premium Style               */
+    /* ========================================== */
+    .btn-primary {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        padding: 13px 45px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(0, 104, 56, 0.5);
+            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+            color: white;
+        }
+
+            .btn-primary:hover::before {
+                left: 100%;
+            }
+
+            .btn-primary:hover::after {
+                width: 300px;
+                height: 300px;
+            }
+
+        .btn-primary:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 15px rgba(0, 104, 56, 0.3);
+        }
+
+        .btn-primary i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover i {
+            transform: scale(1.1);
+        }
+
+    /* ========================================== */
+    /* RESPONSIVE                                */
+    /* ========================================== */
+    @@media (max-width: 992px) {
+        .container {
+            padding: 15px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .page-header h3 {
+            font-size: 18px;
+        }
+
+        .section-header h5 {
+            font-size: 15px;
+        }
+
+        .table thead th {
+            font-size: 11px;
+            padding: 10px 6px;
+        }
+
+        .table tbody td {
+            padding: 6px 8px;
+        }
+
+        .table .form-select {
+            font-size: 12px;
+            padding: 5px 25px 5px 8px;
+            min-width: 100px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        .page-header {
+            padding: 18px 20px;
+        }
+
+            .page-header h3 {
+                font-size: 15px;
+            }
+
+            .page-header .sub-text {
+                font-size: 13px;
+            }
+
+            .page-header .badge-top {
+                font-size: 10px;
+                padding: 3px 12px;
+            }
+
+        .form-container {
+            padding: 15px;
+        }
+
+        .section-header {
+            margin: 18px 0 12px 0;
+            padding-bottom: 8px;
+        }
+
+            .section-header h5 {
+                font-size: 14px;
+            }
+
+            .section-header i {
+                font-size: 17px;
+                width: 20px;
+            }
+
+            .section-header .badge-section {
+                font-size: 10px;
+                padding: 2px 10px;
+            }
+
+        .form-group label {
+            font-size: 13px;
+        }
+
+        .form-control {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        .table thead th {
+            font-size: 9px;
+            padding: 6px 4px;
+            letter-spacing: 0px;
+        }
+
+        .table tbody td {
+            padding: 4px 6px;
+        }
+
+        .table .form-control {
+            font-size: 11px;
+            padding: 4px 6px;
+        }
+
+        .table .form-select {
+            font-size: 11px;
+            padding: 4px 20px 4px 6px;
+            min-width: 80px;
+            background-size: 14px 10px;
+            background-position: right 6px center;
+        }
+
+        .table .kra-number {
+            font-size: 13px;
+            width: 40px;
+        }
+
+        .btn-primary {
+            padding: 10px 25px;
+            font-size: 13px;
+            width: 100%;
+            justify-content: center;
+        }
+
+            .btn-primary i {
+                font-size: 14px;
+            }
+
+        .rules-list {
+            padding: 12px 16px;
+        }
+
+            .rules-list ul li {
+                font-size: 13px;
+            }
+
+        .category-table td:first-child {
+            font-size: 15px;
+            width: 40px;
+        }
+
+        .form-container::before {
+            display: none;
+        }
+
+        .page-header::before {
+            display: none;
+        }
+
+        .row {
+            flex-direction: column;
+        }
+
+            .row .col-md-4,
+            .row .col-md-6 {
+                width: 100%;
+                padding: 0;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .container {
+            padding: 6px;
+        }
+
+        .page-header h3 {
+            font-size: 13px;
+        }
+
+        .page-header .sub-text {
+            font-size: 12px;
+        }
+
+        .form-container {
+            padding: 12px;
+        }
+
+        .section-header h5 {
+            font-size: 13px;
+        }
+
+        .section-header i {
+            font-size: 15px;
+        }
+
+        .table thead th {
+            font-size: 8px;
+            padding: 4px 3px;
+        }
+
+        .table tbody td {
+            padding: 3px 4px;
+            font-size: 12px;
+        }
+
+        .table .form-control {
+            font-size: 10px;
+            padding: 3px 4px;
+            border-radius: 3px;
+        }
+
+        .table .form-select {
+            font-size: 10px;
+            padding: 3px 16px 3px 4px;
+            min-width: 70px;
+            background-size: 12px 8px;
+            background-position: right 4px center;
+            border-radius: 3px;
+        }
+
+        .table .kra-number {
+            font-size: 11px;
+            width: 30px;
+        }
+
+        .btn-primary {
+            padding: 8px 18px;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .rules-list {
+            padding: 10px 12px;
+        }
+
+            .rules-list ul li {
+                font-size: 12px;
+            }
+
+        .category-table td:first-child {
+            font-size: 13px;
+            width: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-control {
+            font-size: 12px;
+            padding: 5px 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+        }
+
+        textarea.form-control {
+            min-height: 40px;
+        }
+    }
+
+    /* ========================================== */
+    /* PRINT STYLES                              */
+    /* ========================================== */
+    @@media print {
+        .btn-primary {
+            display: none !important;
+        }
+
+        .form-container {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .page-header {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+            .page-header::after,
+            .page-header::before {
+                display: none !important;
+            }
+
+        .table thead th {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .section-header {
+            border-bottom-color: #006838 !important;
+        }
+
+            .section-header::after {
+                display: none;
+            }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #ddd !important;
+        }
+
+        .rules-list {
+            border-left: 1px solid #ddd !important;
+            background: #f8f9fa !important;
+        }
+
+        .table tbody tr:hover {
+            background: transparent !important;
+        }
+
+            .table tbody tr:hover td {
+                background: transparent !important;
+            }
+
+        .category-table .rating-1,
+        .category-table .rating-2,
+        .category-table .rating-3,
+        .category-table .rating-4 {
+            border-left: 1px solid #ddd !important;
+        }
+    }
+
+    /* ========================================== */
+    /* ANIMATIONS                                */
+    /* ========================================== */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeInUp 0.5s ease;
+    }
+
+    .page-header {
+        animation: fadeInUp 0.4s ease;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.02);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .btn-primary {
+        animation: pulse 2s infinite;
+    }
+
+        .btn-primary:hover {
+            animation: none;
+        }
+
+    /* ========================================== */
+    /* UTILITY CLASSES                           */
+    /* ========================================== */
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mb-2 {
+        margin-bottom: 10px;
+    }
+
+    .mb-3 {
+        margin-bottom: 15px;
+    }
+
+    .mb-4 {
+        margin-bottom: 20px;
+    }
+
+    .fw-bold {
+        font-weight: 700;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6 !important;
+    }
+
+    .fs-7 {
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="container">
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="badge-top">
+            <i class="bi bi-shield-check me-1"></i> Quality Assurance
+        </div>
+        <h3>
+            <i class="bi bi-clipboard-check"></i>
+            PART E: MODERATION OF ANNUAL ASSESSMENT OF SUPERVISORS
+        </h3>
+        <div class="sub-text">
+            <i class="bi bi-calendar3 me-2"></i>
+            Moderation ensures fairness, consistency and quality of assessments
+        </div>
+    </div>
+
+    <div class="form-container">
+        <form method="post">
+
+            <!-- ========================= -->
+            <!-- CATEGORY TABLE -->
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-table"></i>
+                <h5>Category Rating Scale</h5>
+                <span class="badge-section">4-Point Scale</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered category-table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width: 10%;">Rating</th>
+                            <th style="width: 30%;">Category and Score</th>
+                            <th style="width: 60%;">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rating-1">
+                            <td>1</td>
+                            <td><strong>Not Effective</strong> (≤ 66%)</td>
+                            <td>Performance does not meet expected standard.</td>
+                        </tr>
+                        <tr class="rating-2">
+                            <td>2</td>
+                            <td><strong>Partially Effective</strong> (67% - 99%)</td>
+                            <td>Performance meets some standards.</td>
+                        </tr>
+                        <tr class="rating-3">
+                            <td>3</td>
+                            <td><strong>Fully Effective</strong> (100% - 119%)</td>
+                            <td>Performance meets all standards.</td>
+                        </tr>
+                        <tr class="rating-4">
+                            <td>4</td>
+                            <td><strong>Highly Effective</strong> (120% - 133%)</td>
+                            <td>Performance exceeds expectations.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========================= -->
+            <!-- CHAIRPERSON CONFIRMATION -->
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-person-check"></i>
+                <h5>Chairperson Confirmation</h5>
+                <span class="badge-section">Required</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-tag" style="color: #006838;"></i>
+                            Category
+                        </label>
+                        <input asp-for="ModerationCategory" class="form-control" placeholder="e.g. Fully Effective" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-percent" style="color: #006838;"></i>
+                            Percentage
+                        </label>
+                        <input asp-for="ModerationPercentage" class="form-control" placeholder="Enter percentage" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-pen" style="color: #006838;"></i>
+                            Signature
+                        </label>
+                        <input asp-for="ChairpersonSignature" class="form-control" placeholder="Type full name" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================= -->
+            <!-- MODERATION RULES -->
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-list-check"></i>
+                <h5>Moderation Rules</h5>
+                <span class="badge-section">Guidelines</span>
+            </div>
+
+            <div class="rules-list">
+                <ul>
+                    <li><i class="bi bi-arrow-left-right" style="color: #006838; margin-right: 8px;"></i>Group adjustment (- / +) - Apply uniform adjustments across all assessments</li>
+                    <li><i class="bi bi-funnel" style="color: #006838; margin-right: 8px;"></i>Selective moderation - Review specific KRAs that show inconsistency</li>
+                </ul>
+            </div>
+
+            <!-- ========================= -->
+            <!-- KRA TABLE -->
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <h5>KRA Moderation</h5>
+                <span class="badge-section">6 KRAs</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th style="width: 10%;">KRA No</th>
+                            <th style="width: 55%;">Comments</th>
+                            <th style="width: 35%;">Score (Out of 4)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 1; i <= 6; i++)
+                        {
+                            <tr>
+                                <td class="kra-number">@i</td>
+                                <td>
+                                    <input name="KRAComments[@i]" class="form-control" placeholder="Add moderation comments..." />
+                                </td>
+                                <td>
+                                    <select name="KRAScore[@i]" class="form-select">
+                                        <option value="">Select Rating</option>
+                                        <option value="1">1 - Not Effective</option>
+                                        <option value="2">2 - Partially Effective</option>
+                                        <option value="3">3 - Fully Effective</option>
+                                        <option value="4">4 - Highly Effective</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========================= -->
+            <!-- FINAL OUTCOME -->
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-trophy"></i>
+                <h5>Final Outcome</h5>
+                <span class="badge-section">Result</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-percent" style="color: #006838;"></i>
+                            Final Percentage
+                        </label>
+                        <input asp-for="FinalModerationPercentage" class="form-control" placeholder="Enter final percentage" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-tag" style="color: #006838;"></i>
+                            Final Category
+                        </label>
+                        <input asp-for="FinalModerationCategory" class="form-control" placeholder="e.g. Fully Effective" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================= -->
+            @* /* SIGNATURES */ *@
+            <!-- ========================= -->
+            <div class="section-header">
+                <i class="bi bi-vector-pen"></i>
+                <h5>Signatures & Committee</h5>
+                <span class="badge-section">Verification</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-person-badge" style="color: #006838;"></i>
+                            Chairperson Name
+                        </label>
+                        <input asp-for="ChairpersonName" class="form-control" placeholder="Enter chairperson name" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            <i class="bi bi-calendar-event" style="color: #006838;"></i>
+                            Moderation Date
+                        </label>
+                        <input asp-for="ModerationDate" type="date" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="bi bi-people" style="color: #006838;"></i>
+                    Committee Members
+                </label>
+                <textarea asp-for="CommitteeMembers" class="form-control" rows="3" placeholder="List all committee members involved in the moderation process..."></textarea>
+            </div>
+
+            <!-- ========================= -->
+            <!-- SUBMIT -->
+            <!-- ========================= -->
+            <div class="d-flex gap-3 flex-wrap mt-4">
+                <a href="@Url.Action("Index", "AnnualAssessment")" class="btn btn-secondary" style="padding: 10px 30px; border-radius: 50px; font-weight: 600; background: #6c757d; border: none; color: white; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancel
+                </a>
+                <button type="submit" class="btn-primary">
+                    <i class="bi bi-save"></i>
+                    Save Moderation
+                    <i class="bi bi-chevron-right" style="font-size: 13px;"></i>
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Auto-resize textareas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
+
+        // Form validation feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.focus();
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Remove invalid class on input
+        document.querySelectorAll('.form-control, .form-select').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            field.addEventListener('change', function() {
+                this.classList.remove('is-invalid');
+            });
+        });
+
+        // Button loading state
+        document.querySelector('.btn-primary')?.addEventListener('click', function(e) {
+            this.classList.add('loading');
+            this.innerHTML = '<i class="bi bi-hourglass-split"></i> Saving...';
+            this.disabled = true;
+        });
+    });
+</script>

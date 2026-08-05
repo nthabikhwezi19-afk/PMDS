@@ -1,0 +1,422 @@
+﻿@model PMDSSystems.Models.PerformanceAgreement
+
+<style>
+    .pmds-card {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-top: 20px;
+        border-top: 5px solid #006838;
+    }
+
+    .pmds-header {
+        background: #006838;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 4px solid #004d28;
+    }
+
+        .pmds-header h3 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .pmds-header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+    .section-title {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-left: 5px solid #006838;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #006838;
+        border-radius: 0 4px 4px 0;
+    }
+
+    table th {
+        background-color: #006838;
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+
+    table td {
+        vertical-align: middle;
+        padding: 6px;
+    }
+
+        table td input, table td select {
+            font-size: 13px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+
+            table td input:focus, table td select:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.25);
+            }
+
+    /* ========================================== */
+    /* SAVE AGREEMENT BUTTON STYLING              */
+    /* ========================================== */
+    .btn-save-agreement {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        padding: 14px 45px;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 104, 56, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .btn-save-agreement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-save-agreement:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 104, 56, 0.5);
+            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+        }
+
+            .btn-save-agreement:hover::before {
+                left: 100%;
+            }
+
+        .btn-save-agreement:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 10px rgba(0, 104, 56, 0.3);
+        }
+
+        .btn-save-agreement i {
+            font-size: 18px;
+        }
+
+    /* Alternative style - if you prefer the original flat design */
+    .btn-save-agreement-flat {
+        background-color: #006838;
+        color: white;
+        padding: 12px 35px;
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .btn-save-agreement-flat:hover {
+            background-color: #004d28;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 104, 56, 0.4);
+        }
+
+        .btn-save-agreement-flat i {
+            font-size: 16px;
+        }
+
+    /* Button container */
+    .button-container {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #e9ecef;
+    }
+
+    .gaf-box {
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        border-left: 3px solid #006838;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.25);
+        }
+
+    label strong {
+        color: #006838;
+    }
+
+    #totalWeight {
+        font-weight: bold;
+        color: #006838;
+        background-color: #f0f7f3;
+        border: 2px solid #006838;
+        font-size: 16px;
+        width: 150px;
+        text-align: center;
+    }
+
+    .table {
+        margin-top: 15px;
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .text-center .btn-save {
+        margin-top: 10px;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .row .col-md-6 label {
+        color: #006838;
+        font-weight: 600;
+    }
+
+    /* Progress indicator */
+    .weight-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-left: 10px;
+    }
+
+    .weight-valid {
+        background-color: #006838;
+    }
+
+    .weight-invalid {
+        background-color: #dc3545;
+    }
+</style>
+
+<div class="container">
+    <div class="pmds-card">
+
+        <div class="pmds-header">
+            <h3>PART B1: PERFORMANCE AGREEMENT</h3>
+            <p>Performance Cycle: 1 April 2025 – 31 March 2026</p>
+        </div>
+
+        <form asp-action="Create">
+
+            <!-- Job Info -->
+            <div class="section-title">Job Information</div>
+
+            <div class="form-group">
+                <label><strong>Job Related Tasks</strong> (Measurable areas relating to job Descriptions and Operational Plans)</label>
+                <textarea class="form-control" rows="3" placeholder="Enter job related tasks..."></textarea>
+            </div>
+
+            <!-- Employment -->
+            <div class="section-title">Employment Details</div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label><strong>Salary Level</strong></label>
+                    <select asp-for="SalaryLevel" class="form-control">
+                        <option value="">-- Select Level --</option>
+                        <option>Production (Level 2–7)</option>
+                        <option>Supervisor / Junior Management (Level 8–10)</option>
+                        <option>Middle Management / Chief (Level 11–12)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label><strong>Number of KRAs</strong></label>
+                    <input asp-for="NumberOfKRAs" class="form-control" placeholder="Enter number of KRAs" />
+                </div>
+            </div>
+
+            <!-- WORKPLAN -->
+            <div class="section-title text-center" style="text-align: center; border-left-color: #006838;">
+                WORKPLAN
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="min-width: 120px;">KRA</th>
+                        <th style="min-width: 80px;">Weight (%)</th>
+                        <th style="min-width: 150px;">Key Activities</th>
+                        <th style="min-width: 150px;">Performance Standards</th>
+                        <th style="min-width: 140px;">Batho Pele</th>
+                        <th style="min-width: 140px;">GAFs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        <tr>
+                            <td><input name="KRAs[@i].Name" class="form-control" placeholder="KRA @(i + 1)" /></td>
+                            <td><input name="KRAs[@i].Weight" class="form-control weight" placeholder="%" /></td>
+                            <td><input name="KRAs[@i].Activities" class="form-control" placeholder="Activities" /></td>
+                            <td><input name="KRAs[@i].Standards" class="form-control" placeholder="Standards" /></td>
+
+                            <!-- Batho Pele -->
+                            <td>
+                                <select name="KRAs[@i].BathoPele" class="form-control">
+                                    <option value="">-- Select --</option>
+                                    <option>Consultation</option>
+                                    <option>Setting Service Standards</option>
+                                    <option>Increasing Access</option>
+                                    <option>Ensuring Courtesy</option>
+                                    <option>Providing Information</option>
+                                    <option>Openness and Transparency</option>
+                                    <option>Redress</option>
+                                    <option>Value for Money</option>
+                                </select>
+                            </td>
+
+                            <!-- GAF DROPDOWN -->
+                            <td>
+                                <select name="KRAs[@i].GAFs" class="form-control">
+                                    <option value="">-- Select GAF --</option>
+                                    <option>Job Knowledge</option>
+                                    <option>Acceptance of Responsibility</option>
+                                    <option>Quality of Work</option>
+                                    <option>Technical Skills</option>
+                                    <option>Reliability</option>
+                                    <option>Initiative</option>
+                                    <option>Communication</option>
+                                    <option>Interpersonal Relationships</option>
+                                    <option>Flexibility</option>
+                                    <option>Team Work</option>
+                                    <option>Planning and Execution</option>
+                                    <option>Management of Financial Resources</option>
+                                    <option>Management of Human Resources</option>
+                                    <option>Leadership</option>
+                                    <option>Delegation and Empowerment</option>
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Total Weight -->
+            <div class="form-group" style="display: flex; align-items: center; gap: 20px;">
+                <label style="margin: 0;"><strong>Total Weight</strong></label>
+                <input type="text" id="totalWeight" class="form-control" readonly value="0%" />
+                <span id="weightStatus" style="font-size: 14px; color: #006838;">
+                    <i class="fas fa-check-circle" style="color: #006838;"></i> Must equal 100%
+                </span>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- BUTTON CONTAINER WITH STYLED SAVE BUTTONS   -->
+            <!-- ========================================== -->
+            <div class="button-container">
+                <!-- OPTION 1: Premium Gradient Button with Hover Effect -->
+                <button type="button" class="btn-save-agreement"
+                        onclick="window.location.href='/PerformanceAgreement/Agreement'">
+                    <i class="fas fa-save"></i>
+                    Save Agreement
+                    <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                </button>
+
+                <!--
+                    OPTION 2: Flat Design Button (Uncomment below and comment above to use this style)
+
+                    <button type="button" class="btn-save-agreement-flat"
+                            onclick="window.location.href='/PerformanceAgreement/Agreement'">
+                        <i class="fas fa-save"></i>
+                        Save Agreement
+                    </button>
+                -->
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function calculateTotal() {
+        let total = 0;
+        let allFilled = true;
+        document.querySelectorAll(".weight").forEach(x => {
+            const val = parseFloat(x.value);
+            if (!isNaN(val)) {
+                total += val;
+            }
+            if (x.value.trim() === '') {
+                allFilled = false;
+            }
+        });
+
+        document.getElementById("totalWeight").value = total + "%";
+
+        // Add color feedback
+        const weightInput = document.getElementById("totalWeight");
+        const statusSpan = document.getElementById("weightStatus");
+
+        if (Math.abs(total - 100) < 0.01 && allFilled) {
+            weightInput.style.borderColor = "#006838";
+            weightInput.style.backgroundColor = "#e8f5ee";
+            statusSpan.innerHTML = '<i class="fas fa-check-circle" style="color: #006838;"></i> ✓ Perfect! Total equals 100%';
+            statusSpan.style.color = "#006838";
+        } else if (total > 0) {
+            weightInput.style.borderColor = "#ffc107";
+            weightInput.style.backgroundColor = "#fff3cd";
+            statusSpan.innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i> Total should equal 100% (currently ' + total + '%)';
+            statusSpan.style.color = "#856404";
+        } else {
+            weightInput.style.borderColor = "#006838";
+            weightInput.style.backgroundColor = "#f0f7f3";
+            statusSpan.innerHTML = '<i class="fas fa-info-circle" style="color: #006838;"></i> Enter weights to total 100%';
+            statusSpan.style.color = "#006838";
+        }
+    }
+
+    document.querySelectorAll(".weight").forEach(x => {
+        x.addEventListener("input", calculateTotal);
+        x.addEventListener("change", calculateTotal);
+    });
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", calculateTotal);
+</script>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

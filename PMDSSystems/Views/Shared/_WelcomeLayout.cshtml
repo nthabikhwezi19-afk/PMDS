@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - PMDS
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <style>
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5faf7;
+        }
+
+        .welcome-navbar {
+            height: 82px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+            .brand img {
+                width: 52px;
+                height: 52px;
+                object-fit: contain;
+            }
+
+        .brand-text strong {
+            display: block;
+            color: #006838;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        .brand-text small {
+            color: #667085;
+            font-size: 0.75rem;
+        }
+
+        .navbar-badge {
+            background: #e8f4ed;
+            color: #006838;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .welcome-footer {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            color: #667085;
+            font-size: 0.82rem;
+        }
+
+            .welcome-footer strong {
+                color: #006838;
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="welcome-navbar">
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="brand">
+
+            <img src="~/images/dcslogo.png"
+                 alt="DCS Logo" />
+
+            <div class="brand-text">
+
+                <strong>PMDS</strong>
+
+                <small>
+                    Department of Correctional Services
+                </small>
+
+            </div>
+
+        </a>
+
+        <div class="navbar-badge">
+
+            <i class="fa-solid fa-shield-halved me-1"></i>
+
+            Secure Performance Management
+
+        </div>
+
+    </nav>
+
+    <main>
+
+        @RenderBody()
+
+    </main>
+
+    <footer class="welcome-footer">
+
+        © 2026
+
+        <strong>
+            Department of Correctional Services
+        </strong>
+
+        — Performance Management and Development System
+
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync(
+    "Scripts",
+        required: false)
+
+</body>
+
+</html>

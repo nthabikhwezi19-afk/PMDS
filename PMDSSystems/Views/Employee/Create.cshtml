@@ -1,0 +1,1064 @@
+﻿@model PMDSSystems.Models.Employee
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<style>
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .employee-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-top: 5px solid #006838;
+    }
+
+        .page-header h2 {
+            color: #006838;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+    }
+
+        .section-header h4 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .section-number {
+        background: #006838;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+    .required {
+        color: #dc3545;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #dce3e8;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #006838;
+            box-shadow: 0 0 0 3px rgba(0,104,56,0.15);
+        }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 13px;
+    }
+
+    .divider {
+        border: 0;
+        border-top: 2px dashed #006838;
+        margin: 30px 0;
+        opacity: 0.4;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 2px solid #e8edf0;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 6px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-success {
+        background: #006838;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background: #004d28;
+        }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+    .validation-summary {
+        margin-bottom: 20px;
+    }
+
+    #natureOfDisabilityContainer {
+        display: none;
+    }
+
+    @@media (max-width: 768px) {
+        .employee-container {
+            padding: 10px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="employee-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Create Employee</h2>
+
+        <p>
+            <strong>Department of Correctional Services</strong>
+        </p>
+
+        <p>
+            Register a new employee in the PMDS system.
+        </p>
+    </div>
+
+
+    <!-- FORM -->
+    <div class="form-container">
+
+        <form asp-controller="Employee"
+              asp-action="Create"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All"
+                 class="alert alert-danger validation-summary">
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- 1. PERSONAL INFORMATION -->
+            <!-- ========================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    1
+                </span>
+
+                <h4>
+                    Personal Information
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- PERSAL NUMBER -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="PersalNumber">
+                            Persal Number
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="PersalNumber"
+                               name="PersalNumber"
+                               value="@Model?.PersalNumber"
+                               class="form-control"
+                               maxlength="9"
+                               inputmode="numeric"
+                               placeholder="Enter Persal Number" />
+
+                        <span asp-validation-for="PersalNumber"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FIRST NAME -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="FirstName">
+                            First Name
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="FirstName"
+                               name="FirstName"
+                               value="@Model?.FirstName"
+                               class="form-control"
+                               placeholder="Enter First Name" />
+
+                        <span asp-validation-for="FirstName"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LAST NAME -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="LastName">
+                            Last Name
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="LastName"
+                               name="LastName"
+                               value="@Model?.LastName"
+                               class="form-control"
+                               placeholder="Enter Last Name" />
+
+                        <span asp-validation-for="LastName"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- INITIALS -->
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label for="Initials">
+                            Initials
+                        </label>
+
+                        <input type="text"
+                               id="Initials"
+                               name="Initials"
+                               value="@Model?.Initials"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="col-md-5">
+
+                    <div class="form-group">
+
+                        <label for="Email">
+                            Email
+                        </label>
+
+                        <input type="email"
+                               id="Email"
+                               name="Email"
+                               value="@Model?.Email"
+                               class="form-control"
+                               placeholder="Enter email address" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ID NUMBER -->
+                <div class="col-md-5">
+
+                    <div class="form-group">
+
+                        <label for="IdentificationNumber">
+                            Identification Number
+                        </label>
+
+                        <input type="text"
+                               id="IdentificationNumber"
+                               name="IdentificationNumber"
+                               value="@Model?.IdentificationNumber"
+                               class="form-control"
+                               placeholder="Enter ID Number" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="divider" />
+
+
+            <!-- ========================= -->
+            <!-- 2. WORK INFORMATION -->
+            <!-- ========================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    2
+                </span>
+
+                <h4>
+                    Work Information
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- DEPARTMENT -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="Department">
+                            Department
+                        </label>
+
+                        <input type="text"
+                               id="Department"
+                               name="Department"
+                               value="@Model?.Department"
+                               class="form-control"
+                               placeholder="Enter Department" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- POSITION -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="Position">
+                            Position
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="Position"
+                               name="Position"
+                               value="@Model?.Position"
+                               class="form-control"
+                               placeholder="Enter Position" />
+
+                        <span asp-validation-for="Position"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALARY LEVEL -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="SalaryLevel">
+                            Salary Level
+                        </label>
+
+                        <select id="SalaryLevel"
+                                name="SalaryLevel"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select Level --
+                            </option>
+
+                            <option value="Production (Level 2–7)">
+                                Production (Level 2–7)
+                            </option>
+
+                            <option value="Supervisor / Junior Management (Level 8–10)">
+                                Supervisor / Junior Management (Level 8–10)
+                            </option>
+
+                            <option value="Middle Management / Chief (Level 11–12)">
+                                Middle Management / Chief (Level 11–12)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- POST DESIGNATION -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="PostDesignation">
+                            Post Designation
+                        </label>
+
+                        <input type="text"
+                               id="PostDesignation"
+                               name="PostDesignation"
+                               value="@Model?.PostDesignation"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENT CURRENT RANK -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="AppointmentDateInCurrentRank">
+                            Appointment Date in Current Rank
+                        </label>
+
+                        <input type="date"
+                               id="AppointmentDateInCurrentRank"
+                               name="AppointmentDateInCurrentRank"
+                               value="@(Model?.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd"))"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- CURRENT RANK DATE -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="CurrentRankDate">
+                            Current Rank Date
+                        </label>
+
+                        <input type="date"
+                               id="CurrentRankDate"
+                               name="CurrentRankDate"
+                               value="@(Model?.CurrentRankDate?.ToString("yyyy-MM-dd"))"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- APPOINTMENT DCS -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="AppointmentInDcsDate">
+                            Appointment Date in DCS
+                        </label>
+
+                        <input type="date"
+                               id="AppointmentInDcsDate"
+                               name="AppointmentInDcsDate"
+                               value="@(Model?.AppointmentInDcsDate?.ToString("yyyy-MM-dd"))"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPERVISOR -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="SupervisorSurnameInitials">
+                            Supervisor Surname and Initials
+                        </label>
+
+                        <input type="text"
+                               id="SupervisorSurnameInitials"
+                               name="SupervisorSurnameInitials"
+                               value="@Model?.SupervisorSurnameInitials"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPERVISOR RANK -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="SupervisorRankPostLevel">
+                            Supervisor Rank/Post Level
+                        </label>
+
+                        <input type="text"
+                               id="SupervisorRankPostLevel"
+                               name="SupervisorRankPostLevel"
+                               value="@Model?.SupervisorRankPostLevel"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- OSD -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="OSDDescription">
+                            Related OSD Description
+                        </label>
+
+                        <input type="text"
+                               id="OSDDescription"
+                               name="OSDDescription"
+                               value="@Model?.OSDDescription"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- POST LEVEL -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="PostLevel">
+                            Post Level
+                        </label>
+
+                        <input type="text"
+                               id="PostLevel"
+                               name="PostLevel"
+                               value="@Model?.PostLevel"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- BRANCH -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="BranchOrRegion">
+                            Centre / Branch
+                        </label>
+
+                        <select id="BranchOrRegion"
+                                name="BranchOrRegion"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select Centre --
+                            </option>
+
+                            @if (ViewBag.Centers != null)
+                            {
+                                foreach (var centre in ViewBag.Centers)
+                                {
+                                    <option value="@centre">
+                                        @centre
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="divider" />
+
+
+            <!-- ========================= -->
+            <!-- 3. DEMOGRAPHICS -->
+            <!-- ========================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    3
+                </span>
+
+                <h4>
+                    Demographics
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- GENDER -->
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <label for="Gender">
+                            Gender
+                        </label>
+
+                        <select id="Gender"
+                                name="Gender"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select --
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AGE GROUP -->
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <label for="AgeGroup">
+                            Age Group
+                        </label>
+
+                        <select id="AgeGroup"
+                                name="AgeGroup"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select --
+                            </option>
+
+                            <option value="Below 35">
+                                Below 35
+                            </option>
+
+                            <option value="35 – 55">
+                                35 – 55
+                            </option>
+
+                            <option value="Above 55">
+                                Above 55
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RACE -->
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <label for="Race">
+                            Race
+                        </label>
+
+                        <select id="Race"
+                                name="Race"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select --
+                            </option>
+
+                            <option value="African">
+                                African
+                            </option>
+
+                            <option value="Coloured">
+                                Coloured
+                            </option>
+
+                            <option value="Indian">
+                                Indian
+                            </option>
+
+                            <option value="White">
+                                White
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DISABILITY -->
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <label for="HasDisability">
+                            Disability
+                        </label>
+
+                        <select id="HasDisability"
+                                name="HasDisability"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select --
+                            </option>
+
+                            <option value="true">
+                                Yes
+                            </option>
+
+                            <option value="false">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NATURE OF DISABILITY -->
+            <div class="row"
+                 id="natureOfDisabilityContainer">
+
+                <div class="col-md-12">
+
+                    <div class="form-group">
+
+                        <label for="NatureOfDisability">
+                            Nature of Disability
+                        </label>
+
+                        <input type="text"
+                               id="NatureOfDisability"
+                               name="NatureOfDisability"
+                               value="@Model?.NatureOfDisability"
+                               class="form-control"
+                               placeholder="Describe the nature of disability" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="divider" />
+
+
+            <!-- ========================= -->
+            <!-- 4. DECLARATION -->
+            <!-- ========================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    4
+                </span>
+
+                <h4>
+                    Declaration
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- SIGNATURE -->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="EmployeeSignature">
+                            Employee Signature
+                        </label>
+
+                        <input type="text"
+                               id="EmployeeSignature"
+                               name="EmployeeSignature"
+                               value="@Model?.EmployeeSignature"
+                               class="form-control"
+                               placeholder="Type full name" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- DECLARATION DATE -->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="DeclarationDate">
+                            Declaration Date
+                        </label>
+
+                        <input type="date"
+                               id="DeclarationDate"
+                               name="DeclarationDate"
+                               value="@(Model?.DeclarationDate?.ToString("yyyy-MM-dd"))"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Employee
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const disabilitySelect =
+                document.getElementById("HasDisability");
+
+            const disabilityContainer =
+                document.getElementById("natureOfDisabilityContainer");
+
+            const disabilityInput =
+                document.getElementById("NatureOfDisability");
+
+
+            function toggleDisability() {
+
+                if (disabilitySelect.value === "true") {
+
+                    disabilityContainer.style.display = "block";
+
+                } else {
+
+                    disabilityContainer.style.display = "none";
+
+                    disabilityInput.value = "";
+
+                }
+
+            }
+
+
+            disabilitySelect.addEventListener(
+                "change",
+                toggleDisability
+            );
+
+
+            toggleDisability();
+
+
+            // NUMERIC INPUTS
+
+            const persalInput =
+                document.getElementById("PersalNumber");
+
+            const idInput =
+                document.getElementById("IdentificationNumber");
+
+
+            function numbersOnly(input) {
+
+                if (!input) return;
+
+                input.addEventListener(
+                    "input",
+                    function () {
+
+                        this.value =
+                            this.value.replace(
+                                /[^0-9]/g,
+                                ""
+                            );
+
+                    }
+                );
+
+            }
+
+
+            numbersOnly(persalInput);
+
+            numbersOnly(idInput);
+
+        });
+
+    </script>
+
+}

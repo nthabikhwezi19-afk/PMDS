@@ -1,0 +1,1095 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCS · PMDS Mid-Term Review</title>
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== PMDS CARD ===== */
+        .pmds-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-top: 20px;
+            border-top: 5px solid #006838; /* DCS green */
+            position: relative;
+            overflow: hidden;
+        }
+
+            .pmds-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(0,104,56,0.03) 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+            }
+
+        /* ===== CARD HEADER ===== */
+        .card-header.bg-dark {
+            background: linear-gradient(135deg, #004d28 0%, #006838 100%) !important; /* DCS green gradient */
+            border-radius: 12px 12px 0 0 !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .card-header.bg-dark::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(to right, #a8e6cf, #006838, #a8e6cf);
+            }
+
+        .card-header .badge.bg-primary {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%) !important;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 2px 10px rgba(0,104,56,0.3);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .card-header .text-uppercase {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+        }
+
+        .card-header h2 {
+            color: white;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .card-header .text-white-50 {
+            color: rgba(255,255,255,0.7) !important;
+        }
+
+        /* ===== SCALE BOX ===== */
+        .scale-box {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .scale-box::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.02) 100%);
+                pointer-events: none;
+            }
+
+            .scale-box:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            .scale-box .fw-bold {
+                font-size: 20px;
+            }
+
+            .scale-box small {
+                font-size: 12px;
+            }
+
+            .scale-box.border-danger {
+                border-left-color: #dc3545 !important;
+            }
+
+            .scale-box.border-warning {
+                border-left-color: #ffc107 !important;
+            }
+
+            .scale-box.border-info {
+                border-left-color: #17a2b8 !important;
+            }
+
+            .scale-box.border-success {
+                border-left-color: #006838 !important;
+            }
+        /* DCS green */
+
+        /* ===== NAV PILLS ===== */
+        .nav-pills .nav-link {
+            border-radius: 8px;
+            font-weight: 600;
+            color: #495057;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+        }
+
+            .nav-pills .nav-link i {
+                margin-right: 8px;
+                color: #006838; /* DCS green */
+            }
+
+            .nav-pills .nav-link.active {
+                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+                box-shadow: 0 4px 15px rgba(0, 104, 56, 0.3);
+                color: white;
+                border-color: #006838;
+            }
+
+                .nav-pills .nav-link.active i {
+                    color: white;
+                }
+
+            .nav-pills .nav-link:hover:not(.active) {
+                background-color: #e8f5ee;
+                color: #006838;
+                border-color: #006838;
+                transform: translateY(-2px);
+            }
+
+        /* ===== TABLE STYLES ===== */
+        .table {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .table th {
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                letter-spacing: 0.5px;
+                color: white;
+                border-bottom: 2px solid #006838;
+                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+                padding: 12px 10px;
+            }
+
+            .table thead.table-light th {
+                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+                color: white;
+                border-bottom: 2px solid #006838;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f8faf9;
+            }
+
+            .table td {
+                padding: 10px 8px;
+                vertical-align: middle;
+            }
+
+        /* ===== RATING INPUT ===== */
+        .rating-input {
+            max-width: 70px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 6px;
+            border: 2px solid #dce3e8;
+            transition: all 0.3s ease;
+        }
+
+            .rating-input:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+                outline: none;
+            }
+
+            .rating-input.border-primary {
+                border-color: #006838 !important;
+                background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%) !important;
+            }
+
+        /* ===== FORM CONTROLS ===== */
+        .form-control {
+            border-radius: 6px;
+            border: 2px solid #dce3e8;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            padding: 8px 12px;
+            background: white;
+        }
+
+            .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+                outline: none;
+            }
+
+            .form-control::placeholder {
+                color: #b0b8c0;
+            }
+
+        .form-control-sm {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        .form-control.border-0.bg-transparent {
+            font-weight: 600;
+            color: #004d28;
+            border: 2px solid transparent !important;
+        }
+
+            .form-control.border-0.bg-transparent:focus {
+                background-color: #f0f7f3 !important;
+                border-radius: 6px;
+                border-color: #006838 !important;
+            }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* ===== ALERT STYLES ===== */
+        .alert-success {
+            background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
+            border-color: #006838;
+            color: #004d28;
+            border-left: 4px solid #006838;
+            border-radius: 8px;
+        }
+
+            .alert-success .btn-close {
+                color: #006838;
+            }
+
+                .alert-success .btn-close:hover {
+                    color: #004d28;
+                }
+
+        .alert-info {
+            background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
+            border-color: #006838;
+            color: #004d28;
+            border-left: 4px solid #006838;
+            border-radius: 8px;
+        }
+
+            .alert-info i {
+                color: #006838 !important;
+            }
+
+        .alert-danger {
+            border-left: 4px solid #dc3545;
+            border-radius: 8px;
+        }
+
+        /* ========================================== */
+        /* SAVE BUTTON STYLING (DCS green)           */
+        /* ========================================== */
+        .btn-primary {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            color: white;
+            padding: 12px 40px;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 104, 56, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .btn-primary::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 104, 56, 0.5);
+                background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+                color: white;
+            }
+
+                .btn-primary:hover::before {
+                    left: 100%;
+                }
+
+            .btn-primary:active {
+                transform: translateY(0px);
+                box-shadow: 0 2px 10px rgba(0, 104, 56, 0.3);
+            }
+
+            .btn-primary i {
+                font-size: 18px;
+                transition: transform 0.3s ease;
+            }
+
+            .btn-primary:hover i {
+                transform: scale(1.1);
+            }
+
+            .btn-primary.btn-lg {
+                padding: 14px 50px;
+                font-size: 16px;
+            }
+
+        /* ===== BADGE STYLES ===== */
+        .badge.bg-success {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%) !important;
+            color: white;
+            padding: 8px 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(0,104,56,0.2);
+        }
+
+        .badge.bg-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%) !important;
+            padding: 8px 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(220,53,69,0.2);
+        }
+
+        /* ===== DISPUTE FIELDS ===== */
+        #disputeFields .form-control {
+            border-color: #006838;
+            background: white;
+        }
+
+            #disputeFields .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            }
+
+        #disputeFields .form-text.text-danger {
+            color: #006838 !important;
+            font-weight: 600;
+            background: #e8f5ee;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        /* ===== DISPUTE CARD ===== */
+        .card.border-0.bg-light {
+            background: #f8faf9 !important;
+            border-left: 4px solid #006838 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        /* ===== STICKY FOOTER ===== */
+        .sticky-bottom {
+            background: white !important;
+            border-top: 3px solid #006838 !important;
+            border-radius: 12px 12px 0 0 !important;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+            position: sticky;
+            bottom: 0;
+            z-index: 1020;
+        }
+
+            .sticky-bottom .text-muted {
+                color: #006838 !important;
+                font-weight: 500;
+            }
+
+                .sticky-bottom .text-muted i {
+                    color: #006838;
+                }
+
+        /* ===== RADIO BUTTONS ===== */
+        .form-check-input:checked {
+            background-color: #006838;
+            border-color: #006838;
+        }
+
+        .form-check-input:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            background: #f8faf9;
+            padding: 12px 20px;
+            border-left: 5px solid #006838;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #006838;
+            border-radius: 0 6px 6px 0;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ========================================== */
+        /* RESPONSIVE                                */
+        /* ========================================== */
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            padding: 10px;
+        }
+
+        .pmds-card {
+            padding: 15px !important;
+        }
+
+        .card-header {
+            padding: 20px !important;
+        }
+
+            .card-header h2 {
+                font-size: 20px;
+            }
+
+            .card-header .badge {
+                position: relative !important;
+                top: auto !important;
+                right: auto !important;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+        .nav-pills .nav-link {
+            font-size: 13px;
+            padding: 10px 16px;
+        }
+
+        .nav-pills {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+            .nav-pills .nav-item {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .nav-pills .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+
+        .scale-box {
+            padding: 12px !important;
+        }
+
+            .scale-box .fw-bold {
+                font-size: 17px !important;
+            }
+
+            .scale-box small {
+                font-size: 11px !important;
+            }
+
+        .btn-primary.btn-lg {
+            padding: 12px 25px;
+            font-size: 14px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .sticky-bottom .d-flex {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sticky-bottom .text-muted {
+            text-align: center;
+        }
+
+        .table-responsive {
+            font-size: 13px;
+        }
+
+        .rating-input {
+            max-width: 55px;
+            font-size: 13px;
+        }
+
+        .form-control-sm {
+            font-size: 12px;
+        }
+
+        .pmds-card::before {
+            display: none;
+        }
+
+        .row {
+            flex-direction: column;
+        }
+
+            .row .col-md-3, .row .col-md-4, .row .col-md-5, .row .col-md-6 {
+                width: 100%;
+                padding: 0;
+            }
+
+        .alert-info {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .alert-info i {
+                margin-bottom: 10px;
+            }
+
+        }
+        @@media (max-width: 576px) {
+            .container
+
+        {
+            padding: 5px;
+        }
+
+        .pmds-card {
+            padding: 10px !important;
+        }
+
+        .card-header h2 {
+            font-size: 17px;
+        }
+
+        .nav-pills .nav-link {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        .nav-pills .nav-item {
+            min-width: 100%;
+        }
+
+        .table th, .table td {
+            padding: 6px 4px !important;
+            font-size: 11px;
+        }
+
+        .scale-box {
+            padding: 8px !important;
+        }
+
+            .scale-box .fw-bold {
+                font-size: 15px !important;
+            }
+
+            .scale-box small {
+                font-size: 10px !important;
+            }
+
+        .btn-primary {
+            font-size: 13px;
+            padding: 10px 20px;
+        }
+
+            .btn-primary.btn-lg {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+
+        .form-control {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .badge.bg-success, .badge.bg-danger {
+            font-size: 14px !important;
+            padding: 4px 12px;
+        }
+
+        }
+
+        /* ========================================== */
+        /* PRINT STYLES                              */
+        /* ========================================== */
+        @@media print {
+            .sticky-bottom, .btn-primary
+
+        {
+            display: none !important;
+        }
+
+        .pmds-card {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .card-header.bg-dark {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .nav-pills {
+            display: none !important;
+        }
+
+        .tab-pane {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+            .tab-pane.fade {
+                opacity: 1 !important;
+            }
+
+        .table thead th {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .pmds-card::before {
+            display: none;
+        }
+
+        .card-header.bg-dark::after {
+            display: none;
+        }
+
+        }
+
+        /* ========================================== */
+        /* ANIMATIONS                                */
+        /* ========================================== */
+        @@keyframes fadeInUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .pmds-card {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .card-header {
+            animation: fadeInUp 0.4s ease;
+        }
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.02);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .btn-primary {
+            animation: pulse 2s infinite;
+        }
+
+            .btn-primary:hover {
+                animation: none;
+            }
+
+        /* ===== UTILITY ===== */
+        .mt-2 {
+            margin-top: 10px;
+        }
+
+        .mt-3 {
+            margin-top: 15px;
+        }
+
+        .mb-2 {
+            margin-bottom: 10px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .fw-bold {
+            font-weight: 700;
+        }
+
+        .fs-7 {
+            font-size: 0.85rem;
+        }
+
+        .tracking-wider {
+            letter-spacing: 1px;
+        }
+
+        .bg-primary-subtle {
+            background: #e8f5ee !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- success placeholder (hidden) -->
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center mb-4" role="alert" style="display:none;">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+            <div>Mid-Term Review saved successfully.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <!-- validation placeholder -->
+        <div class="alert alert-danger border-0 shadow-sm mb-4" role="alert" style="display:none;"></div>
+
+        <form asp-controller="Pmds" asp-action="SaveMidTermReview" method="post">
+            <!-- hidden fields for model binding -->
+            <input type="hidden" id="Id" name="Id" value="1" />
+            <input type="hidden" id="EmployeeId" name="EmployeeId" value="101" />
+            <input type="hidden" id="ReviewPeriod" name="ReviewPeriod" value="2025/2026" />
+
+            <!-- MAIN CARD -->
+            <div class="card pmds-card mb-4 overflow-hidden">
+                <div class="card-header bg-dark text-white p-4 border-0 position-relative">
+                    <span class="badge bg-primary px-3 py-2 position-absolute top-0 end-0 m-4">Active Cycle</span>
+                    <p class="text-uppercase tracking-wider fs-7 text-muted mb-1 fw-bold">Performance Management & Development System</p>
+                    <h2 class="mb-0 fw-bold">Part C: Formal Mid-Term Review</h2>
+                    <div class="d-flex align-items-center mt-3 text-white-50">
+                        <span class="me-3"><i class="bi bi-calendar3 me-1"></i> Cycle Period: <strong>2025/2026</strong></span>
+                    </div>
+                </div>
+
+                <!-- Scale -->
+                <div class="card-body bg-light border-bottom p-4">
+                    <h6 class="text-secondary text-uppercase fw-bold mb-3">4-Point Evaluation Scale for Awarding Points</h6>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="scale-box p-3 border-start border-4 border-danger bg-white h-100">
+                                <span class="fw-bold text-danger d-block fs-5">Rating 1</span>
+                                <small class="text-muted">Not Effective (≤ 66%)</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="scale-box p-3 border-start border-4 border-warning bg-white h-100">
+                                <span class="fw-bold text-warning d-block fs-5">Rating 2</span>
+                                <small class="text-muted">Partially Effective (67% - 99%)</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="scale-box p-3 border-start border-4 border-info bg-white h-100">
+                                <span class="fw-bold text-info d-block fs-5">Rating 3</span>
+                                <small class="text-muted">Fully Effective (100% - 119%)</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="scale-box p-3 border-start border-4 border-success bg-white h-100">
+                                <span class="fw-bold text-success d-block fs-5">Rating 4</span>
+                                <small class="text-muted">Highly Effective (120% - 133%)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-pills mb-4" id="midtermTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="c1-tab" data-bs-toggle="pill" data-bs-target="#c1-content" type="button" role="tab">
+                        <i class="bi bi-file-text me-1"></i> Part C1: Motivations
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="c2-tab" data-bs-toggle="pill" data-bs-target="#c2-content" type="button" role="tab">
+                        <i class="bi bi-star me-1"></i> Part C2: Ratings & Dispute
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="midtermTabsContent">
+    <!-- TAB 1: C1 -->
+   <div class="tab-pane fade show active" id="c1-content" role="tabpanel">
+       <div class="card pmds-card p-4">
+           <div class="d-flex justify-content-between align-items-center mb-4">
+               <h4 class="fw-bold text-dark mb-0">Part C1: Motivation for KRAs</h4>
+               <span class="text-muted fs-7"><i class="bi bi-info-circle me-1"></i> Explain achievements for each standard.</span>
+           </div>
+           <div class="table-responsive">
+               <table class="table table-hover align-middle">
+                   <thead class="table-light">
+                       <tr>
+                           <th class="ps-3" style="width:5%;">#</th>
+                           <th style="width:30%;">Key Result Area (KRA)</th>
+                           <th class="text-center" style="width:10%;">Weight %</th>
+                           <th style="width:27%;">Employee Achievements</th>
+                           <th style="width:28%;">Supervisor Comments</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td class="ps-3 fw-bold text-success">1</td>
+                           <td><input name="KraEvaluations[0].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA Description..." /></td>
+                           <td><div class="input-group input-group-sm mx-auto" style="max-width:90px;"><input name="KraEvaluations[0].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" /><span class="input-group-text">%</span></div></td>
+                           <td><textarea name="KraEvaluations[0].AchievementStandard" class="form-control form-control-sm" rows="3" placeholder="Describe the standards achieved..."></textarea></td>
+                           <td><textarea name="KraEvaluations[0].SupervisorComments" class="form-control form-control-sm" rows="3" placeholder="Supervisor feedback..."></textarea></td>
+                       </tr>
+                       <tr>
+                           <td class="ps-3 fw-bold text-success">2</td>
+                           <td><input name="KraEvaluations[1].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA Description..." /></td>
+                           <td><div class="input-group input-group-sm mx-auto" style="max-width:90px;"><input name="KraEvaluations[1].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" /><span class="input-group-text">%</span></div></td>
+                           <td><textarea name="KraEvaluations[1].AchievementStandard" class="form-control form-control-sm" rows="3" placeholder="Describe the standards achieved..."></textarea></td>
+                           <td><textarea name="KraEvaluations[1].SupervisorComments" class="form-control form-control-sm" rows="3" placeholder="Supervisor feedback..."></textarea></td>
+                       </tr>
+                       <tr>
+                           <td class="ps-3 fw-bold text-success">3</td>
+                           <td><input name="KraEvaluations[2].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA Description..." /></td>
+                           <td><div class="input-group input-group-sm mx-auto" style="max-width:90px;"><input name="KraEvaluations[2].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" /><span class="input-group-text">%</span></div></td>
+                           <td><textarea name="KraEvaluations[2].AchievementStandard" class="form-control form-control-sm" rows="3" placeholder="Describe the standards achieved..."></textarea></td>
+                           <td><textarea name="KraEvaluations[2].SupervisorComments" class="form-control form-control-sm" rows="3" placeholder="Supervisor feedback..."></textarea></td>
+                       </tr>
+                        <tr>
+                            <td class="ps-3 fw-bold text-success">4</td>
+                            <td><input name="KraEvaluations[2].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA Description..." /></td>
+                            <td><div class="input-group input-group-sm mx-auto" style="max-width:90px;"><input name="KraEvaluations[2].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" /><span class="input-group-text">%</span></div></td>
+                            <td><textarea name="KraEvaluations[2].AchievementStandard" class="form-control form-control-sm" rows="3" placeholder="Describe the standards achieved..."></textarea></td>
+                            <td><textarea name="KraEvaluations[2].SupervisorComments" class="form-control form-control-sm" rows="3" placeholder="Supervisor feedback..."></textarea></td>
+                        </tr>
+        </tbody>
+               </table>
+           </div>
+           <div class="alert alert-info border-0 mt-3 d-flex align-items-center" role="alert">
+               <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
+               <div><strong>GAF's Note:</strong> Generic Assessment Factors (GAFs) shall not be weighted. GAF's shall not be assessed independently, but must be integrated and assessed in an integrated manner with the KRA's.</div>
+           </div>
+       </div>
+   </div>
+
+                <!-- TAB 2: C2 -->
+                <div class="tab-pane fade" id="c2-content" role="tabpanel">
+                    <div class="card pmds-card p-4">
+                        <h4 class="fw-bold text-dark mb-4">Part C2: Point Evaluation Scale for Awarding Points</h4>
+                        <div class="table-responsive mb-4">
+                            <table class="table table-hover align-middle text-center">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-start ps-3">Key Result Area (KRA)</th>
+                                        <th style="width:12%;">Weight</th>
+                                        <th style="width:12%;">Own Rating (OR)</th>
+                                        <th style="width:12%;">Supervisor Rating (SR)</th>
+                                        <th style="width:12%;">Agreed Rating (AR)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-start ps-3 fw-semibold">
+                                            <input name="KraEvaluations[0].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA 1 Description..." />
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm mx-auto" style="max-width:90px;">
+                                                <input name="KraEvaluations[0].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </td>
+                                        <td><input name="KraEvaluations[0].OwnRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[0].SupervisorRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[0].AgreedRating" type="number" class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle" placeholder="1-4" min="1" max="4" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start ps-3 fw-semibold">
+                                            <input name="KraEvaluations[1].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA 2 Description..." />
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm mx-auto" style="max-width:90px;">
+                                                <input name="KraEvaluations[1].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </td>
+                                        <td><input name="KraEvaluations[1].OwnRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[1].SupervisorRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[1].AgreedRating" type="number" class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle" placeholder="1-4" min="1" max="4" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start ps-3 fw-semibold">
+                                            <input name="KraEvaluations[2].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA 3 Description..." />
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm mx-auto" style="max-width:90px;">
+                                                <input name="KraEvaluations[2].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </td>
+                                        <td><input name="KraEvaluations[2].OwnRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[2].SupervisorRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                        <td><input name="KraEvaluations[2].AgreedRating" type="number" class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle" placeholder="1-4" min="1" max="4" /></td>
+                                    </tr>
+                                <td class="text-start ps-3 fw-semibold">
+                                    <input name="KraEvaluations[2].KraDescription" class="form-control border-0 bg-transparent fw-semibold" placeholder="Enter KRA 4 Description..." />
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm mx-auto" style="max-width:90px;">
+                                        <input name="KraEvaluations[2].Weight" type="number" class="form-control text-center kra-weight" placeholder="0" />
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </td>
+                                <td><input name="KraEvaluations[2].OwnRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                <td><input name="KraEvaluations[2].SupervisorRating" type="number" class="form-control form-control-sm rating-input mx-auto" placeholder="1-4" min="1" max="4" /></td>
+                                <td><input name="KraEvaluations[2].AgreedRating" type="number" class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle" placeholder="1-4" min="1" max="4" /></td>
+                                </tr>
+                                    <tr class="table-light">
+                                        <td class="text-start ps-3 fw-bold">TOTAL WEIGHT:</td>
+                                        <td><span id="total-weight-badge" class="badge bg-success fs-6">0%</span></td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Dispute card -->
+                        <div class="card border-0 bg-light p-4 mb-4" style="border-radius: 10px; border-left: 4px solid #006838 !important;">
+                            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shield-fill-exclamation me-2" style="color: #006838;"></i>Dispute Protocol Settings</h5>
+                            <div class="row align-items-center mb-3">
+                                <label class="col-md-5 col-form-label fw-semibold">Is there an unresolved dispute between Supervisor / Supervisee?</label>
+                                <div class="col-md-4">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="HasDispute" value="true" id="disputeYes">
+                                        <label class="form-check-label" for="disputeYes">Yes, there is a dispute</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="HasDispute" value="false" id="disputeNo" checked>
+                                        <label class="form-check-label" for="disputeNo">No dispute exists</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="disputeFields" style="display: none;">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Specify Disputed KRA Numbers:</label>
+                                        <input name="DisputedKraNumbers" class="form-control" placeholder="e.g. KRA 1, KRA 3" />
+                                        <span class="form-text text-danger">✓ Note: Supervisor must refer this to the next higher Line Manager within 10 working days.</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Decision of Next Higher Line Manager:</label>
+                                        <textarea name="HigherManagerDecision" class="form-control" rows="2" placeholder="Describe resolution..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Signatures -->
+                        <div class="border-top pt-4" style="border-color: #006838 !important;">
+                            <h5 class="fw-bold mb-3"><i class="bi bi-vector-pen me-2" style="color: #006838;"></i>Signatures & Verification</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Job Holder / Supervisee Name:</label>
+                                    <input name="SuperviseeSignature" class="form-control mb-2" placeholder="Digital Signature Name"  />
+                                    <input name="SuperviseeSignDate" type="date" class="form-control" value="2025-06-15" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Supervisor Name:</label>
+                                    <input name="SupervisorSignature" class="form-control mb-2" placeholder="Digital Signature Name"  />
+                                    <input name="SupervisorSignDate" type="date" class="form-control" value="2025-06-18" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer - fixed at bottom of form (not sticky) -->
+
+            <div class="text-center">
+                <a href="/PMDS/PersonalAssistancePlan" class="btn btn-success btn-lg">
+                    Save Changes
+                </a>
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Weight calculator
+        function calculateTotalWeight() {
+            let total = 0;
+            document.querySelectorAll('.kra-weight').forEach(input => {
+                let val = parseFloat(input.value) || 0;
+                total += val;
+            });
+            let badge = document.getElementById('total-weight-badge');
+            if (badge) {
+                badge.innerText = total + "%";
+                badge.className = total === 100 ? "badge bg-success fs-6" : "badge bg-danger fs-6";
+            }
+        }
+        document.querySelectorAll('.kra-weight').forEach(input => {
+            input.addEventListener('input', calculateTotalWeight);
+        });
+
+        // Dispute toggle
+        document.querySelectorAll('input[name="HasDispute"]').forEach(elem => {
+            elem.addEventListener("change", function(e) {
+                let box = document.getElementById("disputeFields");
+                box.style.display = e.target.value === "true" ? "block" : "none";
+            });
+        });
+        // set default (no dispute)
+        document.getElementById('disputeNo').checked = true;
+        calculateTotalWeight();
+    </script>
+</body>
+</html>
