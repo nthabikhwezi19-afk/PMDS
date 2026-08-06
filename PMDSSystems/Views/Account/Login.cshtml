@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout =null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -399,6 +403,7 @@
 
             </form>
 
+            <form>
             <!-- Divider -->
             <div class="divider">
                 <span>OR</span>
@@ -411,16 +416,16 @@
                 Sign in with Microsoft
             </a>
 
-            <!-- Validation -->
+@*             <!-- Validation -->
             <div class="validation-summary">
                 @Html.ValidationSummary()
-            </div>
+            </div> *@
 
             <div class="login-footer">
                 <i class="fa-regular fa-circle-check"></i>
                 PMDS · Department of Correctional Services
             </div>
-            </Form>
+            </form>
 
             @* <!-- OR divider -->
             <div class="divider">
