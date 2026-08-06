@@ -4,7 +4,7 @@ using PMDSSystems.Data;
 using PMDSSystems.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using PMDSSystems.Models;
+using System.Security.Claims;
 
 namespace PMDSSystems.Controllers
 {
@@ -15,31 +15,51 @@ namespace PMDSSystems.Controllers
         public SupervisorController(ApplicationDbContext context)
         {
             _context = context;
-
         }
+
+        // ✅ Supervisor Dashboard
+        public async Task<IActionResult> Index()
+        {
+            // Get logged-in user ID
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Find supervisor in Employee table
+            var supervisor = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == userId);
+
+            if (supervisor == null)
+            {
+                return Content("Supervisor not found.");
+            }
+
+            // Get only team members
+            var employees = await _context.Employees
+                .Where(e => e.SupervisorId == supervisor.Id)
+                .ToListAsync();
+
+            return View(employees);
+        }
+
+        // ✅ PDP Form Page
         public IActionResult PersonalDevelopmentPlan()
         {
             return View();
         }
 
+        // ✅ Save PDP (FIXES 405 ERROR)
         [HttpPost]
         public IActionResult SavePDP(PDPModel model)
         {
-            // Save to database
-            return RedirectToAction("Success");
-        }
-        // GET: Supervisor Dashboard
-        public async Task<IActionResult> Index()
-        {
-            // 🔹 Get logged-in supervisor (optional if using Identity later)
-            // var userId = User.Identity.Name;
+            if (ModelState.IsValid)
+            {
+                // Example save (you can create a PDP table later)
+                // _context.PDPs.Add(model);
+                // _context.SaveChanges();
 
-            // 🔹 Get employees (you can filter later by SupervisorId)
-            var employees = await _context.Employees
-                //.Where(e => e.SupervisorId == userId) // optional filtering
-                .ToListAsync();
+                return RedirectToAction("Index");
+            }
 
-            return View(employees);
+            return View("PersonalDevelopmentPlan", model);
         }
     }
 }

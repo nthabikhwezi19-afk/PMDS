@@ -7,6 +7,7 @@ namespace PMDSSystems.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Roles = "Admin,Supervisor")]
     public class DashboardController : Controller
+        
     {
         private readonly UserManager<IdentityUser> _userManager;
 

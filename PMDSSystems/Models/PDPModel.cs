@@ -11,5 +11,8 @@
         public int SalaryLevel { get; set; }
         public string Gender { get; set; }
         public string Race { get; set; }
+        public int Id { get; set; }
+        public string Goal { get; set; }
+        public string ActionPlan { get; set; }
     }
 }

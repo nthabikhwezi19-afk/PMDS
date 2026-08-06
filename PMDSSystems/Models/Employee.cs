@@ -60,18 +60,26 @@ namespace PMDSSystems.Models
         // SUPERVISOR RELATIONSHIP
         // =========================
 
+       
+
+
+        // 🔗 Link to login user (Identity)
+        public string UserId { get; set; }
+
+        // 🔗 Supervisor relationship
         public int? SupervisorId { get; set; }
 
-        public Employee? Supervisor { get; set; }
+      
+
 
 
         // =========================
         // IDENTITY USER LINK
         // =========================
 
-        public string? UserId { get; set; }
-        public bool MustChangePassword { get; set; } = true;
 
+
+        public bool MustChangePassword { get; set; }
 
         // =========================
         // DEMOGRAPHICS
