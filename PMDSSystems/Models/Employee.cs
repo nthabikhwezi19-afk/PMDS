@@ -64,7 +64,7 @@ namespace PMDSSystems.Models
 
 
         // 🔗 Link to login user (Identity)
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         // 🔗 Supervisor relationship
         public int? SupervisorId { get; set; }

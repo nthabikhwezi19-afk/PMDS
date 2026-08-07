@@ -89,19 +89,18 @@ public async Task<IActionResult> Create(Employee employee)
 
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("MODELSTATE IS INVALID");
+                Console.WriteLine("=========== MODELSTATE ERRORS ===========");
 
-                foreach (var modelState in ModelState)
+                foreach (var state in ModelState)
                 {
-                    foreach (var error in modelState.Value.Errors)
+                    foreach (var error in state.Value.Errors)
                     {
-                        Console.WriteLine(
-                            $"FIELD: {modelState.Key} | ERROR: {error.ErrorMessage}");
+                        Console.WriteLine($"Field: {state.Key}");
+                        Console.WriteLine($"Error: {error.ErrorMessage}");
                     }
                 }
 
                 LoadSupervisors();
-
                 return View(employee);
             }
 
