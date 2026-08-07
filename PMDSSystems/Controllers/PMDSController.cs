@@ -65,6 +65,7 @@ namespace PMDSSystems.Controllers
 
             return RedirectToAction("Create", "PerformanceAgreement");
         }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -108,7 +109,6 @@ namespace PMDSSystems.Controllers
                 AppointmentDate =
          employee.AppointmentInDcsDate?.ToString("yyyy-MM-dd") ?? ""
             }; ;
-
             if (employee.SupervisorId != null)
             {
                 var supervisor = await _context.Employees
@@ -118,6 +118,8 @@ namespace PMDSSystems.Controllers
                 {
                     model.SupervisorName =
                         $"{supervisor.FirstName} {supervisor.LastName}";
+                    model.SupervisorRankPostLevel =
+            supervisor.PostLevel ?? "";
                 }
             }
 
