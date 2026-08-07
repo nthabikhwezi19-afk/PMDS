@@ -72,16 +72,16 @@ namespace PMDSSystems.Controllers
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(Employee employee)
         {
-            Console.WriteLine("======================================");
-            Console.WriteLine("CREATE EMPLOYEE POST RECEIVED");
-            Console.WriteLine("======================================");
+            //Console.WriteLine("======================================");
+            //Console.WriteLine("CREATE EMPLOYEE POST RECEIVED");
+            //Console.WriteLine("======================================");
 
-            Console.WriteLine($"PersalNumber: {employee.PersalNumber}");
-            Console.WriteLine($"FirstName: {employee.FirstName}");
-            Console.WriteLine($"LastName: {employee.LastName}");
-            Console.WriteLine($"Email: {employee.Email}");
-            Console.WriteLine($"Position: {employee.Position}");
-            Console.WriteLine($"Department: {employee.Department}");
+            //Console.WriteLine($"PersalNumber: {employee.PersalNumber}");
+            //Console.WriteLine($"FirstName: {employee.FirstName}");
+            //Console.WriteLine($"LastName: {employee.LastName}");
+            //Console.WriteLine($"Email: {employee.Email}");
+            //Console.WriteLine($"Position: {employee.Position}");
+            //Console.WriteLine($"Department: {employee.Department}");
 
             // =====================================================
             // MODEL VALIDATION
@@ -252,6 +252,8 @@ public async Task<IActionResult> Create(Employee employee)
                 // =====================================================
 
                 _context.Employees.Add(employee);
+
+
 
                 await _context.SaveChangesAsync();
 
