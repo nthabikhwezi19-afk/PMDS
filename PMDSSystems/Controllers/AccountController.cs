@@ -129,14 +129,7 @@ namespace PMDSSystems.Controllers
             return View();
         }
 
-        // =========================
-        // GET: Register
-        // =========================
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+
 
         // =========================
         // POST: Register
