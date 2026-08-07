@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMDSSystems.Data;
 
@@ -11,9 +12,11 @@ using PMDSSystems.Data;
 namespace PMDSSystems.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260807114359_NewModels")]
+    partial class NewModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -509,6 +512,9 @@ namespace PMDSSystems.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("AppointmentDateInDcs")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CurrentRank")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -528,9 +534,6 @@ namespace PMDSSystems.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostLevel")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RelatedOSDDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -539,7 +542,7 @@ namespace PMDSSystems.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupervisorSurnameInitials")
+                    b.Property<string>("SupervisorRank")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -34,7 +34,11 @@ namespace PMDSSystems.Models
         public string AppointmentDate { get; set; } = string.Empty;
 
         public string CurrentRank { get; set; } = string.Empty;
-
+        
         public string RelatedOSDDescription { get; set; } = string.Empty;
+        public string SupervisorSurnameInitials { get; set; } = string.Empty;
+
+        public string? PostLevel { get; set; } = string.Empty;
+
     }
 }
