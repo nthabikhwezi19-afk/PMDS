@@ -24,6 +24,8 @@ namespace PMDSSystems.Models
         public string? Email { get; set; }
 
         public string? IdentificationNumber { get; set; }
+        public int? SupervisorId { get; set; }
+        public Employee Supervisor { get; set; }
 
 
         // =========================
@@ -67,12 +69,7 @@ namespace PMDSSystems.Models
         public string UserId { get; set; }
 
         // 🔗 Supervisor relationship
-        public int? SupervisorId { get; set; }
-
-      
-
-
-
+  
         // =========================
         // IDENTITY USER LINK
         // =========================

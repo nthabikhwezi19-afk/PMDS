@@ -34,12 +34,11 @@ namespace PMDSSystems.Controllers
         //========================================================
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var employees = await _context.Employees
-                .OrderBy(e => e.LastName)
-                .ThenBy(e => e.FirstName)
-                .ToListAsync();
+            var employees = _context.Employees
+                .Include(e => e.Supervisor)
+                .ToList();
 
             return View(employees);
         }
@@ -56,19 +55,19 @@ namespace PMDSSystems.Controllers
 
             return View();
         }
-
-
-        //========================================================
-        // CREATE EMPLOYEE - POST
-        //========================================================
+    
 
         //========================================================
         // CREATE EMPLOYEE - POST
         //========================================================
 
-        
+        //========================================================
+        // CREATE EMPLOYEE - POST
+        //========================================================
 
-[HttpPost]
+
+
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(Employee employee)
         {
@@ -403,8 +402,7 @@ public async Task<IActionResult> Create(Employee employee)
                    "!";
         }
 
-
-
+   
 
         //========================================================
         // Auto Populate PMDS Form
