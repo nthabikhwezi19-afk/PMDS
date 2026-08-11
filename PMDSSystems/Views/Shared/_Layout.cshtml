@@ -23,13 +23,8 @@
         body {
             margin: 0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Segoe UI', sans-serif;
             background: #f5faf7;
-        }
-
-        .welcome-content {
-            flex: 1;
         }
 
         .welcome-navbar {
@@ -116,9 +111,17 @@
 
         </a>
 
+        <div class="navbar-badge">
+
+            <i class="fa-solid fa-shield-halved me-1"></i>
+
+            Secure Performance Management
+
+        </div>
+
     </nav>
 
-    <main class="welcome-content">
+    <main>
 
         @RenderBody()
 

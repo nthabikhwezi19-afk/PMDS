@@ -204,9 +204,6 @@
 
             @Html.AntiForgeryToken()
 
-            <div asp-validation-summary="All"
-                 class="alert alert-danger validation-summary">
-            </div>
 
 
             <!-- ========================= -->
@@ -521,6 +518,7 @@
                         <input type="date"
                                id="AppointmentDateInCurrentRank"
                                name="AppointmentDateInCurrentRank"
+                               max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
 
@@ -541,6 +539,7 @@
                         <input type="date"
                                id="CurrentRankDate"
                                name="CurrentRankDate"
+                               max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.CurrentRankDate?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
 
@@ -565,6 +564,7 @@
                         <input type="date"
                                id="AppointmentInDcsDate"
                                name="AppointmentInDcsDate"
+                               max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.AppointmentInDcsDate?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
 
@@ -599,7 +599,7 @@
                     <div class="form-group">
 
                         <label for="SupervisorRankPostLevel">
-                            Supervisor Rank/Post Level
+                            Supervisor Rank
                         </label>
 
                         <input type="text"
@@ -857,30 +857,48 @@
             </div>
 
 
-            <!-- NATURE OF DISABILITY -->
-            <div class="row"
-                 id="natureOfDisabilityContainer">
+                <!-- NATURE OF DISABILITY -->
+                <div class="row" id="natureOfDisabilityContainer">
 
-                <div class="col-md-12">
+                    <div class="col-md-12">
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label for="NatureOfDisability">
-                            Nature of Disability
-                        </label>
+                            <label for="NatureOfDisability">
+                                Nature of Disability
+                            </label>
 
-                        <input type="text"
-                               id="NatureOfDisability"
-                               name="NatureOfDisability"
-                               value="@Model?.NatureOfDisability"
-                               class="form-control"
-                               placeholder="Describe the nature of disability" />
+                            <select id="NatureOfDisability"
+                                    name="NatureOfDisability"
+                                    class="form-control">
+
+                                <option value="">-- Select Disability --</option>
+
+                                <option value="Visual Impairment">Visual Impairment</option>
+
+                                <option value="Hearing Impairment">Hearing Impairment</option>
+
+                                <option value="Speech Impairment">Speech Impairment</option>
+
+                                <option value="Physical Disability">Physical Disability</option>
+
+                                <option value="Intellectual Disability">Intellectual Disability</option>
+
+                                <option value="Psychosocial Disability">Psychosocial Disability</option>
+
+                                <option value="Chronic Medical Condition">Chronic Medical Condition</option>
+
+                                <option value="Multiple Disabilities">Multiple Disabilities</option>
+
+                                <option value="Other">Other</option>
+
+                            </select>
+
+                        </div>
 
                     </div>
 
                 </div>
-
-            </div>
 
 
             <hr class="divider" />
@@ -938,6 +956,7 @@
                         <input type="date"
                                id="DeclarationDate"
                                name="DeclarationDate"
+                               max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.DeclarationDate?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
 
@@ -988,40 +1007,27 @@
 
         document.addEventListener("DOMContentLoaded", function () {
 
-            const disabilitySelect =
-                document.getElementById("HasDisability");
 
-            const disabilityContainer =
-                document.getElementById("natureOfDisabilityContainer");
+        const disabilitySelect = document.getElementById("HasDisability");
+        const disabilityContainer = document.getElementById("natureOfDisabilityContainer");
 
-            const disabilityInput =
-                document.getElementById("NatureOfDisability");
+        function toggleDisability() {
 
+    console.log("Selected value:", disabilitySelect.value);
 
-            function toggleDisability() {
+    if (disabilitySelect.value === "true") {
+        disabilityContainer.style.display = "block";
+        console.log("Showing disability list");
+    }
+    else {
+        disabilityContainer.style.display = "none";
+        document.getElementById("NatureOfDisability").value = "";
+        console.log("Hiding disability list");
+    }
+}
 
-                if (disabilitySelect.value === "true") {
-
-                    disabilityContainer.style.display = "block";
-
-                } else {
-
-                    disabilityContainer.style.display = "none";
-
-                    disabilityInput.value = "";
-
-                }
-
-            }
-
-
-            disabilitySelect.addEventListener(
-                "change",
-                toggleDisability
-            );
-
-
-            toggleDisability();
+        disabilitySelect.addEventListener("change", toggleDisability);
+        toggleDisability();
 
 
             // NUMERIC INPUTS
@@ -1056,6 +1062,7 @@
             numbersOnly(persalInput);
 
             numbersOnly(idInput);
+      
 
         });
 

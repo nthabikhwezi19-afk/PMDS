@@ -1,5 +1,6 @@
 ﻿@model PMDSSystems.Models.PMDSForm
 
+
 @{
     ViewData["Title"] = "PMDS Form";
 }
@@ -123,9 +124,7 @@
 
                         </label>
 
-                        <input asp-for="PersalNumber"
-                               id="PersalNumber"
-                               class="form-control" />
+                        <p>@Model.PersalNumber</p>
 
                     </div>
 
@@ -137,10 +136,7 @@
 
                         </label>
 
-                        <input asp-for="Directorate"
-                               id="Department"
-                               readonly
-                               class="form-control" />
+                        <p>@Model.Directorate</p>
 
                     </div>
 
@@ -158,10 +154,7 @@
 
                         </label>
 
-                        <input asp-for="SurnameInitials"
-                               id="SurnameInitials"
-                               readonly
-                               class="form-control" />
+                        <p>@Model.SurnameInitials</p>
 
                     </div>
 
@@ -173,7 +166,7 @@
 
                         </label>
 
-                        <input asp-for="AppointmentDate" id="AppointmentDate" type="date" class="form-control" />
+                        <p>@Model.AppointmentDate</p>
 
                     </div>
 
@@ -191,11 +184,7 @@
 
                         </label>
 
-                        <input asp-for="PostDesignation"
-                               id="Position"
-                               readonly
-                               class="form-control" />
-
+                        <p>@Model.PostDesignation</p>
                     </div>
 
                     <div class="col-md-6">
@@ -206,8 +195,7 @@
 
                         </label>
 
-                        <input asp-for="AppointmentInDcsDate" id="AppointmentInDcsDate" type="date" class="form-control" />
-
+                        <p>@Model.AppointmentDate</p>
                     </div>
 
                 </div>
@@ -220,10 +208,10 @@
 
                         <label class="form-label">
 
-                            Current Rank / Post Level
+                            Current Rank
 
                         </label>
-                        <input asp-for="CurrentRank" id="CurrentRank" class="form-control" />
+                        <p>@Model.CurrentRank</p>
 
                     </div>
 
@@ -235,10 +223,7 @@
 
                         </label>
 
-                        <input asp-for="SupervisorName"
-                               id="Supervisor"
-                               readonly
-                               class="form-control" />
+                        <p>@Model.SupervisorName</p>
 
                     </div>
 
@@ -256,7 +241,7 @@
 
                         </label>
 
-                        <input asp-for="SupervisorRank" id="SupervisorRank" class="form-control" />
+                        <p>@Model.SupervisorRankPostLevel</p>
 
                     </div>
 
@@ -268,7 +253,7 @@
 
                         </label>
 
-                        <input asp-for="RelatedOSDDescription" id="RelatedOSDDescription" class="form-control" />
+                        <p>@Model.RelatedOSDDescription</p>
 
                     </div>
 
