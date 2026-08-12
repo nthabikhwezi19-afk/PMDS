@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Data;
@@ -14,10 +15,14 @@ namespace PMDSSystems.Controllers
     public class PMDSController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-    public PMDSController(ApplicationDbContext context)
+        public PMDSController(
+            ApplicationDbContext context,
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         //// =============================
@@ -130,9 +135,41 @@ namespace PMDSSystems.Controllers
         // PERSONAL DEVELOPMENT PLAN (PDP)
         // =============================
         [HttpGet]
-        public IActionResult PersonalDevelopmentPlan()
+        public async Task<IActionResult> PersonalDevelopmentPlan()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == userId);
+
+            if (employee == null)
+            {
+                return NotFound("No employee record is linked to this account.");
+            }
+
+            Employee? supervisor = null;
+
+            if (employee.SupervisorId.HasValue)
+            {
+                supervisor = await _context.Employees
+                    .FirstOrDefaultAsync(e => e.Id == employee.SupervisorId.Value);
+            }
+
+            var model = new PDPModel
+            {
+                Id = employee.Id,
+                Surname = employee.LastName,
+                PersalNo = employee.PersalNumber,
+                Directorate = employee.Department,
+                IdNumber = employee.IdentificationNumber,
+                Branch = employee.BranchOrRegion,
+                SalaryLevel = employee.SalaryLevel,
+                Gender = employee.Gender,
+                Race = employee.Race,
+                SupervisorPosition = supervisor?.PostLevel
+            };
+
+            return View(model);
         }
 
         [HttpPost]

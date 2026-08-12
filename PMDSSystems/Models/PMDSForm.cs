@@ -36,10 +36,14 @@ namespace PMDSSystems.Models
         public string CurrentRank { get; set; } = string.Empty;
         
         public string RelatedOSDDescription { get; set; } = string.Empty;
+        public string? OSDDescription { get; set; }
         public string SupervisorSurnameInitials { get; set; } = string.Empty;
 
         public string? PostLevel { get; set; } = string.Empty;
         public string SupervisorRankPostLevel { get; set; } = string.Empty;
+        public String? PreviousStation { get; set; }
+        public DateTime? TransferDate { get; set; }
+        public int? PreviousCyclePerformance { get; set; }
 
     }
 }

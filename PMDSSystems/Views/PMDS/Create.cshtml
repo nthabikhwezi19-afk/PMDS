@@ -166,7 +166,7 @@
 
                         </label>
 
-                        <p>@Model.AppointmentDate</p>
+                       @*  <p>@Model.AppointmentDateInCurrentRank</p> *@
 
                     </div>
 
@@ -215,7 +215,7 @@
 
                     </div>
 
-                    <div class="col-md-6">
+                     < div class="col-md-6">
 
                         <label class="form-label">
 
@@ -223,8 +223,9 @@
 
                         </label>
 
-                        <p>@Model.SupervisorName</p>
+                        <p>@Model.SupervisorSurnameInitials</p>
 
+                    </div>
                     </div>
 
                 </div>
@@ -253,7 +254,7 @@
 
                         </label>
 
-                        <p>@Model.RelatedOSDDescription</p>
+                        <p>@Model..OSDDescription</p>
 
                     </div>
 
@@ -275,8 +276,7 @@
 
                         </label>
 
-                        <input class="form-control"
-                               value="N/A" />
+                      <p>@Model.PreviousStation</p>>
 
                     </div>
 
@@ -287,8 +287,8 @@
                             Transfer Date
 
                         </label>
-                        <input asp-for="TransferDate" id="TransferDate" type="date" class="form-control" />
-
+                       
+                        <p>@Model.TransferDate</p>>
                     </div>
 
                     <div class="col-md-4">
@@ -299,7 +299,7 @@
 
                         </label>
 
-                        <input asp-for="PreviousPerformancePercentage" id="PreviousPerformancePercentage" class="form-control" />
+                        <p>@Model.PreviousCyclePerformance</p>
 
                     </div>
 
@@ -357,54 +357,7 @@
 
     </div>
 
-   @*  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    
-    <script>
-        $(document).ready(function () {
-
-                  $("#PersalNumber").on("blur", function () {
-
-            var persal = $(this).val();
-
-            if (persal.trim() === "")
-                return;
-
-            $.get("/Employee/GetEmployeeByPersal",
-                {
-                    persalNumber: persal
-                },
-                function (data) {
-
-                    console.log(data); // 👈 VERY IMPORTANT
-
-                    if (!data) {
-                        alert("Employee not found");
-                        return;
-                    }
-
-                    $("#SurnameInitials").val(data.lastName + " " + data.firstName.charAt(0));
-                    $("#Department").val(data.department);
-                    $("#Position").val(data.position);
-
-                    $("#CurrentRank").val(data.currentRank);
-                    $("#Supervisor").val(data.supervisor);
-                    $("#SupervisorRank").val(data.supervisorRank);
-                    $("#RelatedOSDDescription").val(data.relatedOSDDescription);
-
-                    if (data.appointmentDate)
-                        $("#AppointmentDate").val(data.appointmentDate);
-
-                    if (data.appointmentInDcsDate)
-                        $("#AppointmentInDcsDate").val(data.appointmentInDcsDate);
-                });
-
-        });
-
-            });
-
-       
-    </script> *@
 
 </body>
 

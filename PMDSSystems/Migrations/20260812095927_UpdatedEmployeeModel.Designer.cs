@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMDSSystems.Data;
 
@@ -11,9 +12,11 @@ using PMDSSystems.Data;
 namespace PMDSSystems.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260812095927_UpdatedEmployeeModel")]
+    partial class UpdatedEmployeeModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -420,6 +423,7 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostDesignation")
@@ -441,6 +445,7 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SignatureDate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SupervisorId")
@@ -530,9 +535,6 @@ namespace PMDSSystems.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OSDDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PersalNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -542,12 +544,6 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PreviousCyclePerformance")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PreviousStation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RelatedOSDDescription")
@@ -569,9 +565,6 @@ namespace PMDSSystems.Migrations
                     b.Property<string>("SurnameInitials")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("TransferDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

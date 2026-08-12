@@ -10,13 +10,13 @@ namespace PMDSSystems.Models
         // PERSONAL INFORMATION
         // =========================
 
-        [Required]
+      
         public string PersalNumber { get; set; } = string.Empty;
 
-        [Required]
+        
         public string FirstName { get; set; } = string.Empty;
 
-        [Required]
+      
         public string LastName { get; set; } = string.Empty;
 
         public string? Initials { get; set; }
@@ -25,7 +25,8 @@ namespace PMDSSystems.Models
 
         public string? IdentificationNumber { get; set; }
         public int? SupervisorId { get; set; }
-        public Employee Supervisor { get; set; }
+        public Employee? Supervisor { get; set; }
+      //  public string SupervisorSurnameInitials { get; set; } = string.Empty;
 
 
         // =========================
@@ -34,8 +35,8 @@ namespace PMDSSystems.Models
 
         public string? Department { get; set; }
 
-        [Required]
-        public string Position { get; set; } = string.Empty;
+       
+        public string? Position { get; set; } = string.Empty;
 
         public string? SalaryLevel { get; set; }
 
@@ -97,8 +98,12 @@ namespace PMDSSystems.Models
         // DECLARATION
         // =========================
 
-        public string? EmployeeSignature { get; set; }
-
+        //public string EmployeeSignature { get; set; }
+        public string? SignatureDate { get; set; }
+        public String? PreviousStation { get; set; }
+        public DateTime? TransferDate { get; set; }
+        public int? PreviousCyclePerformance { get; set; }
         public DateTime? DeclarationDate { get; set; }
+        
     }
 }

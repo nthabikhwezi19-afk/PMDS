@@ -690,6 +690,66 @@
 
                 </div>
 
+                <!--Previous Station -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="PreviousStation">
+                            Previous Station
+                        </label>
+
+                        <input type="text"
+                               id="PreviousStationt"
+                               name="PreviousStation"
+                               value="@Model?.PreviousStation"
+                               class="form-control"
+                               placeholder="Enter Previous Station" />
+
+                    </div>
+
+                </div>
+
+                <!--Date Of Transfer -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="DateOfTransfer">
+                            Date Of Transfer
+                        </label>
+
+                        <input type="text"
+                               id="DateOfTransfer"
+                               name="PreviousStation"
+                               value="@Model?.TransferDate"
+                               class="form-control"
+                               placeholder="Enter Date Of Transfer" />
+
+                    </div>
+
+                </div>
+               <!-- Previous Cycle -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="DateOfTransfer">
+                            Previous Cycle Performance
+                        </label>
+
+                        <input type="text"
+                               id="PreviousCycle"
+                               name="PreviousCyclen"
+                               value="@Model?.PreviousCyclePerformance"
+                               class="form-control"
+                               placeholder="Enter Previous Cycle" />
+
+                    </div>
+
+                </div>
+                
+
             </div>
 
 
@@ -935,7 +995,7 @@
                         <input type="text"
                                id="EmployeeSignature"
                                name="EmployeeSignature"
-                               value="@Model?.EmployeeSignature"
+                              @*  value="@Model?." *@
                                class="form-control"
                                placeholder="Type full name" />
 

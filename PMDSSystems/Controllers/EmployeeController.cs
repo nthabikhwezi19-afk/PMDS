@@ -27,7 +27,7 @@ namespace PMDSSystems.Controllers
             _userManager = userManager;
             _emailService = emailService;
         }
-      
+
 
         //========================================================
         // EMPLOYEE LIST
@@ -55,7 +55,7 @@ namespace PMDSSystems.Controllers
 
             return View();
         }
-    
+
 
         //========================================================
         // CREATE EMPLOYEE - POST
@@ -68,23 +68,38 @@ namespace PMDSSystems.Controllers
 
 
         [HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Create(Employee employee)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Employee employee)
         {
-            //Console.WriteLine("======================================");
-            //Console.WriteLine("CREATE EMPLOYEE POST RECEIVED");
-            //Console.WriteLine("======================================");
+            Console.WriteLine("======================================");
+            Console.WriteLine("CREATE EMPLOYEE POST RECEIVED");
+            Console.WriteLine("======================================");
 
-            //Console.WriteLine($"PersalNumber: {employee.PersalNumber}");
-            //Console.WriteLine($"FirstName: {employee.FirstName}");
-            //Console.WriteLine($"LastName: {employee.LastName}");
-            //Console.WriteLine($"Email: {employee.Email}");
-            //Console.WriteLine($"Position: {employee.Position}");
-            //Console.WriteLine($"Department: {employee.Department}");
+            Console.WriteLine($"PersalNumber: {employee.PersalNumber}");
+            Console.WriteLine($"FirstName: {employee.FirstName}");
+            Console.WriteLine($"LastName: {employee.LastName}");
+            Console.WriteLine($"Email: {employee.Email}");
+            Console.WriteLine($"Position: {employee.Position}");
+            Console.WriteLine($"Department: {employee.Department}");
+            Console.WriteLine($"Department: {employee.SalaryLevel}");
+            Console.WriteLine($"Department: {employee.PostDesignation}");
+            Console.WriteLine($"Department: {employee.AppointmentDateInCurrentRank}");
+            Console.WriteLine($"Department: {employee.AppointmentInDcsDate}");
+            Console.WriteLine($"Department: {employee.CurrentRankDate}");
+            Console.WriteLine($"Department: {employee.AppointmentInDcsDate}");
+            Console.WriteLine($"Department: {employee.SupervisorSurnameInitials}");
+            Console.WriteLine($"Department: {employee.SupervisorRankPostLevel}");
+            Console.WriteLine($"Department: {employee.OSDDescription}");
+            Console.WriteLine($"Department: {employee.PostLevel}");
+            Console.WriteLine($"Department: {employee.BranchOrRegion}");
+            Console.WriteLine($"Department: {employee.PreviousStation}");
+            Console.WriteLine($"Department: {employee.TransferDate}");
+            Console.WriteLine($"Department: {employee.PreviousStation}");
+            Console.WriteLine($"Department: {employee.PreviousCyclePerformance}");
 
-            // =====================================================
-            // MODEL VALIDATION
-            // =====================================================
+            //=====================================================
+            //MODEL VALIDATION
+            //=====================================================
 
             if (!ModelState.IsValid)
             {
@@ -390,9 +405,9 @@ public async Task<IActionResult> Create(Employee employee)
 
                 return View(employee);
             }
-        }
+        } 
 
-
+        
         // =========================================================
         // TEMPORARY PASSWORD GENERATOR
         // =========================================================
@@ -439,6 +454,12 @@ public async Task<IActionResult> Create(Employee employee)
                 department = employee.Department,
 
                 position = employee.Position,
+
+                previousStation = employee.PreviousStation,
+
+                transferDate = employee.TransferDate,
+
+                previousCycleperformance = employee.PreviousCyclePerformance,
 
                 currentRank = employee.PostLevel,
 

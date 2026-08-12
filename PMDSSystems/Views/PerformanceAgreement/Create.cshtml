@@ -231,22 +231,28 @@
     }
 </style>
 
+
+
+<!-- ... keep your existing styles ... -->
+
 <div class="container">
     <div class="pmds-card">
-
         <div class="pmds-header">
             <h3>PART B1: PERFORMANCE AGREEMENT</h3>
             <p>Performance Cycle: 1 April 2025 – 31 March 2026</p>
         </div>
 
-        <form asp-action="Create">
+        <!-- IMPORTANT: Fix the form to post to Create action -->
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
 
             <!-- Job Info -->
             <div class="section-title">Job Information</div>
 
             <div class="form-group">
-                <label><strong>Job Related Tasks</strong> (Measurable areas relating to job Descriptions and Operational Plans)</label>
-                <textarea class="form-control" rows="3" placeholder="Enter job related tasks..."></textarea>
+                <label><strong>Job Related Tasks</strong></label>
+                <textarea asp-for="JobRelatedTasks" class="form-control" rows="3" placeholder="Enter job related tasks..."></textarea>
+                <span asp-validation-for="JobRelatedTasks" class="text-danger"></span>
             </div>
 
             <!-- Employment -->
@@ -257,15 +263,17 @@
                     <label><strong>Salary Level</strong></label>
                     <select asp-for="SalaryLevel" class="form-control">
                         <option value="">-- Select Level --</option>
-                        <option>Production (Level 2–7)</option>
-                        <option>Supervisor / Junior Management (Level 8–10)</option>
-                        <option>Middle Management / Chief (Level 11–12)</option>
+                        <option value="Production (Level 2–7)">Production (Level 2–7)</option>
+                        <option value="Supervisor / Junior Management (Level 8–10)">Supervisor / Junior Management (Level 8–10)</option>
+                        <option value="Middle Management / Chief (Level 11–12)">Middle Management / Chief (Level 11–12)</option>
                     </select>
+                    <span asp-validation-for="SalaryLevel" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6">
                     <label><strong>Number of KRAs</strong></label>
                     <input asp-for="NumberOfKRAs" class="form-control" placeholder="Enter number of KRAs" />
+                    <span asp-validation-for="NumberOfKRAs" class="text-danger"></span>
                 </div>
             </div>
 
@@ -289,45 +297,51 @@
                     @for (int i = 0; i < 4; i++)
                     {
                         <tr>
-                            <td><input name="KRAs[@i].Name" class="form-control" placeholder="KRA @(i + 1)" /></td>
-                            <td><input name="KRAs[@i].Weight" class="form-control weight" placeholder="%" /></td>
-                            <td><input name="KRAs[@i].Activities" class="form-control" placeholder="Activities" /></td>
-                            <td><input name="KRAs[@i].Standards" class="form-control" placeholder="Standards" /></td>
-
-                            <!-- Batho Pele -->
                             <td>
-                                <select name="KRAs[@i].BathoPele" class="form-control">
+                                <input asp-for="KRAs[i].Name" class="form-control" placeholder="KRA @(i + 1)" />
+                                <span asp-validation-for="KRAs[i].Name" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="KRAs[i].Weight" class="form-control weight" placeholder="%" />
+                                <span asp-validation-for="KRAs[i].Weight" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="KRAs[i].Activities" class="form-control" placeholder="Activities" />
+                            </td>
+                            <td>
+                                <input asp-for="KRAs[i].Standards" class="form-control" placeholder="Standards" />
+                            </td>
+                            <td>
+                                <select asp-for="KRAs[i].BathoPele" class="form-control">
                                     <option value="">-- Select --</option>
-                                    <option>Consultation</option>
-                                    <option>Setting Service Standards</option>
-                                    <option>Increasing Access</option>
-                                    <option>Ensuring Courtesy</option>
-                                    <option>Providing Information</option>
-                                    <option>Openness and Transparency</option>
-                                    <option>Redress</option>
-                                    <option>Value for Money</option>
+                                    <option value="Consultation">Consultation</option>
+                                    <option value="Setting Service Standards">Setting Service Standards</option>
+                                    <option value="Increasing Access">Increasing Access</option>
+                                    <option value="Ensuring Courtesy">Ensuring Courtesy</option>
+                                    <option value="Providing Information">Providing Information</option>
+                                    <option value="Openness and Transparency">Openness and Transparency</option>
+                                    <option value="Redress">Redress</option>
+                                    <option value="Value for Money">Value for Money</option>
                                 </select>
                             </td>
-
-                            <!-- GAF DROPDOWN -->
                             <td>
-                                <select name="KRAs[@i].GAFs" class="form-control">
+                                <select asp-for="KRAs[i].GAFs" class="form-control">
                                     <option value="">-- Select GAF --</option>
-                                    <option>Job Knowledge</option>
-                                    <option>Acceptance of Responsibility</option>
-                                    <option>Quality of Work</option>
-                                    <option>Technical Skills</option>
-                                    <option>Reliability</option>
-                                    <option>Initiative</option>
-                                    <option>Communication</option>
-                                    <option>Interpersonal Relationships</option>
-                                    <option>Flexibility</option>
-                                    <option>Team Work</option>
-                                    <option>Planning and Execution</option>
-                                    <option>Management of Financial Resources</option>
-                                    <option>Management of Human Resources</option>
-                                    <option>Leadership</option>
-                                    <option>Delegation and Empowerment</option>
+                                    <option value="Job Knowledge">Job Knowledge</option>
+                                    <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
+                                    <option value="Quality of Work">Quality of Work</option>
+                                    <option value="Technical Skills">Technical Skills</option>
+                                    <option value="Reliability">Reliability</option>
+                                    <option value="Initiative">Initiative</option>
+                                    <option value="Communication">Communication</option>
+                                    <option value="Interpersonal Relationships">Interpersonal Relationships</option>
+                                    <option value="Flexibility">Flexibility</option>
+                                    <option value="Team Work">Team Work</option>
+                                    <option value="Planning and Execution">Planning and Execution</option>
+                                    <option value="Management of Financial Resources">Management of Financial Resources</option>
+                                    <option value="Management of Human Resources">Management of Human Resources</option>
+                                    <option value="Leadership">Leadership</option>
+                                    <option value="Delegation and Empowerment">Delegation and Empowerment</option>
                                 </select>
                             </td>
                         </tr>
@@ -344,32 +358,21 @@
                 </span>
             </div>
 
-            <!-- ========================================== -->
-            <!-- BUTTON CONTAINER WITH STYLED SAVE BUTTONS   -->
-            <!-- ========================================== -->
+            <!-- BUTTON CONTAINER -->
             <div class="button-container">
-                <!-- OPTION 1: Premium Gradient Button with Hover Effect -->
-                <button type="button" class="btn-save-agreement"
-                        onclick="window.location.href='/PerformanceAgreement/Agreement'">
+                <!-- Change button type to "submit" instead of "button" -->
+                <button type="submit" class="btn-save-agreement">
                     <i class="fas fa-save"></i>
                     Save Agreement
                     <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
                 </button>
-
-                <!--
-                    OPTION 2: Flat Design Button (Uncomment below and comment above to use this style)
-
-                    <button type="button" class="btn-save-agreement-flat"
-                            onclick="window.location.href='/PerformanceAgreement/Agreement'">
-                        <i class="fas fa-save"></i>
-                        Save Agreement
-                    </button>
-                -->
             </div>
 
         </form>
     </div>
 </div>
+
+<!-- Keep your existing script and font-awesome link -->
 
 <script>
     function calculateTotal() {

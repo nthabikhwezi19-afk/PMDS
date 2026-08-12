@@ -1,6 +1,9 @@
-﻿@{
+﻿@model PMDSSystems.Models.PDPModel
+@{
     ViewData["Title"] = "Personal Development Plan";
 }
+
+
 
 <style>
     /* ===== GLOBAL STYLES ===== */
@@ -413,70 +416,110 @@
                 <h4>Personal Details</h4>
             </div>
 
+            <!-- Row 1 -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Surname & Initials</label>
-                        <input type="text" name="Surname" class="form-control" placeholder="Enter surname and initials" />
+                        <input type="text"
+                               id="Surname"
+                               name="Surname"
+                               value="@Model.Surname"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Supervisor's Position</label>
-                        <input type="text" name="SupervisorPosition" class="form-control" placeholder="Enter supervisor position" />
+                        <input type="text"
+                               id="SupervisorPosition"
+                               name="SupervisorPosition"
+                               value="@Model.SupervisorPosition"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
             </div>
 
+            <!-- Row 2 -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Persal No</label>
-                        <input type="text" name="PersalNo" class="form-control" placeholder="Enter Persal number" />
+                        <input type="text"
+                               id="PersalNo"
+                               name="PersalNo"
+                               value="@Model.PersalNo"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Directorate / Section</label>
-                        <input type="text" name="Directorate" class="form-control" placeholder="Enter directorate or section" />
+                        <input type="text"
+                               id="Directorate"
+                               name="Directorate"
+                               value="@Model.Directorate"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
             </div>
 
+            <!-- Row 3 -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>ID Number</label>
-                        <input type="text" name="IdNumber" class="form-control" placeholder="Enter ID number" />
+                        <input type="text"
+                               id="IdNumber"
+                               name="IdNumber"
+                               value="@Model.IdNumber"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Branch / Region</label>
-                        <input type="text" name="Branch" class="form-control" placeholder="Enter branch or region" />
+                        <input type="text"
+                               id="Branch"
+                               name="Branch"
+                               value="@Model.Branch"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
             </div>
 
+            <!-- Row 4 -->
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Salary Level</label>
-                        <input type="number" name="SalaryLevel" class="form-control" placeholder="Enter salary level" />
+                        <input type="number"
+                               name="SalaryLevel"
+                               value="@Model.SalaryLevel"
+                               class="form-control"
+                               readonly />
+                             
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Gender</label>
-                        <select name="Gender" class="form-control">
-                            <option value="">-- Select Gender --</option>
-                            <option>M</option>
-                            <option>F</option>
-                        </select>
+                        <input type="text"
+                               id="Gender"
+                               name="Gender"
+                               value="@Model.Gender"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
 
@@ -485,102 +528,156 @@
                         <label>Age Group</label>
                         <select name="AgeGroup" class="form-control">
                             <option value="">-- Select Age Group --</option>
-                            <option>Below 35</option>
-                            <option>35 – 55</option>
-                            <option>Above 55</option>
+                            <option value="Below 35">Below 35</option>
+                            <option value="35 – 55">35 – 55</option>
+                            <option value="Above 55">Above 55</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Race</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="Race" value="African" /> African</label>
-                    <label><input type="checkbox" name="Race" value="Coloured" /> Coloured</label>
-                    <label><input type="checkbox" name="Race" value="Indian" /> Indian</label>
-                    <label><input type="checkbox" name="Race" value="White" /> White</label>
-                </div>
-            </div>
-
+            <!-- Row 5 -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <label>Disabled</label>
-                        <select name="Disabled" class="form-control">
-                            <option value="">-- Select --</option>
-                            <option>No</option>
-                            <option>Yes</option>
-                        </select>
+                        <label>Race</label>
+                        <input type="text"
+                               id="Race"
+                               name="Race"
+                               value="@Model.Race"
+                               class="form-control"
+                               readonly />
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Disability</label>
+                        <input type="text"
+                               id="Disabled"
+                               name="Disabled"
+                               value="@Model.Disabled"
+                               class="form-control"
+                               readonly />
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Nature of Disability</label>
-                        <input type="text" name="DisabilityDetails" class="form-control" placeholder="Specify nature of disability (if applicable)" />
+                        <input type="text"
+                               name="DisabilityDetails"
+                               class="form-control"
+                               placeholder="Specify nature of disability (if applicable)" />
                     </div>
                 </div>
             </div>
 
             <hr class="divider" />
 
-            <!-- 2. Educational Background -->
-            <div class="section-header">
-                <span class="section-number">2</span>
-                <h4>Educational Background</h4>
-            </div>
+    <!-- 2. Educational Background -->
+    <div class="section-header">
+        <span class="section-number">2</span>
+        <h4>Educational Background</h4>
+    </div>
 
-            <div class="table-container">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Qualification</th>
-                            <th>NQF Level</th>
-                            <th>Year Completed</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input name="Qualification1" class="form-control" placeholder="Qualification" /></td>
-                            <td><input name="NQF1" class="form-control" placeholder="NQF Level" /></td>
-                            <td><input name="Year1" class="form-control" placeholder="Year" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="table-container">
+        <table class="table table-bordered" id="educationTable">
+            <thead>
+                <tr>
+                    <th>Qualification</th>
+                    <th>NQF Level</th>
+                    <th>Year Completed</th>
+                    <th style="width: 100px;">Action</th>
+                </tr>
+            </thead>
 
+            <tbody id="educationTableBody">
+                <tr>
+                    <td>
+                        <input name="Qualification1"
+                               class="form-control"
+                               placeholder="Qualification" />
+                    </td>
+
+                    <td>
+                        <input name="NQF1"
+                               class="form-control"
+                               placeholder="NQF Level" />
+                    </td>
+
+                    <td>
+                        <input name="Year1"
+                               class="form-control"
+                               placeholder="Year" />
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-danger btn-sm remove-education"
+                                style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Qualification Button -->
+    <div style="margin-top: 10px; margin-bottom: 20px;">
+        <button type="button"
+                id="addEducation"
+                class="btn btn-success">
+            <i class="fas fa-plus"></i>
+            Add Qualification
+        </button>
+    </div>
+
+    <div class="form-group">
+        <label class="sub-header">Workshops / Courses (Last 5 Years)</label>
+
+        <textarea name="Workshops"
+                  class="form-control"
+                  placeholder="List workshops and courses attended in the last 5 years..."></textarea>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
-                <label class="sub-header">Workshops / Courses (Last 5 Years)</label>
-                <textarea name="Workshops" class="form-control" placeholder="List workshops and courses attended in the last 5 years..."></textarea>
+                <label>Current Studies</label>
+
+                <input type="text"
+                       name="CurrentStudies"
+                       class="form-control"
+                       placeholder="Enter current studies" />
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Current Studies</label>
-                        <input type="text" name="CurrentStudies" class="form-control" placeholder="Enter current studies" />
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Bursary Holder?</label>
-                        <select name="Bursary" class="form-control">
-                            <option value="">-- Select --</option>
-                            <option>No</option>
-                            <option>Yes</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
+        <div class="col-md-6">
             <div class="form-group">
-                <label>Bursary Duration</label>
-                <input type="text" name="BursaryDuration" class="form-control" placeholder="Enter bursary duration (if applicable)" />
-            </div>
+                <label>Bursary Holder?</label>
 
-            <hr class="divider" />
+                <select name="Bursary" class="form-control">
+                    <option value="">-- Select --</option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Bursary Duration</label>
+
+        <input type="text"
+               name="BursaryDuration"
+               class="form-control"
+               placeholder="Enter bursary duration (if applicable)" />
+    </div>
+
+    <hr class="divider" />
 
             <!-- 3. Job Requirements vs Training -->
             <div class="section-header">
@@ -722,5 +819,81 @@
                 this.classList.remove('is-invalid');
             });
         });
+    });
+        document.addEventListener('DOMContentLoaded', function () {
+
+        const addEducationButton = document.getElementById('addEducation');
+        const educationTableBody = document.getElementById('educationTableBody');
+
+        let educationRowNumber = 1;
+
+        addEducationButton.addEventListener('click', function () {
+
+            educationRowNumber++;
+
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td>
+                    <input name="Qualification${educationRowNumber}"
+                           class="form-control"
+                           placeholder="Qualification" />
+                </td>
+
+                <td>
+                    <input name="NQF${educationRowNumber}"
+                           class="form-control"
+                           placeholder="NQF Level" />
+                </td>
+
+                <td>
+                    <input name="Year${educationRowNumber}"
+                           class="form-control"
+                           placeholder="Year" />
+                </td>
+
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-education">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+
+            educationTableBody.appendChild(newRow);
+
+            updateRemoveButtons();
+        });
+
+        function updateRemoveButtons() {
+
+            const rows = educationTableBody.querySelectorAll('tr');
+            const removeButtons = educationTableBody.querySelectorAll('.remove-education');
+
+            removeButtons.forEach(function (button) {
+
+                if (rows.length > 1) {
+                    button.style.display = 'inline-flex';
+                } else {
+                    button.style.display = 'none';
+                }
+
+            });
+        }
+
+        educationTableBody.addEventListener('click', function (e) {
+
+            const removeButton = e.target.closest('.remove-education');
+
+            if (removeButton) {
+
+                const row = removeButton.closest('tr');
+
+                row.remove();
+
+                updateRemoveButtons();
+            }
+        });
+
     });
 </script>
