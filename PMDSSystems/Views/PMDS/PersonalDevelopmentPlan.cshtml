@@ -685,30 +685,79 @@
                 <h4>Job Requirements vs Training Required</h4>
             </div>
 
-            <div class="table-container">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Tasks / KPA</th>
-                            <th>Training Needed</th>
-                            <th>Type of Learning</th>
-                            <th>NQF</th>
-                            <th>Cost</th>
-                            <th>Impact</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input name="Task1" class="form-control" placeholder="Task/KPA" /></td>
-                            <td><input name="Training1" class="form-control" placeholder="Training needed" /></td>
-                            <td><input name="LearningType1" class="form-control" placeholder="Type of learning" /></td>
-                            <td><input name="NQFLevel1" class="form-control" placeholder="NQF" /></td>
-                            <td><input name="Cost1" class="form-control" placeholder="Cost" /></td>
-                            <td><input name="Impact1" class="form-control" placeholder="Impact" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="table-container">
+        <table class="table table-bordered" id="jobRequirementsTable">
+            <thead>
+                <tr>
+                    <th>Tasks / KPA</th>
+                    <th>Training Needed</th>
+                    <th>Type of Learning</th>
+                    <th>NQF</th>
+                    <th>Cost</th>
+                    <th>Impact</th>
+                    <th style="width: 80px;">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="jobRequirementsTableBody">
+                <tr>
+                    <td>
+                        <input name="Task1"
+                               class="form-control"
+                               placeholder="Task/KPA" />
+                    </td>
+
+                    <td>
+                        <input name="Training1"
+                               class="form-control"
+                               placeholder="Training needed" />
+                    </td>
+
+                    <td>
+                        <input name="LearningType1"
+                               class="form-control"
+                               placeholder="Type of learning" />
+                    </td>
+
+                    <td>
+                        <input name="NQFLevel1"
+                               class="form-control"
+                               placeholder="NQF" />
+                    </td>
+
+                    <td>
+                        <input name="Cost1"
+                               class="form-control"
+                               placeholder="Cost" />
+                    </td>
+
+                    <td>
+                        <input name="Impact1"
+                               class="form-control"
+                               placeholder="Impact" />
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-danger btn-sm remove-job-requirement"
+                                style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Requirement Button -->
+    <div style="margin-top: 10px; margin-bottom: 20px;">
+        <button type="button"
+                id="addJobRequirement"
+                class="btn btn-success">
+            <i class="fas fa-plus"></i>
+            Add Requirement
+        </button>
+    </div>
 
             <hr class="divider" />
 
@@ -895,5 +944,106 @@
             }
         });
 
+    });
+        // ===============================
+    // JOB REQUIREMENTS - ADD ROW
+    // ===============================
+
+    const addJobRequirementButton = document.getElementById('addJobRequirement');
+    const jobRequirementsTableBody = document.getElementById('jobRequirementsTableBody');
+
+    let jobRequirementRowNumber = 1;
+
+    addJobRequirementButton.addEventListener('click', function () {
+
+        jobRequirementRowNumber++;
+
+        const newRow = document.createElement('tr');
+
+        newRow.innerHTML = `
+            <td>
+                <input name="Task${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="Task/KPA" />
+            </td>
+
+            <td>
+                <input name="Training${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="Training needed" />
+            </td>
+
+            <td>
+                <input name="LearningType${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="Type of learning" />
+            </td>
+
+            <td>
+                <input name="NQFLevel${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="NQF" />
+            </td>
+
+            <td>
+                <input name="Cost${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="Cost" />
+            </td>
+
+            <td>
+                <input name="Impact${jobRequirementRowNumber}"
+                       class="form-control"
+                       placeholder="Impact" />
+            </td>
+
+            <td class="text-center">
+                <button type="button"
+                        class="btn btn-danger btn-sm remove-job-requirement">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+
+        jobRequirementsTableBody.appendChild(newRow);
+
+        updateJobRequirementRemoveButtons();
+    });
+
+
+    // Show/hide remove buttons
+    function updateJobRequirementRemoveButtons() {
+
+        const rows = jobRequirementsTableBody.querySelectorAll('tr');
+
+        const removeButtons =
+            jobRequirementsTableBody.querySelectorAll('.remove-job-requirement');
+
+        removeButtons.forEach(function (button) {
+
+            if (rows.length > 1) {
+                button.style.display = 'inline-flex';
+            } else {
+                button.style.display = 'none';
+            }
+
+        });
+    }
+
+
+    // Remove job requirement row
+    jobRequirementsTableBody.addEventListener('click', function (e) {
+
+        const removeButton =
+            e.target.closest('.remove-job-requirement');
+
+        if (removeButton) {
+
+            const row = removeButton.closest('tr');
+
+            row.remove();
+
+            updateJobRequirementRemoveButtons();
+        }
     });
 </script>
