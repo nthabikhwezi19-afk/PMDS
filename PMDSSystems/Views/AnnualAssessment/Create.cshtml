@@ -5,6 +5,77 @@
 }
 
 <style>
+    /* ==========================================
+   PERSAL NUMBER LABEL
+   ========================================== */
+
+.personal-field {
+    margin-bottom: 22px;
+}
+
+.form-label-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    color: #006838;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+/* Green icon box */
+.label-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #006838, #004d28);
+    color: white;
+    border-radius: 7px;
+    box-shadow: 0 3px 8px rgba(0, 104, 56, 0.20);
+}
+
+.label-icon i {
+    font-size: 15px;
+}
+
+/* Label text */
+.label-text {
+    position: relative;
+}
+
+/* Small green line underneath label */
+.label-text::after {
+    content: "";
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #006838;
+    margin-top: 4px;
+    border-radius: 2px;
+}
+
+/* Persal input */
+.personal-field .form-control {
+    border: 2px solid #dce3e8;
+    border-left: 4px solid #006838;
+    background: #f8faf9;
+    font-weight: 600;
+    color: #333;
+    height: 44px;
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+.personal-field .form-control:focus {
+    border-color: #006838;
+    border-left: 4px solid #006838;
+    box-shadow: 0 0 0 0.15rem rgba(0, 104, 56, 0.12);
+    outline: none;
+}
     /* ===== GLOBAL STYLES ===== */
     body {
         background-color: #f0f2f5;
@@ -818,17 +889,21 @@
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
             <!-- Persal Number -->
-            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
-
-            <div class="form-group">
-                <label>
-                    <i class="bi bi-hash" style="color: #006838;"></i>
-                    Persal Number
-                    <span class="required">*</span>
+            <div class="personal-field">
+                <label for="PersalNumber" class="form-label-custom">
+                    <span class="label-icon">
+                        <i class="bi bi-person-vcard-fill"></i>
+                    </span>
+                    <span class="label-text">PERSAL NUMBER</span>
                 </label>
-                <input asp-for="PersalNumber" class="form-control" placeholder="Enter Persal number" />
-            </div>
 
+                <input type="text"
+                       id="PersalNumber"
+                       name="PersalNumber"
+                       value="@(Model?.PersalNumber ?? "")"
+                       class="form-control"
+                       readonly />
+            </div>
             <!-- ✅ PART D1 -->
             <div class="section-header">
                 <i class="bi bi-list-task"></i>
@@ -987,7 +1062,7 @@
             </div>
 
             <!-- BUTTONS -->
-            <<div class="text-center">
+            <div class="text-center">
                 <a href="/AnnualAssessment/Moderation" class="btn btn-success btn-lg">
                     Save Changes
                 </a>

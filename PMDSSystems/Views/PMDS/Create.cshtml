@@ -1,5 +1,5 @@
-﻿@model PMDSSystems.Models.PMDSForm
-
+﻿```cshtml
+@model PMDSSystems.Models.PMDSForm
 
 @{
     ViewData["Title"] = "PMDS Form";
@@ -8,7 +8,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta name="viewport" content="width=device-width" />
 
     <title>PMDS Form</title>
@@ -20,16 +19,17 @@
 
         body {
             background: #f4f6f9;
-            font-family: 'Segoe UI';
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
         }
 
         .main-container {
-            background: white;
+            background: #ffffff;
             margin-top: 30px;
             margin-bottom: 30px;
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,.15);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
         }
 
         .title {
@@ -38,38 +38,151 @@
             font-weight: bold;
         }
 
+            .title h2 {
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+
+            .title h4 {
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
         .subtitle {
             text-align: center;
-            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+            .subtitle h4 {
+                color: #333;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+
+            .subtitle h6 {
+                color: #555;
+                font-weight: 600;
+            }
+
+        hr {
+            border: 0;
+            height: 3px;
+            background: #006838;
+            opacity: 1;
+            margin: 20px 0 25px 0;
         }
 
         .section-title {
             background: #006838;
             color: white;
-            padding: 10px;
-            font-weight: bold;
+            padding: 12px 15px;
+            font-size: 17px;
+            font-weight: 700;
             margin-top: 25px;
             margin-bottom: 20px;
+            border-radius: 5px;
         }
 
         .form-label {
-            font-weight: bold;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 7px;
         }
 
-        input {
-            background: #f8f9fa !important;
+        .info-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            min-height: 42px;
+            padding: 9px 12px;
+            color: #333;
+            width: 100%;
         }
 
-        textarea {
-            resize: none;
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px 12px;
         }
 
-        hr {
-            border: 2px solid #006838;
+            .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            }
+
+        .signature-input {
+            font-family: cursive;
+            font-size: 20px;
         }
 
+        .declaration-text {
+            background: #f8f9fa;
+            border-left: 4px solid #006838;
+            padding: 15px;
+            border-radius: 5px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .button-area {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .btn {
+            min-width: 150px;
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+
+        .btn-success {
+            background-color: #006838;
+            border-color: #006838;
+        }
+
+            .btn-success:hover {
+                background-color: #00552e;
+                border-color: #00552e;
+            }
+
+        .btn-outline-secondary {
+            margin-right: 10px;
+        }
+
+        @@media (max-width: 768px) {
+            .main-container
+
+        {
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .title h2 {
+            font-size: 22px;
+        }
+
+        .title h4 {
+            font-size: 17px;
+        }
+
+        .section-title {
+            font-size: 15px;
+        }
+
+        .button-area .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-outline-secondary {
+            margin-right: 0;
+        }
+
+        }
     </style>
-
 </head>
 
 <body>
@@ -78,287 +191,336 @@
 
         <div class="main-container">
 
+            <!-- ============================= -->
+            <!-- PAGE HEADER -->
+            <!-- ============================= -->
+
             <div class="title">
 
-                <h2>DEPARTMENT OF CORRECTIONAL SERVICES</h2>
+                <h2>
+                    DEPARTMENT OF CORRECTIONAL SERVICES
+                </h2>
 
-                <h4>PERFORMANCE MANAGEMENT AND DEVELOPMENT SYSTEM</h4>
+                <h4>
+                    PERFORMANCE MANAGEMENT AND DEVELOPMENT SYSTEM
+                </h4>
 
             </div>
 
             <hr />
 
+            <!-- ============================= -->
+            <!-- PART A -->
+            <!-- ============================= -->
+
             <div class="subtitle">
 
                 <h4>
-
                     PART A : PERSONAL PARTICULARS
-
                 </h4>
 
                 <h6>
-
                     Performance Cycle Period :
-
-                    1 April 2025 - 31 March 2026
-
+                    <strong>1 April 2025 - 31 March 2026</strong>
                 </h6>
 
             </div>
 
+
             <form asp-action="Create" method="post">
 
-                <div class="section-title">
+                <!-- ============================= -->
+                <!-- PERSONAL PARTICULARS -->
+                <!-- ============================= -->
 
+                <div class="section-title">
                     PERSONAL PARTICULARS
-
                 </div>
 
-                <div class="row">
+
+                <!-- ROW 1 -->
+
+                <div class="row g-4 mb-3">
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Persal Number
-
                         </label>
 
-                        <p>@Model.PersalNumber</p>
+                        <div class="info-box">
+                            @Model.PersalNumber
+                        </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Division / Unit / Directorate
-
                         </label>
 
-                        <p>@Model.Directorate</p>
+                        <div class="info-box">
+                            @Model.Directorate
+                        </div>
 
                     </div>
 
                 </div>
 
-                <br />
 
-                <div class="row">
+                <!-- ROW 2 -->
+
+                <div class="row g-4 mb-3">
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Surname & Initials
-
                         </label>
 
-                        <p>@Model.SurnameInitials</p>
+                        <div class="info-box">
+                            @Model.SurnameInitials
+                        </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Appointment / Promotion Date
-
                         </label>
 
-                       @*  <p>@Model.AppointmentDateInCurrentRank</p> *@
+                        <div class="info-box">
+                          @*   @Model.AppointmentDateInCurrentRank *@
+                        </div>
 
                     </div>
 
                 </div>
 
-                <br />
 
-                <div class="row">
+                <!-- ROW 3 -->
+
+                <div class="row g-4 mb-3">
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Post Designation
-
                         </label>
 
-                        <p>@Model.PostDesignation</p>
+                        <div class="info-box">
+                            @Model.PostDesignation
+                        </div>
+
                     </div>
+
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Appointment Date in DCS
-
                         </label>
 
-                        <p>@Model.AppointmentDate</p>
+                        <div class="info-box">
+                            @Model.AppointmentDate
+                        </div>
+
                     </div>
 
                 </div>
 
-                <br />
 
-                <div class="row">
+                <!-- ROW 4 -->
+
+                <div class="row g-4 mb-3">
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Current Rank
-
                         </label>
-                        <p>@Model.CurrentRank</p>
+
+                        <div class="info-box">
+                            @Model.CurrentRank
+                        </div>
 
                     </div>
 
-                     < div class="col-md-6">
+
+                    <div class="col-md-6">
 
                         <label class="form-label">
-
                             Supervisor
-
                         </label>
 
-                        <p>@Model.SupervisorSurnameInitials</p>
+                        <div class="info-box">
+                            @Model.SupervisorSurnameInitials
+                        </div>
 
-                    </div>
                     </div>
 
                 </div>
 
-                <br />
 
-                <div class="row">
+                <!-- ROW 5 -->
+
+                <div class="row g-4 mb-3">
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Supervisor Rank
-
                         </label>
 
-                        <p>@Model.SupervisorRankPostLevel</p>
+                        <div class="info-box">
+                            @Model.SupervisorRankPostLevel
+                        </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
                         <label class="form-label">
-
                             Related OSD Description
-
                         </label>
 
-                        <p>@Model..OSDDescription</p>
+                        <div class="info-box">
+                            @Model.OSDDescription
+                        </div>
 
                     </div>
 
                 </div>
+
+
+                <!-- ============================= -->
+                <!-- TRANSFER DETAILS -->
+                <!-- ============================= -->
 
                 <div class="section-title">
-
                     TRANSFER DETAILS
+                </div>
+
+
+                <div class="row g-4 mb-3">
+
+                    <!-- PREVIOUS STATION -->
+
+                    <div class="row g-4 mb-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label">Previous Station</label>
+
+                            <div class="info-box">
+                                @(Model.PreviousStation ?? "Not Available")
+                            </div>
+                        </div>
+
+
+                    <!-- TRANSFER DATE -->
+
+                        <div class="col-md-4">
+                            <label class="form-label">Transfer Date</label>
+
+                            <div class="info-box">
+                                @(Model.TransferDate?.ToString("dd/MM/yyyy") ?? "Not Available")
+                            </div>
+                        </div>
+
+
+                    <!-- PREVIOUS PERFORMANCE -->
+
+                        <div class="col-md-4">
+                            <label class="form-label">Previous Cycle Performance %</label>
+
+                            <div class="info-box">
+                                @(Model.PreviousCyclePerformance?.ToString() ?? "Not Available")
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
-                <div class="row">
 
-                    <div class="col-md-4">
-
-                        <label class="form-label">
-
-                            Previous Station
-
-                        </label>
-
-                      <p>@Model.PreviousStation</p>>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <label class="form-label">
-
-                            Transfer Date
-
-                        </label>
-                       
-                        <p>@Model.TransferDate</p>>
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <label class="form-label">
-
-                            Previous Cycle Performance %
-
-                        </label>
-
-                        <p>@Model.PreviousCyclePerformance</p>
-
-                    </div>
-
-                </div>
-
+                <!-- ============================= -->
+                <!-- DECLARATION -->
+                <!-- ============================= -->
 
                 <div class="section-title">
                     DECLARATION
                 </div>
 
-                <p>
+
+                <div class="declaration-text">
+
                     I hereby declare that the information above is true and correct,
                     that it will be noted in the records, and I undertake to notify
                     the Local HR Personnel Office of any changes should they occur.
-                </p>
 
-                <br />
+                </div>
 
-                <div class="row">
 
-                    <!-- SIGNATURE -->
+                <!-- SIGNATURE + DATE -->
+
+                <div class="row g-4">
+
+                    <!-- EMPLOYEE SIGNATURE -->
+
                     <div class="col-md-6">
-                        <label class="form-label">Employee Signature</label>
+
+                        <label class="form-label">
+                            Employee Signature
+                        </label>
+
                         <input asp-for="EmployeeSignature"
-                               class="form-control"
-                               placeholder="Type full name as signature"
-                               style="font-family:cursive; font-size:20px;" />
+                               class="form-control signature-input"
+                               placeholder="Type full name as signature" />
+
                     </div>
 
-                    <!-- DATE -->
+
+                    <!-- DECLARATION DATE -->
+
                     <div class="col-md-6">
-                        <label class="form-label">Date</label>
+
+                        <label class="form-label">
+                            Date
+                        </label>
+
                         <input asp-for="DeclarationDate"
                                type="date"
                                class="form-control" />
+
                     </div>
 
                 </div>
-                <br />
 
-                <div class="text-center">
-                    
 
-                    <a href="/PMDS/Cycles" class="btn btn-outline-secondary btn-lg">
+                <!-- ============================= -->
+                <!-- BUTTONS -->
+                <!-- ============================= -->
+
+                <div class="button-area text-center">
+
+                    <a href="/PMDS/Cycles"
+                       class="btn btn-success btn-lg me-2">
                         Back
                     </a>
-                    <a href="/PerformanceAgreement/Create/Agreement" class="btn btn-success btn-lg me-2">
-                        Save Changes
+
+                    <a href="/PerformanceAgreement/Create/Agreement"
+                       class="btn btn-success btn-lg">
+                        Save
                     </a>
+
                 </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
 
 </body>
-
 </html>
+```

@@ -295,27 +295,53 @@ namespace PMDSSystems.Controllers
         // PERSONAL ASSISTANCE PLAN (PAP)
         // =============================
         [HttpGet]
-        public async Task<IActionResult> PersonalAssistancePlan(
-            int? id)
+        public async Task<IActionResult> PersonalAssistancePlan(int? id)
         {
-            PMDSSystems.Models.PersonalAssistancePlan pap;
+            PersonalAssistancePlan pap;
 
+            // If an existing PAP is being opened
             if (id.HasValue)
             {
-                pap = await _context
-                    .PersonalAssistancePlans
+                pap = await _context.PersonalAssistancePlans
                     .FindAsync(id.Value);
 
                 if (pap == null)
                 {
                     return NotFound();
                 }
+
+                return View(pap);
             }
-            else
+
+            // Create a new PAP
+            pap = new PersonalAssistancePlan();
+
+            // Get the currently logged-in user
+            var userId = _userManager.GetUserId(User);
+
+            if (!string.IsNullOrEmpty(userId))
             {
-                pap =
-                    new PMDSSystems.Models
-                        .PersonalAssistancePlan();
+                // Find the employee linked to the logged-in user
+                var employee = await _context.Employees
+                    .FirstOrDefaultAsync(e => e.UserId == userId);
+
+                if (employee != null)
+                {
+                    // Automatically populate Personal Particulars
+                    pap.PersalNo = employee.PersalNumber;
+
+                    pap.EmployeeName =
+                        $"{employee.FirstName} {employee.LastName}";
+
+                    pap.Post =
+                        employee.PostDesignation
+                        ?? employee.Position
+                        ?? string.Empty;
+
+                    pap.SupervisorName =
+                        employee.SupervisorSurnameInitials
+                        ?? string.Empty;
+                }
             }
 
             return View(pap);

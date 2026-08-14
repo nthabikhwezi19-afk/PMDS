@@ -102,7 +102,7 @@ namespace PMDSSystems.Models
         public string? SignatureDate { get; set; }
         public String? PreviousStation { get; set; }
         public DateTime? TransferDate { get; set; }
-        public int? PreviousCyclePerformance { get; set; }
+        public decimal? PreviousCyclePerformance { get; set; }
         public DateTime? DeclarationDate { get; set; }
         
     }
