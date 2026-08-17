@@ -30,7 +30,11 @@ namespace PMDSSystems.Data
         {
             base.OnModelCreating(builder);
 
-            // Your entity configurations here
+            builder.Entity<KRA>()
+                .HasOne(k => k.PerformanceAgreement)
+                .WithMany(p => p.KRAs)
+                .HasForeignKey(k => k.PerformanceAgreementId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
