@@ -102,3 +102,6 @@ app.MapRazorPages();
 
 app.Run();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=PDP}/{action=Create}/{id?}");

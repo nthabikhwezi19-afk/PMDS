@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMDSSystems.Data;
 
@@ -11,9 +12,11 @@ using PMDSSystems.Data;
 namespace PMDSSystems.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260818084649_AddPDPTables")]
+    partial class AddPDPTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,33 +504,6 @@ namespace PMDSSystems.Migrations
                     b.ToTable("KRAs");
                 });
 
-            modelBuilder.Entity("PMDSSystems.Models.PDPEducation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NQF")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PDPModelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Qualification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PDPModelId");
-
-                    b.ToTable("PDPEducations");
-                });
-
             modelBuilder.Entity("PMDSSystems.Models.PDPJobRequirement", b =>
                 {
                     b.Property<int>("Id")
@@ -572,9 +548,6 @@ namespace PMDSSystems.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ActionPlan")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("AgeGroup")
                         .HasColumnType("nvarchar(max)");
 
@@ -596,6 +569,9 @@ namespace PMDSSystems.Migrations
                     b.Property<DateTime?>("DateCaptured")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Declaration")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Directorate")
                         .HasColumnType("nvarchar(max)");
 
@@ -605,19 +581,22 @@ namespace PMDSSystems.Migrations
                     b.Property<string>("Disabled")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("EmployeeDate")
+                    b.Property<string>("EducationalBackground")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EmployeeDeclarationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployeeSignature")
+                    b.Property<string>("EmployeeDeclarationName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Goal")
+                    b.Property<string>("IdNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdNumber")
+                    b.Property<string>("JobRequirementsVsTrainingRequired")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PersalNo")
@@ -627,12 +606,6 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SalaryLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Supervisor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupervisorName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupervisorPosition")
@@ -646,7 +619,34 @@ namespace PMDSSystems.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PDPs");
+                    b.ToTable("PDPModels");
+                });
+
+            modelBuilder.Entity("PMDSSystems.Models.PDPQualification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NQF")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PDPModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Qualification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YearCompleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PDPModelId");
+
+                    b.ToTable("PDPQualifications");
                 });
 
             modelBuilder.Entity("PMDSSystems.Models.PMDSForm", b =>
@@ -1072,10 +1072,10 @@ namespace PMDSSystems.Migrations
                     b.Navigation("PerformanceAgreement");
                 });
 
-            modelBuilder.Entity("PMDSSystems.Models.PDPEducation", b =>
+            modelBuilder.Entity("PMDSSystems.Models.PDPJobRequirement", b =>
                 {
                     b.HasOne("PMDSSystems.Models.PDPModel", "PDPModel")
-                        .WithMany("Education")
+                        .WithMany("JobRequirements")
                         .HasForeignKey("PDPModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1083,10 +1083,10 @@ namespace PMDSSystems.Migrations
                     b.Navigation("PDPModel");
                 });
 
-            modelBuilder.Entity("PMDSSystems.Models.PDPJobRequirement", b =>
+            modelBuilder.Entity("PMDSSystems.Models.PDPQualification", b =>
                 {
                     b.HasOne("PMDSSystems.Models.PDPModel", "PDPModel")
-                        .WithMany("JobRequirements")
+                        .WithMany("Qualifications")
                         .HasForeignKey("PDPModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1137,9 +1137,9 @@ namespace PMDSSystems.Migrations
 
             modelBuilder.Entity("PMDSSystems.Models.PDPModel", b =>
                 {
-                    b.Navigation("Education");
-
                     b.Navigation("JobRequirements");
+
+                    b.Navigation("Qualifications");
                 });
 
             modelBuilder.Entity("PMDSSystems.Models.PerformanceAgreement", b =>

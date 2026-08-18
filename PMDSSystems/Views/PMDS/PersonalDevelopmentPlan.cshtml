@@ -408,7 +408,10 @@
 
     <!-- FORM CONTAINER -->
     <div class="form-container">
-        <form asp-action="SavePDP" method="post">
+        <form asp-controller="PDP"
+              asp-action="SavePDP"
+              method="post">
+            @Html.AntiForgeryToken()
 
             <!-- 1. Personal Details -->
             <div class="section-header">
@@ -499,18 +502,22 @@
 
             <!-- Row 4 -->
             <div class="row">
+
+                <!-- Salary Level -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Salary Level</label>
-                        <input type="number"
+
+                        <input type="text"
+                               id="SalaryLevel"
                                name="SalaryLevel"
                                value="@Model.SalaryLevel"
                                class="form-control"
                                readonly />
-                             
                     </div>
                 </div>
 
+                <!-- Gender -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Gender</label>
@@ -523,21 +530,27 @@
                     </div>
                 </div>
 
+                <!-- Age Group -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Age Group</label>
-                        <select name="AgeGroup" class="form-control">
-                            <option value="">-- Select Age Group --</option>
-                            <option value="Below 35">Below 35</option>
-                            <option value="35 – 55">35 – 55</option>
-                            <option value="Above 55">Above 55</option>
-                        </select>
+
+                        <input type="text"
+                               id="AgeGroup"
+                               name="AgeGroup"
+                               value="@Model.AgeGroup"
+                               class="form-control"
+                               readonly />
+
                     </div>
                 </div>
+
             </div>
 
             <!-- Row 5 -->
             <div class="row">
+
+                <!-- Race -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Race</label>
@@ -550,9 +563,11 @@
                     </div>
                 </div>
 
+                <!-- Disability -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Disability</label>
+
                         <input type="text"
                                id="Disabled"
                                name="Disabled"
@@ -561,17 +576,21 @@
                                readonly />
                     </div>
                 </div>
-                </div>
 
+                <!-- Nature of Disability -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Nature of Disability</label>
+
                         <input type="text"
+                               id="DisabilityDetails"
                                name="DisabilityDetails"
+                               value="@Model.DisabilityDetails"
                                class="form-control"
-                               placeholder="Specify nature of disability (if applicable)" />
+                               readonly />
                     </div>
                 </div>
+
             </div>
 
             <hr class="divider" />

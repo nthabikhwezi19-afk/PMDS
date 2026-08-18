@@ -35,7 +35,6 @@ namespace PMDSSystems.Controllers
             return View(model);
         }
 
-
         // ============================================================
         // POST: PerformanceAgreement/Create
         // ============================================================
@@ -97,13 +96,19 @@ namespace PMDSSystems.Controllers
 
             try
             {
-                // Make sure KRA list exists
+                // --------------------------------------------------
+                // MAKE SURE KRA LIST EXISTS
+                // --------------------------------------------------
+
                 if (model.KRAs == null)
                 {
                     model.KRAs = new List<KRA>();
                 }
 
-                // Remove empty KRA rows
+                // --------------------------------------------------
+                // REMOVE EMPTY KRA ROWS
+                // --------------------------------------------------
+
                 model.KRAs = model.KRAs
                     .Where(k =>
                         !string.IsNullOrWhiteSpace(k.Name) ||
@@ -115,11 +120,14 @@ namespace PMDSSystems.Controllers
                     )
                     .ToList();
 
-                // Set actual number of KRAs
+                // --------------------------------------------------
+                // SET ACTUAL NUMBER OF KRAs
+                // --------------------------------------------------
+
                 model.NumberOfKRAs = model.KRAs.Count;
 
                 // --------------------------------------------------
-                // SAVE PERFORMANCE AGREEMENT FIRST
+                // SAVE PERFORMANCE AGREEMENT
                 // --------------------------------------------------
 
                 _context.PerformanceAgreements.Add(model);
@@ -148,12 +156,29 @@ namespace PMDSSystems.Controllers
 
                 Console.WriteLine("========================================");
                 Console.WriteLine("KRAs SAVED SUCCESSFULLY");
+                Console.WriteLine("NUMBER OF KRAs: " + model.KRAs.Count);
                 Console.WriteLine("========================================");
 
-                return Content(
-                    "SUCCESS! Performance Agreement saved successfully. " +
+                // --------------------------------------------------
+                // SUCCESS MESSAGE
+                // --------------------------------------------------
+
+                TempData["Success"] =
+                    "Performance Agreement saved successfully. " +
                     "Agreement ID: " + model.Id +
-                    " | Number of KRAs: " + model.KRAs.Count
+                    " | Number of KRAs: " + model.KRAs.Count;
+
+                // --------------------------------------------------
+                // REDIRECT TO NEXT PAGE
+                // --------------------------------------------------
+
+                return RedirectToAction(
+                    "Agreement",
+                    "PerformanceAgreement",
+                    new
+                    {
+                        agreementId = model.Id
+                    }
                 );
             }
             catch (Exception ex)
@@ -163,10 +188,13 @@ namespace PMDSSystems.Controllers
                 Console.WriteLine(ex.ToString());
                 Console.WriteLine("========================================");
 
-                return Content(
+                ModelState.AddModelError(
+                    "",
                     "DATABASE ERROR: " +
                     (ex.InnerException?.Message ?? ex.Message)
                 );
+
+                return View(model);
             }
         }
 

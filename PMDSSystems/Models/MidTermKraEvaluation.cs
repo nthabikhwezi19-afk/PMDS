@@ -1,21 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YourProjectName.Models
+namespace PMDSSystems.Models
 {
     public class MidTermKraEvaluation
     {
         [Key]
         public int Id { get; set; }
 
-        // Foreign Key linking back to the parent MidTermReview
+        // ============================================================
+        // FOREIGN KEY TO MID-TERM REVIEW
+        // ============================================================
+
         public int MidTermReviewId { get; set; }
 
         [ForeignKey("MidTermReviewId")]
         public MidTermReview? MidTermReview { get; set; }
 
+        // ============================================================
+        // KRA INFORMATION
+        // ============================================================
+
         [Required]
-        public int KraNumber { get; set; } // 1, 2, 3, etc.
+        public int KraNumber { get; set; }
 
         [Required]
         public string KraDescription { get; set; } = string.Empty;
@@ -25,11 +32,18 @@ namespace YourProjectName.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Weight { get; set; }
 
-        // --- Part C1: Motivation Fields ---
+        // ============================================================
+        // PART C1 - MOTIVATION
+        // ============================================================
+
         public string AchievementStandard { get; set; } = string.Empty;
+
         public string SupervisorComments { get; set; } = string.Empty;
 
-        // --- Part C2: Ratings (1 to 4 Scale) ---
+        // ============================================================
+        // PART C2 - RATINGS
+        // ============================================================
+
         [Range(1, 4, ErrorMessage = "Rating must be between 1 and 4")]
         public int OwnRating { get; set; }
 

@@ -861,6 +861,58 @@
     .fs-7 {
         font-size: 0.85rem;
     }
+
+    /* ==========================================
+       ADD KRA BUTTONS
+       ========================================== */
+
+    .add-kra-container {
+        display: flex;
+        justify-content: center;
+        margin: 15px 0 25px 0;
+    }
+
+    .btn-add-kra {
+        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 28px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 104, 56, 0.25);
+        transition: all 0.3s ease;
+    }
+
+        .btn-add-kra:hover {
+            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 104, 56, 0.35);
+            color: white;
+        }
+
+        .btn-add-kra i {
+            font-size: 16px;
+        }
+
+    .btn-remove-kra {
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 9px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+        .btn-remove-kra:hover {
+            background: #bb2d3b;
+        }
 </style>
 
 <div class="container">
@@ -904,11 +956,14 @@
                        class="form-control"
                        readonly />
             </div>
-            <!-- ✅ PART D1 -->
+            <!-- ========================= -->
+            <!-- PART D1 -->
+            <!-- ========================= -->
+
             <div class="section-header">
                 <i class="bi bi-list-task"></i>
                 <h5>Part D1: Motivation for KRA's</h5>
-                <span class="badge-section">4 KRAs</span>
+                <span class="badge-section" id="d1KraCount">4 KRAs</span>
             </div>
 
             <div class="table-responsive">
@@ -918,28 +973,159 @@
                             <th style="width: 8%;">#</th>
                             <th style="width: 12%;">Weight</th>
                             <th style="width: 40%;">Achievement</th>
-                            <th style="width: 40%;">Comment</th>
+                            <th style="width: 35%;">Comment</th>
+                            <th style="width: 5%;">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @for (int i = 1; i <= 4; i++)
-                        {
-                            <tr>
-                                <td class="kra-number">@i</td>
-                                <td><input name="KRA@(i)Weight" class="form-control text-center" placeholder="%" /></td>
-                                <td><input name="KRA@(i)Achievement" class="form-control" placeholder="Describe achievement..." /></td>
-                                <td><input name="KRA@(i)Comment" class="form-control" placeholder="Supervisor comment..." /></td>
-                            </tr>
-                        }
+
+                    <tbody id="d1KraBody">
+
+                        <!-- KRA 1 -->
+                        <tr class="d1-kra-row" data-kra="1">
+                            <td class="kra-number">1</td>
+
+                            <td>
+                                <input name="KRA1Weight"
+                                       class="form-control text-center"
+                                       placeholder="%" />
+                            </td>
+
+                            <td>
+                                <input name="KRA1Achievement"
+                                       class="form-control"
+                                       placeholder="Describe achievement..." />
+                            </td>
+
+                            <td>
+                                <input name="KRA1Comment"
+                                       class="form-control"
+                                       placeholder="Supervisor comment..." />
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(1)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 2 -->
+                        <tr class="d1-kra-row" data-kra="2">
+                            <td class="kra-number">2</td>
+
+                            <td>
+                                <input name="KRA2Weight"
+                                       class="form-control text-center"
+                                       placeholder="%" />
+                            </td>
+
+                            <td>
+                                <input name="KRA2Achievement"
+                                       class="form-control"
+                                       placeholder="Describe achievement..." />
+                            </td>
+
+                            <td>
+                                <input name="KRA2Comment"
+                                       class="form-control"
+                                       placeholder="Supervisor comment..." />
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(2)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 3 -->
+                        <tr class="d1-kra-row" data-kra="3">
+                            <td class="kra-number">3</td>
+
+                            <td>
+                                <input name="KRA3Weight"
+                                       class="form-control text-center"
+                                       placeholder="%" />
+                            </td>
+
+                            <td>
+                                <input name="KRA3Achievement"
+                                       class="form-control"
+                                       placeholder="Describe achievement..." />
+                            </td>
+
+                            <td>
+                                <input name="KRA3Comment"
+                                       class="form-control"
+                                       placeholder="Supervisor comment..." />
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(3)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 4 -->
+                        <tr class="d1-kra-row" data-kra="4">
+                            <td class="kra-number">4</td>
+
+                            <td>
+                                <input name="KRA4Weight"
+                                       class="form-control text-center"
+                                       placeholder="%" />
+                            </td>
+
+                            <td>
+                                <input name="KRA4Achievement"
+                                       class="form-control"
+                                       placeholder="Describe achievement..." />
+                            </td>
+
+                            <td>
+                                <input name="KRA4Comment"
+                                       class="form-control"
+                                       placeholder="Supervisor comment..." />
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(4)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
 
-            <!-- ✅ PART D2 -->
+            <!-- ADD KRA BUTTON - UNDER TABLE -->
+            <div class="add-kra-container">
+                <button type="button"
+                        class="btn-add-kra"
+                        onclick="addKra()">
+                    <i class="bi bi-plus-circle"></i>
+                    Add KRA
+                </button>
+            </div>
+
+            <!-- ========================= -->
+            <!-- PART D2 -->
+            <!-- ========================= -->
+
             <div class="section-header">
                 <i class="bi bi-star"></i>
                 <h5>Part D2: Ratings (1–4)</h5>
-                <span class="badge-section">OR / SR / AR</span>
+                <span class="badge-section" id="d2KraCount">4 KRAs</span>
             </div>
 
             <div class="table-responsive">
@@ -947,47 +1133,215 @@
                     <thead>
                         <tr>
                             <th style="width: 8%;">KRA</th>
-                            <th style="width: 20%;">Own Rating (OR)</th>
-                            <th style="width: 20%;">Supervisor Rating (SR)</th>
-                            <th style="width: 20%;">Agreed Rating (AR)</th>
+                            <th style="width: 25%;">Own Rating (OR)</th>
+                            <th style="width: 25%;">Supervisor Rating (SR)</th>
+                            <th style="width: 25%;">Agreed Rating (AR)</th>
+                            <th style="width: 12%;">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @for (int i = 1; i <= 4; i++)
-                        {
-                            <tr>
-                                <td class="kra-number">@i</td>
-                                <td>
-                                    <select name="KRA@(i)_OR" class="form-control select-rating text-center">
-                                        <option value="">—</option>
-                                        <option value="1">1 – Not Effective</option>
-                                        <option value="2">2 – Partially Effective</option>
-                                        <option value="3">3 – Fully Effective</option>
-                                        <option value="4">4 – Highly Effective</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="KRA@(i)_SR" class="form-control select-rating text-center">
-                                        <option value="">—</option>
-                                        <option value="1">1 – Not Effective</option>
-                                        <option value="2">2 – Partially Effective</option>
-                                        <option value="3">3 – Fully Effective</option>
-                                        <option value="4">4 – Highly Effective</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="KRA@(i)_AR" class="form-control select-rating text-center" style="border-color: #006838; background: #e8f5ee;">
-                                        <option value="">—</option>
-                                        <option value="1">1 – Not Effective</option>
-                                        <option value="2">2 – Partially Effective</option>
-                                        <option value="3">3 – Fully Effective</option>
-                                        <option value="4">4 – Highly Effective</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        }
+
+                    <tbody id="d2KraBody">
+
+                        <!-- KRA 1 -->
+                        <tr class="d2-kra-row" data-kra="1">
+                            <td class="kra-number">1</td>
+
+                            <td>
+                                <select name="KRA1_OR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA1_SR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA1_AR"
+                                        class="form-control select-rating text-center"
+                                        style="border-color:#006838;background:#e8f5ee;">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(1)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 2 -->
+                        <tr class="d2-kra-row" data-kra="2">
+                            <td class="kra-number">2</td>
+
+                            <td>
+                                <select name="KRA2_OR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA2_SR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA2_AR"
+                                        class="form-control select-rating text-center"
+                                        style="border-color:#006838;background:#e8f5ee;">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(2)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 3 -->
+                        <tr class="d2-kra-row" data-kra="3">
+                            <td class="kra-number">3</td>
+
+                            <td>
+                                <select name="KRA3_OR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA3_SR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA3_AR"
+                                        class="form-control select-rating text-center"
+                                        style="border-color:#006838;background:#e8f5ee;">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(3)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 4 -->
+                        <tr class="d2-kra-row" data-kra="4">
+                            <td class="kra-number">4</td>
+
+                            <td>
+                                <select name="KRA4_OR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA4_SR"
+                                        class="form-control select-rating text-center">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="KRA4_AR"
+                                        class="form-control select-rating text-center"
+                                        style="border-color:#006838;background:#e8f5ee;">
+                                    <option value="">—</option>
+                                    <option value="1">1 – Not Effective</option>
+                                    <option value="2">2 – Partially Effective</option>
+                                    <option value="3">3 – Fully Effective</option>
+                                    <option value="4">4 – Highly Effective</option>
+                                </select>
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn-remove-kra"
+                                        onclick="removeKra(4)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
+            </div>
+
+            <!-- ADD KRA BUTTON - UNDER TABLE -->
+            <div class="add-kra-container">
+                <button type="button"
+                        class="btn-add-kra"
+                        onclick="addKra()">
+                    <i class="bi bi-plus-circle"></i>
+                    Add KRA
+                </button>
             </div>
 
             <!-- ✅ DISPUTE -->
@@ -1125,4 +1479,183 @@
             this.disabled = true;
         });
     });
+        // ==========================================
+    // D1 & D2 KRA MANAGEMENT
+    // ==========================================
+
+    let kraCount = 4;
+
+    // Add a new KRA to BOTH D1 and D2
+    function addKra() {
+
+        kraCount++;
+
+        // ==============================
+        // ADD KRA TO D1
+        // ==============================
+
+        const d1Body = document.getElementById("d1KraBody");
+
+        const d1Row = document.createElement("tr");
+
+        d1Row.className = "d1-kra-row";
+        d1Row.setAttribute("data-kra", kraCount);
+
+        d1Row.innerHTML = `
+            <td class="kra-number">${kraCount}</td>
+
+            <td>
+                <input name="KRA${kraCount}Weight"
+                       class="form-control text-center"
+                       placeholder="%" />
+            </td>
+
+            <td>
+                <input name="KRA${kraCount}Achievement"
+                       class="form-control"
+                       placeholder="Describe achievement..." />
+            </td>
+
+            <td>
+                <input name="KRA${kraCount}Comment"
+                       class="form-control"
+                       placeholder="Supervisor comment..." />
+            </td>
+
+            <td class="text-center">
+                <button type="button"
+                        class="btn-remove-kra"
+                        onclick="removeKra(${kraCount})">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        `;
+
+        d1Body.appendChild(d1Row);
+
+
+        // ==============================
+        // ADD KRA TO D2
+        // ==============================
+
+        const d2Body = document.getElementById("d2KraBody");
+
+        const d2Row = document.createElement("tr");
+
+        d2Row.className = "d2-kra-row";
+        d2Row.setAttribute("data-kra", kraCount);
+
+        d2Row.innerHTML = `
+            <td class="kra-number">${kraCount}</td>
+
+            <td>
+                <select name="KRA${kraCount}_OR"
+                        class="form-control select-rating text-center">
+
+                    <option value="">—</option>
+                    <option value="1">1 – Not Effective</option>
+                    <option value="2">2 – Partially Effective</option>
+                    <option value="3">3 – Fully Effective</option>
+                    <option value="4">4 – Highly Effective</option>
+
+                </select>
+            </td>
+
+            <td>
+                <select name="KRA${kraCount}_SR"
+                        class="form-control select-rating text-center">
+
+                    <option value="">—</option>
+                    <option value="1">1 – Not Effective</option>
+                    <option value="2">2 – Partially Effective</option>
+                    <option value="3">3 – Fully Effective</option>
+                    <option value="4">4 – Highly Effective</option>
+
+                </select>
+            </td>
+
+            <td>
+                <select name="KRA${kraCount}_AR"
+                        class="form-control select-rating text-center"
+                        style="border-color:#006838;background:#e8f5ee;">
+
+                    <option value="">—</option>
+                    <option value="1">1 – Not Effective</option>
+                    <option value="2">2 – Partially Effective</option>
+                    <option value="3">3 – Fully Effective</option>
+                    <option value="4">4 – Highly Effective</option>
+
+                </select>
+            </td>
+
+            <td class="text-center">
+                <button type="button"
+                        class="btn-remove-kra"
+                        onclick="removeKra(${kraCount})">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        `;
+
+        d2Body.appendChild(d2Row);
+
+
+        // Update counters
+        updateKraCount();
+
+    }
+
+
+    // ==========================================
+    // REMOVE KRA FROM BOTH D1 AND D2
+    // ==========================================
+
+    function removeKra(number) {
+
+        // Do not allow less than 4 KRAs
+        if (kraCount <= 4) {
+            alert("At least 4 KRAs are required.");
+            return;
+        }
+
+        const d1Row = document.querySelector(
+            `.d1-kra-row[data-kra="${number}"]`
+        );
+
+        const d2Row = document.querySelector(
+            `.d2-kra-row[data-kra="${number}"]`
+        );
+
+        if (d1Row) {
+            d1Row.remove();
+        }
+
+        if (d2Row) {
+            d2Row.remove();
+        }
+
+        updateKraCount();
+    }
+
+
+    // ==========================================
+    // UPDATE KRA COUNTERS
+    // ==========================================
+
+    function updateKraCount() {
+
+        const d1Rows = document.querySelectorAll(".d1-kra-row");
+        const d2Rows = document.querySelectorAll(".d2-kra-row");
+
+        const d1Counter = document.getElementById("d1KraCount");
+        const d2Counter = document.getElementById("d2KraCount");
+
+        if (d1Counter) {
+            d1Counter.textContent = d1Rows.length + " KRAs";
+        }
+
+        if (d2Counter) {
+            d2Counter.textContent = d2Rows.length + " KRAs";
+        }
+    }
 </script>

@@ -1034,42 +1034,136 @@
             <!-- ========================= -->
             <!-- KRA TABLE -->
             <!-- ========================= -->
-            <div class="section-header">
-                <i class="bi bi-grid-3x3-gap"></i>
-                <h5>KRA Moderation</h5>
-                <span class="badge-section">6 KRAs</span>
-            </div>
-
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="kraModerationTable">
                     <thead class="table-secondary">
                         <tr>
                             <th style="width: 10%;">KRA No</th>
                             <th style="width: 55%;">Comments</th>
-                            <th style="width: 35%;">Score (Out of 4)</th>
+                            <th style="width: 25%;">Score (Out of 4)</th>
+                            <th style="width: 10%;">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @for (int i = 1; i <= 6; i++)
-                        {
-                            <tr>
-                                <td class="kra-number">@i</td>
-                                <td>
-                                    <input name="KRAComments[@i]" class="form-control" placeholder="Add moderation comments..." />
-                                </td>
-                                <td>
-                                    <select name="KRAScore[@i]" class="form-select">
-                                        <option value="">Select Rating</option>
-                                        <option value="1">1 - Not Effective</option>
-                                        <option value="2">2 - Partially Effective</option>
-                                        <option value="3">3 - Fully Effective</option>
-                                        <option value="4">4 - Highly Effective</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        }
+
+                    <tbody id="kraModerationBody">
+
+                        <!-- KRA 1 -->
+                        <tr>
+                            <td class="kra-number">1</td>
+                            <td>
+                                <input name="KRAComments[1]"
+                                       class="form-control"
+                                       placeholder="Add moderation comments..." />
+                            </td>
+                            <td>
+                                <select name="KRAScore[1]" class="form-select">
+                                    <option value="">Select Rating</option>
+                                    <option value="1">1 - Not Effective</option>
+                                    <option value="2">2 - Partially Effective</option>
+                                    <option value="3">3 - Fully Effective</option>
+                                    <option value="4">4 - Highly Effective</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-kra"
+                                        title="Remove KRA">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 2 -->
+                        <tr>
+                            <td class="kra-number">2</td>
+                            <td>
+                                <input name="KRAComments[2]"
+                                       class="form-control"
+                                       placeholder="Add moderation comments..." />
+                            </td>
+                            <td>
+                                <select name="KRAScore[2]" class="form-select">
+                                    <option value="">Select Rating</option>
+                                    <option value="1">1 - Not Effective</option>
+                                    <option value="2">2 - Partially Effective</option>
+                                    <option value="3">3 - Fully Effective</option>
+                                    <option value="4">4 - Highly Effective</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-kra"
+                                        title="Remove KRA">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 3 -->
+                        <tr>
+                            <td class="kra-number">3</td>
+                            <td>
+                                <input name="KRAComments[3]"
+                                       class="form-control"
+                                       placeholder="Add moderation comments..." />
+                            </td>
+                            <td>
+                                <select name="KRAScore[3]" class="form-select">
+                                    <option value="">Select Rating</option>
+                                    <option value="1">1 - Not Effective</option>
+                                    <option value="2">2 - Partially Effective</option>
+                                    <option value="3">3 - Fully Effective</option>
+                                    <option value="4">4 - Highly Effective</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-kra"
+                                        title="Remove KRA">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- KRA 4 -->
+                        <tr>
+                            <td class="kra-number">4</td>
+                            <td>
+                                <input name="KRAComments[4]"
+                                       class="form-control"
+                                       placeholder="Add moderation comments..." />
+                            </td>
+                            <td>
+                                <select name="KRAScore[4]" class="form-select">
+                                    <option value="">Select Rating</option>
+                                    <option value="1">1 - Not Effective</option>
+                                    <option value="2">2 - Partially Effective</option>
+                                    <option value="3">3 - Fully Effective</option>
+                                    <option value="4">4 - Highly Effective</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-kra"
+                                        title="Remove KRA">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
+            </div>
+
+            <!-- ADD KRA BUTTON -->
+            <div class="mt-3 mb-4">
+                <button type="button"
+                        id="addKraBtn"
+                        class="btn btn-success"
+                        style="border-radius: 50px; padding: 10px 25px; font-weight: 600;">
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Add KRA
+                </button>
             </div>
 
             <!-- ========================= -->
@@ -1216,4 +1310,130 @@
             this.disabled = true;
         });
     });
+
+        // ==========================================
+    // KRA MODERATION - ADD KRA
+    // ==========================================
+
+    let kraCount = 4;
+
+    document.getElementById("addKraBtn").addEventListener("click", function () {
+
+        kraCount++;
+
+        const tbody = document.getElementById("kraModerationBody");
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td class="kra-number">${kraCount}</td>
+
+            <td>
+                <input name="KRAComments[${kraCount}]"
+                       class="form-control"
+                       placeholder="Add moderation comments..." />
+            </td>
+
+            <td>
+                <select name="KRAScore[${kraCount}]"
+                        class="form-select">
+
+                    <option value="">Select Rating</option>
+                    <option value="1">1 - Not Effective</option>
+                    <option value="2">2 - Partially Effective</option>
+                    <option value="3">3 - Fully Effective</option>
+                    <option value="4">4 - Highly Effective</option>
+
+                </select>
+            </td>
+
+            <td class="text-center">
+                <button type="button"
+                        class="btn btn-danger btn-sm remove-kra"
+                        title="Remove KRA">
+
+                    <i class="bi bi-trash"></i>
+
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+
+        updateKraCount();
+
+    });
+        // ==========================================
+    // REMOVE KRA
+    // ==========================================
+
+    document.addEventListener("click", function (e) {
+
+        const removeButton = e.target.closest(".remove-kra");
+
+        if (!removeButton) {
+            return;
+        }
+
+        const rows = document.querySelectorAll("#kraModerationBody tr");
+
+        // Do not allow fewer than 4 KRAs
+        if (rows.length <= 4) {
+            alert("You must have at least 4 KRAs.");
+            return;
+        }
+
+        removeButton.closest("tr").remove();
+
+        renumberKRAs();
+        updateKraCount();
+
+    });
+        // ==========================================
+    // RENUMBER KRAs
+    // ==========================================
+
+    function renumberKRAs() {
+
+        const rows = document.querySelectorAll("#kraModerationBody tr");
+
+        rows.forEach(function (row, index) {
+
+            const number = index + 1;
+
+            // Update KRA number
+            row.querySelector(".kra-number").textContent = number;
+
+            // Update comment input name
+            const commentInput = row.querySelector("input");
+
+            if (commentInput) {
+                commentInput.name = `KRAComments[${number}]`;
+            }
+
+            // Update score select name
+            const scoreSelect = row.querySelector("select");
+
+            if (scoreSelect) {
+                scoreSelect.name = `KRAScore[${number}]`;
+            }
+
+        });
+
+        kraCount = rows.length;
+    }
+        // ==========================================
+    // UPDATE KRA COUNT
+    // ==========================================
+
+    function updateKraCount() {
+
+        const count = document.querySelectorAll(
+            "#kraModerationBody tr"
+        ).length;
+
+        document.getElementById("kraCount").textContent =
+            count + (count === 1 ? " KRA" : " KRAs");
+
+    }
 </script>

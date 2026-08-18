@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Models;
-using YourProjectName.Models;
 
 namespace PMDSSystems.Data
 {
@@ -25,7 +24,11 @@ namespace PMDSSystems.Data
         public DbSet<MidTermKraEvaluation> MidTermKraEvaluations { get; set; }
         public DbSet<PersonalAssistancePlan> PersonalAssistancePlans { get; set; }
         public DbSet<AnnualAssessment> AnnualAssessments { get; set; }
+        public DbSet<PDPModel> PDPs { get; set; }
 
+        public DbSet<PDPEducation> PDPEducations { get; set; }
+
+        public DbSet<PDPJobRequirement> PDPJobRequirements { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,6 +38,19 @@ namespace PMDSSystems.Data
                 .WithMany(p => p.KRAs)
                 .HasForeignKey(k => k.PerformanceAgreementId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PDPEducation>()
+    .HasOne(e => e.PDPModel)
+    .WithMany(p => p.Education)
+    .HasForeignKey(e => e.PDPModelId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PDPJobRequirement>()
+                .HasOne(j => j.PDPModel)
+                .WithMany(p => p.JobRequirements)
+                .HasForeignKey(j => j.PDPModelId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
+
     }
 }
