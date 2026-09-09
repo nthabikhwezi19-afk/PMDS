@@ -5,78 +5,11 @@
 }
 
 <style>
+
     /* ==========================================
-   PERSAL NUMBER LABEL
-   ========================================== */
+           GLOBAL STYLES
+           ========================================== */
 
-.personal-field {
-    margin-bottom: 22px;
-}
-
-.form-label-custom {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-    color: #006838;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-}
-
-/* Green icon box */
-.label-icon {
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #006838, #004d28);
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 3px 8px rgba(0, 104, 56, 0.20);
-}
-
-.label-icon i {
-    font-size: 15px;
-}
-
-/* Label text */
-.label-text {
-    position: relative;
-}
-
-/* Small green line underneath label */
-.label-text::after {
-    content: "";
-    display: block;
-    width: 35px;
-    height: 2px;
-    background: #006838;
-    margin-top: 4px;
-    border-radius: 2px;
-}
-
-/* Persal input */
-.personal-field .form-control {
-    border: 2px solid #dce3e8;
-    border-left: 4px solid #006838;
-    background: #f8faf9;
-    font-weight: 600;
-    color: #333;
-    height: 44px;
-    border-radius: 6px;
-    padding: 10px 14px;
-}
-
-.personal-field .form-control:focus {
-    border-color: #006838;
-    border-left: 4px solid #006838;
-    box-shadow: 0 0 0 0.15rem rgba(0, 104, 56, 0.12);
-    outline: none;
-}
-    /* ===== GLOBAL STYLES ===== */
     body {
         background-color: #f0f2f5;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -88,9 +21,78 @@
         padding: 20px;
     }
 
-    /* ========================================== */
-    /* PAGE HEADER                               */
-    /* ========================================== */
+    /* ==========================================
+           PERSAL NUMBER
+           ========================================== */
+
+    .personal-field {
+        margin-bottom: 22px;
+    }
+
+    .form-label-custom {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        color: #006838;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    .label-icon {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #006838, #004d28);
+        color: white;
+        border-radius: 7px;
+        box-shadow: 0 3px 8px rgba(0, 104, 56, 0.20);
+    }
+
+        .label-icon i {
+            font-size: 15px;
+        }
+
+    .label-text {
+        position: relative;
+    }
+
+        .label-text::after {
+            content: "";
+            display: block;
+            width: 35px;
+            height: 2px;
+            background: #006838;
+            margin-top: 4px;
+            border-radius: 2px;
+        }
+
+    .personal-field .form-control {
+        border: 2px solid #dce3e8;
+        border-left: 4px solid #006838;
+        background: #f8faf9;
+        font-weight: 600;
+        color: #333;
+        height: 44px;
+        border-radius: 6px;
+        padding: 10px 14px;
+    }
+
+        .personal-field .form-control:focus {
+            border-color: #006838;
+            border-left: 4px solid #006838;
+            box-shadow: 0 0 0 0.15rem rgba(0, 104, 56, 0.12);
+            outline: none;
+        }
+
+    /* ==========================================
+           PAGE HEADER
+           ========================================== */
+
     .page-header {
         background: linear-gradient(135deg, #006838 0%, #004d28 100%);
         color: white;
@@ -119,7 +121,7 @@
             right: -10%;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(168,230,207,0.08) 0%, transparent 70%);
+            background: radial-gradient( circle, rgba(168,230,207,0.08) 0%, transparent 70% );
             border-radius: 50%;
             pointer-events: none;
         }
@@ -147,11 +149,12 @@
             z-index: 1;
         }
 
-    /* ========================================== */
-    /* ALERT STYLES                              */
-    /* ========================================== */
+    /* ==========================================
+           ALERT
+           ========================================== */
+
     .alert-success {
-        background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
+        background: linear-gradient( 135deg, #e8f5ee 0%, #d4ebe3 100% );
         border: none;
         border-left: 5px solid #006838;
         border-radius: 10px;
@@ -161,19 +164,10 @@
         font-weight: 500;
     }
 
-        .alert-success .btn-close {
-            color: #006838;
-            filter: brightness(0.8);
-        }
+    /* ==========================================
+           FORM CONTAINER
+           ========================================== */
 
-            .alert-success .btn-close:hover {
-                color: #004d28;
-                filter: brightness(0.6);
-            }
-
-    /* ========================================== */
-    /* FORM CONTAINER                            */
-    /* ========================================== */
     .form-container {
         background: white;
         padding: 30px;
@@ -191,14 +185,15 @@
             right: 0;
             width: 150px;
             height: 150px;
-            background: radial-gradient(circle, rgba(0,104,56,0.03) 0%, transparent 70%);
+            background: radial-gradient( circle, rgba(0,104,56,0.03) 0%, transparent 70% );
             border-radius: 50%;
             pointer-events: none;
         }
 
-    /* ========================================== */
-    /* SECTION HEADERS                           */
-    /* ========================================== */
+    /* ==========================================
+           SECTION HEADERS
+           ========================================== */
+
     .section-header {
         display: flex;
         align-items: center;
@@ -216,7 +211,7 @@
             left: 0;
             width: 60px;
             height: 2px;
-            background: linear-gradient(to right, #006838, transparent);
+            background: linear-gradient( to right, #006838, transparent );
         }
 
         .section-header h5 {
@@ -244,9 +239,10 @@
             font-weight: 600;
         }
 
-    /* ========================================== */
-    /* FORM CONTROLS                             */
-    /* ========================================== */
+    /* ==========================================
+           FORM CONTROLS
+           ========================================== */
+
     .form-group {
         margin-bottom: 18px;
     }
@@ -291,23 +287,15 @@
             border-color: #dc3545;
         }
 
-            .form-control.is-invalid:focus {
-                border-color: #dc3545;
-                box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.15);
-            }
-
     select.form-control {
         appearance: auto;
         cursor: pointer;
     }
 
-        select.form-control option {
-            padding: 8px;
-        }
+    /* ==========================================
+           TABLE
+           ========================================== */
 
-    /* ========================================== */
-    /* TABLE STYLES                              */
-    /* ========================================== */
     .table-responsive {
         overflow-x: auto;
         margin: 15px 0;
@@ -323,7 +311,7 @@
     }
 
         .table thead th {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
             color: white;
             text-align: center;
             vertical-align: middle;
@@ -343,13 +331,9 @@
             background: white;
         }
 
-        .table tbody tr:hover {
+        .table tbody tr:hover td {
             background-color: #f8faf9;
         }
-
-            .table tbody tr:hover td {
-                background-color: #f8faf9;
-            }
 
         .table .kra-number {
             font-weight: 700;
@@ -371,18 +355,14 @@
                 box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
             }
 
-        .table .form-control-sm {
-            font-size: 12px;
-            padding: 4px 8px;
-        }
+    .select-rating {
+        min-width: 80px;
+    }
 
-        .table .select-rating {
-            min-width: 80px;
-        }
+    /* ==========================================
+           DISPUTE
+           ========================================== */
 
-    /* ========================================== */
-    /* DISPUTE SECTION                           */
-    /* ========================================== */
     .dispute-section {
         background: #f8faf9;
         border-radius: 8px;
@@ -395,476 +375,9 @@
             border-color: #006838;
         }
 
-            .dispute-section .form-control:focus {
-                border-color: #006838;
-                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
-            }
-
-    /* ========================================== */
-    /* SIGNATURE SECTION                         */
-    /* ========================================== */
-    .signature-section {
-        background: #f8faf9;
-        border-radius: 8px;
-        padding: 18px 20px;
-        border-left: 4px solid #006838;
-        margin: 20px 0;
-    }
-
-    /* ========================================== */
-    /* SAVE BUTTON - Premium Style               */
-    /* ========================================== */
-    .btn-success {
-        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-        color: white;
-        padding: 13px 45px;
-        font-weight: 700;
-        font-size: 15px;
-        border-radius: 50px;
-        border: none;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 10px;
-    }
-
-        .btn-success::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn-success::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 35px rgba(0, 104, 56, 0.5);
-            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
-            color: white;
-        }
-
-            .btn-success:hover::before {
-                left: 100%;
-            }
-
-            .btn-success:hover::after {
-                width: 300px;
-                height: 300px;
-            }
-
-        .btn-success:active {
-            transform: translateY(0px);
-            box-shadow: 0 2px 15px rgba(0, 104, 56, 0.3);
-        }
-
-        .btn-success i {
-            font-size: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .btn-success:hover i {
-            transform: scale(1.1);
-        }
-
-        .btn-success:disabled {
-            background: #8cb3a0;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .btn-success.loading {
-            background: #004d28;
-            pointer-events: none;
-        }
-
-            .btn-success.loading i {
-                animation: spin 1s linear infinite;
-            }
-
-    @@keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* ========================================== */
-    /* RESPONSIVE                                */
-    /* ========================================== */
-    @@media (max-width: 992px) {
-        .container {
-            padding: 15px;
-        }
-
-        .form-container {
-            padding: 20px;
-        }
-
-        .page-header h3 {
-            font-size: 20px;
-        }
-
-        .section-header h5 {
-            font-size: 15px;
-        }
-
-        .table thead th {
-            font-size: 11px;
-            padding: 10px 6px;
-        }
-
-        .table tbody td {
-            padding: 6px 4px;
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .container {
-            padding: 10px;
-        }
-
-        .page-header {
-            padding: 18px 20px;
-        }
-
-            .page-header h3 {
-                font-size: 17px;
-            }
-
-            .page-header .sub-text {
-                font-size: 13px;
-            }
-
-        .form-container {
-            padding: 15px;
-        }
-
-        .section-header {
-            margin: 18px 0 12px 0;
-            padding-bottom: 8px;
-        }
-
-            .section-header h5 {
-                font-size: 14px;
-            }
-
-            .section-header i {
-                font-size: 17px;
-                width: 20px;
-            }
-
-            .section-header .badge-section {
-                font-size: 10px;
-                padding: 2px 10px;
-            }
-
-        .form-group label {
-            font-size: 13px;
-        }
-
-        .form-control {
-            font-size: 13px;
-            padding: 6px 10px;
-        }
-
-        .table thead th {
-            font-size: 9px;
-            padding: 6px 4px;
-            letter-spacing: 0px;
-        }
-
-        .table tbody td {
-            padding: 4px 3px;
-        }
-
-        .table .form-control {
-            font-size: 11px;
-            padding: 4px 6px;
-        }
-
-        .table .kra-number {
-            font-size: 13px;
-            width: 35px;
-        }
-
-        .btn-success {
-            padding: 10px 25px;
-            font-size: 13px;
-            width: 100%;
-            justify-content: center;
-        }
-
-            .btn-success i {
-                font-size: 14px;
-            }
-
-        .dispute-section,
-        .signature-section {
-            padding: 14px 16px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-container::before {
-            display: none;
-        }
-
-        .page-header::before {
-            display: none;
-        }
-    }
-
-    @@media (max-width: 576px) {
-        .container {
-            padding: 6px;
-        }
-
-        .page-header h3 {
-            font-size: 15px;
-        }
-
-        .page-header .sub-text {
-            font-size: 12px;
-        }
-
-        .form-container {
-            padding: 12px;
-        }
-
-        .section-header h5 {
-            font-size: 13px;
-        }
-
-        .section-header i {
-            font-size: 15px;
-        }
-
-        .table thead th {
-            font-size: 8px;
-            padding: 4px 3px;
-        }
-
-        .table tbody td {
-            padding: 3px 2px;
-        }
-
-        .table .form-control {
-            font-size: 10px;
-            padding: 3px 4px;
-            border-radius: 3px;
-        }
-
-        .table .kra-number {
-            font-size: 11px;
-            width: 30px;
-        }
-
-        .btn-success {
-            padding: 8px 18px;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        .dispute-section,
-        .signature-section {
-            padding: 10px 12px;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        .form-control {
-            font-size: 12px;
-            padding: 5px 8px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-        }
-    }
-
-    /* ========================================== */
-    /* PRINT STYLES                              */
-    /* ========================================== */
-    @@media print {
-        .btn-success {
-            display: none !important;
-        }
-
-        .form-container {
-            box-shadow: none !important;
-            border: 1px solid #ddd !important;
-        }
-
-        .page-header {
-            background: #006838 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-            .page-header::after,
-            .page-header::before {
-                display: none !important;
-            }
-
-        .table thead th {
-            background: #006838 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        .section-header {
-            border-bottom-color: #006838 !important;
-        }
-
-            .section-header::after {
-                display: none;
-            }
-
-        .form-control {
-            border: 1px solid #ddd !important;
-        }
-
-        .dispute-section,
-        .signature-section {
-            border-left: 1px solid #ddd !important;
-            background: #f8f9fa !important;
-        }
-
-        .table tbody tr:hover {
-            background: transparent !important;
-        }
-
-            .table tbody tr:hover td {
-                background: transparent !important;
-            }
-    }
-
-    /* ========================================== */
-    /* ANIMATIONS                                */
-    /* ========================================== */
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .form-container {
-        animation: fadeInUp 0.5s ease;
-    }
-
-    .page-header {
-        animation: fadeInUp 0.4s ease;
-    }
-
-    @@keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.02);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    .btn-success {
-        animation: pulse 2s infinite;
-    }
-
-        .btn-success:hover {
-            animation: none;
-        }
-
-    /* ========================================== */
-    /* UTILITY CLASSES                           */
-    /* ========================================== */
-    .mt-2 {
-        margin-top: 10px;
-    }
-
-    .mt-3 {
-        margin-top: 15px;
-    }
-
-    .mt-4 {
-        margin-top: 20px;
-    }
-
-    .mb-2 {
-        margin-bottom: 10px;
-    }
-
-    .mb-3 {
-        margin-bottom: 15px;
-    }
-
-    .mb-4 {
-        margin-bottom: 20px;
-    }
-
-    .fw-bold {
-        font-weight: 700;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .text-muted {
-        color: #6c757d !important;
-    }
-
-    .border-top {
-        border-top: 1px solid #dee2e6 !important;
-    }
-
-    .fs-7 {
-        font-size: 0.85rem;
-    }
-
     /* ==========================================
-       ADD KRA BUTTONS
-       ========================================== */
+           ADD KRA
+           ========================================== */
 
     .add-kra-container {
         display: flex;
@@ -873,7 +386,7 @@
     }
 
     .btn-add-kra {
-        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
         color: white;
         border: none;
         border-radius: 50px;
@@ -890,14 +403,9 @@
     }
 
         .btn-add-kra:hover {
-            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 104, 56, 0.35);
             color: white;
-        }
-
-        .btn-add-kra i {
-            font-size: 16px;
         }
 
     .btn-remove-kra {
@@ -913,41 +421,506 @@
         .btn-remove-kra:hover {
             background: #bb2d3b;
         }
+
+    /* ==========================================
+           FINAL PERFORMANCE CALCULATION
+           ========================================== */
+
+    .final-calculation {
+        background: linear-gradient( 135deg, #f8faf9 0%, #e8f5ee 100% );
+        border: 2px solid #006838;
+        border-radius: 10px;
+        padding: 25px;
+        margin: 25px 0;
+        box-shadow: 0 4px 15px rgba(0, 104, 56, 0.12);
+    }
+
+    .final-calculation-title {
+        color: #006838;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .calculation-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .calculation-box {
+        text-align: center;
+        min-width: 180px;
+    }
+
+        .calculation-box label {
+            display: block;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .calculation-box .form-control {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            height: 48px;
+            border: 2px solid #006838;
+        }
+
+    .calculation-operator {
+        font-size: 25px;
+        font-weight: 700;
+        color: #006838;
+        padding-top: 22px;
+    }
+
+    .final-percentage-box {
+        background: #006838;
+        color: white;
+        border-radius: 8px;
+        padding: 12px 20px;
+        min-width: 180px;
+        text-align: center;
+    }
+
+        .final-percentage-box label {
+            display: block;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+    .final-percentage-value {
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .category-box {
+        background: white;
+        border: 2px solid #006838;
+        border-radius: 8px;
+        padding: 12px 20px;
+        min-width: 220px;
+        text-align: center;
+    }
+
+        .category-box label {
+            display: block;
+            color: #006838;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+    .category-value {
+        font-size: 18px;
+        font-weight: 800;
+        color: #006838;
+    }
+
+    .calculation-note {
+        text-align: center;
+        margin-top: 18px;
+        color: #666;
+        font-size: 12px;
+    }
+
+    /* ==========================================
+           SIGNATURE SECTION
+           ========================================== */
+
+    .signature-section {
+        background: #f8faf9;
+        border-radius: 8px;
+        padding: 18px 20px;
+        border-left: 4px solid #006838;
+        margin: 20px 0;
+    }
+
+    .signature-box {
+        background: #ffffff;
+        border: 1px solid #dce5df;
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+        height: 100%;
+    }
+
+    .signature-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #006838;
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+        .signature-title i {
+            font-size: 18px;
+        }
+
+    .signature-instruction {
+        color: #7a8580;
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* ==========================================
+           SIGNATURE CANVAS
+           ========================================== */
+
+    .signature-canvas-wrapper {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background: #ffffff;
+        border: 2px dashed #b9c9bf;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: crosshair;
+        transition: all 0.2s ease;
+    }
+
+        .signature-canvas-wrapper:hover {
+            border-color: #006838;
+            background: #fbfdfc;
+        }
+
+    .signature-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        /* IMPORTANT FOR DRAWING */
+        cursor: crosshair;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        background: #ffffff;
+    }
+
+    /* ==========================================
+           SIGNATURE LINE
+           ========================================== */
+
+    .signature-canvas-wrapper::after {
+        content: "";
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        bottom: 35px;
+        height: 1px;
+        background: #c8d2cc;
+        pointer-events: none;
+    }
+
+    .signature-canvas-wrapper::before {
+        content: "Sign here";
+        position: absolute;
+        left: 30px;
+        bottom: 12px;
+        color: #a3ada7;
+        font-size: 10px;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .signature-canvas-wrapper.has-signature::before {
+        display: none;
+    }
+
+    /* ==========================================
+           SIGNATURE ACTIONS
+           ========================================== */
+
+    .signature-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .btn-clear-signature {
+        border: 1px solid #dc3545;
+        background: white;
+        color: #dc3545;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .btn-clear-signature:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-clear-signature i {
+            margin-right: 4px;
+        }
+
+    .signature-status {
+        font-size: 11px;
+        font-weight: 600;
+        color: #8a9590;
+    }
+
+        .signature-status.signed {
+            color: #006838;
+        }
+
+            .signature-status.signed::before {
+                content: "✓ ";
+                font-weight: 800;
+            }
+
+    /* ==========================================
+           SAVE BUTTON
+           ========================================== */
+
+    .button-area {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e1e7e3;
+    }
+
+    .btn-save {
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
+        color: white !important;
+        border: none;
+        border-radius: 50px;
+        padding: 13px 40px;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 104, 56, 0.30);
+        transition: all 0.3s ease;
+    }
+
+        .btn-save:hover {
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 22px rgba(0, 104, 56, 0.40);
+        }
+
+        .btn-save:disabled {
+            background: #8cb3a0;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+    /* ==========================================
+           RESPONSIVE
+           ========================================== */
+
+    @@media (max-width: 992px) {
+
+        .container {
+            padding: 15px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .page-header h3 {
+            font-size: 20px;
+        }
+
+        .section-header h5 {
+            font-size: 15px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+
+        .container {
+            padding: 10px;
+        }
+
+        .page-header {
+            padding: 18px 20px;
+        }
+
+            .page-header h3 {
+                font-size: 17px;
+            }
+
+        .form-container {
+            padding: 15px;
+        }
+
+        .btn-save {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .signature-canvas-wrapper {
+            height: 160px;
+        }
+
+        .signature-box {
+            padding: 14px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+
+        .container {
+            padding: 6px;
+        }
+
+        .form-container {
+            padding: 12px;
+        }
+
+        .table thead th {
+            font-size: 8px;
+            padding: 4px 3px;
+        }
+
+        .table tbody td {
+            padding: 3px 2px;
+        }
+
+        .signature-section {
+            padding: 10px 12px;
+        }
+    }
+
+    /* ==========================================
+           PRINT
+           ========================================== */
+
+    @@media print {
+
+        .button-area {
+            display: none !important;
+        }
+
+        .form-container {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .page-header {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .table thead th {
+            background: #006838 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+
 </style>
 
+
 <div class="container">
-    <!-- PAGE HEADER -->
+
+    <!-- ==========================================
+         PAGE HEADER
+         ========================================== -->
+
     <div class="page-header">
+
         <h3>
             <i class="bi bi-file-check"></i>
             PART D1 & D2: Annual Assessment
         </h3>
+
         <div class="sub-text">
+
             <i class="bi bi-calendar3 me-2"></i>
-            Performance Cycle: 1 April 2024 – 31 March 2025
+
+            Performance Cycle:
+            1 April 2024 – 31 March 2025
+
         </div>
+
     </div>
 
+
     <div class="form-container">
+
+        <!-- SUCCESS MESSAGE -->
         @if (TempData["Success"] != null)
         {
-            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-                <i class="bi bi-check-circle-fill me-2" style="color: #006838; font-size: 18px;"></i>
-                <div>@TempData["Success"]</div>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center"
+                 role="alert">
+
+                <i class="bi bi-check-circle-fill me-2"
+                   style="color:#006838;font-size:18px;"></i>
+
+                <div>
+                    @TempData["Success"]
+                </div>
+
+                <button type="button"
+                        class="btn-close ms-auto"
+                        data-bs-dismiss="alert">
+                </button>
+
             </div>
         }
 
-        <form asp-action="Create" method="post">
+
+        <!-- ==========================================
+             FORM
+             ========================================== -->
+
+        <form asp-action="Create"
+              method="post"
+              id="annualAssessmentForm">
+
             @Html.AntiForgeryToken()
-            <!-- Persal Number -->
+
+
+            <!-- ==========================================
+                 PERSAL NUMBER
+                 ========================================== -->
+
             <div class="personal-field">
-                <label for="PersalNumber" class="form-label-custom">
+
+                <label for="PersalNumber"
+                       class="form-label-custom">
+
                     <span class="label-icon">
+
                         <i class="bi bi-person-vcard-fill"></i>
+
                     </span>
-                    <span class="label-text">PERSAL NUMBER</span>
+
+                    <span class="label-text">
+                        PERSAL NUMBER
+                    </span>
+
                 </label>
+
 
                 <input type="text"
                        id="PersalNumber"
@@ -955,707 +928,2661 @@
                        value="@(Model?.PersalNumber ?? "")"
                        class="form-control"
                        readonly />
+
             </div>
-            <!-- ========================= -->
-            <!-- PART D1 -->
-            <!-- ========================= -->
+
+
+            <!-- ==========================================
+                 PART D1
+                 ========================================== -->
 
             <div class="section-header">
+
                 <i class="bi bi-list-task"></i>
-                <h5>Part D1: Motivation for KRA's</h5>
-                <span class="badge-section" id="d1KraCount">4 KRAs</span>
+
+                <h5>
+                    Part D1: Motivation for KRA's
+                </h5>
+
+                <span class="badge-section"
+                      id="d1KraCount">
+                    4 KRAs
+                </span>
+
             </div>
 
+
             <div class="table-responsive">
+
                 <table class="table table-bordered">
+
                     <thead>
+
                         <tr>
-                            <th style="width: 8%;">#</th>
-                            <th style="width: 12%;">Weight</th>
-                            <th style="width: 40%;">Achievement</th>
-                            <th style="width: 35%;">Comment</th>
-                            <th style="width: 5%;">Action</th>
+
+                            <th style="width:8%;">
+                                #
+                            </th>
+
+                            <th style="width:12%;">
+                                Weight
+                            </th>
+
+                            <th style="width:40%;">
+                                Achievement
+                            </th>
+
+                            <th style="width:35%;">
+                                Comment
+                            </th>
+
+                            <th style="width:5%;">
+                                Action
+                            </th>
+
                         </tr>
+
                     </thead>
+
 
                     <tbody id="d1KraBody">
 
-                        <!-- KRA 1 -->
-                        <tr class="d1-kra-row" data-kra="1">
-                            <td class="kra-number">1</td>
 
-                            <td>
-                                <input name="KRA1Weight"
-                                       class="form-control text-center"
-                                       placeholder="%" />
+                        <!-- KRA 1 -->
+
+                        <tr class="d1-kra-row"
+                            data-kra="1">
+
+                            <td class="kra-number">
+                                1
                             </td>
 
                             <td>
+
+                                <input name="KRA1Weight"
+                                       type="number"
+                                       class="form-control text-center weight-input"
+                                       placeholder="Weight"
+                                       min="0"
+                                       max="100"
+                                       step="1"
+                                       inputmode="numeric" />
+
+                            </td>
+
+                            <td>
+
                                 <input name="KRA1Achievement"
                                        class="form-control"
                                        placeholder="Describe achievement..." />
+
                             </td>
 
                             <td>
+
                                 <input name="KRA1Comment"
                                        class="form-control"
                                        placeholder="Supervisor comment..." />
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(1)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
-                        <!-- KRA 2 -->
-                        <tr class="d1-kra-row" data-kra="2">
-                            <td class="kra-number">2</td>
 
-                            <td>
-                                <input name="KRA2Weight"
-                                       class="form-control text-center"
-                                       placeholder="%" />
+                        <!-- KRA 2 -->
+
+                        <tr class="d1-kra-row"
+                            data-kra="2">
+
+                            <td class="kra-number">
+                                2
                             </td>
 
                             <td>
+
+                                <input name="KRA2Weight"
+                                       type="number"
+                                       class="form-control text-center weight-input"
+                                       placeholder="Weight"
+                                       min="0"
+                                       max="100"
+                                       step="1"
+                                       inputmode="numeric" />
+
+                            </td>
+
+                            <td>
+
                                 <input name="KRA2Achievement"
                                        class="form-control"
                                        placeholder="Describe achievement..." />
+
                             </td>
 
                             <td>
+
                                 <input name="KRA2Comment"
                                        class="form-control"
                                        placeholder="Supervisor comment..." />
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(2)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
-                        <!-- KRA 3 -->
-                        <tr class="d1-kra-row" data-kra="3">
-                            <td class="kra-number">3</td>
 
-                            <td>
-                                <input name="KRA3Weight"
-                                       class="form-control text-center"
-                                       placeholder="%" />
+                        <!-- KRA 3 -->
+
+                        <tr class="d1-kra-row"
+                            data-kra="3">
+
+                            <td class="kra-number">
+                                3
                             </td>
 
                             <td>
+
+                                <input name="KRA3Weight"
+                                       type="number"
+                                       class="form-control text-center weight-input"
+                                       placeholder="Weight"
+                                       min="0"
+                                       max="100"
+                                       step="1"
+                                       inputmode="numeric" />
+
+                            </td>
+
+                            <td>
+
                                 <input name="KRA3Achievement"
                                        class="form-control"
                                        placeholder="Describe achievement..." />
+
                             </td>
 
                             <td>
+
                                 <input name="KRA3Comment"
                                        class="form-control"
                                        placeholder="Supervisor comment..." />
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(3)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
-                        <!-- KRA 4 -->
-                        <tr class="d1-kra-row" data-kra="4">
-                            <td class="kra-number">4</td>
 
-                            <td>
-                                <input name="KRA4Weight"
-                                       class="form-control text-center"
-                                       placeholder="%" />
+                        <!-- KRA 4 -->
+
+                        <tr class="d1-kra-row"
+                            data-kra="4">
+
+                            <td class="kra-number">
+                                4
                             </td>
 
                             <td>
+
+                                <input name="KRA4Weight"
+                                       type="number"
+                                       class="form-control text-center weight-input"
+                                       placeholder="Weight"
+                                       min="0"
+                                       max="100"
+                                       step="1"
+                                       inputmode="numeric" />
+
+                            </td>
+
+                            <td>
+
                                 <input name="KRA4Achievement"
                                        class="form-control"
                                        placeholder="Describe achievement..." />
+
                             </td>
 
                             <td>
+
                                 <input name="KRA4Comment"
                                        class="form-control"
                                        placeholder="Supervisor comment..." />
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(4)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
                     </tbody>
+
                 </table>
+
             </div>
 
-            <!-- ADD KRA BUTTON - UNDER TABLE -->
+
+            <!-- ADD KRA -->
+
             <div class="add-kra-container">
+
                 <button type="button"
                         class="btn-add-kra"
                         onclick="addKra()">
+
                     <i class="bi bi-plus-circle"></i>
+
                     Add KRA
+
                 </button>
+
             </div>
 
-            <!-- ========================= -->
-            <!-- PART D2 -->
-            <!-- ========================= -->
+
+            <!-- ==========================================
+                 PART D2
+                 ========================================== -->
 
             <div class="section-header">
+
                 <i class="bi bi-star"></i>
-                <h5>Part D2: Ratings (1–4)</h5>
-                <span class="badge-section" id="d2KraCount">4 KRAs</span>
+
+                <h5>
+                    Part D2: Ratings (1–4)
+                </h5>
+
+                <span class="badge-section"
+                      id="d2KraCount">
+                    4 KRAs
+                </span>
+
             </div>
 
+
             <div class="table-responsive">
+
                 <table class="table table-bordered">
+
                     <thead>
+
                         <tr>
-                            <th style="width: 8%;">KRA</th>
-                            <th style="width: 25%;">Own Rating (OR)</th>
-                            <th style="width: 25%;">Supervisor Rating (SR)</th>
-                            <th style="width: 25%;">Agreed Rating (AR)</th>
-                            <th style="width: 12%;">Action</th>
+
+                            <th style="width:8%;">
+                                KRA
+                            </th>
+
+                            <th style="width:25%;">
+                                Own Rating (OR)
+                            </th>
+
+                            <th style="width:25%;">
+                                Supervisor Rating (SR)
+                            </th>
+
+                            <th style="width:25%;">
+                                Agreed Rating (AR)
+                            </th>
+
+                            <th style="width:12%;">
+                                Action
+                            </th>
+
                         </tr>
+
                     </thead>
+
 
                     <tbody id="d2KraBody">
 
+
                         <!-- KRA 1 -->
-                        <tr class="d2-kra-row" data-kra="1">
-                            <td class="kra-number">1</td>
+
+                        <tr class="d2-kra-row"
+                            data-kra="1">
+
+                            <td class="kra-number">
+                                1
+                            </td>
 
                             <td>
+
                                 <select name="KRA1_OR"
                                         class="form-control select-rating text-center">
-                                    <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="">
+                                        —
+                                    </option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA1_SR"
                                         class="form-control select-rating text-center">
-                                    <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="">
+                                        —
+                                    </option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA1_AR"
                                         class="form-control select-rating text-center"
                                         style="border-color:#006838;background:#e8f5ee;">
-                                    <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="">
+                                        —
+                                    </option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(1)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
+
                         <!-- KRA 2 -->
-                        <tr class="d2-kra-row" data-kra="2">
-                            <td class="kra-number">2</td>
+
+                        <tr class="d2-kra-row"
+                            data-kra="2">
+
+                            <td class="kra-number">
+                                2
+                            </td>
 
                             <td>
+
                                 <select name="KRA2_OR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA2_SR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA2_AR"
                                         class="form-control select-rating text-center"
                                         style="border-color:#006838;background:#e8f5ee;">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(2)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
+
                         <!-- KRA 3 -->
-                        <tr class="d2-kra-row" data-kra="3">
-                            <td class="kra-number">3</td>
+
+                        <tr class="d2-kra-row"
+                            data-kra="3">
+
+                            <td class="kra-number">
+                                3
+                            </td>
 
                             <td>
+
                                 <select name="KRA3_OR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA3_SR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA3_AR"
                                         class="form-control select-rating text-center"
                                         style="border-color:#006838;background:#e8f5ee;">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(3)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
+
                         <!-- KRA 4 -->
-                        <tr class="d2-kra-row" data-kra="4">
-                            <td class="kra-number">4</td>
+
+                        <tr class="d2-kra-row"
+                            data-kra="4">
+
+                            <td class="kra-number">
+                                4
+                            </td>
 
                             <td>
+
                                 <select name="KRA4_OR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA4_SR"
                                         class="form-control select-rating text-center">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td>
+
                                 <select name="KRA4_AR"
                                         class="form-control select-rating text-center"
                                         style="border-color:#006838;background:#e8f5ee;">
+
                                     <option value="">—</option>
-                                    <option value="1">1 – Not Effective</option>
-                                    <option value="2">2 – Partially Effective</option>
-                                    <option value="3">3 – Fully Effective</option>
-                                    <option value="4">4 – Highly Effective</option>
+
+                                    <option value="1">
+                                        1 – Not Effective
+                                    </option>
+
+                                    <option value="2">
+                                        2 – Partially Effective
+                                    </option>
+
+                                    <option value="3">
+                                        3 – Fully Effective
+                                    </option>
+
+                                    <option value="4">
+                                        4 – Highly Effective
+                                    </option>
+
                                 </select>
+
                             </td>
 
                             <td class="text-center">
+
                                 <button type="button"
                                         class="btn-remove-kra"
                                         onclick="removeKra(4)">
+
                                     <i class="bi bi-trash"></i>
+
                                 </button>
+
                             </td>
+
                         </tr>
 
                     </tbody>
+
                 </table>
+
             </div>
 
-            <!-- ADD KRA BUTTON - UNDER TABLE -->
+
+            <!-- ADD KRA -->
+
             <div class="add-kra-container">
+
                 <button type="button"
                         class="btn-add-kra"
                         onclick="addKra()">
+
                     <i class="bi bi-plus-circle"></i>
+
                     Add KRA
+
                 </button>
+
             </div>
 
-            <!-- ✅ DISPUTE -->
+
+            <!-- ==========================================
+                 FINAL PERFORMANCE
+                 ========================================== -->
+
             <div class="section-header">
-                <i class="bi bi-shield-exclamation"></i>
-                <h5>Dispute Resolution</h5>
-                <span class="badge-section">Optional</span>
+
+                <i class="bi bi-calculator"></i>
+
+                <h5>
+                    Final Performance Calculation
+                </h5>
+
+                <span class="badge-section">
+                    Required
+                </span>
+
             </div>
+
+
+            <div class="final-calculation">
+
+                <div class="final-calculation-title">
+
+                    <i class="bi bi-bar-chart-line-fill me-2"></i>
+
+                    Mid Term Review (%) + Annual Assessment (%)
+
+                </div>
+
+
+                <div class="calculation-row">
+
+
+                    <!-- MID TERM -->
+
+                    <div class="calculation-box">
+
+                        <label for="midTermPercentage">
+                            Mid Term Review (%)
+                        </label>
+
+                        <input type="number"
+                               id="midTermPercentage"
+                               class="form-control"
+                               placeholder="0"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               oninput="calculateFinalPercentage()" />
+
+                    </div>
+
+
+                    <div class="calculation-operator">
+                        +
+                    </div>
+
+
+                    <!-- ANNUAL -->
+
+                    <div class="calculation-box">
+
+                        <label for="annualPercentage">
+                            Annual Assessment (%)
+                        </label>
+
+                        <input type="number"
+                               id="annualPercentage"
+                               class="form-control"
+                               placeholder="0"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               oninput="calculateFinalPercentage()" />
+
+                    </div>
+
+
+                    <div class="calculation-operator">
+                        =
+                    </div>
+
+
+                    <!-- FINAL -->
+
+                    <div class="final-percentage-box">
+
+                        <label>
+                            Final Percentage
+                        </label>
+
+                        <div id="finalPercentage"
+                             class="final-percentage-value">
+                            0.00%
+                        </div>
+
+                    </div>
+
+
+                    <div class="calculation-operator">
+                        ÷ 2 =
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="category-box">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <div id="finalCategory"
+                             class="category-value">
+                            —
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="calculation-note">
+
+                    <i class="bi bi-info-circle me-1"></i>
+
+                    Final Percentage =
+                    (Mid Term Review % + Annual Assessment %) ÷ 2
+
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 DISPUTE
+                 ========================================== -->
+
+            <div class="section-header">
+
+                <i class="bi bi-shield-exclamation"></i>
+
+                <h5>
+                    Dispute Resolution
+                </h5>
+
+                <span class="badge-section">
+                    Optional
+                </span>
+
+            </div>
+
 
             <div class="dispute-section">
+
                 <div class="form-group mb-2">
+
                     <label>
-                        <i class="bi bi-question-circle" style="color: #006838;"></i>
+
+                        <i class="bi bi-question-circle"
+                           style="color:#006838;"></i>
+
                         Is there a dispute between Supervisor and Supervisee?
+
                     </label>
-                    <select asp-for="HasDispute" class="form-control">
-                        <option value="false">No Dispute</option>
-                        <option value="true">Yes, there is a dispute</option>
+
+
+                    <select asp-for="HasDispute"
+                            class="form-control">
+
+                        <option value="false">
+                            No Dispute
+                        </option>
+
+                        <option value="true">
+                            Yes, there is a dispute
+                        </option>
+
                     </select>
+
                 </div>
+
 
                 <div class="form-group mb-0">
+
                     <label>
-                        <i class="bi bi-hash" style="color: #006838;"></i>
+
+                        <i class="bi bi-hash"
+                           style="color:#006838;"></i>
+
                         KRA Number (if dispute exists)
+
                     </label>
-                    <input asp-for="DisputeKRA" class="form-control" placeholder="e.g. KRA 1, KRA 3" />
-                    <small class="text-muted" style="font-size: 12px; display: block; margin-top: 4px;">
-                        <i class="bi bi-info-circle" style="color: #006838;"></i>
-                        Supervisor must refer the dispute to the next higher Line Manager within 10 working days.
+
+
+                    <input asp-for="DisputeKRA"
+                           class="form-control"
+                           placeholder="e.g. KRA 1, KRA 3" />
+
+
+                    <small class="text-muted"
+                           style="font-size:12px;display:block;margin-top:4px;">
+
+                        <i class="bi bi-info-circle"
+                           style="color:#006838;"></i>
+
+                        Supervisor must refer the dispute to the next higher
+                        Line Manager within 10 working days.
+
                     </small>
+
                 </div>
+
             </div>
 
-            <!-- ✅ SIGNATURE -->
+
+            <!-- ==========================================
+                 SIGNATURES
+                 ========================================== -->
+
             <div class="section-header">
+
                 <i class="bi bi-vector-pen"></i>
-                <h5>Signatures & Verification</h5>
-                <span class="badge-section">Required</span>
+
+                <h5>
+                    Signatures & Verification
+                </h5>
+
+                <span class="badge-section">
+                    Required
+                </span>
+
             </div>
+
 
             <div class="signature-section">
-                <div class="row g-3">
+
+                <div class="row g-4">
+
+
+                    <!-- ======================================
+                         EMPLOYEE SIGNATURE
+                         ====================================== -->
+
                     <div class="col-md-6">
-                        <div class="form-group mb-0">
-                            <label>
-                                <i class="bi bi-person" style="color: #006838;"></i>
+
+                        <div class="signature-box">
+
+                            <div class="signature-title">
+
+                                <i class="bi bi-person"></i>
+
                                 Employee Signature
-                            </label>
-                            <input asp-for="EmployeeSignature" class="form-control" placeholder="Type full name" />
+
+                            </div>
+
+
+                            <p class="signature-instruction">
+
+                                Draw your signature in the box below using
+                                your mouse, finger or stylus.
+
+                            </p>
+
+
+                            <div class="signature-canvas-wrapper"
+                                 id="employeeSignatureWrapper">
+
+                                <canvas id="employeeSignatureCanvas"
+                                        class="signature-canvas">
+                                </canvas>
+
+                            </div>
+
+
+                            <!-- HIDDEN DATABASE VALUE -->
+
+                            <input asp-for="EmployeeSignature"
+                                   type="hidden"
+                                   id="EmployeeSignature" />
+
+
+                            <div class="signature-actions">
+
+                                <button type="button"
+                                        class="btn-clear-signature"
+                                        onclick="clearSignature('employee')">
+
+                                    <i class="bi bi-eraser"></i>
+
+                                    Clear
+
+                                </button>
+
+
+                                <span id="employeeSignatureStatus"
+                                      class="signature-status">
+
+                                    Not signed
+
+                                </span>
+
+                            </div>
+
                         </div>
+
                     </div>
+
+
+                    <!-- ======================================
+                         SUPERVISOR SIGNATURE
+                         ====================================== -->
+
                     <div class="col-md-6">
-                        <div class="form-group mb-0">
-                            <label>
-                                <i class="bi bi-person-check" style="color: #006838;"></i>
+
+                        <div class="signature-box">
+
+                            <div class="signature-title">
+
+                                <i class="bi bi-person-check"></i>
+
                                 Supervisor Signature
-                            </label>
-                            <input asp-for="SupervisorSignature" class="form-control" placeholder="Type full name" />
+
+                            </div>
+
+
+                            <p class="signature-instruction">
+
+                                Draw the supervisor's signature in the box
+                                below using your mouse, finger or stylus.
+
+                            </p>
+
+
+                            <div class="signature-canvas-wrapper"
+                                 id="supervisorSignatureWrapper">
+
+                                <canvas id="supervisorSignatureCanvas"
+                                        class="signature-canvas">
+                                </canvas>
+
+                            </div>
+
+
+                            <!-- HIDDEN DATABASE VALUE -->
+
+                            <input asp-for="SupervisorSignature"
+                                   type="hidden"
+                                   id="SupervisorSignature" />
+
+
+                            <div class="signature-actions">
+
+                                <button type="button"
+                                        class="btn-clear-signature"
+                                        onclick="clearSignature('supervisor')">
+
+                                    <i class="bi bi-eraser"></i>
+
+                                    Clear
+
+                                </button>
+
+
+                                <span id="supervisorSignatureStatus"
+                                      class="signature-status">
+
+                                    Not signed
+
+                                </span>
+
+                            </div>
+
                         </div>
+
                     </div>
-                    <div class="col-12">
+
+
+                    <!-- ======================================
+                         DATE SIGNED
+                         ====================================== -->
+
+                    <div class="col-md-6">
+
                         <div class="form-group mb-0">
+
                             <label>
-                                <i class="bi bi-calendar-event" style="color: #006838;"></i>
+
+                                <i class="bi bi-calendar-event"
+                                   style="color:#006838;"></i>
+
                                 Date Signed
+
                             </label>
-                            <input asp-for="DateSigned" type="date" class="form-control" />
+
+
+                            <input asp-for="DateSigned"
+                                   type="date"
+                                   class="form-control" />
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- BUTTONS -->
-            <div class="text-center">
-                <a href="/AnnualAssessment/Moderation" class="btn btn-success btn-lg">
+
+            <!-- ==========================================
+                 SAVE BUTTON
+                 ========================================== -->
+
+            <div class="button-area">
+
+                <button type="submit"
+                        class="btn-save"
+                        id="saveAssessmentButton">
+
+                    <i class="bi bi-save"></i>
+
                     Save Changes
-                </a>
+
+                </button>
+
             </div>
+
 
         </form>
+
     </div>
+
 </div>
 
-<!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- ==========================================
+     BOOTSTRAP ICONS
+     ========================================== -->
+
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Auto-resize textareas (if any)
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = this.scrollHeight + 'px';
-            });
-        });
 
-        // Form validation feedback
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
+    // =====================================================
+    // PAGE INITIALIZATION
+    // =====================================================
 
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
+    document.addEventListener("DOMContentLoaded", function () {
 
-            if (!isValid) {
-                e.preventDefault();
-                // Scroll to first error
-                const firstError = document.querySelector('.is-invalid');
-                if (firstError) {
-                    firstError.focus();
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                alert('Please fill in all required fields.');
-            }
-        });
+        initializePage();
 
-        // Remove invalid class on input
-        document.querySelectorAll('.form-control').forEach(field => {
-            field.addEventListener('input', function() {
-                this.classList.remove('is-invalid');
-            });
-        });
-
-        // Button loading state
-        document.querySelector('.btn-success')?.addEventListener('click', function(e) {
-            this.classList.add('loading');
-            this.innerHTML = '<i class="bi bi-hourglass-split"></i> Saving...';
-            this.disabled = true;
-        });
     });
-        // ==========================================
-    // D1 & D2 KRA MANAGEMENT
-    // ==========================================
+
+
+    function initializePage() {
+
+        initializeSignaturePads();
+
+        initializeFormValidation();
+
+        initializeWeightValidation();
+
+        initializeSaveButton();
+
+        calculateFinalPercentage();
+
+    }
+
+
+    // =====================================================
+    // SIGNATURE VARIABLES
+    // =====================================================
+
+    let employeeSignaturePad = null;
+
+    let supervisorSignaturePad = null;
+
+
+    // =====================================================
+    // INITIALIZE SIGNATURE PADS
+    // =====================================================
+
+    function initializeSignaturePads() {
+
+        employeeSignaturePad = createSignaturePad(
+            "employeeSignatureCanvas",
+            "EmployeeSignature",
+            "employeeSignatureStatus",
+            "employeeSignatureWrapper"
+        );
+
+
+        supervisorSignaturePad = createSignaturePad(
+            "supervisorSignatureCanvas",
+            "SupervisorSignature",
+            "supervisorSignatureStatus",
+            "supervisorSignatureWrapper"
+        );
+
+    }
+
+
+    // =====================================================
+    // CREATE SIGNATURE PAD
+    // =====================================================
+
+    function createSignaturePad(
+        canvasId,
+        hiddenInputId,
+        statusId,
+        wrapperId
+    ) {
+
+        const canvas =
+            document.getElementById(canvasId);
+
+        const hiddenInput =
+            document.getElementById(hiddenInputId);
+
+        const status =
+            document.getElementById(statusId);
+
+        const wrapper =
+            document.getElementById(wrapperId);
+
+
+        if (!canvas || !hiddenInput || !status) {
+
+            console.error(
+                "Signature elements not found:",
+                canvasId
+            );
+
+            return null;
+
+        }
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        let drawing = false;
+
+        let hasSignature = false;
+
+        let lastX = 0;
+
+        let lastY = 0;
+
+
+        // =================================================
+        // SIGNATURE STYLE
+        // BLACK INK
+        // =================================================
+
+        function setSignatureStyle() {
+
+            ctx.strokeStyle = "#000000";
+
+            ctx.fillStyle = "#000000";
+
+            ctx.lineWidth = 2.5;
+
+            ctx.lineCap = "round";
+
+            ctx.lineJoin = "round";
+
+        }
+
+
+        // =================================================
+        // RESIZE CANVAS
+        // =================================================
+
+        function resizeCanvas() {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            if (
+                rect.width === 0 ||
+                rect.height === 0
+            ) {
+
+                return;
+
+            }
+
+
+            const existingSignature =
+                hiddenInput.value;
+
+
+            canvas.width =
+                Math.floor(rect.width);
+
+            canvas.height =
+                Math.floor(rect.height);
+
+
+            setSignatureStyle();
+
+
+            // ---------------------------------------------
+            // RESTORE EXISTING SIGNATURE
+            // ---------------------------------------------
+
+            if (existingSignature) {
+
+                const image =
+                    new Image();
+
+
+                image.onload = function () {
+
+                    ctx.drawImage(
+                        image,
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+
+                    hasSignature = true;
+
+                    status.textContent =
+                        "Signed";
+
+                    status.classList.add(
+                        "signed"
+                    );
+
+
+                    if (wrapper) {
+
+                        wrapper.classList.add(
+                            "has-signature"
+                        );
+
+                    }
+
+                };
+
+
+                image.src =
+                    existingSignature;
+
+            }
+
+        }
+
+
+        // Initial setup
+
+        resizeCanvas();
+
+
+        // Resize screen
+
+        window.addEventListener(
+            "resize",
+            resizeCanvas
+        );
+
+
+        // =================================================
+        // GET MOUSE / TOUCH POSITION
+        // =================================================
+
+        function getPosition(event) {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            let clientX;
+
+            let clientY;
+
+
+            // Touch
+
+            if (
+                event.touches &&
+                event.touches.length > 0
+            ) {
+
+                clientX =
+                    event.touches[0].clientX;
+
+                clientY =
+                    event.touches[0].clientY;
+
+            }
+
+
+            // Touch end
+
+            else if (
+                event.changedTouches &&
+                event.changedTouches.length > 0
+            ) {
+
+                clientX =
+                    event.changedTouches[0].clientX;
+
+                clientY =
+                    event.changedTouches[0].clientY;
+
+            }
+
+
+            // Mouse
+
+            else {
+
+                clientX =
+                    event.clientX;
+
+                clientY =
+                    event.clientY;
+
+            }
+
+
+            return {
+
+                x: clientX - rect.left,
+
+                y: clientY - rect.top
+
+            };
+
+        }
+
+
+        // =================================================
+        // START DRAWING
+        // =================================================
+
+        function startDrawing(event) {
+
+            event.preventDefault();
+
+            drawing = true;
+
+            setSignatureStyle();
+
+
+            const position =
+                getPosition(event);
+
+
+            lastX =
+                position.x;
+
+            lastY =
+                position.y;
+
+
+            // Small BLACK dot
+
+            ctx.beginPath();
+
+            ctx.arc(
+                lastX,
+                lastY,
+                1.5,
+                0,
+                Math.PI * 2
+            );
+
+
+            ctx.fillStyle =
+                "#000000";
+
+
+            ctx.fill();
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                lastX,
+                lastY
+            );
+
+        }
+
+
+        // =================================================
+        // DRAW
+        // =================================================
+
+        function draw(event) {
+
+            if (!drawing) {
+
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+            setSignatureStyle();
+
+
+            const position =
+                getPosition(event);
+
+
+            ctx.beginPath();
+
+
+            ctx.moveTo(
+                lastX,
+                lastY
+            );
+
+
+            ctx.lineTo(
+                position.x,
+                position.y
+            );
+
+
+            ctx.stroke();
+
+
+            lastX =
+                position.x;
+
+            lastY =
+                position.y;
+
+
+            hasSignature =
+                true;
+
+
+            // Update status
+
+            status.textContent =
+                "Signature captured";
+
+
+            status.classList.add(
+                "signed"
+            );
+
+
+            if (wrapper) {
+
+                wrapper.classList.add(
+                    "has-signature"
+                );
+
+            }
+
+        }
+
+
+        // =================================================
+        // STOP DRAWING
+        // =================================================
+
+        function stopDrawing(event) {
+
+            if (!drawing) {
+
+                return;
+
+            }
+
+
+            if (event) {
+
+                event.preventDefault();
+
+            }
+
+
+            drawing = false;
+
+
+            if (hasSignature) {
+
+                saveSignature();
+
+            }
+
+        }
+
+
+        // =================================================
+        // SAVE SIGNATURE
+        // =================================================
+
+        function saveSignature() {
+
+            if (!hasSignature) {
+
+                return;
+
+            }
+
+
+            const imageData =
+                canvas.toDataURL(
+                    "image/png"
+                );
+
+
+            hiddenInput.value =
+                imageData;
+
+
+            status.textContent =
+                "Signed";
+
+
+            status.classList.add(
+                "signed"
+            );
+
+        }
+
+
+        // =================================================
+        // MOUSE
+        // =================================================
+
+        canvas.addEventListener(
+            "mousedown",
+            startDrawing
+        );
+
+
+        canvas.addEventListener(
+            "mousemove",
+            draw
+        );
+
+
+        canvas.addEventListener(
+            "mouseup",
+            stopDrawing
+        );
+
+
+        canvas.addEventListener(
+            "mouseleave",
+            stopDrawing
+        );
+
+
+        // =================================================
+        // TOUCH
+        // =================================================
+
+        canvas.addEventListener(
+            "touchstart",
+            startDrawing,
+            { passive: false }
+        );
+
+
+        canvas.addEventListener(
+            "touchmove",
+            draw,
+            { passive: false }
+        );
+
+
+        canvas.addEventListener(
+            "touchend",
+            stopDrawing,
+            { passive: false }
+        );
+
+
+        canvas.addEventListener(
+            "touchcancel",
+            stopDrawing,
+            { passive: false }
+        );
+
+
+        // =================================================
+        // CLEAR
+        // =================================================
+
+        function clear() {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            setSignatureStyle();
+
+
+            hiddenInput.value =
+                "";
+
+
+            hasSignature =
+                false;
+
+
+            drawing =
+                false;
+
+
+            status.textContent =
+                "Not signed";
+
+
+            status.classList.remove(
+                "signed"
+            );
+
+
+            if (wrapper) {
+
+                wrapper.classList.remove(
+                    "has-signature"
+                );
+
+            }
+
+        }
+
+
+        // =================================================
+        // RETURN PAD
+        // =================================================
+
+        return {
+
+            canvas: canvas,
+
+            context: ctx,
+
+            hiddenInput: hiddenInput,
+
+            status: status,
+
+            clear: clear
+
+        };
+
+    }
+
+
+    // =====================================================
+    // CLEAR SIGNATURE
+    // =====================================================
+
+    function clearSignature(type) {
+
+        if (
+            type === "employee" &&
+            employeeSignaturePad
+        ) {
+
+            employeeSignaturePad.clear();
+
+        }
+
+
+        if (
+            type === "supervisor" &&
+            supervisorSignaturePad
+        ) {
+
+            supervisorSignaturePad.clear();
+
+        }
+
+    }
+
+
+    // =====================================================
+    // KRA COUNT
+    // =====================================================
 
     let kraCount = 4;
 
-    // Add a new KRA to BOTH D1 and D2
+
+    // =====================================================
+    // ADD KRA
+    // =====================================================
+
     function addKra() {
 
         kraCount++;
 
-        // ==============================
-        // ADD KRA TO D1
-        // ==============================
 
-        const d1Body = document.getElementById("d1KraBody");
+        // =================================================
+        // D1
+        // =================================================
 
-        const d1Row = document.createElement("tr");
+        const d1Body =
+            document.getElementById(
+                "d1KraBody"
+            );
 
-        d1Row.className = "d1-kra-row";
-        d1Row.setAttribute("data-kra", kraCount);
+
+        const d1Row =
+            document.createElement("tr");
+
+
+        d1Row.className =
+            "d1-kra-row";
+
+
+        d1Row.setAttribute(
+            "data-kra",
+            kraCount
+        );
+
 
         d1Row.innerHTML = `
-            <td class="kra-number">${kraCount}</td>
 
-            <td>
-                <input name="KRA${kraCount}Weight"
-                       class="form-control text-center"
-                       placeholder="%" />
+            <td class="kra-number">
+                ${kraCount}
             </td>
 
             <td>
+
+                <input name="KRA${kraCount}Weight"
+                       type="number"
+                       class="form-control text-center weight-input"
+                       placeholder="Weight"
+                       min="0"
+                       max="100"
+                       step="1"
+                       inputmode="numeric" />
+
+            </td>
+
+            <td>
+
                 <input name="KRA${kraCount}Achievement"
                        class="form-control"
                        placeholder="Describe achievement..." />
+
             </td>
 
             <td>
+
                 <input name="KRA${kraCount}Comment"
                        class="form-control"
                        placeholder="Supervisor comment..." />
+
             </td>
 
             <td class="text-center">
+
                 <button type="button"
                         class="btn-remove-kra"
                         onclick="removeKra(${kraCount})">
+
                     <i class="bi bi-trash"></i>
+
                 </button>
+
             </td>
+
         `;
 
-        d1Body.appendChild(d1Row);
+
+        d1Body.appendChild(
+            d1Row
+        );
 
 
-        // ==============================
-        // ADD KRA TO D2
-        // ==============================
+        // =================================================
+        // D2
+        // =================================================
 
-        const d2Body = document.getElementById("d2KraBody");
+        const d2Body =
+            document.getElementById(
+                "d2KraBody"
+            );
 
-        const d2Row = document.createElement("tr");
 
-        d2Row.className = "d2-kra-row";
-        d2Row.setAttribute("data-kra", kraCount);
+        const d2Row =
+            document.createElement("tr");
+
+
+        d2Row.className =
+            "d2-kra-row";
+
+
+        d2Row.setAttribute(
+            "data-kra",
+            kraCount
+        );
+
 
         d2Row.innerHTML = `
-            <td class="kra-number">${kraCount}</td>
+
+            <td class="kra-number">
+                ${kraCount}
+            </td>
 
             <td>
+
                 <select name="KRA${kraCount}_OR"
                         class="form-control select-rating text-center">
 
                     <option value="">—</option>
-                    <option value="1">1 – Not Effective</option>
-                    <option value="2">2 – Partially Effective</option>
-                    <option value="3">3 – Fully Effective</option>
-                    <option value="4">4 – Highly Effective</option>
+
+                    <option value="1">
+                        1 – Not Effective
+                    </option>
+
+                    <option value="2">
+                        2 – Partially Effective
+                    </option>
+
+                    <option value="3">
+                        3 – Fully Effective
+                    </option>
+
+                    <option value="4">
+                        4 – Highly Effective
+                    </option>
 
                 </select>
+
             </td>
 
             <td>
+
                 <select name="KRA${kraCount}_SR"
                         class="form-control select-rating text-center">
 
                     <option value="">—</option>
-                    <option value="1">1 – Not Effective</option>
-                    <option value="2">2 – Partially Effective</option>
-                    <option value="3">3 – Fully Effective</option>
-                    <option value="4">4 – Highly Effective</option>
+
+                    <option value="1">
+                        1 – Not Effective
+                    </option>
+
+                    <option value="2">
+                        2 – Partially Effective
+                    </option>
+
+                    <option value="3">
+                        3 – Fully Effective
+                    </option>
+
+                    <option value="4">
+                        4 – Highly Effective
+                    </option>
 
                 </select>
+
             </td>
 
             <td>
+
                 <select name="KRA${kraCount}_AR"
                         class="form-control select-rating text-center"
                         style="border-color:#006838;background:#e8f5ee;">
 
                     <option value="">—</option>
-                    <option value="1">1 – Not Effective</option>
-                    <option value="2">2 – Partially Effective</option>
-                    <option value="3">3 – Fully Effective</option>
-                    <option value="4">4 – Highly Effective</option>
+
+                    <option value="1">
+                        1 – Not Effective
+                    </option>
+
+                    <option value="2">
+                        2 – Partially Effective
+                    </option>
+
+                    <option value="3">
+                        3 – Fully Effective
+                    </option>
+
+                    <option value="4">
+                        4 – Highly Effective
+                    </option>
 
                 </select>
+
             </td>
 
             <td class="text-center">
+
                 <button type="button"
                         class="btn-remove-kra"
                         onclick="removeKra(${kraCount})">
+
                     <i class="bi bi-trash"></i>
+
                 </button>
+
             </td>
+
         `;
 
-        d2Body.appendChild(d2Row);
+
+        d2Body.appendChild(
+            d2Row
+        );
 
 
-        // Update counters
         updateKraCount();
 
     }
 
 
-    // ==========================================
-    // REMOVE KRA FROM BOTH D1 AND D2
-    // ==========================================
+    // =====================================================
+    // REMOVE KRA
+    // =====================================================
 
     function removeKra(number) {
 
-        // Do not allow less than 4 KRAs
-        if (kraCount <= 4) {
-            alert("At least 4 KRAs are required.");
+        const d1Rows =
+            document.querySelectorAll(
+                ".d1-kra-row"
+            );
+
+
+        if (d1Rows.length <= 4) {
+
+            alert(
+                "At least 4 KRAs are required."
+            );
+
             return;
+
         }
 
-        const d1Row = document.querySelector(
-            `.d1-kra-row[data-kra="${number}"]`
-        );
 
-        const d2Row = document.querySelector(
-            `.d2-kra-row[data-kra="${number}"]`
-        );
+        const d1Row =
+            document.querySelector(
+                `.d1-kra-row[data-kra="${number}"]`
+            );
+
+
+        const d2Row =
+            document.querySelector(
+                `.d2-kra-row[data-kra="${number}"]`
+            );
+
 
         if (d1Row) {
+
             d1Row.remove();
+
         }
+
 
         if (d2Row) {
+
             d2Row.remove();
+
         }
 
+
         updateKraCount();
+
     }
 
 
-    // ==========================================
-    // UPDATE KRA COUNTERS
-    // ==========================================
+    // =====================================================
+    // UPDATE KRA COUNT
+    // =====================================================
 
     function updateKraCount() {
 
-        const d1Rows = document.querySelectorAll(".d1-kra-row");
-        const d2Rows = document.querySelectorAll(".d2-kra-row");
+        const d1Rows =
+            document.querySelectorAll(
+                ".d1-kra-row"
+            );
 
-        const d1Counter = document.getElementById("d1KraCount");
-        const d2Counter = document.getElementById("d2KraCount");
+
+        const d2Rows =
+            document.querySelectorAll(
+                ".d2-kra-row"
+            );
+
+
+        const d1Counter =
+            document.getElementById(
+                "d1KraCount"
+            );
+
+
+        const d2Counter =
+            document.getElementById(
+                "d2KraCount"
+            );
+
 
         if (d1Counter) {
-            d1Counter.textContent = d1Rows.length + " KRAs";
+
+            d1Counter.textContent =
+                d1Rows.length + " KRAs";
+
         }
 
+
         if (d2Counter) {
-            d2Counter.textContent = d2Rows.length + " KRAs";
+
+            d2Counter.textContent =
+                d2Rows.length + " KRAs";
+
         }
+
     }
+
+
+    // =====================================================
+    // WEIGHT VALIDATION
+    // =====================================================
+
+    function initializeWeightValidation() {
+
+        document.addEventListener(
+            "input",
+            function (event) {
+
+                if (
+                    event.target.classList.contains(
+                        "weight-input"
+                    )
+                ) {
+
+                    event.target.value =
+                        event.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+
+                    if (
+                        event.target.value !== "" &&
+                        parseInt(
+                            event.target.value
+                        ) > 100
+                    ) {
+
+                        event.target.value =
+                            "100";
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // FINAL PERFORMANCE CALCULATION
+    // =====================================================
+
+    function calculateFinalPercentage() {
+
+        const midTermInput =
+            document.getElementById(
+                "midTermPercentage"
+            );
+
+
+        const annualInput =
+            document.getElementById(
+                "annualPercentage"
+            );
+
+
+        const finalPercentageElement =
+            document.getElementById(
+                "finalPercentage"
+            );
+
+
+        const categoryElement =
+            document.getElementById(
+                "finalCategory"
+            );
+
+
+        if (
+            !midTermInput ||
+            !annualInput ||
+            !finalPercentageElement ||
+            !categoryElement
+        ) {
+
+            return;
+
+        }
+
+
+        let midTerm =
+            parseFloat(
+                midTermInput.value
+            ) || 0;
+
+
+        let annual =
+            parseFloat(
+                annualInput.value
+            ) || 0;
+
+
+        if (midTerm > 100) {
+
+            midTerm = 100;
+
+            midTermInput.value = 100;
+
+        }
+
+
+        if (annual > 100) {
+
+            annual = 100;
+
+            annualInput.value = 100;
+
+        }
+
+
+        const finalPercentage =
+            (midTerm + annual) / 2;
+
+
+        finalPercentageElement.textContent =
+            finalPercentage.toFixed(2) + "%";
+
+
+        let category = "";
+
+
+        if (finalPercentage < 50) {
+
+            category =
+                "1 – Not Effective";
+
+        }
+        else if (finalPercentage < 75) {
+
+            category =
+                "2 – Partially Effective";
+
+        }
+        else if (finalPercentage < 100) {
+
+            category =
+                "3 – Fully Effective";
+
+        }
+        else {
+
+            category =
+                "4 – Highly Effective";
+
+        }
+
+
+        categoryElement.textContent =
+            category;
+
+    }
+
+
+    // =====================================================
+    // FORM VALIDATION
+    // =====================================================
+
+    function initializeFormValidation() {
+
+        const form =
+            document.getElementById(
+                "annualAssessmentForm"
+            );
+
+
+        if (!form) {
+
+            return;
+
+        }
+
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+
+                // =========================================
+                // EMPLOYEE SIGNATURE
+                // =========================================
+
+                if (
+                    !employeeSignaturePad ||
+                    !employeeSignaturePad.hiddenInput.value
+                ) {
+
+                    event.preventDefault();
+
+
+                    alert(
+                        "Please provide the Employee Signature."
+                    );
+
+
+                    const canvas =
+                        document.getElementById(
+                            "employeeSignatureCanvas"
+                        );
+
+
+                    if (canvas) {
+
+                        canvas.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                    }
+
+
+                    return;
+
+                }
+
+
+                // =========================================
+                // SUPERVISOR SIGNATURE
+                // =========================================
+
+   
+
+    if (
+        !supervisorSignaturePad ||
+        !supervisorSignaturePad.hiddenInput.value
+    ) {
+
+        event.preventDefault();
+
+        alert(
+            "Please provide the Supervisor Signature."
+        );
+
+        const canvas =
+            document.getElementById(
+                "supervisorSignatureCanvas"
+            );
+
+        if (canvas) {
+
+            canvas.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+        return;
+    }
+
+
+                // =========================================
+                // NORMAL REQUIRED FIELDS
+                // =========================================
+
+                const requiredFields =
+                    form.querySelectorAll(
+                        "[required]"
+                    );
+
+
+                let isValid =
+                    true;
+
+
+                requiredFields.forEach(
+                    function (field) {
+
+                        if (
+                            !field.value ||
+                            !field.value.trim()
+                        ) {
+
+                            field.classList.add(
+                                "is-invalid"
+                            );
+
+                            isValid =
+                                false;
+
+                        }
+                        else {
+
+                            field.classList.remove(
+                                "is-invalid"
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                if (!isValid) {
+
+                    event.preventDefault();
+
+
+                    const firstError =
+                        form.querySelector(
+                            ".is-invalid"
+                        );
+
+
+                    if (firstError) {
+
+                        firstError.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+
+                        firstError.focus();
+
+                    }
+
+
+                    alert(
+                        "Please fill in all required fields."
+                    );
+
+
+                    return;
+
+                }
+
+
+                // =========================================
+                // SAVE BUTTON
+                // =========================================
+
+                const saveButton =
+                    document.getElementById(
+                        "saveAssessmentButton"
+                    );
+
+
+                if (saveButton) {
+
+                    saveButton.disabled =
+                        true;
+
+
+                    saveButton.innerHTML =
+                        '<i class="bi bi-hourglass-split"></i> Saving...';
+
+                }
+
+            }
+        );
+
+
+        // Remove invalid state
+
+        form.querySelectorAll(
+            ".form-control"
+        ).forEach(
+            function (field) {
+
+                field.addEventListener(
+                    "input",
+                    function () {
+
+                        this.classList.remove(
+                            "is-invalid"
+                        );
+
+                    }
+                );
+
+                field.addEventListener(
+                    "change",
+                    function () {
+
+                        this.classList.remove(
+                            "is-invalid"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // SAVE BUTTON INITIALIZATION
+    // =====================================================
+
+    function initializeSaveButton() {
+
+        const button =
+            document.getElementById(
+                "saveAssessmentButton"
+            );
+
+
+        if (!button) {
+
+            return;
+
+        }
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                /*
+                 * Do not disable the button here.
+                 *
+                 * The form submit handler will first
+                 * validate the signatures and then disable
+                 * the button.
+                 */
+
+            }
+        );
+
+    }
+
 </script>

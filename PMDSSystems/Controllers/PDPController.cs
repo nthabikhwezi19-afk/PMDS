@@ -35,7 +35,8 @@ namespace PMDSSystems.Controllers
 
             if (employee == null)
             {
-                TempData["Error"] = "Employee with PERSAL number " + persalNo + " was not found.";
+                TempData["Error"] =
+                    "Employee with PERSAL number " + persalNo + " was not found.";
 
                 model.PersalNo = persalNo;
 
@@ -87,21 +88,27 @@ namespace PMDSSystems.Controllers
             }
 
             // Nature of Disability
-            // Nature of Disability
             model.DisabilityDetails = employee.NatureOfDisability;
 
-            // ==========================================
-            // DEBUG - CHECK EMPLOYEE VALUES
-            // ==========================================
+            // ========================================================
+            // DEBUG
+            // ========================================================
+
             Console.WriteLine("======================================");
             Console.WriteLine("PDP EMPLOYEE LOOKUP");
             Console.WriteLine("PERSAL: " + employee.PersalNumber);
             Console.WriteLine("AGE GROUP: " + employee.AgeGroup);
             Console.WriteLine("HAS DISABILITY: " + employee.HasDisability);
-            Console.WriteLine("NATURE OF DISABILITY: " + employee.NatureOfDisability);
+            Console.WriteLine(
+                "NATURE OF DISABILITY: " +
+                employee.NatureOfDisability
+            );
             Console.WriteLine("======================================");
 
-            // Supervisor
+            // ========================================================
+            // SUPERVISOR
+            // ========================================================
+
             if (employee.Supervisor != null)
             {
                 model.Supervisor = employee.Supervisor.LastName;
@@ -111,23 +118,11 @@ namespace PMDSSystems.Controllers
             }
             else
             {
-                model.Supervisor = employee.SupervisorSurnameInitials;
-                model.SupervisorPosition = employee.SupervisorRankPostLevel;
-            }
-
-            return View(model);
-            // Supervisor
-            if (employee.Supervisor != null)
-            {
-                model.Supervisor = employee.Supervisor.LastName;
+                model.Supervisor =
+                    employee.SupervisorSurnameInitials;
 
                 model.SupervisorPosition =
-                    employee.Supervisor.Position;
-            }
-            else
-            {
-                model.Supervisor = employee.SupervisorSurnameInitials;
-                model.SupervisorPosition = employee.SupervisorRankPostLevel;
+                    employee.SupervisorRankPostLevel;
             }
 
             return View(model);
@@ -141,19 +136,19 @@ namespace PMDSSystems.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SavePDP(PDPModel model)
         {
-            // ==========================================
-            // REMOVE VALIDATION ERRORS THAT MAY COME
-            // FROM OPTIONAL FIELDS
-            // ==========================================
+            // ========================================================
+            // VALIDATE MODEL
+            // ========================================================
 
             if (!ModelState.IsValid)
             {
                 return View("Create", model);
             }
 
-            // ==========================================
+
+            // ========================================================
             // CREATE MAIN PDP
-            // ==========================================
+            // ========================================================
 
             var pdp = new PDPModel
             {
@@ -194,22 +189,26 @@ namespace PMDSSystems.Controllers
                 ActionPlan = model.ActionPlan
             };
 
-            // ==========================================
+
+            // ========================================================
             // EDUCATION ROWS
-            // ==========================================
+            // ========================================================
 
             int educationNumber = 1;
 
             while (true)
             {
                 var qualification =
-                    Request.Form[$"Qualification{educationNumber}"].FirstOrDefault();
+                    Request.Form[$"Qualification{educationNumber}"]
+                        .FirstOrDefault();
 
                 var nqf =
-                    Request.Form[$"NQF{educationNumber}"].FirstOrDefault();
+                    Request.Form[$"NQF{educationNumber}"]
+                        .FirstOrDefault();
 
                 var year =
-                    Request.Form[$"Year{educationNumber}"].FirstOrDefault();
+                    Request.Form[$"Year{educationNumber}"]
+                        .FirstOrDefault();
 
                 // Stop when there are no more rows
                 if (qualification == null &&
@@ -219,7 +218,7 @@ namespace PMDSSystems.Controllers
                     break;
                 }
 
-                // Only save rows that contain something
+                // Save only rows containing information
                 if (!string.IsNullOrWhiteSpace(qualification) ||
                     !string.IsNullOrWhiteSpace(nqf) ||
                     !string.IsNullOrWhiteSpace(year))
@@ -235,31 +234,38 @@ namespace PMDSSystems.Controllers
                 educationNumber++;
             }
 
-            // ==========================================
+
+            // ========================================================
             // JOB REQUIREMENT ROWS
-            // ==========================================
+            // ========================================================
 
             int jobNumber = 1;
 
             while (true)
             {
                 var task =
-                    Request.Form[$"Task{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"Task{jobNumber}"]
+                        .FirstOrDefault();
 
                 var training =
-                    Request.Form[$"Training{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"Training{jobNumber}"]
+                        .FirstOrDefault();
 
                 var learningType =
-                    Request.Form[$"LearningType{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"LearningType{jobNumber}"]
+                        .FirstOrDefault();
 
                 var nqfLevel =
-                    Request.Form[$"NQFLevel{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"NQFLevel{jobNumber}"]
+                        .FirstOrDefault();
 
                 var cost =
-                    Request.Form[$"Cost{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"Cost{jobNumber}"]
+                        .FirstOrDefault();
 
                 var impact =
-                    Request.Form[$"Impact{jobNumber}"].FirstOrDefault();
+                    Request.Form[$"Impact{jobNumber}"]
+                        .FirstOrDefault();
 
                 // Stop when there are no more rows
                 if (task == null &&
@@ -294,21 +300,26 @@ namespace PMDSSystems.Controllers
                 jobNumber++;
             }
 
-            // ==========================================
-            // SAVE EVERYTHING
-            // ==========================================
+
+            // ========================================================
+            // SAVE EVERYTHING TO DATABASE
+            // ========================================================
 
             _context.PDPs.Add(pdp);
 
             await _context.SaveChangesAsync();
 
-            TempData["Success"] =
-                "Personal Development Plan saved successfully.";
+            // ========================================================
+            // SUCCESS MESSAGE
+            // ========================================================
 
-            return RedirectToAction(
-                "Create",
-                new { persalNo = model.PersalNo }
-            );
+            TempData["Success"] = "First Cycle Completed Successfully!";
+
+            // ========================================================
+            // RETURN TO PDP PAGE
+            // ========================================================
+
+            return RedirectToAction("Create", new { persalNo = model.PersalNo });
         }
     }
 }

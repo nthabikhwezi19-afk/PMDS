@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace PMDSSystems.Models
 {
@@ -21,6 +22,9 @@ namespace PMDSSystems.Models
 
         public string? Initials { get; set; }
 
+
+        [Required(ErrorMessage = "Email address is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address, e.g. name@example.com.")]
         public string? Email { get; set; }
 
         public string? IdentificationNumber { get; set; }

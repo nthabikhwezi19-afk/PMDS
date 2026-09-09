@@ -768,7 +768,7 @@
                                name="NumberOfKRAs"
                                id="numberOfKRAs"
                                class="form-control form-control-custom"
-                               value="1"
+                               value="4"
                                min="1"
                                max="10" />
 
@@ -854,15 +854,10 @@
                             </tr>
 
                         </thead>
-
                         <tbody id="kraTableBody">
 
-                            <!-- ============================================
-                                 KRA 1
-                                 ============================================ -->
-
+                            <!-- KRA 1 -->
                             <tr id="kraRow_0">
-
                                 <td class="kra-number">1</td>
 
                                 <td>
@@ -873,10 +868,32 @@
                                 </td>
 
                                 <td>
-                                    <input type="text"
-                                           name="KRAs[0].Weight"
-                                           class="form-control form-control-custom weight-input weight-field"
-                                           placeholder="%" />
+                                    <select name="KRAs[${index}].Weight"
+                                            class="form-select form-select-custom weight-input weight-field"
+                                            required>
+                                        <option value="">-- Select Weight --</option>
+                                        <option value="10">10%</option>
+                                        <option value="11">11%</option>
+                                        <option value="12">12%</option>
+                                        <option value="13">13%</option>
+                                        <option value="14">14%</option>
+                                        <option value="15">15%</option>
+                                        <option value="16">16%</option>
+                                        <option value="17">17%</option>
+                                        <option value="18">18%</option>
+                                        <option value="19">19%</option>
+                                        <option value="20">20%</option>
+                                        <option value="21">21%</option>
+                                        <option value="22">22%</option>
+                                        <option value="23">23%</option>
+                                        <option value="24">24%</option>
+                                        <option value="25">25%</option>
+                                        <option value="26">26%</option>
+                                        <option value="27">27%</option>
+                                        <option value="28">28%</option>
+                                        <option value="29">29%</option>
+                                        <option value="30">30%</option>
+                                    </select>
                                 </td>
 
                                 <td>
@@ -896,7 +913,6 @@
                                 <td>
                                     <select name="KRAs[0].BathoPele"
                                             class="form-select form-select-custom">
-
                                         <option value="">-- Select --</option>
                                         <option value="Consultation">Consultation</option>
                                         <option value="Setting Service Standards">Setting Service Standards</option>
@@ -906,14 +922,12 @@
                                         <option value="Openness and Transparency">Openness and Transparency</option>
                                         <option value="Redress">Redress</option>
                                         <option value="Value for Money">Value for Money</option>
-
                                     </select>
                                 </td>
 
                                 <td>
                                     <select name="KRAs[0].GAFs"
                                             class="form-select form-select-custom">
-
                                         <option value="">-- Select GAF --</option>
                                         <option value="Job Knowledge">Job Knowledge</option>
                                         <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
@@ -930,19 +944,319 @@
                                         <option value="Management of Human Resources">Management of Human Resources</option>
                                         <option value="Leadership">Leadership</option>
                                         <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-
                                     </select>
                                 </td>
 
                                 <td style="text-align: center;">
                                     <button type="button"
                                             class="btn-remove-kra remove-kra"
-                                            style="display: none;"
                                             data-row="0">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
+                            </tr>
 
+
+                            <!-- KRA 2 -->
+                            <tr id="kraRow_1">
+                                <td class="kra-number">2</td>
+
+                                <td>
+                                    <input type="text"
+                                           name="KRAs[1].Name"
+                                           class="form-control form-control-custom"
+                                           placeholder="Enter KRA name..." />
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[${index}].Weight"
+                                            class="form-select form-select-custom weight-input weight-field"
+                                            required>
+                                        <option value="">-- Select Weight --</option>
+                                        <option value="10">10%</option>
+                                        <option value="11">11%</option>
+                                        <option value="12">12%</option>
+                                        <option value="13">13%</option>
+                                        <option value="14">14%</option>
+                                        <option value="15">15%</option>
+                                        <option value="16">16%</option>
+                                        <option value="17">17%</option>
+                                        <option value="18">18%</option>
+                                        <option value="19">19%</option>
+                                        <option value="20">20%</option>
+                                        <option value="21">21%</option>
+                                        <option value="22">22%</option>
+                                        <option value="23">23%</option>
+                                        <option value="24">24%</option>
+                                        <option value="25">25%</option>
+                                        <option value="26">26%</option>
+                                        <option value="27">27%</option>
+                                        <option value="28">28%</option>
+                                        <option value="29">29%</option>
+                                        <option value="30">30%</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[1].Activities"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Activities..."></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[1].Standards"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Standards..."></textarea>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[1].BathoPele"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select --</option>
+                                        <option value="Consultation">Consultation</option>
+                                        <option value="Setting Service Standards">Setting Service Standards</option>
+                                        <option value="Increasing Access">Increasing Access</option>
+                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
+                                        <option value="Providing Information">Providing Information</option>
+                                        <option value="Openness and Transparency">Openness and Transparency</option>
+                                        <option value="Redress">Redress</option>
+                                        <option value="Value for Money">Value for Money</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[1].GAFs"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select GAF --</option>
+                                        <option value="Job Knowledge">Job Knowledge</option>
+                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
+                                        <option value="Quality of Work">Quality of Work</option>
+                                        <option value="Technical Skills">Technical Skills</option>
+                                        <option value="Reliability">Reliability</option>
+                                        <option value="Initiative">Initiative</option>
+                                        <option value="Communication">Communication</option>
+                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
+                                        <option value="Flexibility">Flexibility</option>
+                                        <option value="Team Work">Team Work</option>
+                                        <option value="Planning and Execution">Planning and Execution</option>
+                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
+                                        <option value="Management of Human Resources">Management of Human Resources</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
+                                    </select>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <button type="button"
+                                            class="btn-remove-kra remove-kra"
+                                            data-row="1">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <!-- KRA 3 -->
+                            <tr id="kraRow_2">
+                                <td class="kra-number">3</td>
+
+                                <td>
+                                    <input type="text"
+                                           name="KRAs[2].Name"
+                                           class="form-control form-control-custom"
+                                           placeholder="Enter KRA name..." />
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[${index}].Weight"
+                                            class="form-select form-select-custom weight-input weight-field"
+                                            required>
+                                        <option value="">-- Select Weight --</option>
+                                        <option value="10">10%</option>
+                                        <option value="11">11%</option>
+                                        <option value="12">12%</option>
+                                        <option value="13">13%</option>
+                                        <option value="14">14%</option>
+                                        <option value="15">15%</option>
+                                        <option value="16">16%</option>
+                                        <option value="17">17%</option>
+                                        <option value="18">18%</option>
+                                        <option value="19">19%</option>
+                                        <option value="20">20%</option>
+                                        <option value="21">21%</option>
+                                        <option value="22">22%</option>
+                                        <option value="23">23%</option>
+                                        <option value="24">24%</option>
+                                        <option value="25">25%</option>
+                                        <option value="26">26%</option>
+                                        <option value="27">27%</option>
+                                        <option value="28">28%</option>
+                                        <option value="29">29%</option>
+                                        <option value="30">30%</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[2].Activities"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Activities..."></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[2].Standards"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Standards..."></textarea>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[2].BathoPele"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select --</option>
+                                        <option value="Consultation">Consultation</option>
+                                        <option value="Setting Service Standards">Setting Service Standards</option>
+                                        <option value="Increasing Access">Increasing Access</option>
+                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
+                                        <option value="Providing Information">Providing Information</option>
+                                        <option value="Openness and Transparency">Openness and Transparency</option>
+                                        <option value="Redress">Redress</option>
+                                        <option value="Value for Money">Value for Money</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[2].GAFs"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select GAF --</option>
+                                        <option value="Job Knowledge">Job Knowledge</option>
+                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
+                                        <option value="Quality of Work">Quality of Work</option>
+                                        <option value="Technical Skills">Technical Skills</option>
+                                        <option value="Reliability">Reliability</option>
+                                        <option value="Initiative">Initiative</option>
+                                        <option value="Communication">Communication</option>
+                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
+                                        <option value="Flexibility">Flexibility</option>
+                                        <option value="Team Work">Team Work</option>
+                                        <option value="Planning and Execution">Planning and Execution</option>
+                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
+                                        <option value="Management of Human Resources">Management of Human Resources</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
+                                    </select>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <button type="button"
+                                            class="btn-remove-kra remove-kra"
+                                            data-row="2">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <!-- KRA 4 -->
+                            <tr id="kraRow_3">
+                                <td class="kra-number">4</td>
+
+                                <td>
+                                    <input type="text"
+                                           name="KRAs[3].Name"
+                                           class="form-control form-control-custom"
+                                           placeholder="Enter KRA name..." />
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[${index}].Weight"
+                                            class="form-select form-select-custom weight-input weight-field"
+                                            required>
+                                        <option value="">-- Select Weight --</option>
+                                        <option value="10">10%</option>
+                                        <option value="11">11%</option>
+                                        <option value="12">12%</option>
+                                        <option value="13">13%</option>
+                                        <option value="14">14%</option>
+                                        <option value="15">15%</option>
+                                        <option value="16">16%</option>
+                                        <option value="17">17%</option>
+                                        <option value="18">18%</option>
+                                        <option value="19">19%</option>
+                                        <option value="20">20%</option>
+                                        <option value="21">21%</option>
+                                        <option value="22">22%</option>
+                                        <option value="23">23%</option>
+                                        <option value="24">24%</option>
+                                        <option value="25">25%</option>
+                                        <option value="26">26%</option>
+                                        <option value="27">27%</option>
+                                        <option value="28">28%</option>
+                                        <option value="29">29%</option>
+                                        <option value="30">30%</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[3].Activities"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Activities..."></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea name="KRAs[3].Standards"
+                                              class="form-control form-control-custom"
+                                              rows="2"
+                                              placeholder="Standards..."></textarea>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[3].BathoPele"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select --</option>
+                                        <option value="Consultation">Consultation</option>
+                                        <option value="Setting Service Standards">Setting Service Standards</option>
+                                        <option value="Increasing Access">Increasing Access</option>
+                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
+                                        <option value="Providing Information">Providing Information</option>
+                                        <option value="Openness and Transparency">Openness and Transparency</option>
+                                        <option value="Redress">Redress</option>
+                                        <option value="Value for Money">Value for Money</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select name="KRAs[3].GAFs"
+                                            class="form-select form-select-custom">
+                                        <option value="">-- Select GAF --</option>
+                                        <option value="Job Knowledge">Job Knowledge</option>
+                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
+                                        <option value="Quality of Work">Quality of Work</option>
+                                        <option value="Technical Skills">Technical Skills</option>
+                                        <option value="Reliability">Reliability</option>
+                                        <option value="Initiative">Initiative</option>
+                                        <option value="Communication">Communication</option>
+                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
+                                        <option value="Flexibility">Flexibility</option>
+                                        <option value="Team Work">Team Work</option>
+                                        <option value="Planning and Execution">Planning and Execution</option>
+                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
+                                        <option value="Management of Human Resources">Management of Human Resources</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
+                                    </select>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <button type="button"
+                                            class="btn-remove-kra remove-kra"
+                                            data-row="3">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
 
                         </tbody>
@@ -980,7 +1294,7 @@
 
                     <span class="weight-status" id="weightStatus">
                         <i class="fas fa-info-circle"></i>
-                        Enter weights to total 100%
+                        Enter weights %
                     </span>
 
                 </div>
@@ -1023,8 +1337,7 @@
                 // ============================================
                 // VARIABLES
                 // ============================================
-
-                let kraCount = 1;
+                let kraCount = 4;
                 const tableBody = document.getElementById("kraTableBody");
                 const addBtn = document.getElementById("addKraBtn");
                 const totalDisplay = document.getElementById("totalWeightDisplay");

@@ -4,20 +4,20 @@ namespace PMDSSystems.Models
 {
     public class ChangePasswordViewModel
     {
-        public string UserId { get; set; } = "";
+        public string UserId { get; set; } = string.Empty;
+
+        public string? Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public string CurrentPassword { get; set; } = "";
+        public string CurrentPassword { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        [MinLength(6)]
-        public string NewPassword { get; set; } = "";
+        public string NewPassword { get; set; } = string.Empty;
 
         [Required]
-        [Compare("NewPassword")]
         [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; } = "";
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

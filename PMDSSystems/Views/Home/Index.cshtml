@@ -1,212 +1,320 @@
-﻿@{
-    Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
-    ViewData["Title"] = "Welcome";
-}
-
-<style>
-
-    body {
-        background: #f4f6f5;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    /* ===== TOP GOV HEADER ===== */
-    .gov-header {
-        background: #004d2b;
-        color: white;
-        padding: 12px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-        .gov-header img {
-            height: 45px;
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome · PMDS</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .gov-header span {
-            font-size: 0.95rem;
-            opacity: 0.9;
+        body {
+            background: #f4f6f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-    /* ===== MAIN WRAPPER ===== */
-    .welcome-wrapper {
-        min-height: calc(100vh - 70px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 30px;
-    }
+        /* ===== TOP GOV HEADER ===== */
+        .gov-header {
+            background: #004d2b;
+            color: white;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-    .welcome-card {
-        width: 100%;
-        max-width: 1200px;
-        background: white;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-    }
+            .gov-header .brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
 
-    /* ===== HERO SECTION ===== */
-    .welcome-top {
-        background: linear-gradient(135deg, #004d2b, #006838);
-        color: white;
-        padding: 60px;
-        position: relative;
-    }
+            .gov-header img {
+                height: 45px;
+                width: auto;
+            }
 
-        .welcome-top::after {
-            content: "";
-            position: absolute;
-            bottom: -30px;
-            left: 0;
+            .gov-header .brand-text {
+                font-weight: 600;
+                font-size: 1.1rem;
+                letter-spacing: 0.3px;
+            }
+
+            .gov-header span {
+                font-size: 0.95rem;
+                opacity: 0.9;
+            }
+
+        /* ===== MAIN WRAPPER ===== */
+        .welcome-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .welcome-card {
             width: 100%;
-            height: 60px;
+            max-width: 1200px;
             background: white;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
         }
 
-        .welcome-top img {
-            width: 85px;
-            margin-bottom: 20px;
+        /* ===== HERO SECTION ===== */
+        .welcome-top {
+            background: linear-gradient(135deg, #004d2b, #006838);
+            color: white;
+            padding: 60px;
+            position: relative;
         }
 
-        .welcome-top h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
+            .welcome-top::after {
+                content: "";
+                position: absolute;
+                bottom: -30px;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                background: white;
+                border-top-left-radius: 40px;
+                border-top-right-radius: 40px;
+            }
+
+            .welcome-top img {
+                width: 85px;
+                margin-bottom: 20px;
+            }
+
+            .welcome-top h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                margin-bottom: 15px;
+            }
+
+                .welcome-top h1 span {
+                    color: #e2c36d;
+                }
+
+            .welcome-top p {
+                max-width: 600px;
+                line-height: 1.7;
+                opacity: 0.9;
+                font-size: 1.1rem;
+            }
+
+        /* FEATURES */
+        .feature-row {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-            .welcome-top h1 span {
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+            .feature i {
                 color: #e2c36d;
             }
 
-        .welcome-top p {
-            max-width: 600px;
-            line-height: 1.7;
-            opacity: 0.9;
+        /* ===== ACTION SECTION – SIDE BY SIDE ===== */
+        .welcome-bottom {
+            padding: 60px;
         }
 
-    /* FEATURES */
-    .feature-row {
-        margin-top: 30px;
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
+            .welcome-bottom h2 {
+                color: #004d2b;
+                font-weight: 800;
+                margin-bottom: 10px;
+            }
 
-    .feature {
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-    }
+            .welcome-bottom .intro {
+                color: #6b7280;
+                margin-bottom: 30px;
+                font-size: 1.05rem;
+            }
 
-        .feature i {
-            color: #e2c36d;
-            margin-right: 6px;
+        /* two‑column grid for login & register */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
 
-    /* ===== ACTION SECTION ===== */
-    .welcome-bottom {
-        padding: 60px;
-    }
-
-        .welcome-bottom h2 {
-            color: #004d2b;
-            font-weight: 800;
-            margin-bottom: 10px;
+        /* each panel card */
+        .panel-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 32px 28px;
+            background: #fff;
+            transition: 0.25s ease;
+            display: flex;
+            flex-direction: column;
         }
 
-        .welcome-bottom .intro {
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
+            .panel-card:hover {
+                box-shadow: 0 10px 30px rgba(0, 77, 43, 0.06);
+            }
 
-    .action-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-    }
+            .panel-card .action-icon {
+                width: 54px;
+                height: 54px;
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-bottom: 18px;
+            }
 
-    .action-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 25px;
-        transition: 0.3s ease;
-        background: #fff;
-    }
+            .panel-card h5 {
+                font-weight: 700;
+                font-size: 1.4rem;
+                margin-bottom: 8px;
+                color: #1f2937;
+            }
 
-        .action-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0, 104, 56, 0.12);
-        }
+            .panel-card p {
+                color: #6b7280;
+                font-size: 0.95rem;
+                margin-bottom: 22px;
+                line-height: 1.5;
+            }
 
-    .action-icon {
-        width: 50px;
-        height: 50px;
-        background: #e8f4ed;
-        color: #006838;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 15px;
-        font-size: 1.3rem;
-    }
+            .panel-card .action-buttons {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-top: auto;
+            }
 
-    .action-card h5 {
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .action-card p {
-        color: #6b7280;
-        font-size: 0.95rem;
-        margin-bottom: 18px;
-    }
-
-    /* BUTTONS */
-    .btn-register {
-        background: #006838;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-        .btn-register:hover {
-            background: #004d2b;
-            color: white;
-        }
-
-    .btn-login {
-        border: 2px solid #006838;
-        color: #006838;
-        padding: 8px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-        .btn-login:hover {
+        /* buttons */
+        .btn-register {
             background: #006838;
             color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            transition: 0.2s;
         }
 
-    /* FOOTER STYLE */
-    .gov-footer {
-        text-align: center;
-        padding: 15px;
-        font-size: 0.85rem;
-        color: #6b7280;
-    }
+            .btn-register:hover {
+                background: #004d2b;
+                color: white;
+            }
 
-    @@media(max-width:768px) {
+        .btn-login {
+            border: 2px solid #006838;
+            color: #006838;
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            transition: 0.2s;
+        }
+
+            .btn-login:hover {
+                background: #006838;
+                color: white;
+            }
+
+        .forgot-link {
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+
+            .forgot-link a {
+                color: #006838;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .forgot-link a:hover {
+                    text-decoration: underline;
+                }
+
+        /* register highlight / extra */
+        .register-highlight {
+            background: #f9fbf9;
+            border-left: 4px solid #e2c36d;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-top: 18px;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+            .register-highlight i {
+                color: #004d2b;
+                margin-right: 10px;
+            }
+
+        /* shared footer under panels */
+        .bottom-note {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+
+        /* ===== FOOTER ===== */
+        .gov-footer {
+            text-align: center;
+            padding: 20px 15px 25px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+            margin-top: auto;
+        }
+
+            .gov-footer i {
+                color: #004d2b;
+                margin: 0 4px;
+            }
+
+        /* responsive */
+        @@media (max-width: 820px) {
+            .split-grid
+
+        {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
         .welcome-top,
         .welcome-bottom {
             padding: 30px;
@@ -215,58 +323,126 @@
             .welcome-top h1 {
                 font-size: 2rem;
             }
-    }
 
-</style>
-<!-- HEADER -->
+        .gov-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
+        }
 
+        @@media (max-width: 480px) {
+            .welcome-top::after
 
-<!-- MAIN -->
+        {
+            height: 30px;
+            bottom: -15px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
 
-<div class="welcome-wrapper">
+        .panel-card .action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
 
-    <div class="welcome-card">
+        .btn-login,
+        .btn-register {
+            justify-content: center;
+        }
 
-        <!-- HERO -->
-        <div class="welcome-top">
-            <h1>Welcome to <span>PMDS</span></h1>
+        }
+    </style>
+</head>
+<body>
 
-            <p>
-                The Performance Management and Development System enables structured
-                management of employee performance, development planning, and
-                performance agreements within the Department.
-            </p>
-
-            <div class="feature-row">
-                <div class="feature">Agreements</div>
-                <div class="feature">Reviews</div>
-                <div class="feature">Development</div>
-            </div>
+  @*   <!-- ===== TOP GOV HEADER ===== -->
+    <header class="gov-header">
+        <div class="brand">
+            <!-- Placeholder coat of arms – replace with your own -->
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e2c36d'/%3E%3Ccircle cx='50' cy='50' r='35' fill='%23004d2b'/%3E%3Cpath d='M50 15 L60 35 L85 35 L65 50 L75 70 L50 58 L25 70 L35 50 L15 35 L40 35 Z' fill='%23e2c36d'/%3E%3C/svg%3E"
+                 alt="Coat of arms placeholder" />
+            <span class="brand-text">DCS · PMDS</span>
         </div>
+        <span><i class="fas fa-shield-alt"></i> Department of Correctional Services</span>
+    </header>
+ *@
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="welcome-wrapper">
+        <div class="welcome-card">
 
-        <!-- LOGIN -->
-        <div class="welcome-bottom">
-            <h2>Access the System</h2>
-            <p class="intro">Sign in to continue</p>
+            <!-- HERO -->
+            <div class="welcome-top">
+                <h1>Welcome to <span>PMDS</span></h1>
+                <p>
+                    The Performance Management and Development System enables structured
+                    management of employee performance, development planning, and
+                    performance agreements within the Department.
+                </p>
+                <div class="feature-row">
+                    <span class="feature"><i class="fas fa-file-signature"></i> Agreements</span>
+                    <span class="feature"><i class="fas fa-chart-line"></i> Reviews</span>
+                    <span class="feature"><i class="fas fa-graduation-cap"></i> Development</span>
+                </div>
+            </div>
 
-            <div class="action-card">
-                <div class="action-icon">
-                    <i class="fa-solid fa-right-to-bracket"></i>
+            <!-- BOTTOM: LOGIN (left) & REGISTER (right) – NO CROSS-LINKS -->
+            <div class="welcome-bottom">
+                <h2>Access the System</h2>
+                <p class="intro">Sign in or create an account to continue</p>
+
+                <!-- two columns: Login | Register (completely separate) -->
+                <div class="split-grid">
+
+                    <!-- === LOGIN PANEL – LEFT (only login) === -->
+                    <div class="panel-card">
+                        <div class="action-icon" style="background: #e8f4ed; color: #006838;">
+                            <i class="fas fa-right-to-bracket"></i>
+                        </div>
+                        <h5>Login</h5>
+                        <p>Use your credentials to access the system.</p>
+                        <div class="action-buttons">
+                            <a href="/Account/Login" class="btn-login">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login
+                            </a>
+                        </div>
+                    
+                        <!-- no register link here -->
+                    </div>
+
+                    <!-- === REGISTER PANEL – RIGHT (only register) === -->
+                    <div class="panel-card">
+                        <div class="action-icon" style="background: #fef3c7; color: #b45309;">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h5>Register</h5>
+                        <p>Create your account to manage performance and development.</p>
+                        <div class="action-buttons">
+                            <a href="/Employee/Create" class="btn-register">
+                                <i class="fa-solid fa-user-plus"></i> Register Now
+                            </a>
+                        </div>
+                        <!-- no login link here -->
+                    </div>
+
+                </div> <!-- /split-grid -->
+                <!-- shared secure note -->
+                <div class="bottom-note">
+                    <i class="fas fa-lock" style="color: #004d2b;"></i> Secure access · All data encrypted
                 </div>
 
-                <h5>User Login</h5>
-                <p>Use your credentials to access the system.</p>
+            </div> <!-- /welcome-bottom -->
 
-                <a href="/Account/Login" class="btn-login">
-                    Login
-                </a>
-            </div>
-        </div>
+        </div> <!-- /welcome-card -->
+    </div> <!-- /welcome-wrapper -->
+    <!-- ===== FOOTER ===== -->
+   @*  <footer class="gov-footer">
+        <i class="fas fa-balance-scale"></i>
+        &copy; 2026 Department of Correctional Services. All Rights Reserved.
+        <span style="display: inline-block; margin-left: 20px;">
+            <i class="fas fa-envelope"></i> support@dcs.gov.za
+        </span>
+    </footer> *@
 
-    </div>
-
-@* <!-- ===== FOOTER ===== -->
-<div class="gov-footer">
-    © @DateTime.Now.Year Department of Correctional Services. All Rights Reserved.
-</div> *@
+</body>
+</html>

@@ -20,15 +20,13 @@ namespace PMDSSystems.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            // Create a new Annual Assessment model
             var model = new AnnualAssessment();
 
-            // Get the logged-in user's email
+            // Get logged-in user's email
             var email = User.Identity?.Name;
 
             if (!string.IsNullOrEmpty(email))
             {
-                // Find employee using their email
                 var employee = _context.Employees
                     .FirstOrDefault(e => e.Email == email);
 
@@ -50,16 +48,42 @@ namespace PMDSSystems.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(AnnualAssessment model)
         {
+            // =========================================
+            // SIGNATURES ARE OPTIONAL
+            // =========================================
+
+            // Remove signature validation from ModelState
+            // so the assessment can be submitted without
+            // either signature.
+
+            ModelState.Remove(nameof(model.EmployeeSignature));
+            ModelState.Remove(nameof(model.SupervisorSignature));
+
+
+            // =========================================
+            // SAVE ASSESSMENT
+            // =========================================
+
             if (ModelState.IsValid)
             {
                 _context.AnnualAssessments.Add(model);
+
                 _context.SaveChanges();
 
-                TempData["Success"] = "Saved successfully!";
+                TempData["Success"] =
+                    "Annual Assessment saved successfully!";
 
-                return RedirectToAction("Create");
+
+                // =========================================
+                // GO TO NEXT PAGE
+                // =========================================
+
+                return RedirectToAction("Moderation");
             }
 
+
+            // If another required field is missing,
+            // remain on the Create page.
             return View(model);
         }
 
@@ -67,6 +91,7 @@ namespace PMDSSystems.Controllers
         // ================================
         // MODERATION
         // ================================
+        [HttpGet]
         public IActionResult Moderation()
         {
             return View();

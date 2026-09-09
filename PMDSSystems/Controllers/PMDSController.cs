@@ -7,6 +7,7 @@ using PMDSSystems.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using PMDSSystems.ViewModels;
 
 namespace PMDSSystems.Controllers
 {
@@ -267,16 +268,13 @@ namespace PMDSSystems.Controllers
         [HttpGet]
         public async Task<IActionResult> Cycles()
         {
-            // Get the currently logged-in Identity user's ID
-            var userId = User.FindFirst(
-                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = _userManager.GetUserId(User);
 
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized();
             }
 
-            // Find the Employee record linked to this Identity user
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.UserId == userId);
 
@@ -286,10 +284,20 @@ namespace PMDSSystems.Controllers
                     "Your employee profile has not been linked to your user account.");
             }
 
-            // Send the employee to the Cycles view
-            return View(employee);
-        }
+            var model = new CyclesViewModel
+            {
+                Employee = employee
+            };
 
+            // Find employees assigned to the logged-in employee
+            model.MyEmployees = await _context.Employees
+                .Where(e => e.SupervisorId == employee.Id)
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .ToListAsync();
+
+            return View(model);
+        }
         // =============================
         // PERSONAL ASSISTANCE PLAN (PAP)
         // =============================

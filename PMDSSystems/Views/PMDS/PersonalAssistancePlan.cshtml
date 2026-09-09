@@ -229,11 +229,45 @@
             outline: none;
         }
 
+        /* =========================================================
+       VISIBLE PLACEHOLDER TEXT
+       ========================================================= */
+
         .form-control::placeholder {
-            color: #b0b8c0;
-            font-size: 13px;
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-size: 14px !important;
         }
 
+        .form-control::-webkit-input-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .form-control::-moz-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .form-control:-ms-input-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    /* Make sure textareas display placeholder correctly */
+
+    textarea.form-control {
+        background-color: #ffffff !important;
+        color: #333333 !important;
+        opacity: 1 !important;
+    }
+
+        textarea.form-control:empty {
+            color: #333333 !important;
+        }
     textarea.form-control {
         resize: vertical;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -533,9 +567,74 @@
     }
 
     }
+    /* =========================================================
+       PLACEHOLDER TEXT
+       ========================================================= */
+
+    textarea.form-control::placeholder,
+    input.form-control::placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        -webkit-text-fill-color: #555555 !important;
+    }
+
+    textarea.form-control::-webkit-input-placeholder,
+    input.form-control::-webkit-input-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+        -webkit-text-fill-color: #555555 !important;
+    }
+
+    textarea.form-control::-moz-placeholder,
+    input.form-control::-moz-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+    }
+
+    textarea.form-control:-ms-input-placeholder,
+    input.form-control:-ms-input-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+    }
+/* =========================================================
+   FORCE MONTHLY & MANAGER PLACEHOLDERS
+   ========================================================= */
+
+.monthly-placeholder,
+.manager-placeholder {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    opacity: 1 !important;
+}
+
+.monthly-placeholder::placeholder,
+.manager-placeholder::placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    -webkit-text-fill-color: #555555 !important;
+}
+
+.monthly-placeholder::-webkit-input-placeholder,
+.manager-placeholder::-webkit-input-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #555555 !important;
+}
+
+.monthly-placeholder::-moz-placeholder,
+.manager-placeholder::-moz-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+}
+
+.monthly-placeholder:-ms-input-placeholder,
+.manager-placeholder:-ms-input-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+}
 </style>
-
-
 <!-- =========================================================
      FULL PAGE
      ========================================================= -->
@@ -711,11 +810,11 @@
             </label>
 
 
-            <textarea asp-for="RemedialSteps"
+            <textarea id="RemedialSteps"
+                      name="RemedialSteps"
                       class="form-control remedial-textarea"
                       rows="7"
-                      placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups...">
-            </textarea>
+                      placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups..."></textarea>
 
 
             <span asp-validation-for="RemedialSteps"
@@ -762,11 +861,9 @@
                     </div>
 
                     <textarea asp-for="Month1Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 1st review meeting...">
-                    </textarea>
-
+                              placeholder="Record feedback from 1st review meeting..."></textarea>
                 </div>
 
 
@@ -787,10 +884,9 @@
                     </div>
 
                     <textarea asp-for="Month2Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 2nd review meeting...">
-                    </textarea>
+                              placeholder="Record feedback from 2nd review meeting..."></textarea>
 
                 </div>
 
@@ -812,11 +908,9 @@
                     </div>
 
                     <textarea asp-for="Month3Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 3rd review meeting...">
-                    </textarea>
-
+                              placeholder="Record feedback from 3rd review meeting..."></textarea>
                 </div>
 
 
@@ -837,10 +931,10 @@
                     </div>
 
                     <textarea asp-for="Month4Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 4th review meeting...">
-                    </textarea>
+                              placeholder="Record feedback from 4th review meeting..."></textarea>
+
 
                 </div>
 
@@ -862,11 +956,9 @@
                     </div>
 
                     <textarea asp-for="Month5Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 5th review meeting...">
-                    </textarea>
-
+                              placeholder="Record feedback from 5th review meeting..."></textarea>
                 </div>
 
 
@@ -887,10 +979,9 @@
                     </div>
 
                     <textarea asp-for="Month6Progress"
-                              class="form-control"
+                              class="form-control monthly-placeholder"
                               rows="2"
-                              placeholder="Record feedback from 6th final review meeting...">
-                    </textarea>
+                              placeholder="Record feedback from 6th final review meeting..."></textarea>
 
                 </div>
 
@@ -1018,11 +1109,9 @@
 
 
                     <textarea asp-for="NextHigherLineManagerDecision"
-                              class="form-control"
+                              class="form-control manager-placeholder"
                               rows="4"
-                              placeholder="Enter decision or steps here...">
-                    </textarea>
-
+                              placeholder="Enter decision or steps here..."></textarea>
 
                     <span asp-validation-for="NextHigherLineManagerDecision"
                           class="text-danger fs-7">

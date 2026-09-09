@@ -49,6 +49,7 @@ namespace PMDSSystems.Controllers
         //========================================================
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             LoadSupervisors();
@@ -56,7 +57,6 @@ namespace PMDSSystems.Controllers
             return View();
         }
 
-
         //========================================================
         // CREATE EMPLOYEE - POST
         //========================================================
@@ -64,10 +64,10 @@ namespace PMDSSystems.Controllers
         //========================================================
         // CREATE EMPLOYEE - POST
         //========================================================
-
 
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
@@ -532,19 +532,14 @@ namespace PMDSSystems.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AssignSupervisor(
-            int id,
-            int supervisorId)
+        public async Task<IActionResult> AssignSupervisor(int id, int supervisorId)
         {
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (employee == null)
-            {
                 return NotFound();
-            }
 
-            // Prevent employee from being their own supervisor
             if (id == supervisorId)
             {
                 TempData["Error"] =
@@ -573,7 +568,38 @@ namespace PMDSSystems.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        // =========================================================
+        // SUPERVISOR - VIEW ASSIGNED EMPLOYEES
+        // =========================================================
 
+        [HttpGet]
+        
+        public async Task<IActionResult> MyEmployees()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Content("ERROR: No logged-in User ID found.");
+            }
+
+            var supervisor = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == userId);
+
+            if (supervisor == null)
+            {
+                return Content(
+                    $"ERROR: The logged-in supervisor is not linked to an Employee record. User ID: {userId}");
+            }
+
+            var employees = await _context.Employees
+                .Where(e => e.SupervisorId == supervisor.Id)
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .ToListAsync();
+
+            return View(employees);
+        }
 
         //========================================================
         // DEBUG LOGGED-IN USER

@@ -205,31 +205,21 @@
             @Html.AntiForgeryToken()
 
 
-
             <!-- ========================= -->
             <!-- 1. PERSONAL INFORMATION -->
             <!-- ========================= -->
 
             <div class="section-header">
-
-                <span class="section-number">
-                    1
-                </span>
-
-                <h4>
-                    Personal Information
-                </h4>
-
+                <span class="section-number">1</span>
+                <h4>Personal Information</h4>
             </div>
 
-
+            <!-- Row 1 -->
             <div class="row">
 
                 <!-- PERSAL NUMBER -->
                 <div class="col-md-4">
-
                     <div class="form-group">
-
                         <label for="PersalNumber">
                             Persal Number
                             <span class="required">*</span>
@@ -245,19 +235,13 @@
                                placeholder="Enter Persal Number" />
 
                         <span asp-validation-for="PersalNumber"
-                              class="text-danger">
-                        </span>
-
+                              class="text-danger"></span>
                     </div>
-
                 </div>
-
 
                 <!-- FIRST NAME -->
                 <div class="col-md-4">
-
                     <div class="form-group">
-
                         <label for="FirstName">
                             First Name
                             <span class="required">*</span>
@@ -271,19 +255,13 @@
                                placeholder="Enter First Name" />
 
                         <span asp-validation-for="FirstName"
-                              class="text-danger">
-                        </span>
-
+                              class="text-danger"></span>
                     </div>
-
                 </div>
-
 
                 <!-- LAST NAME -->
                 <div class="col-md-4">
-
                     <div class="form-group">
-
                         <label for="LastName">
                             Last Name
                             <span class="required">*</span>
@@ -297,23 +275,18 @@
                                placeholder="Enter Last Name" />
 
                         <span asp-validation-for="LastName"
-                              class="text-danger">
-                        </span>
-
+                              class="text-danger"></span>
                     </div>
-
                 </div>
 
             </div>
 
-
+            <!-- Row 2 -->
             <div class="row">
 
                 <!-- INITIALS -->
-                <div class="col-md-2">
-
+                <div class="col-md-4">
                     <div class="form-group">
-
                         <label for="Initials">
                             Initials
                         </label>
@@ -322,43 +295,36 @@
                                id="Initials"
                                name="Initials"
                                value="@Model?.Initials"
-                               class="form-control" />
-
+                               class="form-control"
+                               placeholder="Enter Initials" />
                     </div>
-
                 </div>
-
-
                 <!-- EMAIL -->
-                <div class="col-md-5">
-
+                <div class="col-md-4">
                     <div class="form-group">
 
                         <label for="Email">
                             Email
+                            <span class="required">*</span>
                         </label>
 
                         <input type="email"
                                id="Email"
                                name="Email"
-                               value="@Model?.Email"
                                class="form-control"
-                               placeholder="Enter email address" />
+                               value="@Model?.Email"
+                               placeholder="example@gmail.com"
+                               required />
 
                         <span asp-validation-for="Email"
-                              class="text-danger">
-                        </span>
+                              class="text-danger"></span>
 
                     </div>
-
                 </div>
 
-
-                <!-- ID NUMBER -->
-                <div class="col-md-5">
-
+                <!-- IDENTIFICATION NUMBER -->
+                <div class="col-md-4">
                     <div class="form-group">
-
                         <label for="IdentificationNumber">
                             Identification Number
                         </label>
@@ -368,17 +334,13 @@
                                name="IdentificationNumber"
                                value="@Model?.IdentificationNumber"
                                class="form-control"
+                               maxlength="13"
+                               inputmode="numeric"
                                placeholder="Enter ID Number" />
-
                     </div>
-
                 </div>
 
             </div>
-
-
-            <hr class="divider" />
-
 
             <!-- ========================= -->
             <!-- 2. WORK INFORMATION -->
@@ -617,7 +579,7 @@
 
             <div class="row">
 
-                <!-- OSD -->
+                <!-- OSD DESCRIPTION -->
                 <div class="col-md-4">
 
                     <div class="form-group">
@@ -626,11 +588,25 @@
                             Related OSD Description
                         </label>
 
-                        <input type="text"
-                               id="OSDDescription"
-                               name="OSDDescription"
-                               value="@Model?.OSDDescription"
-                               class="form-control" />
+                        <select id="OSDDescription"
+                                name="OSDDescription"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select OSD Description --
+                            </option>
+
+                            <option value="Non Center Based"
+                                    selected="@(Model?.OSDDescription == "Non Center Based")">
+                                Non Center Based
+                            </option>
+
+                            <option value="Center Based"
+                                    selected="@(Model?.OSDDescription == "Center Based")">
+                                Center Based
+                            </option>
+
+                        </select>
 
                     </div>
 

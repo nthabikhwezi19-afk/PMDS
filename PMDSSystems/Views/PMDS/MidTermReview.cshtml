@@ -906,11 +906,32 @@
                                         <td>
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
-                                                <input name="KraEvaluations[0].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
-
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
                                                 <span class="input-group-text">%</span>
                                             </div>
                                         </td>
@@ -951,10 +972,32 @@
                                         <td>
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
-                                                <input name="KraEvaluations[1].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
 
                                                 <span class="input-group-text">%</span>
                                             </div>
@@ -996,11 +1039,32 @@
                                         <td>
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
-                                                <input name="KraEvaluations[2].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
-
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
                                                 <span class="input-group-text">%</span>
                                             </div>
                                         </td>
@@ -1014,6 +1078,72 @@
 
                                         <td>
                                             <textarea name="KraEvaluations[2].SupervisorComments"
+                                                      class="form-control form-control-sm"
+                                                      rows="3"
+                                                      placeholder="Supervisor feedback..."></textarea>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button type="button"
+                                                    class="btn btn-outline-danger btn-sm remove-kra"
+                                                    style="display:none;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- KRA 4 -->
+                                    <tr>
+                                        <td class="ps-3 fw-bold text-success kra-number">4</td>
+
+                                        <td>
+                                            <input name="KraEvaluations[1].KraDescription"
+                                                   class="form-control border-0 bg-transparent fw-semibold"
+                                                   placeholder="Enter KRA Description..." />
+                                        </td>
+
+                                        <td>
+                                            <div class="input-group input-group-sm mx-auto"
+                                                 style="max-width:90px;">
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
+
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <textarea name="KraEvaluations[1].AchievementStandard"
+                                                      class="form-control form-control-sm"
+                                                      rows="3"
+                                                      placeholder="Describe the standards achieved..."></textarea>
+                                        </td>
+
+                                        <td>
+                                            <textarea name="KraEvaluations[1].SupervisorComments"
                                                       class="form-control form-control-sm"
                                                       rows="3"
                                                       placeholder="Supervisor feedback..."></textarea>
@@ -1119,10 +1249,32 @@
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
 
-                                                <input name="KraEvaluations[0].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
 
                                                 <span class="input-group-text">%</span>
 
@@ -1183,10 +1335,32 @@
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
 
-                                                <input name="KraEvaluations[1].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
 
                                                 <span class="input-group-text">%</span>
 
@@ -1247,10 +1421,32 @@
                                             <div class="input-group input-group-sm mx-auto"
                                                  style="max-width:90px;">
 
-                                                <input name="KraEvaluations[2].Weight"
-                                                       type="number"
-                                                       class="form-control text-center kra-weight"
-                                                       placeholder="0" />
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
 
                                                 <span class="input-group-text">%</span>
 
@@ -1294,7 +1490,89 @@
                                         </td>
 
                                     </tr>
+                                    <!-- KRA 4 -->
+                                    <tr>
+                                        <td class="text-start ps-3 fw-semibold">
 
+                                            <input name="KraEvaluations[3].KraDescription"
+                                                   class="form-control border-0 bg-transparent fw-semibold"
+                                                   placeholder="Enter KRA 4 Description..." />
+
+                                        </td>
+
+                                        <td>
+
+                                            <div class="input-group input-group-sm mx-auto"
+                                                 style="max-width:90px;">
+                                                <select name="KRAs[${index}].Weight"
+                                                        class="form-select form-select-custom weight-input weight-field"
+                                                        required>
+                                                    <option value="">-- Select Weight --</option>
+                                                    <option value="10">10%</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="12">12%</option>
+                                                    <option value="13">13%</option>
+                                                    <option value="14">14%</option>
+                                                    <option value="15">15%</option>
+                                                    <option value="16">16%</option>
+                                                    <option value="17">17%</option>
+                                                    <option value="18">18%</option>
+                                                    <option value="19">19%</option>
+                                                    <option value="20">20%</option>
+                                                    <option value="21">21%</option>
+                                                    <option value="22">22%</option>
+                                                    <option value="23">23%</option>
+                                                    <option value="24">24%</option>
+                                                    <option value="25">25%</option>
+                                                    <option value="26">26%</option>
+                                                    <option value="27">27%</option>
+                                                    <option value="28">28%</option>
+                                                    <option value="29">29%</option>
+                                                    <option value="30">30%</option>
+                                                </select>
+
+                                                <span class="input-group-text">%</span>
+
+                                            </div>
+
+                                        </td>
+
+                                        <td>
+                                            <input name="KraEvaluations[3].OwnRating"
+                                                   type="number"
+                                                   class="form-control form-control-sm rating-input mx-auto"
+                                                   placeholder="1-4"
+                                                   min="1"
+                                                   max="4" />
+                                        </td>
+
+                                        <td>
+                                            <input name="KraEvaluations[3].SupervisorRating"
+                                                   type="number"
+                                                   class="form-control form-control-sm rating-input mx-auto"
+                                                   placeholder="1-4"
+                                                   min="1"
+                                                   max="4" />
+                                        </td>
+
+                                        <td>
+                                            <input name="KraEvaluations[3].AgreedRating"
+                                                   type="number"
+                                                   class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
+                                                   placeholder="1-4"
+                                                   min="1"
+                                                   max="4" />
+                                        </td>
+
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-outline-danger btn-sm remove-c2-kra"
+                                                    style="display:none;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
                                     <!-- TOTAL -->
                                     <tr class="table-light">
                                         <td class="text-start ps-3 fw-bold">
