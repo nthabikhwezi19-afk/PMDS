@@ -33,7 +33,7 @@ namespace PMDSSystems.Models
         public DateTime? SupervisorSignDate { get; set; }
 
         public string? HigherManagerSignature { get; set; }
-        public string? HigherManagerName { get; set; }
+        public string? HigherManagerSurnameInitials { get; set; }
         public DateTime? HigherManagerSignDate { get; set; }
     }
 }

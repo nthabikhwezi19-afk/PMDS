@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DCS · PMDS Mid-Term Review</title>
-    <!-- Bootstrap 5 + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -27,7 +26,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             margin-top: 20px;
-            border-top: 5px solid #006838; /* DCS green */
+            border-top: 5px solid #006838;
             position: relative;
             overflow: hidden;
         }
@@ -46,7 +45,7 @@
 
         /* ===== CARD HEADER ===== */
         .card-header.bg-dark {
-            background: linear-gradient(135deg, #004d28 0%, #006838 100%) !important; /* DCS green gradient */
+            background: linear-gradient(135deg, #004d28 0%, #006838 100%) !important;
             border-radius: 12px 12px 0 0 !important;
             position: relative;
             overflow: hidden;
@@ -133,7 +132,6 @@
             .scale-box.border-success {
                 border-left-color: #006838 !important;
             }
-        /* DCS green */
 
         /* ===== NAV PILLS ===== */
         .nav-pills .nav-link {
@@ -148,7 +146,7 @@
 
             .nav-pills .nav-link i {
                 margin-right: 8px;
-                color: #006838; /* DCS green */
+                color: #006838;
             }
 
             .nav-pills .nav-link.active {
@@ -418,26 +416,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
 
-        /* ===== STICKY FOOTER ===== */
-        .sticky-bottom {
-            background: white !important;
-            border-top: 3px solid #006838 !important;
-            border-radius: 12px 12px 0 0 !important;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
-            position: sticky;
-            bottom: 0;
-            z-index: 1020;
-        }
-
-            .sticky-bottom .text-muted {
-                color: #006838 !important;
-                font-weight: 500;
-            }
-
-                .sticky-bottom .text-muted i {
-                    color: #006838;
-                }
-
         /* ===== RADIO BUTTONS ===== */
         .form-check-input:checked {
             background-color: #006838;
@@ -471,254 +449,307 @@
             gap: 10px;
         }
 
+        /* ===== C2 SECTION HEADER & BADGE ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #006838;
+            position: relative;
+        }
+
+            .section-header h5 {
+                color: #006838;
+                font-weight: 700;
+                margin: 0;
+                font-size: 17px;
+                letter-spacing: 0.5px;
+            }
+
+            .section-header i {
+                color: #006838;
+                font-size: 20px;
+                width: 24px;
+                text-align: center;
+            }
+
+            .section-header .badge-section {
+                margin-left: auto;
+                background: #e8f5ee;
+                color: #006838;
+                padding: 4px 14px;
+                border-radius: 50px;
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+        /* ===== C2 ADD / REMOVE KRA BUTTONS ===== */
+        .add-kra-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0 25px 0;
+        }
+
+        .btn-add-kra {
+            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 104, 56, 0.25);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+            .btn-add-kra:hover {
+                background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+                transform: translateY(-2px);
+                color: white;
+            }
+
+        .btn-remove-kra {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+            .btn-remove-kra:hover {
+                background: #bb2d3b;
+            }
+
         /* ========================================== */
         /* RESPONSIVE                                */
         /* ========================================== */
         @@media (max-width: 768px) {
-            .container
-
-        {
-            padding: 10px;
-        }
-
-        .pmds-card {
-            padding: 15px !important;
-        }
-
-        .card-header {
-            padding: 20px !important;
-        }
-
-            .card-header h2 {
-                font-size: 20px;
+            .container {
+                padding: 10px;
             }
 
-            .card-header .badge {
-                position: relative !important;
-                top: auto !important;
-                right: auto !important;
-                margin-top: 10px;
-                display: inline-block;
+            .pmds-card {
+                padding: 15px !important;
             }
 
-        .nav-pills .nav-link {
-            font-size: 13px;
-            padding: 10px 16px;
-        }
-
-        .nav-pills {
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-            .nav-pills .nav-item {
-                flex: 1;
-                min-width: 120px;
+            .card-header {
+                padding: 20px !important;
             }
+
+                .card-header h2 {
+                    font-size: 20px;
+                }
+
+                .card-header .badge {
+                    position: relative !important;
+                    top: auto !important;
+                    right: auto !important;
+                    margin-top: 10px;
+                    display: inline-block;
+                }
 
             .nav-pills .nav-link {
-                width: 100%;
-                text-align: center;
+                font-size: 13px;
+                padding: 10px 16px;
             }
 
-        .scale-box {
-            padding: 12px !important;
-        }
-
-            .scale-box .fw-bold {
-                font-size: 17px !important;
+            .nav-pills {
+                flex-wrap: wrap;
+                gap: 8px;
             }
 
-            .scale-box small {
-                font-size: 11px !important;
+                .nav-pills .nav-item {
+                    flex: 1;
+                    min-width: 120px;
+                }
+
+                .nav-pills .nav-link {
+                    width: 100%;
+                    text-align: center;
+                }
+
+            .scale-box {
+                padding: 12px !important;
             }
 
-        .btn-primary.btn-lg {
-            padding: 12px 25px;
-            font-size: 14px;
-            width: 100%;
-            justify-content: center;
-        }
+                .scale-box .fw-bold {
+                    font-size: 17px !important;
+                }
 
-        .sticky-bottom .d-flex {
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .sticky-bottom .text-muted {
-            text-align: center;
-        }
-
-        .table-responsive {
-            font-size: 13px;
-        }
-
-        .rating-input {
-            max-width: 55px;
-            font-size: 13px;
-        }
-
-        .form-control-sm {
-            font-size: 12px;
-        }
-
-        .pmds-card::before {
-            display: none;
-        }
-
-        .row {
-            flex-direction: column;
-        }
-
-            .row .col-md-3, .row .col-md-4, .row .col-md-5, .row .col-md-6 {
-                width: 100%;
-                padding: 0;
-            }
-
-        .alert-info {
-            flex-direction: column;
-            text-align: center;
-        }
-
-            .alert-info i {
-                margin-bottom: 10px;
-            }
-
-        }
-        @@media (max-width: 576px) {
-            .container
-
-        {
-            padding: 5px;
-        }
-
-        .pmds-card {
-            padding: 10px !important;
-        }
-
-        .card-header h2 {
-            font-size: 17px;
-        }
-
-        .nav-pills .nav-link {
-            font-size: 12px;
-            padding: 8px 12px;
-        }
-
-        .nav-pills .nav-item {
-            min-width: 100%;
-        }
-
-        .table th, .table td {
-            padding: 6px 4px !important;
-            font-size: 11px;
-        }
-
-        .scale-box {
-            padding: 8px !important;
-        }
-
-            .scale-box .fw-bold {
-                font-size: 15px !important;
-            }
-
-            .scale-box small {
-                font-size: 10px !important;
-            }
-
-        .btn-primary {
-            font-size: 13px;
-            padding: 10px 20px;
-        }
+                .scale-box small {
+                    font-size: 11px !important;
+                }
 
             .btn-primary.btn-lg {
-                padding: 10px 20px;
+                padding: 12px 25px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .table-responsive {
                 font-size: 13px;
             }
 
-        .form-control {
-            font-size: 13px;
-            padding: 6px 10px;
+            .rating-input {
+                max-width: 55px;
+                font-size: 13px;
+            }
+
+            .form-control-sm {
+                font-size: 12px;
+            }
+
+            .pmds-card::before {
+                display: none;
+            }
+
+            .alert-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+                .alert-info i {
+                    margin-bottom: 10px;
+                }
         }
 
-        .section-title {
-            font-size: 14px;
-            padding: 8px 12px;
-        }
+        @@media (max-width: 576px) {
+            .container {
+                padding: 5px;
+            }
 
-        .badge.bg-success, .badge.bg-danger {
-            font-size: 14px !important;
-            padding: 4px 12px;
-        }
+            .pmds-card {
+                padding: 10px !important;
+            }
 
+            .card-header h2 {
+                font-size: 17px;
+            }
+
+            .nav-pills .nav-link {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .nav-pills .nav-item {
+                min-width: 100%;
+            }
+
+            .table th, .table td {
+                padding: 6px 4px !important;
+                font-size: 11px;
+            }
+
+            .scale-box {
+                padding: 8px !important;
+            }
+
+                .scale-box .fw-bold {
+                    font-size: 15px !important;
+                }
+
+                .scale-box small {
+                    font-size: 10px !important;
+                }
+
+            .btn-primary {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+
+                .btn-primary.btn-lg {
+                    padding: 10px 20px;
+                    font-size: 13px;
+                }
+
+            .form-control {
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+
+            .section-title {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+
+            .badge.bg-success, .badge.bg-danger {
+                font-size: 14px !important;
+                padding: 4px 12px;
+            }
         }
 
         /* ========================================== */
         /* PRINT STYLES                              */
         /* ========================================== */
         @@media print {
-            .sticky-bottom, .btn-primary
+            .sticky-bottom, .btn-primary {
+                display: none !important;
+            }
 
-        {
-            display: none !important;
-        }
+            .pmds-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
 
-        .pmds-card {
-            box-shadow: none !important;
-            border: 1px solid #ddd !important;
-        }
+            .card-header.bg-dark {
+                background: #006838 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
 
-        .card-header.bg-dark {
-            background: #006838 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
+            .nav-pills {
+                display: none !important;
+            }
 
-        .nav-pills {
-            display: none !important;
-        }
-
-        .tab-pane {
-            display: block !important;
-            opacity: 1 !important;
-        }
-
-            .tab-pane.fade {
+            .tab-pane {
+                display: block !important;
                 opacity: 1 !important;
             }
 
-        .table thead th {
-            background: #006838 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
+                .tab-pane.fade {
+                    opacity: 1 !important;
+                }
 
-        .pmds-card::before {
-            display: none;
-        }
+            .table thead th {
+                background: #006838 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
 
-        .card-header.bg-dark::after {
-            display: none;
-        }
+            .pmds-card::before {
+                display: none;
+            }
 
+            .card-header.bg-dark::after {
+                display: none;
+            }
         }
 
         /* ========================================== */
         /* ANIMATIONS                                */
         /* ========================================== */
         @@keyframes fadeInUp {
-            from
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-        {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .pmds-card {
@@ -728,30 +759,6 @@
         .card-header {
             animation: fadeInUp 0.4s ease;
         }
-        @@keyframes pulse {
-            0%
-
-        {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.02);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-
-        }
-
-        .btn-primary {
-            animation: pulse 2s infinite;
-        }
-
-            .btn-primary:hover {
-                animation: none;
-            }
 
         /* ===== UTILITY ===== */
         .mt-2 {
@@ -785,16 +792,69 @@
         .bg-primary-subtle {
             background: #e8f5ee !important;
         }
+
+        /* =========================================================
+                   DRAWABLE SIGNATURE STYLES
+                   ========================================================= */
+        .signature-card {
+            background: #f8faf9;
+            border: 1px solid #dce3e8;
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+            .signature-card:hover {
+                border-color: #006838;
+                box-shadow: 0 4px 15px rgba(0, 104, 56, 0.10);
+            }
+
+        .signature-wrapper {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border: 2px solid #006838;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+        }
+
+            .signature-wrapper:focus-within {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            }
+
+        .signature-pad,
+        #higherManagerSignaturePad {
+            display: block;
+            width: 100%;
+            height: 250px;
+            background: #ffffff;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .signature-actions {
+            margin-top: 10px;
+        }
+
+            .signature-actions .btn {
+                border-radius: 6px;
+            }
+
+        .signature-card .form-label {
+            color: #004d28;
+        }
+
+        .signature-card small {
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container py-4">
-       @*  <!-- success placeholder (hidden) -->
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center mb-4" role="alert" style="display:none;">
-            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-            <div>Mid-Term Review saved successfully.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> *@
+
         <!-- validation placeholder -->
         <div class="alert alert-danger border-0 shadow-sm mb-4" role="alert" style="display:none;"></div>
 
@@ -862,759 +922,357 @@
             </ul>
 
             <div class="tab-content" id="midtermTabsContent">
-                <!-- TAB 1: C1 -->
-                <div class="tab-pane fade show active" id="c1-content" role="tabpanel">
-                    <div class="card pmds-card p-4">
 
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="fw-bold text-dark mb-0">
-                                Part C1: Motivation for KRAs
-                            </h4>
+                <!-- ==========================================
+                     TAB 1: C1
+                     ========================================== -->
 
-                            <span class="text-muted fs-7">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Explain achievements for each standard.
-                            </span>
-                        </div>
+                <div class="tab-pane fade show active"
+                     id="c1-content"
+                     role="tabpanel">
 
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle" id="c1KraTable">
-
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="ps-3" style="width:5%;">#</th>
-                                        <th style="width:30%;">Key Result Area (KRA)</th>
-                                        <th class="text-center" style="width:10%;">Weight %</th>
-                                        <th style="width:27%;">Employee Achievements</th>
-                                        <th style="width:28%;">Supervisor Comments</th>
-                                        <th style="width:5%;">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="c1KraBody">
-
-                                    <!-- KRA 1 -->
-                                    <tr>
-                                        <td class="ps-3 fw-bold text-success kra-number">1</td>
-
-                                        <td>
-                                            <input name="KraEvaluations[0].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA Description..." />
-                                        </td>
-
-                                        <td>
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
-                                                </select>
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[0].AchievementStandard"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Describe the standards achieved..."></textarea>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[0].SupervisorComments"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Supervisor feedback..."></textarea>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- KRA 2 -->
-                                    <tr>
-                                        <td class="ps-3 fw-bold text-success kra-number">2</td>
-
-                                        <td>
-                                            <input name="KraEvaluations[1].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA Description..." />
-                                        </td>
-
-                                        <td>
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
-                                                </select>
-
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[1].AchievementStandard"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Describe the standards achieved..."></textarea>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[1].SupervisorComments"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Supervisor feedback..."></textarea>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- KRA 3 -->
-                                    <tr>
-                                        <td class="ps-3 fw-bold text-success kra-number">3</td>
-
-                                        <td>
-                                            <input name="KraEvaluations[2].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA Description..." />
-                                        </td>
-
-                                        <td>
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
-                                                </select>
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[2].AchievementStandard"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Describe the standards achieved..."></textarea>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[2].SupervisorComments"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Supervisor feedback..."></textarea>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- KRA 4 -->
-                                    <tr>
-                                        <td class="ps-3 fw-bold text-success kra-number">4</td>
-
-                                        <td>
-                                            <input name="KraEvaluations[1].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA Description..." />
-                                        </td>
-
-                                        <td>
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
-                                                </select>
-
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[1].AchievementStandard"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Describe the standards achieved..."></textarea>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[1].SupervisorComments"
-                                                      class="form-control form-control-sm"
-                                                      rows="3"
-                                                      placeholder="Supervisor feedback..."></textarea>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        <!-- ADD KRA BUTTON -->
-                        <div class="mt-3 mb-3">
-                            <button type="button"
-                                    id="addC1KraBtn"
-                                    class="btn btn-success">
-                                <i class="bi bi-plus-circle me-2"></i>
-                                Add KRA
-                            </button>
-                        </div>
-
-                        <div class="alert alert-info border-0 mt-3 d-flex align-items-center"
-                             role="alert">
-
-                            <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
-
-                            <div>
-                                <strong>GAF's Note:</strong>
-                                Generic Assessment Factors (GAFs) shall not be weighted.
-                                GAF's shall not be assessed independently, but must be
-                                integrated and assessed in an integrated manner with the KRA's.
-                            </div>
-
-                        </div>
-
+                    <!-- PART C1 HEADER -->
+                    <div class="section-header">
+                        <i class="bi bi-list-task"></i>
+                        <h5>Part C1: Motivation for KRAs</h5>
+                        <span class="badge-section" id="c1KraCount">4 KRAs</span>
                     </div>
+
+                    <!-- C1 TABLE -->
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered" id="c1KraTable">
+
+                            <thead>
+                                <tr>
+                                    <th style="width:32%;">
+                                        Key Result Area (KRA)
+                                    </th>
+                                    <th style="width:12%;">
+                                        Weight
+                                    </th>
+                                    <th style="width:26%;">
+                                        Employee Achievements
+                                    </th>
+                                    <th style="width:25%;">
+                                        Supervisor Comments
+                                    </th>
+                                    <th style="width:5%;">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="c1KraBody">
+
+                                @for (int i = 0; i < Model.KraEvaluations.Count; i++)
+                                {
+                                    <tr class="c1-kra-row" data-kra="@(i + 1)">
+
+                                        <td>
+                                            <div style="display:flex; align-items:center; gap:8px;">
+
+                                                <span class="kra-number fw-bold text-success"
+                                                      style="min-width:18px;">
+                                                    @(i + 1)
+                                                </span>
+
+                                                <input name="KraEvaluations[@i].KraDescription"
+                                                       value="@Model.KraEvaluations[i].KraDescription"
+                                                       class="form-control"
+                                                       placeholder="KRA Description..."
+                                                       readonly />
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <input name="KraEvaluations[@i].Weight"
+                                                   value="@Model.KraEvaluations[i].Weight"
+                                                   type="number"
+                                                   class="form-control text-center weight-input kra-weight"
+                                                   min="0"
+                                                   max="100"
+                                                   step="1"
+                                                   readonly />
+                                        </td>
+
+                                        <td>
+                                            <textarea name="KraEvaluations[@i].AchievementStandard"
+                                                  class="form-control"
+                                                  rows="3"
+                                                  placeholder="Describe the standards achieved..."></textarea>
+                                        </td>
+
+                                        <td>
+                                            <textarea name="KraEvaluations[@i].SupervisorComments"
+                                                  class="form-control"
+                                                  rows="3"
+                                                  placeholder="Supervisor feedback..."></textarea>
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <button type="button"
+                                                    class="btn-remove-kra"
+                                                    onclick="removeC1Kra(@(i + 1))"
+                                                    style="display:none;">
+
+                                                <i class="bi bi-trash"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ADD KRA -->
+                    <div class="add-kra-container">
+                        <button type="button"
+                                id="addC1KraBtn"
+                                class="btn-add-kra"
+                                onclick="addC1Kra()">
+                            <i class="bi bi-plus-circle"></i>
+                            Add KRA
+                        </button>
+                    </div>
+
+                    <!-- GAF NOTE -->
+                    <div class="alert alert-info border-0 mt-3 d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
+                        <div>
+                            <strong>GAF's Note:</strong>
+                            Generic Assessment Factors (GAFs) shall not be weighted.
+                            GAF's shall not be assessed independently, but must be
+                            integrated and assessed in an integrated manner with the
+                            KRA's.
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- TAB 2: C2 -->
+                <!-- ==========================================
+                     TAB 2: C2
+                     ========================================== -->
                 <div class="tab-pane fade" id="c2-content" role="tabpanel">
-
                     <div class="card pmds-card p-4">
 
-                        <h4 class="fw-bold text-dark mb-4">
-                            Part C2: Point Evaluation Scale for Awarding Points
-                        </h4>
+                        <!-- C2 SECTION HEADER -->
+                        <div class="section-header">
+                            <i class="bi bi-star"></i>
+                            <h5>Part C2: Point Evaluation Scale for Awarding Points</h5>
+                            <span class="badge-section" id="c2KraCount">4 KRAs</span>
+                        </div>
 
-                        <div class="table-responsive mb-3">
-
-                            <table class="table table-hover align-middle text-center"
-                                   id="c2KraTable">
-
-                                <thead class="table-light">
+                        <!-- C2 TABLE -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle text-center" id="c2KraTable">
+                                <thead>
                                     <tr>
-                                        <th class="text-start ps-3">
-                                            Key Result Area (KRA)
-                                        </th>
-
-                                        <th style="width:12%;">
-                                            Weight
-                                        </th>
-
-                                        <th style="width:12%;">
-                                            Own Rating (OR)
-                                        </th>
-
-                                        <th style="width:12%;">
-                                            Supervisor Rating (SR)
-                                        </th>
-
-                                        <th style="width:12%;">
-                                            Agreed Rating (AR)
-                                        </th>
-
-                                        <th style="width:5%;">
-                                            Action
-                                        </th>
+                                        <th style="width:8%;">KRA</th>
+                                        <th style="width:12%;">Weight</th>
+                                        <th style="width:20%;">Own Rating (OR)</th>
+                                        <th style="width:20%;">Supervisor Rating (SR)</th>
+                                        <th style="width:20%;">Agreed Rating (AR)</th>
+                                        <th style="width:10%;">Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody id="c2KraBody">
 
-                                    <!-- KRA 1 -->
-                                    <tr>
-                                        <td class="text-start ps-3 fw-semibold">
+                                    @for (int i = 0; i < Model.KraEvaluations.Count; i++)
+                                    {
+                                        <tr class="c2-kra-row">
 
-                                            <input name="KraEvaluations[0].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA 1 Description..." />
+                                            <!-- KRA -->
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
 
-                                        </td>
+                                                    <span class="kra-number fw-bold text-success">
+                                                        @(i + 1)
+                                                    </span>
 
-                                        <td>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           value="@Model.KraEvaluations[i].KraDescription"
+                                                           readonly />
 
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
+                                                    <input type="hidden"
+                                                           name="KraEvaluations[@i].KraDescription"
+                                                           value="@Model.KraEvaluations[i].KraDescription" />
 
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
+                                                    <input type="hidden"
+                                                           name="KraEvaluations[@i].KraNumber"
+                                                           value="@(i + 1)" />
+
+                                                </div>
+                                            </td>
+
+
+                                            <!-- WEIGHT -->
+                                            <td>
+                                                <div class="input-group input-group-sm mx-auto"
+                                                     style="max-width:100px;">
+
+                                                    <input type="number"
+                                                           name="KraEvaluations[@i].Weight"
+                                                           value="@Model.KraEvaluations[i].Weight"
+                                                           class="form-control text-center kra-weight"
+                                                           readonly />
+
+                                                    <span class="input-group-text">
+                                                        %
+                                                    </span>
+
+                                                </div>
+                                            </td>
+
+
+                                            <!-- OWN RATING -->
+                                            <td>
+                                                <select name="KraEvaluations[@i].OwnRating"
+                                                        class="form-select">
+
+                                                    <option value="0">
+                                                        Select
+                                                    </option>
+
+                                                    <option value="1"
+                                                            selected="@(Model.KraEvaluations[i].OwnRating == 1)">
+                                                        1 – Not Effective
+                                                    </option>
+
+                                                    <option value="2"
+                                                            selected="@(Model.KraEvaluations[i].OwnRating == 2)">
+                                                        2 – Partially Effective
+                                                    </option>
+
+                                                    <option value="3"
+                                                            selected="@(Model.KraEvaluations[i].OwnRating == 3)">
+                                                        3 – Fully Effective
+                                                    </option>
+
+                                                    <option value="4"
+                                                            selected="@(Model.KraEvaluations[i].OwnRating == 4)">
+                                                        4 – Highly Effective
+                                                    </option>
+
                                                 </select>
-
-                                                <span class="input-group-text">%</span>
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[0].OwnRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[0].SupervisorRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[0].AgreedRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-c2-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-
-                                    </tr>
+                                            </td>
 
 
-                                    <!-- KRA 2 -->
-                                    <tr>
-                                        <td class="text-start ps-3 fw-semibold">
+                                            <!-- SUPERVISOR RATING -->
+                                            <td>
+                                                <select name="KraEvaluations[@i].SupervisorRating"
+                                                        class="form-select">
 
-                                            <input name="KraEvaluations[1].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA 2 Description..." />
+                                                    <option value="0">
+                                                        Select
+                                                    </option>
 
-                                        </td>
+                                                    <option value="1"
+                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 1)">
+                                                        1 – Not Effective
+                                                    </option>
 
-                                        <td>
+                                                    <option value="2"
+                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 2)">
+                                                        2 – Partially Effective
+                                                    </option>
 
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
+                                                    <option value="3"
+                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 3)">
+                                                        3 – Fully Effective
+                                                    </option>
 
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
+                                                    <option value="4"
+                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 4)">
+                                                        4 – Highly Effective
+                                                    </option>
+
                                                 </select>
-
-                                                <span class="input-group-text">%</span>
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[1].OwnRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[1].SupervisorRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[1].AgreedRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-c2-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-
-                                    </tr>
+                                            </td>
 
 
-                                    <!-- KRA 3 -->
-                                    <tr>
-                                        <td class="text-start ps-3 fw-semibold">
+                                            <!-- AGREED RATING -->
+                                            <td>
+                                                <select name="KraEvaluations[@i].AgreedRating"
+                                                        class="form-select">
 
-                                            <input name="KraEvaluations[2].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA 3 Description..." />
+                                                    <option value="0">
+                                                        Select
+                                                    </option>
 
-                                        </td>
+                                                    <option value="1"
+                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 1)">
+                                                        1 – Not Effective
+                                                    </option>
 
-                                        <td>
+                                                    <option value="2"
+                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 2)">
+                                                        2 – Partially Effective
+                                                    </option>
 
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
+                                                    <option value="3"
+                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 3)">
+                                                        3 – Fully Effective
+                                                    </option>
 
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
+                                                    <option value="4"
+                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 4)">
+                                                        4 – Highly Effective
+                                                    </option>
+
                                                 </select>
+                                            </td>
 
-                                                <span class="input-group-text">%</span>
 
-                                            </div>
+                                            <!-- ACTION -->
+                                            <td class="text-center">
 
-                                        </td>
+                                                <button type="button"
+                                                        class="btn-remove-kra"
+                                                        style="display:none;">
 
-                                        <td>
-                                            <input name="KraEvaluations[2].OwnRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
+                                                    <i class="bi bi-trash"></i>
 
-                                        <td>
-                                            <input name="KraEvaluations[2].SupervisorRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
+                                                </button>
 
-                                        <td>
-                                            <input name="KraEvaluations[2].AgreedRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-c2-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-
-                                    </tr>
-                                    <!-- KRA 4 -->
-                                    <tr>
-                                        <td class="text-start ps-3 fw-semibold">
-
-                                            <input name="KraEvaluations[3].KraDescription"
-                                                   class="form-control border-0 bg-transparent fw-semibold"
-                                                   placeholder="Enter KRA 4 Description..." />
-
-                                        </td>
-
-                                        <td>
-
-                                            <div class="input-group input-group-sm mx-auto"
-                                                 style="max-width:90px;">
-                                                <select name="KRAs[${index}].Weight"
-                                                        class="form-select form-select-custom weight-input weight-field"
-                                                        required>
-                                                    <option value="">-- Select Weight --</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="13">13%</option>
-                                                    <option value="14">14%</option>
-                                                    <option value="15">15%</option>
-                                                    <option value="16">16%</option>
-                                                    <option value="17">17%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="19">19%</option>
-                                                    <option value="20">20%</option>
-                                                    <option value="21">21%</option>
-                                                    <option value="22">22%</option>
-                                                    <option value="23">23%</option>
-                                                    <option value="24">24%</option>
-                                                    <option value="25">25%</option>
-                                                    <option value="26">26%</option>
-                                                    <option value="27">27%</option>
-                                                    <option value="28">28%</option>
-                                                    <option value="29">29%</option>
-                                                    <option value="30">30%</option>
-                                                </select>
-
-                                                <span class="input-group-text">%</span>
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[3].OwnRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[3].SupervisorRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[3].AgreedRating"
-                                                   type="number"
-                                                   class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
-                                                   placeholder="1-4"
-                                                   min="1"
-                                                   max="4" />
-                                        </td>
-
-                                        <td>
-                                            <button type="button"
-                                                    class="btn btn-outline-danger btn-sm remove-c2-kra"
-                                                    style="display:none;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-
-                                    </tr>
-                                    <!-- TOTAL -->
-                                    <tr class="table-light">
-                                        <td class="text-start ps-3 fw-bold">
-                                            TOTAL WEIGHT:
-                                        </td>
-
-                                        <td>
-                                            <span id="total-weight-badge"
-                                                  class="badge bg-danger fs-6">
-                                                0%
-                                            </span>
-                                        </td>
-
-                                        <td colspan="4"></td>
-                                    </tr>
+                                        </tr>
+                                    }
 
                                 </tbody>
-
                             </table>
-
                         </div>
 
-                        <!-- ADD KRA BUTTON -->
-                        <div class="mb-4">
-
-                            <button type="button"
-                                    id="addC2KraBtn"
-                                    class="btn btn-success">
-
-                                <i class="bi bi-plus-circle me-2"></i>
+                        <!-- ADD KRA -->
+                        <div class="add-kra-container">
+                            <button type="button" id="addC2KraBtn" class="btn-add-kra">
+                                <i class="bi bi-plus-circle"></i>
                                 Add KRA
-
                             </button>
-
                         </div>
 
-                        <!-- Dispute card -->
-                        <div class="card border-0 bg-light p-4 mb-4" style="border-radius: 10px; border-left: 4px solid #006838 !important;">
-                            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shield-fill-exclamation me-2" style="color: #006838;"></i>Dispute Protocol Settings</h5>
+                        <!-- DISPUTE CARD -->
+                        <div class="card border-0 bg-light p-4 mb-4"
+                             style="border-radius: 10px; border-left: 4px solid #006838 !important;">
+
+                            <h5 class="fw-bold text-dark mb-3">
+                                <i class="bi bi-shield-fill-exclamation me-2" style="color: #006838;"></i>
+                                Dispute Protocol Settings
+                            </h5>
+
                             <div class="row align-items-center mb-3">
-                                <label class="col-md-5 col-form-label fw-semibold">Is there an unresolved dispute between Supervisor / Supervisee?</label>
-                                <div class="col-md-4">
+                                <label class="col-md-5 col-form-label fw-semibold">
+                                    Is there an unresolved dispute between Supervisor / Supervisee?
+                                </label>
+                                <div class="col-md-7">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="HasDispute" value="true" id="disputeYes">
                                         <label class="form-check-label" for="disputeYes">Yes, there is a dispute</label>
@@ -1625,49 +1283,182 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div id="disputeFields" style="display: none;">
-                                <div class="row g-3">
+                                <div class="row g-4">
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Specify Disputed KRA Numbers:</label>
-                                        <input name="DisputedKraNumbers" class="form-control" placeholder="e.g. KRA 1, KRA 3" />
-                                        <span class="form-text text-danger">✓ Note: Supervisor must refer this to the next higher Line Manager within 10 working days.</span>
+                                        <input name="DisputedKraNumbers"
+                                               class="form-control"
+                                               placeholder="e.g. KRA 1, KRA 3" />
+                                        <span class="form-text text-danger">
+                                            ✓ Note: Supervisor must refer this to the next higher Line Manager within 10 working days.
+                                        </span>
                                     </div>
+
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Decision of Next Higher Line Manager:</label>
-                                        <textarea name="HigherManagerDecision" class="form-control" rows="2" placeholder="Describe resolution..."></textarea>
+                                        <textarea name="HigherManagerDecision"
+                                                  class="form-control"
+                                                  rows="4"
+                                                  placeholder="Describe resolution..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4 mt-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Next Higher Line Manager Surname & Initials:
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text"
+                                               name="HigherManagerSurnameInitials"
+                                               class="form-control"
+                                               placeholder="Enter surname and initials" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Date:
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="date"
+                                               name="HigherManagerSignDate"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="signature-card">
+                                            <label class="form-label fw-bold">
+                                                Next Higher Line Manager Signature
+                                                <span class="text-danger">*</span>
+                                            </label>
+
+                                            <div class="signature-wrapper">
+                                                <canvas id="higherManagerSignaturePad"></canvas>
+                                            </div>
+
+                                            <input type="hidden"
+                                                   id="HigherManagerSignature"
+                                                   name="HigherManagerSignature" />
+
+                                            <div class="signature-actions mt-2">
+                                                <button type="button"
+                                                        id="clearHigherManagerSignature"
+                                                        class="btn btn-outline-danger btn-sm">
+                                                    <i class="bi bi-eraser me-1"></i>
+                                                    Clear Signature
+                                                </button>
+                                            </div>
+
+                                            <small class="text-muted d-block mt-2">
+                                                Draw the Next Higher Line Manager's signature in the box above.
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Signatures -->
+                        <!-- SIGNATURES -->
                         <div class="border-top pt-4" style="border-color: #006838 !important;">
-                            <h5 class="fw-bold mb-3"><i class="bi bi-vector-pen me-2" style="color: #006838;"></i>Signatures & Verification</h5>
-                            <div class="row g-3">
+                            <h5 class="fw-bold mb-4">
+                                <i class="bi bi-vector-pen me-2" style="color: #006838;"></i>
+                                Signatures & Verification
+                            </h5>
+
+                            <div class="row g-4">
+
+                                <!-- Job Holder -->
                                 <div class="col-md-6">
-                                    <label class="form-label">Job Holder / Supervisee Name:</label>
-                                    <input name="SuperviseeSignature" class="form-control mb-2" placeholder="Digital Signature Name"  />
-                                    <input name="SuperviseeSignDate" type="date" class="form-control" value="2025-06-15" />
+                                    <div class="signature-card">
+                                        <label class="form-label fw-bold">
+                                            Job Holder / Supervisee Signature
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="signature-wrapper">
+                                            <canvas id="superviseeSignaturePad" class="signature-pad"></canvas>
+                                        </div>
+
+                                        <input type="hidden"
+                                               id="SuperviseeSignature"
+                                               name="SuperviseeSignature" />
+
+                                        <div class="signature-actions">
+                                            <button type="button"
+                                                    id="clearSuperviseeSignature"
+                                                    class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-eraser me-1"></i>
+                                                Clear Signature
+                                            </button>
+                                        </div>
+
+                                        <small class="text-muted d-block mt-2">
+                                            Draw your signature in the box above.
+                                        </small>
+
+                                        <label class="form-label fw-bold mt-3">Job Holder / Supervisee Date</label>
+                                        <input name="SuperviseeSignDate"
+                                               type="date"
+                                               class="form-control" />
+                                    </div>
                                 </div>
+
+                                <!-- Supervisor -->
                                 <div class="col-md-6">
-                                    <label class="form-label">Supervisor Name:</label>
-                                    <input name="SupervisorSignature" class="form-control mb-2" placeholder="Digital Signature Name"  />
-                                    <input name="SupervisorSignDate" type="date" class="form-control" value="2025-06-18" />
+                                    <div class="signature-card">
+                                        <label class="form-label fw-bold">
+                                            Supervisor Signature
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="signature-wrapper">
+                                            <canvas id="supervisorSignaturePad" class="signature-pad"></canvas>
+                                        </div>
+
+                                        <input type="hidden"
+                                               id="SupervisorSignature"
+                                               name="SupervisorSignature" />
+
+                                        <div class="signature-actions">
+                                            <button type="button"
+                                                    id="clearSupervisorSignature"
+                                                    class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-eraser me-1"></i>
+                                                Clear Signature
+                                            </button>
+                                        </div>
+
+                                        <small class="text-muted d-block mt-2">
+                                            Draw the supervisor's signature in the box above.
+                                        </small>
+
+                                        <label class="form-label fw-bold mt-3">Supervisor Date</label>
+                                        <input name="SupervisorSignDate"
+                                               type="date"
+                                               class="form-control" />
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
+
+                        <!-- Save button -->
+                        <div class="text-center mt-4">
+                            <a href="/PMDS/PersonalAssistancePlan" class="btn btn-success btn-lg">
+                                <i class="bi bi-save me-2"></i>
+                                Save Changes
+                            </a>
+                        </div>
+
                     </div>
                 </div>
-            </div>
 
-            <!-- Footer - fixed at bottom of form (not sticky) -->
+            </div><!-- /tab-content -->
 
-            <div class="text-center">
-                <a href="/PMDS/PersonalAssistancePlan" class="btn btn-success btn-lg">
-                    Save Changes
-                </a>
-            </div>
-            </div>
         </form>
     </div>
 
@@ -1678,9 +1469,9 @@
            C1 - ADD KRA
            ========================================================= */
 
-        let c1KraIndex = 3;
+        let c1KraIndex = 4;
 
-        document.getElementById("addC1KraBtn").addEventListener("click", function () {
+        function addC1Kra() {
 
             const tbody = document.getElementById("c1KraBody");
 
@@ -1688,51 +1479,49 @@
 
             const row = document.createElement("tr");
 
+            row.className = "c1-kra-row";
+            row.setAttribute("data-kra", rowNumber);
+
             row.innerHTML = `
-                <td class="ps-3 fw-bold text-success kra-number">
-                    ${rowNumber}
-                </td>
-
                 <td>
-                    <input name="KraEvaluations[${c1KraIndex}].KraDescription"
-                           class="form-control border-0 bg-transparent fw-semibold"
-                           placeholder="Enter KRA Description..." />
-                </td>
-
-                <td>
-                    <div class="input-group input-group-sm mx-auto"
-                         style="max-width:90px;">
-
-                        <input name="KraEvaluations[${c1KraIndex}].Weight"
-                               type="number"
-                               class="form-control text-center kra-weight"
-                               placeholder="0" />
-
-                        <span class="input-group-text">%</span>
-
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span class="kra-number fw-bold text-success" style="min-width:18px;">${rowNumber}</span>
+                        <input name="KraEvaluations[${c1KraIndex}].KraDescription"
+                               class="form-control"
+                               placeholder="Enter KRA Description..." />
                     </div>
                 </td>
 
                 <td>
+                    <input name="KraEvaluations[${c1KraIndex}].Weight"
+                           type="number"
+                           class="form-control text-center weight-input kra-weight"
+                           placeholder="Weight"
+                           min="0"
+                           max="100"
+                           step="1"
+                           inputmode="numeric" />
+                </td>
+
+                <td>
                     <textarea name="KraEvaluations[${c1KraIndex}].AchievementStandard"
-                              class="form-control form-control-sm"
+                              class="form-control"
                               rows="3"
                               placeholder="Describe the standards achieved..."></textarea>
                 </td>
 
                 <td>
                     <textarea name="KraEvaluations[${c1KraIndex}].SupervisorComments"
-                              class="form-control form-control-sm"
+                              class="form-control"
                               rows="3"
                               placeholder="Supervisor feedback..."></textarea>
                 </td>
 
                 <td class="text-center">
                     <button type="button"
-                            class="btn btn-outline-danger btn-sm remove-kra">
-
+                            class="btn-remove-kra"
+                            onclick="removeC1Kra(${rowNumber})">
                         <i class="bi bi-trash"></i>
-
                     </button>
                 </td>
             `;
@@ -1741,30 +1530,37 @@
 
             c1KraIndex++;
 
+            attachWeightCalculator();
+            calculateTotalWeight();
             updateC1Numbers();
-
-        });
+            updateC1Count();
+            toggleC1RemoveButtons();
+        }
 
 
         /* =========================================================
            C1 - REMOVE KRA
            ========================================================= */
 
-        document.getElementById("c1KraBody").addEventListener("click", function (e) {
+        function removeC1Kra(number) {
 
-            const button = e.target.closest(".remove-kra");
+            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
 
-            if (!button) {
+            if (rows.length <= 1) {
+                alert("At least 1 KRA is required.");
                 return;
             }
 
-            const row = button.closest("tr");
+            const row = document.querySelector(`#c1KraBody tr.c1-kra-row[data-kra="${number}"]`);
 
-            row.remove();
+            if (row) row.remove();
 
             reindexC1Kras();
-
-        });
+            attachWeightCalculator();
+            calculateTotalWeight();
+            updateC1Count();
+            toggleC1RemoveButtons();
+        }
 
 
         /* =========================================================
@@ -1772,19 +1568,21 @@
            ========================================================= */
 
         function updateC1Numbers() {
-
-            const rows = document.querySelectorAll("#c1KraBody tr");
-
-            rows.forEach((row, index) => {
-
+            document.querySelectorAll("#c1KraBody tr.c1-kra-row").forEach((row, index) => {
                 const numberCell = row.querySelector(".kra-number");
-
-                if (numberCell) {
-                    numberCell.innerText = index + 1;
-                }
-
+                if (numberCell) numberCell.innerText = index + 1;
             });
+        }
 
+
+        /* =========================================================
+           C1 - COUNT BADGE
+           ========================================================= */
+
+        function updateC1Count() {
+            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
+            const badge = document.getElementById("c1KraCount");
+            if (badge) badge.innerText = rows.length + " KRAs";
         }
 
 
@@ -1794,29 +1592,39 @@
 
         function reindexC1Kras() {
 
-            const rows = document.querySelectorAll("#c1KraBody tr");
+            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
 
             rows.forEach((row, index) => {
 
-                row.querySelectorAll("input, textarea").forEach(input => {
+                row.setAttribute("data-kra", index + 1);
 
-                    if (input.name) {
-
-                        input.name = input.name.replace(
+                row.querySelectorAll("input, textarea, select").forEach(el => {
+                    if (el.name) {
+                        el.name = el.name.replace(
                             /KraEvaluations\[\d+\]/,
                             `KraEvaluations[${index}]`
                         );
-
                     }
-
                 });
 
+                const btn = row.querySelector(".btn-remove-kra");
+                if (btn) btn.setAttribute("onclick", `removeC1Kra(${index + 1})`);
             });
 
             c1KraIndex = rows.length;
-
             updateC1Numbers();
+        }
 
+
+        /* =========================================================
+           C1 - SHOW/HIDE REMOVE BUTTONS
+           ========================================================= */
+
+        function toggleC1RemoveButtons() {
+            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
+            document.querySelectorAll("#c1KraBody .btn-remove-kra").forEach(btn => {
+                btn.style.display = rows.length > 1 ? "inline-block" : "none";
+            });
         }
 
 
@@ -1824,85 +1632,89 @@
            C2 - ADD KRA
            ========================================================= */
 
-        let c2KraIndex = 3;
+        let c2KraIndex = 4;
 
         document.getElementById("addC2KraBtn").addEventListener("click", function () {
 
             const tbody = document.getElementById("c2KraBody");
-
             const totalRow = tbody.querySelector(".table-light");
-
             const rowNumber = c2KraIndex + 1;
 
             const row = document.createElement("tr");
+            row.className = "c2-kra-row";
+            row.setAttribute("data-kra", rowNumber);
 
             row.innerHTML = `
-                <td class="text-start ps-3 fw-semibold">
-
-                    <input name="KraEvaluations[${c2KraIndex}].KraDescription"
-                           class="form-control border-0 bg-transparent fw-semibold"
-                           placeholder="Enter KRA ${rowNumber} Description..." />
-
-                </td>
+                <td class="kra-number">${rowNumber}</td>
 
                 <td>
-
-                    <div class="input-group input-group-sm mx-auto"
-                         style="max-width:90px;">
-
-                        <input name="KraEvaluations[${c2KraIndex}].Weight"
-                               type="number"
-                               class="form-control text-center kra-weight"
-                               placeholder="0" />
-
+                    <div class="input-group input-group-sm mx-auto" style="max-width:100px;">
+                        <select name="KraEvaluations[${c2KraIndex}].Weight"
+                                class="form-select weight-input kra-weight"
+                                required>
+                            <option value="">—</option>
+                            <option value="10">10%</option>
+                            <option value="11">11%</option>
+                            <option value="12">12%</option>
+                            <option value="13">13%</option>
+                            <option value="14">14%</option>
+                            <option value="15">15%</option>
+                            <option value="16">16%</option>
+                            <option value="17">17%</option>
+                            <option value="18">18%</option>
+                            <option value="19">19%</option>
+                            <option value="20">20%</option>
+                            <option value="21">21%</option>
+                            <option value="22">22%</option>
+                            <option value="23">23%</option>
+                            <option value="24">24%</option>
+                            <option value="25">25%</option>
+                            <option value="26">26%</option>
+                            <option value="27">27%</option>
+                            <option value="28">28%</option>
+                            <option value="29">29%</option>
+                            <option value="30">30%</option>
+                        </select>
                         <span class="input-group-text">%</span>
-
                     </div>
-
                 </td>
 
                 <td>
-
-                    <input name="KraEvaluations[${c2KraIndex}].OwnRating"
-                           type="number"
-                           class="form-control form-control-sm rating-input mx-auto"
-                           placeholder="1-4"
-                           min="1"
-                           max="4" />
-
+                    <select name="KraEvaluations[${c2KraIndex}].OwnRating" class="form-control select-rating text-center">
+                        <option value="">—</option>
+                        <option value="1">1 – Not Effective</option>
+                        <option value="2">2 – Partially Effective</option>
+                        <option value="3">3 – Fully Effective</option>
+                        <option value="4">4 – Highly Effective</option>
+                    </select>
                 </td>
 
                 <td>
-
-                    <input name="KraEvaluations[${c2KraIndex}].SupervisorRating"
-                           type="number"
-                           class="form-control form-control-sm rating-input mx-auto"
-                           placeholder="1-4"
-                           min="1"
-                           max="4" />
-
+                    <select name="KraEvaluations[${c2KraIndex}].SupervisorRating" class="form-control select-rating text-center">
+                        <option value="">—</option>
+                        <option value="1">1 – Not Effective</option>
+                        <option value="2">2 – Partially Effective</option>
+                        <option value="3">3 – Fully Effective</option>
+                        <option value="4">4 – Highly Effective</option>
+                    </select>
                 </td>
 
                 <td>
-
-                    <input name="KraEvaluations[${c2KraIndex}].AgreedRating"
-                           type="number"
-                           class="form-control form-control-sm rating-input mx-auto border-primary bg-primary-subtle"
-                           placeholder="1-4"
-                           min="1"
-                           max="4" />
-
+                    <select name="KraEvaluations[${c2KraIndex}].AgreedRating"
+                            class="form-control select-rating text-center"
+                            style="border-color:#006838;background:#e8f5ee;">
+                        <option value="">—</option>
+                        <option value="1">1 – Not Effective</option>
+                        <option value="2">2 – Partially Effective</option>
+                        <option value="3">3 – Fully Effective</option>
+                        <option value="4">4 – Highly Effective</option>
+                    </select>
                 </td>
 
-                <td>
-
-                    <button type="button"
-                            class="btn btn-outline-danger btn-sm remove-c2-kra">
-
+                <td class="text-center">
+                    <button type="button" class="btn-remove-kra remove-c2-kra">
                         <i class="bi bi-trash"></i>
-
                     </button>
-
                 </td>
             `;
 
@@ -1911,9 +1723,9 @@
             c2KraIndex++;
 
             attachWeightCalculator();
-
             calculateTotalWeight();
-
+            updateC2Count();
+            toggleC2RemoveButtons();
         });
 
 
@@ -1924,19 +1736,16 @@
         document.getElementById("c2KraBody").addEventListener("click", function (e) {
 
             const button = e.target.closest(".remove-c2-kra");
-
-            if (!button) {
-                return;
-            }
+            if (!button) return;
 
             const row = button.closest("tr");
-
             row.remove();
 
             reindexC2Kras();
-
+            attachWeightCalculator();
             calculateTotalWeight();
-
+            updateC2Count();
+            toggleC2RemoveButtons();
         });
 
 
@@ -1946,29 +1755,46 @@
 
         function reindexC2Kras() {
 
-            const rows = document.querySelectorAll(
-                "#c2KraBody tr:not(.table-light)"
-            );
+            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
 
             rows.forEach((row, index) => {
 
-                row.querySelectorAll("input").forEach(input => {
+                row.setAttribute("data-kra", index + 1);
 
-                    if (input.name) {
-
-                        input.name = input.name.replace(
+                row.querySelectorAll("select, input").forEach(el => {
+                    if (el.name) {
+                        el.name = el.name.replace(
                             /KraEvaluations\[\d+\]/,
                             `KraEvaluations[${index}]`
                         );
-
                     }
-
                 });
-
             });
 
             c2KraIndex = rows.length;
+        }
 
+
+        /* =========================================================
+           C2 - COUNT BADGE
+           ========================================================= */
+
+        function updateC2Count() {
+            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
+            const badge = document.getElementById("c2KraCount");
+            if (badge) badge.innerText = rows.length + " KRAs";
+        }
+
+
+        /* =========================================================
+           C2 - SHOW/HIDE REMOVE BUTTONS
+           ========================================================= */
+
+        function toggleC2RemoveButtons() {
+            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
+            document.querySelectorAll("#c2KraBody .remove-c2-kra").forEach(btn => {
+                btn.style.display = rows.length > 1 ? "inline-block" : "none";
+            });
         }
 
 
@@ -1980,53 +1806,36 @@
 
             let total = 0;
 
-            document.querySelectorAll(".kra-weight").forEach(input => {
-
-                const value = parseFloat(input.value) || 0;
-
+            document.querySelectorAll(".kra-weight").forEach(el => {
+                const value = parseFloat(el.value) || 0;
                 total += value;
-
             });
 
             const badge = document.getElementById("total-weight-badge");
 
             if (badge) {
-
                 badge.innerText = total + "%";
-
                 if (total === 100) {
-
                     badge.className = "badge bg-success fs-6";
-
                 } else {
-
                     badge.className = "badge bg-danger fs-6";
-
                 }
-
             }
-
         }
 
 
         /* =========================================================
-           ATTACH WEIGHT CALCULATOR
+           ATTACH WEIGHT LISTENERS
            ========================================================= */
 
         function attachWeightCalculator() {
-
-            document.querySelectorAll(".kra-weight").forEach(input => {
-
-                if (!input.dataset.listenerAttached) {
-
-                    input.addEventListener("input", calculateTotalWeight);
-
-                    input.dataset.listenerAttached = "true";
-
+            document.querySelectorAll(".kra-weight").forEach(el => {
+                if (!el.dataset.listenerAttached) {
+                    el.addEventListener("input", calculateTotalWeight);
+                    el.addEventListener("change", calculateTotalWeight);
+                    el.dataset.listenerAttached = "true";
                 }
-
             });
-
         }
 
 
@@ -2035,19 +1844,127 @@
            ========================================================= */
 
         document.querySelectorAll('input[name="HasDispute"]').forEach(elem => {
-
             elem.addEventListener("change", function (e) {
-
                 const box = document.getElementById("disputeFields");
-
-                box.style.display =
-                    e.target.value === "true"
-                        ? "block"
-                        : "none";
-
+                box.style.display = e.target.value === "true" ? "block" : "none";
             });
-
         });
+
+
+        /* =========================================================
+           SIGNATURE PAD FACTORY
+           ========================================================= */
+
+        function createSignaturePad(canvasId, hiddenInputId, clearBtnId, label) {
+
+            const canvas = document.getElementById(canvasId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+            const clearButton = document.getElementById(clearBtnId);
+
+            if (!canvas) {
+                console.warn("Signature canvas not found:", canvasId);
+                return null;
+            }
+
+            const ctx = canvas.getContext("2d");
+
+            let drawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function resizeCanvas() {
+                const rect = canvas.getBoundingClientRect();
+                if (rect.width === 0) return;
+
+                const saved = hiddenInput && hiddenInput.value;
+
+                canvas.width = rect.width;
+                canvas.height = 250;
+
+                ctx.strokeStyle = "#000000";
+                ctx.fillStyle = "#000000";
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+
+                if (saved) {
+                    const img = new Image();
+                    img.onload = function () {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                    img.src = saved;
+                }
+            }
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+                }
+                return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            }
+
+            function start(e) {
+                e.preventDefault();
+                drawing = true;
+                const p = getPos(e);
+                lastX = p.x;
+                lastY = p.y;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+            }
+
+            function move(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                const p = getPos(e);
+                ctx.lineTo(p.x, p.y);
+                ctx.stroke();
+                lastX = p.x;
+                lastY = p.y;
+                save();
+            }
+
+            function end(e) {
+                if (!drawing) return;
+                if (e) e.preventDefault();
+                drawing = false;
+                ctx.closePath();
+                save();
+            }
+
+            function save() {
+                if (hiddenInput) hiddenInput.value = canvas.toDataURL("image/png");
+            }
+
+            canvas.addEventListener("mousedown", start);
+            canvas.addEventListener("mousemove", move);
+            canvas.addEventListener("mouseup", end);
+            canvas.addEventListener("mouseleave", end);
+
+            canvas.addEventListener("touchstart", start, { passive: false });
+            canvas.addEventListener("touchmove", move, { passive: false });
+            canvas.addEventListener("touchend", end, { passive: false });
+            canvas.addEventListener("touchcancel", end, { passive: false });
+
+            if (clearButton) {
+                clearButton.addEventListener("click", function () {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    if (hiddenInput) hiddenInput.value = "";
+                });
+            }
+
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            return {
+                canvas,
+                clear: function () {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    if (hiddenInput) hiddenInput.value = "";
+                }
+            };
+        }
 
 
         /* =========================================================
@@ -2056,16 +1973,21 @@
 
         document.addEventListener("DOMContentLoaded", function () {
 
-            attachWeightCalculator();
+            createSignaturePad("superviseeSignaturePad", "SuperviseeSignature", "clearSuperviseeSignature", "Supervisee");
+            createSignaturePad("supervisorSignaturePad", "SupervisorSignature", "clearSupervisorSignature", "Supervisor");
+            createSignaturePad("higherManagerSignaturePad", "HigherManagerSignature", "clearHigherManagerSignature", "Higher Manager");
 
+            attachWeightCalculator();
             calculateTotalWeight();
 
+            updateC1Numbers();
+            updateC1Count();
+            updateC2Count();
+            toggleC1RemoveButtons();
+            toggleC2RemoveButtons();
+
             const disputeNo = document.getElementById("disputeNo");
-
-            if (disputeNo) {
-                disputeNo.checked = true;
-            }
-
+            if (disputeNo) disputeNo.checked = true;
         });
 
     </script>

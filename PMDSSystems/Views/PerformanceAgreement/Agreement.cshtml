@@ -1,12 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Performance Agreement";
+
+    bool canSupervisorSign = ViewBag.CanSupervisorSign == true;
+
+    string existingSupervisorSignature =
+        ViewBag.ExistingSupervisorSignature as string ?? "";
 }
 
 <style>
+
+    /* =========================================================
+           GLOBAL
+           ========================================================= */
+
     body {
         background-color: #f4f6f9;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
+
+    /* =========================================================
+           AGREEMENT CONTAINER
+           ========================================================= */
 
     .agreement-container {
         max-width: 900px;
@@ -27,10 +42,15 @@
             right: 0;
             width: 150px;
             height: 150px;
-            background: radial-gradient(circle, rgba(0,104,56,0.05) 0%, transparent 70%);
+            background: radial-gradient( circle, rgba(0,104,56,0.05) 0%, transparent 70% );
             border-radius: 50%;
             pointer-events: none;
         }
+
+
+    /* =========================================================
+           HEADER
+           ========================================================= */
 
     .agreement-header {
         text-align: center;
@@ -54,6 +74,11 @@
             letter-spacing: 1px;
         }
 
+
+    /* =========================================================
+           AGREEMENT TEXT
+           ========================================================= */
+
     .agreement-text {
         font-size: 15px;
         line-height: 1.8;
@@ -64,6 +89,11 @@
         border-left: 4px solid #006838;
         border-radius: 0 6px 6px 0;
     }
+
+
+    /* =========================================================
+           AGREEMENT LIST
+           ========================================================= */
 
     .agreement-list {
         margin-left: 20px;
@@ -92,11 +122,59 @@
                 color: #006838;
             }
 
+
+    /* =========================================================
+           FORM CONTROLS
+           ========================================================= */
+
+    .form-control {
+        border-radius: 6px;
+        border: 2px solid #cde0d5;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.25);
+        }
+
+
+    /* =========================================================
+           YEAR DROPDOWNS
+           ========================================================= */
+
+    .year-dropdown {
+        width: 110px !important;
+        display: inline-block;
+        padding: 8px 10px;
+        border: 2px solid #cde0d5;
+        border-radius: 6px;
+        font-weight: 600;
+        color: #333;
+        background-color: white;
+    }
+
+        .year-dropdown:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.25);
+            outline: none;
+        }
+
+
+    /* =========================================================
+           SIGNATURE SECTION
+           ========================================================= */
+
     .signature-section {
         margin-top: 60px;
         padding-top: 30px;
         border-top: 2px dashed #006838;
     }
+
+
+    /* =========================================================
+           SIGNATURE CARD
+           ========================================================= */
 
     .signature-card {
         border: 2px solid #006838;
@@ -111,6 +189,11 @@
             box-shadow: 0 4px 15px rgba(0,104,56,0.15);
             border-color: #004d28;
         }
+
+
+    /* =========================================================
+           SIGNATURE TITLE
+           ========================================================= */
 
     .signature-title {
         font-size: 13px;
@@ -131,6 +214,11 @@
             margin: 8px auto 0;
         }
 
+
+    /* =========================================================
+           SIGNATURE CANVAS
+           ========================================================= */
+
     canvas {
         width: 100%;
         height: 140px;
@@ -138,12 +226,31 @@
         border-radius: 8px;
         background: white;
         cursor: crosshair;
+        display: block;
+        touch-action: none;
         transition: border-color 0.3s ease;
     }
 
         canvas:hover {
             border-color: #006838;
         }
+
+
+    /* =========================================================
+           LOCKED SUPERVISOR CANVAS
+           ========================================================= */
+
+    .signature-readonly {
+        cursor: not-allowed !important;
+        background-color: #f5f6f7 !important;
+        border: 2px solid #d5d5d5 !important;
+        touch-action: none;
+    }
+
+
+    /* =========================================================
+           CLEAR BUTTON
+           ========================================================= */
 
     .btn-clear {
         margin-top: 8px;
@@ -163,6 +270,47 @@
             color: white;
             transform: scale(0.95);
         }
+
+
+    /* =========================================================
+           SUPERVISOR LOCK MESSAGE
+           ========================================================= */
+
+    .signature-locked-message {
+        margin-top: 10px;
+        padding: 9px 12px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        color: #6c757d;
+        font-size: 12px;
+        text-align: center;
+    }
+
+        .signature-locked-message i {
+            color: #006838;
+            margin-right: 5px;
+        }
+
+
+    /* =========================================================
+           SUPERVISOR SIGNING MESSAGE
+           ========================================================= */
+
+    .supervisor-signing-message {
+        margin-top: 10px;
+        padding: 9px 12px;
+        background-color: #e8f5ee;
+        border-radius: 6px;
+        color: #006838;
+        font-size: 12px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+
+    /* =========================================================
+           DATE
+           ========================================================= */
 
     .date-box input {
         margin-top: 45px;
@@ -190,11 +338,13 @@
         letter-spacing: 0.5px;
     }
 
-    /* ========================================== */
-    /* SAVE AGREEMENT BUTTON STYLING              */
-    /* ========================================== */
+
+    /* =========================================================
+           SAVE BUTTON
+           ========================================================= */
+
     .btn-save-agreement {
-        background: linear-gradient(135deg, #006838 0%, #004d28 100%);
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
         color: white;
         padding: 16px 50px;
         font-weight: 700;
@@ -207,7 +357,7 @@
         position: relative;
         overflow: hidden;
         cursor: pointer;
-        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        box-shadow: 0 4px 20px rgba(0,104,56,0.35);
         display: inline-flex;
         align-items: center;
         gap: 12px;
@@ -221,14 +371,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient( 90deg, transparent, rgba(255,255,255,0.2), transparent );
             transition: left 0.6s ease;
         }
 
         .btn-save-agreement:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 104, 56, 0.5);
-            background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+            box-shadow: 0 8px 30px rgba(0,104,56,0.5);
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
             color: white;
             text-decoration: none;
         }
@@ -239,14 +389,13 @@
 
         .btn-save-agreement:active {
             transform: translateY(0px);
-            box-shadow: 0 2px 15px rgba(0, 104, 56, 0.3);
+            box-shadow: 0 2px 15px rgba(0,104,56,0.3);
         }
 
         .btn-save-agreement i {
             font-size: 18px;
         }
 
-        /* Icon animations */
         .btn-save-agreement .fa-save {
             transition: transform 0.3s ease;
         }
@@ -264,41 +413,11 @@
             transform: translateX(5px);
         }
 
-    /* Alternative flat design (commented out - use if preferred) */
-    /*
-        .btn-save-agreement-flat {
-            background-color: #006838;
-            color: white;
-            padding: 14px 40px;
-            font-weight: 700;
-            border-radius: 50px;
-            border: none;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 14px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,104,56,0.25);
-        }
 
-            .btn-save-agreement-flat:hover {
-                background-color: #004d28;
-                color: white;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(0,104,56,0.4);
-                text-decoration: none;
-            }
+    /* =========================================================
+           BUTTON WRAPPER
+           ========================================================= */
 
-            .btn-save-agreement-flat i {
-                font-size: 16px;
-            }
-        */
-
-    /* Button wrapper for better positioning */
     .button-wrapper {
         margin-top: 40px;
         text-align: center;
@@ -306,264 +425,1066 @@
         border-top: 2px solid #e9ecef;
     }
 
-    /* Responsive adjustments */
+
+    /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
     @@media (max-width: 768px) {
-        .agreement-container
 
-    {
-        padding: 25px;
-        margin: 20px 15px;
-    }
-
-    .signature-section .row {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .date-box input {
-        margin-top: 0;
-    }
-
-    .agreement-text {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-
-    .btn-save-agreement {
-        padding: 14px 35px;
-        font-size: 13px;
-        width: 100%;
-        justify-content: center;
-    }
-
-    }
-
-    /* Additional styling for form elements */
-    .form-control {
-        border-radius: 6px;
-        border: 2px solid #cde0d5;
-        transition: all 0.3s ease;
-    }
-
-        .form-control:focus {
-            border-color: #006838;
-            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.25);
+        .agreement-container {
+            padding: 25px;
+            margin: 20px 15px;
         }
 
-    /* Animated underline for header */
-    .agreement-header h2 {
-        position: relative;
-        display: inline-block;
-    }
+        .signature-section .row {
+            flex-direction: column;
+            gap: 30px;
+        }
 
-        .agreement-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
+        .date-box input {
+            margin-top: 0;
+        }
+
+        .agreement-text {
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+        .btn-save-agreement {
+            padding: 14px 35px;
+            font-size: 13px;
             width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, #006838, #00a85a);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            justify-content: center;
         }
+    }
 
-        .agreement-header h2:hover::after {
-            transform: scaleX(1);
-        }
 </style>
+
 
 <div class="agreement-container">
 
-    <!-- HEADER -->
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
     <div class="agreement-header">
-        <h2>PERFORMANCE AGREEMENT</h2>
-        <p>Department of Correctional Services</p>
+
+        <h2>
+            PERFORMANCE AGREEMENT
+        </h2>
+
+        <p>
+            Department of Correctional Services
+        </p>
+
     </div>
 
-    <!-- CONTENT -->
-    <div class="agreement-text">
-        Performance will be assessed according to the information contained in the Personal Workplan relating to the required Key Responsibility Areas (KRA's) and Generic Assessment Factors (GAF's).
-    </div>
+
+    <!-- =====================================================
+         INTRODUCTION
+         ===================================================== -->
 
     <div class="agreement-text">
-        The Department of Correctional Services herein represented by (full name and capacity of
-        <strong>(Supervisor)</strong> and (full name and capacity of
-        <strong>(Employee / Supervisee)</strong> agreed as follows:
+
+        Performance will be assessed according to the information
+        contained in the Personal Workplan relating to the required
+        Key Responsibility Areas (KRA's) and Generic Assessment
+        Factors (GAF's).
+
     </div>
+
+
+    <!-- =====================================================
+         REPRESENTATIVES
+         ===================================================== -->
+
+    <div class="agreement-text">
+
+        <div class="mb-3">
+
+            The Department of Correctional Services herein represented by:
+
+        </div>
+
+
+        <div class="row g-3 mb-3">
+
+            <!-- =================================================
+                 SUPERVISOR
+                 ================================================= -->
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold text-success">
+
+                    Full Name and Capacity of Supervisor
+
+                </label>
+
+                <input type="text"
+                       name="SupervisorNameAndCapacity"
+                       class="form-control"
+                       value="@ViewBag.SupervisorNameAndCapacity"
+                       readonly
+                       required />
+
+                <small class="text-muted">
+
+                    Automatically populated from the assigned supervisor.
+
+                </small>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMPLOYEE
+                 ================================================= -->
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold text-success">
+
+                    Full Name and Capacity of Employee / Supervisee
+
+                </label>
+
+                <input type="text"
+                       name="EmployeeNameAndCapacity"
+                       class="form-control"
+                       value="@ViewBag.EmployeeNameAndCapacity"
+                       readonly
+                       required />
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         AGREEMENT CONDITIONS
+         ===================================================== -->
 
     <ul class="agreement-list">
-        <li>To outline the expectations of the Supervisee.</li>
-        <li>To continuously monitor and assess the performance of the Supervisee to determine if the performance expectations have been met.</li>
-        <li>The Agreement will be valid for the period of <strong>1 April 2025 to 31 March 2026</strong>.</li>
-        <li>The content of the Agreement may be revised at any time during above-mentioned period to determine the applicability of the Personal Workplan / Personal Development Plan agreed upon.</li>
+
+        <li>
+            To outline the expectations of the Supervisee.
+        </li>
+
+        <li>
+            To continuously monitor and assess the performance
+            of the Supervisee to determine if the performance
+            expectations have been met.
+        </li>
+
+        <li>
+
+            <div class="d-flex align-items-center flex-wrap gap-2">
+
+                <span>
+                    The Agreement will be valid for the period of
+                </span>
+
+                <strong>
+                    1 April
+                </strong>
+
+
+                <!-- START YEAR -->
+
+                <select name="StartYear"
+                        id="StartYear"
+                        class="form-control year-dropdown"
+                        required>
+
+                    <option value="">
+                        Year
+                    </option>
+
+                    @for (int year = 2020; year <= 2035; year++)
+                    {
+                        <option value="@year">
+                            @year
+                        </option>
+                    }
+
+                </select>
+
+
+                <strong>
+                    to 31 March
+                </strong>
+
+
+                <!-- END YEAR -->
+
+                <select name="EndYear"
+                        id="EndYear"
+                        class="form-control year-dropdown"
+                        required>
+
+                    <option value="">
+                        Year
+                    </option>
+
+                    @for (int year = 2021; year <= 2036; year++)
+                    {
+                        <option value="@year">
+                            @year
+                        </option>
+                    }
+
+                </select>
+
+
+                <strong>
+                    .
+                </strong>
+
+            </div>
+
+        </li>
+
+
+        <li>
+
+            The content of the Agreement may be revised at any time
+            during the above-mentioned period to determine the
+            applicability of the Personal Workplan / Personal
+            Development Plan agreed upon.
+
+        </li>
+
     </ul>
 
-    <!-- SIGNATURE SECTION -->
-    <form method="post">
+
+    <!-- =====================================================
+         FORM
+         ===================================================== -->
+
+    <form method="post"
+          id="performanceAgreementForm">
+
+
+        <!-- =================================================
+             SIGNATURE SECTION
+             ================================================= -->
 
         <div class="row signature-section text-center">
 
-            <!-- EMPLOYEE -->
+
+            <!-- ==============================================
+                 EMPLOYEE / SUPERVISEE SIGNATURE
+                 ============================================== -->
+
             <div class="col-md-5">
+
                 <div class="signature-card">
-                    <div class="signature-title">JOB HOLDER / SUPERVISEE</div>
+
+                    <div class="signature-title">
+                        JOB HOLDER / SUPERVISEE
+                    </div>
+
+
                     <canvas id="sigEmployee"></canvas>
-                    <button type="button" class="btn-clear" onclick="clearPad('sigEmployee')">✕ Clear</button>
-                    <input type="hidden" name="EmployeeSignature" id="EmployeeSignature" />
+
+
+                    <button type="button"
+                            class="btn-clear"
+                            onclick="clearPad('sigEmployee')">
+
+                        ✕ Clear
+
+                    </button>
+
+
+                    <input type="hidden"
+                           name="EmployeeSignature"
+                           id="EmployeeSignature" />
+
                 </div>
+
             </div>
 
-            <!-- DATE -->
+
+            <!-- ==============================================
+                 DATE
+                 ============================================== -->
+
             <div class="col-md-2 date-box">
-                <input type="date" name="SignatureDate" class="form-control" />
-                <small>📅 DATE</small>
+
+                <input type="date"
+                       name="SignatureDate"
+                       class="form-control"
+                       required />
+
+                <small>
+                    📅 DATE
+                </small>
+
             </div>
 
-            <!-- SUPERVISOR -->
+
+            <!-- ==============================================
+                 SUPERVISOR SIGNATURE
+                 ============================================== -->
+
             <div class="col-md-5">
+
                 <div class="signature-card">
-                    <div class="signature-title">SUPERVISOR</div>
-                    <canvas id="sigSupervisor"></canvas>
-                    <button type="button" class="btn-clear" onclick="clearPad('sigSupervisor')">✕ Clear</button>
-                    <input type="hidden" name="SupervisorSignature" id="SupervisorSignature" />
+
+                    <div class="signature-title">
+                        SUPERVISOR
+                    </div>
+
+
+                    @if (canSupervisorSign)
+                    {
+                        <!-- ======================================
+                             ASSIGNED SUPERVISOR CAN SIGN
+                             ====================================== -->
+
+                        <canvas id="sigSupervisor"></canvas>
+
+
+                        <button type="button"
+                                class="btn-clear"
+                                onclick="clearPad('sigSupervisor')">
+
+                            ✕ Clear
+
+                        </button>
+
+
+                        <div class="supervisor-signing-message">
+
+                            <i class="fas fa-pen"></i>
+
+                            You are the assigned supervisor.
+                            You may sign this agreement.
+
+                        </div>
+
+
+                        <input type="hidden"
+                               name="SupervisorSignature"
+                               id="SupervisorSignature"
+                               value="@existingSupervisorSignature" />
+                    }
+                    else
+                    {
+                        <!-- ======================================
+                             SUPERVISOR SIGNATURE LOCKED
+                             ====================================== -->
+
+                        <canvas id="sigSupervisor"
+                                class="signature-readonly"></canvas>
+
+
+                        <div class="signature-locked-message">
+
+                            <i class="fas fa-lock"></i>
+
+                            Supervisor signature can only be
+                            completed by the assigned supervisor.
+
+                        </div>
+
+
+                        <input type="hidden"
+                               name="SupervisorSignature"
+                               id="SupervisorSignature"
+                               value="@existingSupervisorSignature" />
+                    }
+
                 </div>
+
             </div>
 
         </div>
 
-        <!-- ========================================== -->
-        <!-- BUTTON WRAPPER WITH STYLED SAVE BUTTON     -->
-        <!-- ========================================== -->
-        <div class="button-wrapper">
-            <!-- OPTION 1: Premium Gradient Button with Hover Effects -->
-            <a href="/PMDS/personalDevelopmentPlan" class="btn-save-agreement">
-                <i class="fas fa-save"></i>
-                Save Agreement
-                <i class="fas fa-chevron-right"></i>
-            </a>
 
-            <!--
-                OPTION 2: Flat Design Button (Uncomment below and comment above to use this style)
+        <!-- =================================================
+             SAVE BUTTON
+             ================================================= -->
 
-                <a href="/PMDS/personalDevelopmentPlan" class="btn-save-agreement-flat">
-                    <i class="fas fa-save"></i>
-                    Save Agreement
-                </a>
-            -->
-        </div>
+        <d<div class="button-wrapper">
+
+    <a href="/PMDS/PersonalDevelopmentPlan"
+       class="btn-save-agreement">
+
+        <i class="fas fa-save"></i>
+
+        Save Agreement
+
+        <i class="fas fa-chevron-right"></i>
+
+    </a>
+
+</div>
 
     </form>
 
 </div>
 
-<script>
-    function initCanvas(id) {
-        const canvas = document.getElementById(id);
-        const ctx = canvas.getContext("2d");
 
-        // Set actual canvas size to match CSS
-        canvas.width = canvas.offsetWidth * 2;
-        canvas.height = canvas.offsetHeight * 2;
-        ctx.scale(2, 2);
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+    /* =========================================================
+       SUPERVISOR PERMISSION FROM SERVER
+       ========================================================= */
+
+    const canSupervisorSign =
+        @(canSupervisorSign ? "true" : "false");
+
+
+    /* =========================================================
+       INITIALIZE SIGNATURE CANVAS
+       ========================================================= */
+
+    function initCanvas(id) {
+
+        const canvas =
+            document.getElementById(id);
+
+        if (!canvas) {
+            return;
+        }
+
+
+        const ctx =
+            canvas.getContext("2d");
+
 
         let drawing = false;
+
         let lastX = 0;
+
         let lastY = 0;
 
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX - rect.left);
-            const y = (e.clientY - rect.top);
-            return { x, y };
+
+        /* =====================================================
+           RESIZE CANVAS
+           ===================================================== */
+
+        function resizeCanvas() {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            const existingImage =
+                canvas.width > 0 && canvas.height > 0
+                    ? canvas.toDataURL("image/png")
+                    : null;
+
+
+            const scale =
+                window.devicePixelRatio || 1;
+
+
+            canvas.width =
+                rect.width * scale;
+
+            canvas.height =
+                rect.height * scale;
+
+
+            ctx.setTransform(
+                scale,
+                0,
+                0,
+                scale,
+                0,
+                0
+            );
+
+
+            /*
+             * White background
+             */
+
+            ctx.fillStyle = "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                rect.width,
+                rect.height
+            );
+
+
+            /*
+             * Restore existing signature if available
+             */
+
+            if (
+                existingImage &&
+                existingImage !== "data:,"
+            ) {
+
+                const image =
+                    new Image();
+
+                image.onload = function () {
+
+                    ctx.drawImage(
+                        image,
+                        0,
+                        0,
+                        rect.width,
+                        rect.height
+                    );
+
+                };
+
+                image.src = existingImage;
+            }
+
         }
 
-        function startDraw(e) {
-            drawing = true;
-            const pos = getPos(e);
-            lastX = pos.x;
-            lastY = pos.y;
+
+        resizeCanvas();
+
+
+        /* =====================================================
+           GET POINTER POSITION
+           ===================================================== */
+
+        function getPosition(e) {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+
         }
+
+
+        /* =====================================================
+           START DRAWING
+           ===================================================== */
+
+        function startDrawing(e) {
+
+            drawing = true;
+
+
+            const position =
+                getPosition(e);
+
+
+            lastX = position.x;
+
+            lastY = position.y;
+
+        }
+
+
+        /* =====================================================
+           DRAW
+           ===================================================== */
 
         function draw(e) {
-            if (!drawing) return;
+
+            if (!drawing) {
+                return;
+            }
+
+
             e.preventDefault();
 
-            const pos = getPos(e);
+
+            const position =
+                getPosition(e);
+
 
             ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.strokeStyle = "#000000"; // Changed to black
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
+
+            ctx.moveTo(
+                lastX,
+                lastY
+            );
+
+            ctx.lineTo(
+                position.x,
+                position.y
+            );
+
+
+            /*
+             * BLACK SIGNATURE
+             */
+
+            ctx.strokeStyle =
+                "#000000";
+
+
+            ctx.lineWidth =
+                2.5;
+
+
+            ctx.lineCap =
+                "round";
+
+
+            ctx.lineJoin =
+                "round";
+
+
             ctx.stroke();
 
-            lastX = pos.x;
-            lastY = pos.y;
+
+            lastX =
+                position.x;
+
+            lastY =
+                position.y;
+
         }
 
-        function endDraw() {
+
+        /* =====================================================
+           STOP DRAWING
+           ===================================================== */
+
+        function stopDrawing() {
+
             drawing = false;
+
         }
 
-        // Mouse events
-        canvas.addEventListener("mousedown", startDraw);
-        canvas.addEventListener("mousemove", draw);
-        canvas.addEventListener("mouseup", endDraw);
-        canvas.addEventListener("mouseleave", endDraw);
 
-        // Touch events for mobile
-        canvas.addEventListener("touchstart", function(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent("mousedown", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            canvas.dispatchEvent(mouseEvent);
-        });
+        /* =====================================================
+           MOUSE
+           ===================================================== */
 
-        canvas.addEventListener("touchmove", function(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent("mousemove", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            canvas.dispatchEvent(mouseEvent);
-        });
+        canvas.addEventListener(
+            "mousedown",
+            startDrawing
+        );
 
-        canvas.addEventListener("touchend", function(e) {
-            e.preventDefault();
-            const mouseEvent = new MouseEvent("mouseup", {});
-            canvas.dispatchEvent(mouseEvent);
-        });
+        canvas.addEventListener(
+            "mousemove",
+            draw
+        );
+
+        canvas.addEventListener(
+            "mouseup",
+            stopDrawing
+        );
+
+        canvas.addEventListener(
+            "mouseleave",
+            stopDrawing
+        );
+
+
+        /* =====================================================
+           TOUCH
+           ===================================================== */
+
+        canvas.addEventListener(
+            "touchstart",
+            function (e) {
+
+                e.preventDefault();
+
+
+                const touch =
+                    e.touches[0];
+
+
+                startDrawing({
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+
+            },
+            {
+                passive: false
+            }
+        );
+
+
+        canvas.addEventListener(
+            "touchmove",
+            function (e) {
+
+                e.preventDefault();
+
+
+                if (!drawing) {
+                    return;
+                }
+
+
+                const touch =
+                    e.touches[0];
+
+
+                draw({
+                    preventDefault: function () {},
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+
+            },
+            {
+                passive: false
+            }
+        );
+
+
+        canvas.addEventListener(
+            "touchend",
+            function (e) {
+
+                e.preventDefault();
+
+                stopDrawing();
+
+            },
+            {
+                passive: false
+            }
+        );
+
     }
+
+
+    /* =========================================================
+       CLEAR SIGNATURE
+       ========================================================= */
 
     function clearPad(id) {
-        const canvas = document.getElementById(id);
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const canvas =
+            document.getElementById(id);
+
+
+        if (!canvas) {
+            return;
+        }
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        /*
+         * Put the white background back.
+         */
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        /*
+         * Clear corresponding hidden input.
+         */
+
+        if (id === "sigEmployee") {
+
+            const input =
+                document.getElementById(
+                    "EmployeeSignature"
+                );
+
+
+            if (input) {
+                input.value = "";
+            }
+
+        }
+
+
+        if (id === "sigSupervisor") {
+
+            /*
+             * Only the assigned supervisor
+             * can clear their signature.
+             */
+
+            if (!canSupervisorSign) {
+                return;
+            }
+
+
+            const input =
+                document.getElementById(
+                    "SupervisorSignature"
+                );
+
+
+            if (input) {
+                input.value = "";
+            }
+
+        }
+
     }
+
+
+    /* =========================================================
+       SAVE SIGNATURES
+       ========================================================= */
 
     function saveSignatures() {
-        const employeeCanvas = document.getElementById("sigEmployee");
-        const supervisorCanvas = document.getElementById("sigSupervisor");
 
-        document.getElementById("EmployeeSignature").value = employeeCanvas.toDataURL();
-        document.getElementById("SupervisorSignature").value = supervisorCanvas.toDataURL();
+        /* =====================================================
+           EMPLOYEE SIGNATURE
+           ===================================================== */
+
+        const employeeCanvas =
+            document.getElementById(
+                "sigEmployee"
+            );
+
+
+        const employeeInput =
+            document.getElementById(
+                "EmployeeSignature"
+            );
+
+
+        if (
+            employeeCanvas &&
+            employeeInput
+        ) {
+
+            employeeInput.value =
+                employeeCanvas.toDataURL(
+                    "image/png"
+                );
+
+        }
+
+
+        /* =====================================================
+           SUPERVISOR SIGNATURE
+           ===================================================== */
+
+        const supervisorCanvas =
+            document.getElementById(
+                "sigSupervisor"
+            );
+
+
+        const supervisorInput =
+            document.getElementById(
+                "SupervisorSignature"
+            );
+
+
+        /*
+         * SECURITY:
+         * Only the assigned supervisor is allowed
+         * to create/update this signature.
+         */
+
+        if (
+            canSupervisorSign &&
+            supervisorCanvas &&
+            supervisorInput
+        ) {
+
+            supervisorInput.value =
+                supervisorCanvas.toDataURL(
+                    "image/png"
+                );
+
+        }
+
     }
 
-    // Initialize canvases when page loads
-    window.addEventListener("load", function() {
-        initCanvas("sigEmployee");
-        initCanvas("sigSupervisor");
-    });
 
-    document.querySelector("form").addEventListener("submit", saveSignatures);
+    /* =========================================================
+       PAGE LOAD
+       ========================================================= */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            /*
+             * Employee signature
+             * is always initialized.
+             */
+
+            initCanvas(
+                "sigEmployee"
+            );
+
+
+            /*
+             * Supervisor signature
+             * is only initialized as a
+             * drawing canvas for the assigned supervisor.
+             */
+
+            if (canSupervisorSign) {
+
+                initCanvas(
+                    "sigSupervisor"
+                );
+
+            }
+            else {
+
+                /*
+                 * For non-supervisors we do NOT
+                 * initialize drawing events.
+                 *
+                 * If there is an existing signature,
+                 * display it instead.
+                 */
+
+                const supervisorCanvas =
+                    document.getElementById(
+                        "sigSupervisor"
+                    );
+
+
+                if (
+                    supervisorCanvas &&
+                    "@existingSupervisorSignature" !== ""
+                ) {
+
+                    const ctx =
+                        supervisorCanvas.getContext("2d");
+
+
+                    const image =
+                        new Image();
+
+
+                    image.onload =
+                        function () {
+
+                            const rect =
+                                supervisorCanvas.getBoundingClientRect();
+
+
+                            const scale =
+                                window.devicePixelRatio || 1;
+
+
+                            supervisorCanvas.width =
+                                rect.width * scale;
+
+
+                            supervisorCanvas.height =
+                                rect.height * scale;
+
+
+                            ctx.setTransform(
+                                scale,
+                                0,
+                                0,
+                                scale,
+                                0,
+                                0
+                            );
+
+
+                            ctx.fillStyle =
+                                "#ffffff";
+
+
+                            ctx.fillRect(
+                                0,
+                                0,
+                                rect.width,
+                                rect.height
+                            );
+
+
+                            ctx.drawImage(
+                                image,
+                                0,
+                                0,
+                                rect.width,
+                                rect.height
+                            );
+
+                        };
+
+
+                    image.src =
+                        "@Html.Raw(existingSupervisorSignature)";
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       FORM SUBMIT
+       ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const form =
+                document.getElementById(
+                    "performanceAgreementForm"
+                );
+
+
+            if (!form) {
+                return;
+            }
+
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    saveSignatures();
+
+                }
+            );
+
+        }
+    );
+
 </script>
 
-<!-- Add Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- =========================================================
+     FONT AWESOME
+     ========================================================= -->
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

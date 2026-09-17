@@ -634,6 +634,304 @@
     color: #555555 !important;
     opacity: 1 !important;
 }
+    /* =========================================================
+       FINAL DECISION RADIO BUTTONS
+       ========================================================= */
+
+    .decision-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+        .decision-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #006838;
+        }
+
+    .yes-option span {
+        color: #006838;
+    }
+
+    .no-option span {
+        color: #dc3545;
+    }
+
+
+    /* =========================================================
+       NEXT HIGHER MANAGER SECTION
+       ========================================================= */
+
+    #incapacityDecisionContainer {
+        animation: fadeInUp 0.3s ease;
+    }
+
+        #incapacityDecisionContainer[hidden] {
+            display: none !important;
+        }
+
+        #incapacityDecisionContainer:not([hidden]) {
+            display: block !important;
+        }
+    /* =========================================================
+       SIGNATURE SECTION
+    ========================================================= */
+
+    .signature-box {
+        background: #ffffff;
+        border: 1px solid #dce3e8;
+        border-radius: 10px;
+        padding: 22px;
+        height: 100%;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .signature-heading {
+        color: #006838;
+        font-weight: 700;
+        font-size: 16px;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #c9a84c;
+    }
+
+
+    /* =========================================================
+       DRAWABLE SIGNATURE PAD
+    ========================================================= */
+
+    .signature-pad-container {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background: #ffffff;
+        border: 2px solid #dce3e8;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .signature-pad-container:focus-within {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.12);
+        }
+
+    .signature-pad {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+        background: #ffffff;
+        touch-action: none;
+    }
+
+
+    /* =========================================================
+       SIGNATURE PLACEHOLDER
+    ========================================================= */
+
+    .signature-placeholder {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 45px;
+        text-align: center;
+        color: #adb5bd;
+        font-size: 14px;
+        pointer-events: none;
+        user-select: none;
+    }
+
+
+    /* Hide placeholder once signature exists */
+
+    .signature-pad-container.has-signature
+    .signature-placeholder {
+        display: none;
+    }
+
+
+    /* Signature line */
+
+    .signature-pad-container::after {
+        content: "";
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        bottom: 35px;
+        border-bottom: 1px solid #999999;
+        pointer-events: none;
+    }
+
+
+    /* =========================================================
+       CLEAR BUTTON
+    ========================================================= */
+
+    .signature-box .btn-outline-danger {
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @@ (max-width: 768px) {
+        .signature-pad-container
+
+    {
+        height: 160px;
+    }
+
+    .signature-box {
+        padding: 18px;
+    }
+
+    }
+
+    ```css
+    /* =========================================================
+       LOCKED SUPERVISOR SIGNATURE
+       ========================================================= */
+    .supervisor-signature-locked {
+        position: relative;
+        background: #f8f9fa !important;
+        border: 2px solid #ced4da !important;
+        cursor: not-allowed !important;
+    }
+
+    /* Prevent the supervisor canvas from looking drawable */
+
+    .supervisor-signature-locked .signature-pad {
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+        background: #f8f9fa !important;
+    }
+
+    /* Lock overlay */
+
+    .signature-lock-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 13px;
+        font-weight: 700;
+        pointer-events: none;
+        user-select: none;
+        text-align: center;
+    }
+
+        .signature-lock-overlay i {
+            font-size: 28px;
+            margin-bottom: 6px;
+            color: #006838;
+        }
+
+        .signature-lock-overlay span {
+            color: #495057;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    /* Do not show the normal "Draw your signature here" message
+       for the locked supervisor canvas */
+
+    .supervisor-signature-locked
+    .signature-placeholder {
+        display: none !important;
+    }
+
+    /* Make locked supervisor section visually different */
+
+    .supervisor-signature-locked.has-signature
+    .signature-lock-overlay {
+        display: none;
+    }
+
+    /* Existing signature should still be visible */
+
+    .supervisor-signature-locked.has-signature {
+        background: #ffffff !important;
+        border-color: #006838 !important;
+    }
+
+    /* =========================================================
+       BACK BUTTON
+       Same appearance as Save Changes
+       ========================================================= */
+
+    .button-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    /* Both Save and Back use exactly the same styling */
+
+    .btn-save,
+    .btn-back {
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
+        color: white;
+        padding: 13px 50px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        /* Hover */
+
+        .btn-save:hover,
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 104, 56, 0.45);
+            color: white;
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
+        }
+
+    /* Mobile */
+
+    @@media (max-width: 768px) {
+
+        .btn-save,
+        .btn-back {
+            width: 100%;
+            text-align: center;
+        }
+
+        .button-area {
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
+
+    ```
 </style>
 <!-- =========================================================
      FULL PAGE
@@ -990,10 +1288,9 @@
 
         </div>
 
-
         <!-- =====================================================
-             FINAL DECISION
-             ===================================================== -->
+        SUPERVISOR FINAL DECISION
+        ===================================================== -->
 
         <div class="pap-card">
 
@@ -1027,13 +1324,14 @@
 
                 <div class="col-md-6">
 
+                    <!-- YES -->
                     <div class="form-check">
 
-                        <input class="form-check-input"
-                               type="radio"
-                               asp-for="IsPerformanceUpToStandard"
-                               value="true"
-                               id="performanceYes" />
+                        <input type="radio"
+                               class="form-check-input"
+                               name="SupervisorFinalDecision"
+                               id="performanceYes"
+                               value="YES" />
 
                         <label class="form-check-label text-success"
                                for="performanceYes">
@@ -1047,13 +1345,14 @@
                     </div>
 
 
+                    <!-- NO -->
                     <div class="form-check">
 
-                        <input class="form-check-input"
-                               type="radio"
-                               asp-for="IsPerformanceUpToStandard"
-                               value="false"
-                               id="performanceNo" />
+                        <input type="radio"
+                               class="form-check-input"
+                               name="SupervisorFinalDecision"
+                               id="performanceNo"
+                               value="NO" />
 
                         <label class="form-check-label text-danger"
                                for="performanceNo">
@@ -1071,51 +1370,58 @@
             </div>
 
 
-            <!-- Conditional Decision -->
+            <!-- =====================================================
+                 NEXT HIGHER LINE MANAGER DECISION
+                 HIDDEN UNTIL NO IS CLICKED
+                 ===================================================== -->
 
-            <div id="incapacityDecisionContainer"
-                 style="display:@(Model.IsPerformanceUpToStandard ? "none" : "block");"
-                 class="border-top pt-3 mt-3">
+            <div id="nextHigherManagerSection"
+                 style="display: none !important;">
 
-                <div class="alert alert-warning border-0 d-flex align-items-start">
+                <div class="border-top pt-3 mt-3">
 
-                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                    <div class="alert alert-warning border-0 d-flex align-items-start">
 
-                    <div>
+                        <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
 
-                        <strong>Action Required:</strong>
+                        <div>
 
-                        Since performance is not up to standard,
-                        a decision must be taken by the next higher
-                        Line Manager regarding a further period of
-                        applying the Personal Assistance Plan or
-                        the institution of formal incapacity procedures.
+                            <strong>Action Required:</strong>
+
+                            Since performance is not up to standard,
+                            a decision must be taken by the next higher
+                            Line Manager regarding a further period of
+                            applying the Personal Assistance Plan or
+                            the institution of formal incapacity procedures.
+
+                        </div>
 
                     </div>
 
-                </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="NextHigherLineManagerDecision"
+                               class="form-label-custom">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                            Next Higher Line Manager Decision / Directives:
+
+                        </label>
 
 
-                <div class="mb-3">
-
-                    <label asp-for="NextHigherLineManagerDecision"
-                           class="form-label-custom">
-
-                        <i class="bi bi-file-earmark-text"></i>
-
-                        Next Higher Line Manager Decision / Directives:
-
-                    </label>
+                        <textarea asp-for="NextHigherLineManagerDecision"
+                                  class="form-control manager-placeholder"
+                                  rows="4"
+                                  placeholder="Enter decision or steps here..."></textarea>
 
 
-                    <textarea asp-for="NextHigherLineManagerDecision"
-                              class="form-control manager-placeholder"
-                              rows="4"
-                              placeholder="Enter decision or steps here..."></textarea>
+                        <span asp-validation-for="NextHigherLineManagerDecision"
+                              class="text-danger fs-7">
+                        </span>
 
-                    <span asp-validation-for="NextHigherLineManagerDecision"
-                          class="text-danger fs-7">
-                    </span>
+                    </div>
 
                 </div>
 
@@ -1123,29 +1429,89 @@
 
         </div>
 
+        <!-- =====================================================
+     SIGNATURES
+===================================================== -->
+
+<div class="pap-card">
+
+    <div class="section-header">
+
+        <i class="bi bi-vector-pen"></i>
+
+        <h5>
+            Signature at the End of the Personal Assistance Plan
+        </h5>
+
+    </div>
+
+    <p class="section-description">
+        The supervisee and supervisor must sign below to confirm the
+        Personal Assistance Plan process and final outcome.
+    </p>
+
+
+    <div class="row g-4">
 
         <!-- =====================================================
-             SIGNATURES
-             ===================================================== -->
+             SUPERVISEE SIGNATURE
+        ====================================================== -->
 
-        <div class="pap-card">
+        <div class="col-md-6">
 
-            <div class="section-header">
+            <div class="signature-box">
 
-                <i class="bi bi-vector-pen"></i>
-
-                <h5>
-                    Signature at the End of the Personal Assistance Plan
-                </h5>
-
-            </div>
+                <h6 class="signature-heading">
+                    <i class="bi bi-person-fill me-2"></i>
+                    Supervisee
+                </h6>
 
 
-            <div class="personal-grid">
+                <!-- DRAWABLE SIGNATURE -->
 
-                <!-- SUPERVISEE -->
+                <label class="form-label-custom">
+                    <i class="bi bi-pen me-1"></i>
+                    Supervisee Signature
+                </label>
 
-                <div>
+                <div class="signature-pad-container">
+
+                    <canvas id="superviseeSignatureCanvas"
+                            class="signature-pad">
+                    </canvas>
+
+                    <span id="superviseeSignaturePlaceholder"
+                          class="signature-placeholder">
+                        Draw your signature here
+                    </span>
+
+                </div>
+
+
+                <!-- HIDDEN SIGNATURE VALUE -->
+
+                <input type="hidden"
+                       asp-for="SuperviseeSignature"
+                       id="SuperviseeSignature" />
+
+
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm mt-2"
+                        onclick="clearSignature(
+                            'superviseeSignatureCanvas',
+                            'SuperviseeSignature',
+                            'superviseeSignaturePlaceholder'
+                        )">
+
+                    <i class="bi bi-eraser me-1"></i>
+                    Clear Signature
+
+                </button>
+
+
+                <!-- NAME -->
+
+                <div class="mt-4">
 
                     <label asp-for="SuperviseeInitialsAndSurname"
                            class="form-label-custom">
@@ -1157,40 +1523,11 @@
 
                     </label>
 
-
                     <input asp-for="SuperviseeInitialsAndSurname"
                            class="form-control"
-                           placeholder="Supervisee signature confirmation" />
-
+                           placeholder="Enter supervisee initials and surname" />
 
                     <span asp-validation-for="SuperviseeInitialsAndSurname"
-                          class="text-danger fs-7">
-                    </span>
-
-                </div>
-
-
-                <!-- SUPERVISOR -->
-
-                <div>
-
-                    <label asp-for="SupervisorInitialsAndSurname"
-                           class="form-label-custom">
-
-                        <i class="bi bi-person-check"></i>
-
-                        Supervisor Name
-                        (Initials & Surname):
-
-                    </label>
-
-
-                    <input asp-for="SupervisorInitialsAndSurname"
-                           class="form-control"
-                           placeholder="Supervisor signature confirmation" />
-
-
-                    <span asp-validation-for="SupervisorInitialsAndSurname"
                           class="text-danger fs-7">
                     </span>
 
@@ -1200,242 +1537,304 @@
 
         </div>
 
+                <!-- =====================================================
+                     SUPERVISOR SIGNATURE
+                ====================================================== -->
 
-        <!-- =====================================================
-             SAVE BUTTON
-             ===================================================== -->
-        <div class="button-area">
+                <div class="col-md-6">
 
-            <a href="/AnnualAssessment/Create" class="btn-save">
-                <i class="bi bi-save"></i>
-                Save Changes
-            </a>
+                    <div class="signature-box">
 
-        </div>
+                        <h6 class="signature-heading">
+                            <i class="bi bi-person-check-fill me-2"></i>
+                            Supervisor
+                        </h6>
 
-    </form>
+                        <!-- SUPERVISOR SIGNATURE -->
 
-</div>
+                        <label class="form-label-custom">
+                            <i class="bi bi-pen me-1"></i>
+                            Supervisor Signature
+                        </label>
 
+                        <!--
+                            LOCKED SUPERVISOR SIGNATURE PAD
 
-@section Scripts {
+                            Employee cannot draw on this canvas.
+                            Existing supervisor signature can still be displayed.
+                        -->
 
-    <script>
+                        <div class="signature-pad-container supervisor-signature-locked">
 
-        document.addEventListener("DOMContentLoaded", function () {
+                            <canvas id="supervisorSignatureCanvas"
+                                    class="signature-pad"
+                                    aria-disabled="true">
+                            </canvas>
 
-            /* =========================================
-               PERFORMANCE RADIO BUTTON
-               ========================================= */
+                            <span id="supervisorSignaturePlaceholder"
+                                  class="signature-placeholder">
+                                Supervisor signature will be completed by the assigned supervisor
+                            </span>
 
-            const performanceRadios =
-                document.querySelectorAll(
-                    'input[name="IsPerformanceUpToStandard"]'
-                );
+                            <!-- LOCK ICON -->
+                            <div class="signature-lock-overlay">
+                                <i class="bi bi-lock-fill"></i>
+                                <span>Supervisor Only</span>
+                            </div>
 
-            const decisionBox =
-                document.getElementById(
-                    "incapacityDecisionContainer"
-                );
-
-
-            function toggleDecisionBox() {
-
-                const selectedRadio =
-                    document.querySelector(
-                        'input[name="IsPerformanceUpToStandard"]:checked'
-                    );
-
-
-                if (
-                    selectedRadio &&
-                    selectedRadio.value === "false"
-                ) {
-
-                    decisionBox.style.display = "block";
-
-                }
-                else {
-
-                    decisionBox.style.display = "none";
-
-                }
-
-            }
+                        </div>
 
 
-            performanceRadios.forEach(function (radio) {
+                        <!-- HIDDEN SIGNATURE VALUE -->
 
-                radio.addEventListener(
-                    "change",
-                    toggleDecisionBox
+                        <input type="hidden"
+                               asp-for="SupervisorSignature"
+                               id="SupervisorSignature" />
+
+
+                        <!-- Supervisor name -->
+
+                        <div class="mt-4">
+
+                            <label asp-for="SupervisorInitialsAndSurname"
+                                   class="form-label-custom">
+
+                                <i class="bi bi-person-check"></i>
+
+                                Supervisor Name
+                                (Initials & Surname):
+
+                            </label>
+
+                            <input asp-for="SupervisorInitialsAndSurname"
+                                   class="form-control"
+                                   placeholder="Supervisor initials and surname"
+                                   readonly />
+
+                            <span asp-validation-for="SupervisorInitialsAndSurname"
+                                  class="text-danger fs-7">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================================================
+                     SAVE AND BACK BUTTONS
+                ===================================================== -->
+
+                <div class="button-area">
+
+                    <!-- BACK BUTTON -->
+
+                    <a asp-controller="Pmds"
+                       asp-action="Index"
+                       class="btn-back">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back
+
+                    </a>
+
+
+                    <!-- SAVE BUTTON -->
+
+                    <button type="submit"
+                            class="btn-save">
+
+                        <i class="bi bi-save me-2"></i>
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+                <script>
+
+        // =========================================================
+        // SUPERVISOR FINAL DECISION
+        // =========================================================
+
+        const yesButton =
+            document.getElementById("performanceYes");
+
+        const noButton =
+            document.getElementById("performanceNo");
+
+        const nextManagerSection =
+            document.getElementById("nextHigherManagerSection");
+
+
+        if (yesButton &&
+            noButton &&
+            nextManagerSection) {
+
+            // Always hidden when page first loads
+            nextManagerSection.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+
+
+            // YES = process ends
+            yesButton.addEventListener("click", function () {
+
+                nextManagerSection.style.setProperty(
+                    "display",
+                    "none",
+                    "important"
                 );
 
             });
 
 
-            toggleDecisionBox();
+            // NO = refer to next higher line manager
+            noButton.addEventListener("click", function () {
 
-
-            /* =========================================
-               AUTO RESIZE TEXTAREAS
-               ========================================= */
-
-            document
-                .querySelectorAll("textarea")
-                .forEach(function (textarea) {
-
-                    textarea.addEventListener(
-                        "input",
-                        function () {
-
-                            this.style.height = "auto";
-
-                            this.style.height =
-                                this.scrollHeight + "px";
-
-                        }
-                    );
-
-                });
-
-
-            /* =========================================
-               REMOVE INVALID CLASS
-               ========================================= */
-
-            document
-                .querySelectorAll(".form-control")
-                .forEach(function (field) {
-
-                    field.addEventListener(
-                        "input",
-                        function () {
-
-                            this.classList.remove(
-                                "is-invalid"
-                            );
-
-                        }
-                    );
-
-                });
-
-
-            /* =========================================
-               FORM VALIDATION
-               ========================================= */
-
-            const form =
-                document.querySelector("form");
-
-
-            if (form) {
-
-                form.addEventListener(
-                    "submit",
-                    function (e) {
-
-                        const requiredFields =
-                            this.querySelectorAll(
-                                "[required]"
-                            );
-
-                        let isValid = true;
-
-
-                        requiredFields.forEach(
-                            function (field) {
-
-                                if (
-                                    field.closest(
-                                        "#incapacityDecisionContainer"
-                                    ) &&
-                                    decisionBox.style.display === "none"
-                                ) {
-
-                                    field.classList.remove(
-                                        "is-invalid"
-                                    );
-
-                                    return;
-
-                                }
-
-
-                                if (!field.value.trim()) {
-
-                                    field.classList.add(
-                                        "is-invalid"
-                                    );
-
-                                    isValid = false;
-
-                                }
-                                else {
-
-                                    field.classList.remove(
-                                        "is-invalid"
-                                    );
-
-                                }
-
-                            }
-                        );
-
-
-                        if (!isValid) {
-
-                            e.preventDefault();
-
-                            const firstError =
-                                document.querySelector(
-                                    ".is-invalid"
-                                );
-
-
-                            if (firstError) {
-
-                                firstError.focus();
-
-                                firstError.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "center"
-                                });
-
-                            }
-
-                        }
-
-                    }
+                nextManagerSection.style.setProperty(
+                    "display",
+                    "block",
+                    "important"
                 );
 
-            }
+            });
 
-        });
-              document.addEventListener("DOMContentLoaded", function() {
-            // Get the employee ID (you can pass this from ViewBag or a hidden field)
-            var employeeId = @ViewBag.EmployeeId; // Or from a hidden input
+        }
 
-            if (employeeId) {
-                fetch('/Pmds/GetEmployeeDetails?employeeId=' + employeeId)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Populate the form fields
-                        var employeeNameField = document.querySelector('input[name="EmployeeName"]');
-                        var postField = document.querySelector('input[name="Post"]');
-                        var persalField = document.querySelector('input[name="PersalNo"]');
-                        var supervisorField = document.querySelector('input[name="SupervisorName"]');
 
-                        if (employeeNameField) employeeNameField.value = data.employeeName;
-                        if (postField) postField.value = data.post;
-                        if (persalField) persalField.value = data.persalNo;
-                        if (supervisorField) supervisorField.value = data.supervisorName;
-                    })
-                    .catch(error => console.error('Error loading employee details:', error));
-            }
-        });
+                ```javascript
+                // =============================================================
+                // LOCKED SUPERVISOR SIGNATURE
+                // =============================================================
+                // The employee cannot draw, modify or clear the supervisor
+                // signature. Existing saved signature is displayed only.
+                // =============================================================
 
-    </script>
+                function initialiseLockedSupervisorSignature(
+                canvasId,
+                hiddenInputId
+                ) {
 
-}
+                const canvas =
+                document.getElementById(canvasId);
+
+                const hiddenInput =
+                document.getElementById(hiddenInputId);
+
+                if (!canvas || !hiddenInput) {
+                return;
+                }
+
+                const ctx =
+                canvas.getContext("2d");
+
+                // ---------------------------------------------------------
+                // RESIZE CANVAS
+                // ---------------------------------------------------------
+
+                function resizeCanvas() {
+
+                const rect =
+                canvas.getBoundingClientRect();
+
+                const ratio =
+                Math.max(
+                window.devicePixelRatio || 1,
+                1
+                );
+
+                canvas.width =
+                rect.width * ratio;
+
+                canvas.height =
+                rect.height * ratio;
+
+                canvas.style.width =
+                rect.width + "px";
+
+                canvas.style.height =
+                rect.height + "px";
+
+                ctx.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0
+                );
+
+                ctx.strokeStyle = "#000000";
+                ctx.fillStyle = "#000000";
+
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+
+
+                // -----------------------------------------------------
+                // RESTORE EXISTING SUPERVISOR SIGNATURE
+                // -----------------------------------------------------
+
+                if (hiddenInput.value) {
+
+                const image =
+                new Image();
+
+                image.onload = function () {
+
+                ctx.drawImage(
+                image,
+                0,
+                0,
+                rect.width,
+                rect.height
+                );
+
+                canvas.parentElement
+                .classList.add("has-signature");
+
+                };
+
+                image.src =
+                hiddenInput.value;
+                }
+                }
+
+
+                // ---------------------------------------------------------
+                // DO NOT ADD MOUSE OR TOUCH DRAWING EVENTS
+                // ---------------------------------------------------------
+                // This is intentional.
+                //
+                // There is NO:
+                // mousedown
+                // mousemove
+                // mouseup
+                // touchstart
+                // touchmove
+                // touchend
+                //
+                // Therefore the employee cannot draw on this canvas.
+                // ---------------------------------------------------------
+
+
+                resizeCanvas();
+
+
+                window.addEventListener(
+                "resize",
+                function () {
+
+                resizeCanvas();
+
+                }
+                );
+
+                }
+                ```
+
+</script>

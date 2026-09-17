@@ -61,13 +61,14 @@ namespace PMDSSystems.Models
         public string? OSDDescription { get; set; }
 
         public string? BranchOrRegion { get; set; }
+        public string? OtherPreviousStation { get; set; }
 
 
         // =========================
         // SUPERVISOR RELATIONSHIP
         // =========================
 
-       
+
 
 
         // 🔗 Link to login user (Identity)
@@ -104,10 +105,13 @@ namespace PMDSSystems.Models
 
         //public string EmployeeSignature { get; set; }
         public string? SignatureDate { get; set; }
+        public string? EmployeeSignature { get; set; }
         public String? PreviousStation { get; set; }
         public DateTime? TransferDate { get; set; }
         public decimal? PreviousCyclePerformance { get; set; }
         public DateTime? DeclarationDate { get; set; }
-        
+ 
+
+
     }
 }

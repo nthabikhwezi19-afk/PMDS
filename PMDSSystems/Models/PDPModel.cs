@@ -48,7 +48,8 @@
         public DateTime? EmployeeDate { get; set; }
 
         public string? SupervisorName { get; set; }
-
+        public string? SupervisorSignature { get; set; }
+        public DateTime? SupervisorDate { get; set; }
         // ==========================================
         // OFFICE USE ONLY
         // ==========================================

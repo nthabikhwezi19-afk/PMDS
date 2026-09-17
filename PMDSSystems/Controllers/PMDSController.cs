@@ -180,9 +180,9 @@ namespace PMDSSystems.Controllers
             return RedirectToAction("Success");
         }
 
-        // =============================
+        // ============================================================
         // MID-TERM REVIEW
-        // =============================
+        // ============================================================
         [HttpGet]
         public async Task<IActionResult> MidTermReview(
             int? id,
@@ -190,40 +190,109 @@ namespace PMDSSystems.Controllers
         {
             MidTermReview review;
 
+            // ============================================================
+            // EXISTING MID-TERM REVIEW
+            // ============================================================
             if (id.HasValue)
             {
                 review = await _context.MidTermReviews
                     .Include(r => r.KraEvaluations)
-                    .FirstOrDefaultAsync(
-                        r => r.Id == id.Value);
+                    .FirstOrDefaultAsync(r => r.Id == id.Value);
 
                 if (review == null)
                 {
                     return NotFound();
                 }
-            }
-            else
-            {
-                review = new MidTermReview
-                {
-                    EmployeeId = employeeId ?? "Unassigned",
-                    ReviewPeriod =
-                        "1 April 2024 - 31 October 2025"
-                };
 
+                return View(review);
+            }
+
+            // ============================================================
+            // NEW MID-TERM REVIEW
+            // ============================================================
+            review = new MidTermReview
+            {
+                EmployeeId = employeeId ?? "Unassigned",
+
+                ReviewPeriod = "1 April 2025 - 31 October 2025",
+
+                KraEvaluations = new List<MidTermKraEvaluation>()
+            };
+
+            // ============================================================
+            // LOAD THE LATEST PERFORMANCE AGREEMENT
+            // ============================================================
+            var performanceAgreement = await _context.PerformanceAgreements
+                .Include(p => p.KRAs)
+                .OrderByDescending(p => p.Id)
+                .FirstOrDefaultAsync();
+
+            // ============================================================
+            // LOAD KRAs FROM PERFORMANCE AGREEMENT
+            // ============================================================
+            if (performanceAgreement != null &&
+                performanceAgreement.KRAs != null &&
+                performanceAgreement.KRAs.Any())
+            {
+                int kraNumber = 1;
+
+                foreach (var kra in performanceAgreement.KRAs.OrderBy(k => k.Id))
+                {
+                    decimal weight = 0;
+
+                    if (!string.IsNullOrWhiteSpace(kra.Weight))
+                    {
+                        decimal.TryParse(
+                            kra.Weight,
+                            out weight);
+                    }
+
+                    review.KraEvaluations.Add(
+                        new MidTermKraEvaluation
+                        {
+                            KraNumber = kraNumber,
+
+                            KraDescription = kra.Name ?? string.Empty,
+
+                            Weight = weight,
+
+                            AchievementStandard = string.Empty,
+
+                            SupervisorComments = string.Empty,
+
+                            OwnRating = 0,
+
+                            SupervisorRating = 0,
+
+                            AgreedRating = 0
+                        });
+
+                    kraNumber++;
+                }
+            }
+
+            // ============================================================
+            // FALLBACK
+            // ============================================================
+            if (!review.KraEvaluations.Any())
+            {
                 for (int i = 1; i <= 4; i++)
                 {
                     review.KraEvaluations.Add(
                         new MidTermKraEvaluation
                         {
                             KraNumber = i,
-                            KraDescription = $"KRA {i}"
+
+                            KraDescription = $"KRA {i}",
+
+                            Weight = 0
                         });
                 }
             }
 
             return View(review);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

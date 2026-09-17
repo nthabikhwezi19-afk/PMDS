@@ -208,6 +208,26 @@
             .signature-buttons .btn {
                 min-width: 120px;
             }
+
+        .cycle-year-dropdown {
+            width: 110px;
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #006838;
+            background-color: white;
+            border: 2px solid #006838;
+            border-radius: 5px;
+            vertical-align: middle;
+        }
+
+            .cycle-year-dropdown:focus {
+                border-color: #004d28;
+                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+                outline: none;
+            }
     </style>
 </head>
 
@@ -247,7 +267,35 @@
 
                 <h6>
                     Performance Cycle Period :
-                    <strong>1 April 2025 - 31 March 2026</strong>
+
+                    <strong>1 April</strong>
+
+                    <select name="StartYear"
+                            id="StartYear"
+                            class="cycle-year-dropdown"
+                            required>
+                        <option value="">Year</option>
+
+                        @for (int year = 2020; year <= 2035; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+
+                    <strong>- 31 March</strong>
+
+                    <select name="EndYear"
+                            id="EndYear"
+                            class="cycle-year-dropdown"
+                            required>
+                        <option value="">Year</option>
+
+                        @for (int year = 2021; year <= 2036; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+
                 </h6>
 
             </div>
@@ -685,6 +733,24 @@
                         });
 
                     });
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                            const startYear = document.getElementById("StartYear");
+                            const endYear = document.getElementById("EndYear");
+
+                            startYear.addEventListener("change", function () {
+
+                                const selectedYear = parseInt(this.value);
+
+                                if (!isNaN(selectedYear)) {
+                                    endYear.value = selectedYear + 1;
+                                } else {
+                                    endYear.value = "";
+                                }
+
+                            });
+
+                        });
                 </script>
 </body>
 </html>

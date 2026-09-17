@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PMDSSystems.Models
@@ -7,6 +6,16 @@ namespace PMDSSystems.Models
     public class PerformanceAgreement
     {
         public int Id { get; set; }
+
+        // ============================================================
+        // EMPLOYEE LINK
+        // ============================================================
+
+        public string? EmployeeId { get; set; }
+
+        // ============================================================
+        // AGREEMENT INFORMATION
+        // ============================================================
 
         public string? JobPurpose { get; set; }
 
@@ -19,6 +28,10 @@ namespace PMDSSystems.Models
         [Display(Name = "Number of KRAs")]
         public int NumberOfKRAs { get; set; }
 
+        // ============================================================
+        // GAF
+        // ============================================================
+
         public bool JobKnowledge { get; set; }
         public bool Responsibility { get; set; }
         public bool QualityOfWork { get; set; }
@@ -28,9 +41,12 @@ namespace PMDSSystems.Models
         public bool TeamWork { get; set; }
         public bool Leadership { get; set; }
 
+        // ============================================================
+        // KRAs
+        // ============================================================
+
         public List<KRA> KRAs { get; set; } = new List<KRA>();
     }
-
 
     public class KRA
     {
@@ -49,8 +65,8 @@ namespace PMDSSystems.Models
 
         public string? Standards { get; set; }
 
-        public string? BathoPele { get; set; }
+        public string BathoPele { get; set; } = "";
 
-        public string? GAFs { get; set; }
+        public string GAFs { get; set; } = "";
     }
 }

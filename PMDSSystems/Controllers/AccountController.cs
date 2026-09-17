@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Data;
@@ -277,15 +278,16 @@ namespace PMDSSystems.Controllers
                 Console.WriteLine("----------------------------------------");
                 Console.WriteLine("FIRST LOGIN DETECTED");
                 Console.WriteLine("MustChangePassword = TRUE");
-                Console.WriteLine(
-                    "REDIRECTING TO CHANGE PASSWORD");
+                Console.WriteLine($"Identity User ID = [{user.Id}]");
+                Console.WriteLine($"Identity User Email = [{user.Email}]");
+                Console.WriteLine($"Employee UserId = [{employee.UserId}]");
+                Console.WriteLine("REDIRECTING TO CHANGE PASSWORD");
                 Console.WriteLine("----------------------------------------");
 
                 return RedirectToAction(
-                    "ChangePassword",
-                    new { userId = user.Id });
+         "ChangePassword",
+         "Account");
             }
-
 
             // =====================================================
             // NORMAL EMPLOYEE / SUPERVISOR LOGIN
@@ -307,21 +309,40 @@ namespace PMDSSystems.Controllers
         // CHANGE PASSWORD - GET
         // =========================================================
         [HttpGet]
-        public async Task<IActionResult> ChangePassword(
-            string userId)
+        public async Task<IActionResult> ChangePassword()
         {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return RedirectToAction("Login");
-            }
+            Console.WriteLine("========================================");
+            Console.WriteLine("CHANGE PASSWORD GET STARTED");
+            Console.WriteLine("========================================");
 
-            var user =
-                await _userManager.FindByIdAsync(userId);
+            // Get the currently logged-in Identity user
+            var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
-                return RedirectToAction("Login");
+                Console.WriteLine("ERROR: No logged-in Identity user found.");
+
+                return RedirectToAction("Login", "Account");
             }
+
+            Console.WriteLine($"Identity User ID: [{user.Id}]");
+            Console.WriteLine($"Identity User Email: [{user.Email}]");
+
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == user.Id);
+
+            if (employee == null)
+            {
+                Console.WriteLine("ERROR: Employee record not found.");
+
+                await _signInManager.SignOutAsync();
+
+                return RedirectToAction("Login", "Account");
+            }
+
+            Console.WriteLine($"Employee ID: [{employee.Id}]");
+            Console.WriteLine($"Employee Name: {employee.FirstName} {employee.LastName}");
+            Console.WriteLine($"MustChangePassword: [{employee.MustChangePassword}]");
 
             var model = new ChangePasswordViewModel
             {
@@ -331,7 +352,6 @@ namespace PMDSSystems.Controllers
 
             return View(model);
         }
-
 
         // =========================================================
         // CHANGE PASSWORD - POST
@@ -843,15 +863,24 @@ namespace PMDSSystems.Controllers
 
             return RedirectToAction("Login");
         }
+        // =========================================================
+        // GET: FORGOT PASSWORD
+        // =========================================================
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
 
 
         // =========================================================
         // POST: FORGOT PASSWORD
         // =========================================================
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(
-            string email)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
@@ -862,10 +891,7 @@ namespace PMDSSystems.Controllers
                 return View();
             }
 
-
-            var user =
-                await _userManager.FindByEmailAsync(email);
-
+            var user = await _userManager.FindByEmailAsync(email);
 
             // Don't reveal whether email exists
             if (user == null)
@@ -876,11 +902,8 @@ namespace PMDSSystems.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-
             var token =
-                await _userManager.GeneratePasswordResetTokenAsync(
-                    user);
-
+                await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var resetLink =
                 Url.Action(
@@ -893,43 +916,39 @@ namespace PMDSSystems.Controllers
                     },
                     Request.Scheme);
 
-
             var body = $@"
-                <h2>PMDS Password Reset</h2>
+        <h2>PMDS Password Reset</h2>
 
-                <p>Hello,</p>
+        <p>Hello,</p>
 
-                <p>
-                    We received a request to reset your PMDS password.
-                </p>
+        <p>
+            We received a request to reset your PMDS password.
+        </p>
 
-                <p>
-                    <a href='{resetLink}'>
-                        Click here to reset your password
-                    </a>
-                </p>
+        <p>
+            <a href='{resetLink}'>
+                Click here to reset your password
+            </a>
+        </p>
 
-                <p>
-                    If you did not request this, simply ignore this email.
-                </p>
+        <p>
+            If you did not request this, simply ignore this email.
+        </p>
 
-                <br/>
+        <br/>
 
-                <p>
-                    Department of Correctional Services<br/>
-                    PMDS
-                </p>";
-
+        <p>
+            Department of Correctional Services<br/>
+            PMDS
+        </p>";
 
             await _emailService.SendEmailAsync(
                 user.Email!,
                 "PMDS Password Reset",
                 body);
 
-
             TempData["Success"] =
                 "If an account exists for this email address, a password reset email has been sent.";
-
 
             return RedirectToAction(nameof(Login));
         }
@@ -1035,15 +1054,7 @@ namespace PMDSSystems.Controllers
         }
 
 
-        // =========================================================
-        // GET: FORGOT PASSWORD
-        // =========================================================
-        [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
+   
 
         // =========================================================
         // POST: LOGOUT

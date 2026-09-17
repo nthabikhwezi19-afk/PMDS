@@ -215,6 +215,27 @@
             .employees-table {
                 font-size: 14px;
             }
+
+            .assigned-employees-link {
+                color: #006838;
+                text-decoration: none;
+                font-weight: 700;
+                transition: 0.2s ease;
+            }
+
+                .assigned-employees-link:hover {
+                    color: #004d2b;
+                    text-decoration: underline;
+                }
+
+                .assigned-employees-link i:last-child {
+                    font-size: 14px;
+                    transition: 0.2s ease;
+                }
+
+                .assigned-employees-link:hover i:last-child {
+                    transform: translateX(4px);
+                }
         }
 
     </style>
@@ -328,14 +349,18 @@
         {
             <div class="employee-card">
 
-                <h4 class="text-success mb-4">
+                <h4 class="mb-4">
+                    <a href="@Url.Action("MyAssignedEmployees", "Supervisor")"
+                       class="assigned-employees-link">
 
-                    <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-users"></i>
 
-                    My Assigned Employees
+                        My Assigned Employees
 
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                    </a>
                 </h4>
-
 
                 @if (Model.MyEmployees == null || !Model.MyEmployees.Any())
                 {
@@ -348,7 +373,7 @@
                         You currently do not have any employees assigned to you.
 
                     </div>
-                }
+               @*  }
                 else
                 {
                     <div class="table-responsive">
@@ -438,8 +463,8 @@
                             </tbody>
 
                         </table>
-
-                    </div>
+ *@
+                  @*   </div> *@
                 }
 
             </div>
@@ -453,7 +478,7 @@
         <div class="row">
 
             <!-- =================================================
-                 FIRST PERFORMANCE CYCLE
+                Performance Agreement
             ================================================== -->
 
             <div class="col-md-6">
@@ -463,8 +488,7 @@
                     <h3 class="cycle-title">
 
                         <i class="fa-solid fa-calendar-check cycle-icon"></i>
-
-                        First Performance Cycle
+                        Performance Agreement
 
                     </h3>
 
@@ -483,7 +507,7 @@
 
                         <i class="fa-solid fa-play"></i>
 
-                        Start First Cycle
+                        Start Performance Agreement
 
                     </a>
 
@@ -493,7 +517,7 @@
 
 
             <!-- =================================================
-                 SECOND PERFORMANCE CYCLE
+               Mid-Term Review 
             ================================================== -->
 
             <div class="col-md-6">
@@ -504,7 +528,7 @@
 
                         <i class="fa-solid fa-calendar cycle-icon"></i>
 
-                        Second Performance Cycle
+                       Mid-Term Review & Annual Assessment
 
                     </h3>
 
@@ -522,7 +546,7 @@
 
                         <i class="fa-solid fa-play"></i>
 
-                        Start Second Cycle
+                       Start Mid-Term Review 
 
                     </a>
 

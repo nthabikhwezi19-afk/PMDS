@@ -61,5 +61,32 @@ namespace PMDSSystems.Controllers
 
             return View("PersonalDevelopmentPlan", model);
         }
+        public async Task<IActionResult> MyAssignedEmployees()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var supervisor = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == userId);
+
+            if (supervisor == null)
+            {
+                return NotFound("Supervisor employee record not found.");
+            }
+
+            var employees = await _context.Employees
+                .Where(e => e.SupervisorId == supervisor.Id)
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .ToListAsync();
+
+            return View(employees);
+        }
+
     }
+
 }

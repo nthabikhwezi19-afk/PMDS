@@ -910,6 +910,98 @@
     .fs-7 {
         font-size: 0.85rem;
     }
+    /* ========================================================= */
+    /* SIGNATURE SECTION                                         */
+    /* ========================================================= */
+
+    .signature-card {
+        background: #f8faf9;
+        border: 1px solid #dce8e1;
+        border-left: 5px solid #006838;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .signature-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #dce8e1;
+    }
+
+        .signature-card-header h6 {
+            margin: 0;
+            color: #006838;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+    .signature-number {
+        background: #006838;
+        color: white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .signature-pad-container {
+        width: 100%;
+        background: white;
+        border: 2px solid #006838;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .signature-pad {
+        display: block;
+        width: 100%;
+        height: 180px;
+        background: white;
+        cursor: crosshair;
+        touch-action: none;
+    }
+
+    .signature-help {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 6px;
+    }
+
+    .signature-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+    }
+
+    .btn-clear-signature {
+        border: none;
+        background: #dc3545;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-clear-signature:hover {
+            background: #b02a37;
+        }
+
+    .required-star {
+        color: #dc3545;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container">
@@ -1206,16 +1298,110 @@
                 <span class="badge-section">Verification</span>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>
-                            <i class="bi bi-person-badge" style="color: #006838;"></i>
-                            Chairperson Name
-                        </label>
-                        <input asp-for="ChairpersonName" class="form-control" placeholder="Enter chairperson name" />
-                    </div>
+            <!-- ========================================================= -->
+            <!-- CHAIRPERSON                                               -->
+            <!-- ========================================================= -->
+
+            <div class="signature-card">
+
+                <div class="signature-card-header">
+                    <h6>
+                        <span class="signature-number">
+                            <i class="bi bi-person-check"></i>
+                        </span>
+                        Chairperson
+                    </h6>
+
+                    <span class="badge-section">Required</span>
                 </div>
+
+                <div class="row">
+
+                    <!-- SURNAME -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label>
+                                <i class="bi bi-person-badge"
+                                   style="color:#006838;"></i>
+                                Chairperson Surname
+                                <span class="required-star">*</span>
+                            </label>
+
+                            <input asp-for="ChairpersonSurname"
+                                   class="form-control"
+                                   placeholder="Enter surname"
+                                   required />
+
+                        </div>
+                    </div>
+
+                    <!-- INITIALS -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label>
+                                <i class="bi bi-type"
+                                   style="color:#006838;"></i>
+                                Chairperson Initials
+                                <span class="required-star">*</span>
+                            </label>
+
+                            <input asp-for="ChairpersonInitials"
+                                   class="form-control"
+                                   placeholder="e.g. N.S."
+                                   required />
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SIGNATURE -->
+                <div class="form-group">
+
+                    <label>
+                        <i class="bi bi-vector-pen"
+                           style="color:#006838;"></i>
+
+                        Chairperson Signature
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <div class="signature-pad-container">
+
+                        <canvas id="chairpersonSignatureCanvas"
+                                class="signature-pad">
+                        </canvas>
+
+                    </div>
+
+                    <div class="signature-help">
+                        <i class="bi bi-info-circle"></i>
+                        Draw the chairperson's signature in the box above.
+                    </div>
+
+                    <div class="signature-actions">
+
+                        <button type="button"
+                                id="clearChairpersonSignature"
+                                class="btn-clear-signature">
+
+                            <i class="bi bi-eraser"></i>
+                            Clear Signature
+
+                        </button>
+
+                    </div>
+
+                    <!-- THIS STORES THE ACTUAL SIGNATURE -->
+                    <input type="hidden"
+                           asp-for="ChairpersonSignature"
+                           id="ChairpersonSignature" />
+
+                </div>
+
+            </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -1228,13 +1414,520 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>
-                    <i class="bi bi-people" style="color: #006838;"></i>
-                    Committee Members
-                </label>
-                <textarea asp-for="CommitteeMembers" class="form-control" rows="3" placeholder="List all committee members involved in the moderation process..."></textarea>
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBERS                                         -->
+    <!-- ========================================================= -->
+
+    <div class="section-header">
+        <i class="bi bi-people"></i>
+        <h5>Moderation Committee Members</h5>
+        <span class="badge-section">Minimum 5 Members</span>
+    </div>
+
+    <div class="rules-list">
+
+        <ul>
+            <li>
+                <i class="bi bi-check-circle"
+                   style="color:#006838; margin-right:8px;"></i>
+
+                A minimum of <strong>5 committee members</strong> must
+                participate in the moderation process.
+            </li>
+
+            <li>
+                <i class="bi bi-pen"
+                   style="color:#006838; margin-right:8px;"></i>
+
+                Each committee member must provide their surname,
+                initials and signature.
+            </li>
+
+            <li>
+                <i class="bi bi-shield-check"
+                   style="color:#006838; margin-right:8px;"></i>
+
+                Signatures are captured electronically and submitted
+                with the moderation form.
+            </li>
+        </ul>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBER 1                                        -->
+    <!-- ========================================================= -->
+
+    <div class="signature-card">
+
+        <div class="signature-card-header">
+
+            <h6>
+                <span class="signature-number">1</span>
+                Committee Member 1
+            </h6>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Surname
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember1Surname"
+                           class="form-control"
+                           placeholder="Enter surname"
+                           required />
+
+                </div>
+
             </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Initials
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember1Initials"
+                           class="form-control"
+                           placeholder="e.g. J.D."
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <i class="bi bi-vector-pen"
+                   style="color:#006838;"></i>
+
+                Signature
+                <span class="required-star">*</span>
+            </label>
+
+            <div class="signature-pad-container">
+
+                <canvas id="committeeMember1Canvas"
+                        class="signature-pad">
+                </canvas>
+
+            </div>
+
+            <div class="signature-actions">
+
+                <button type="button"
+                        id="clearCommitteeMember1"
+                        class="btn-clear-signature">
+
+                    <i class="bi bi-eraser"></i>
+                    Clear
+
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   asp-for="CommitteeMember1Signature"
+                   id="CommitteeMember1Signature" />
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBER 2                                        -->
+    <!-- ========================================================= -->
+
+    <div class="signature-card">
+
+        <div class="signature-card-header">
+
+            <h6>
+                <span class="signature-number">2</span>
+                Committee Member 2
+            </h6>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Surname
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember2Surname"
+                           class="form-control"
+                           placeholder="Enter surname"
+                           required />
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Initials
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember2Initials"
+                           class="form-control"
+                           placeholder="e.g. J.D."
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <i class="bi bi-vector-pen"
+                   style="color:#006838;"></i>
+
+                Signature
+                <span class="required-star">*</span>
+            </label>
+
+            <div class="signature-pad-container">
+
+                <canvas id="committeeMember2Canvas"
+                        class="signature-pad">
+                </canvas>
+
+            </div>
+
+            <div class="signature-actions">
+
+                <button type="button"
+                        id="clearCommitteeMember2"
+                        class="btn-clear-signature">
+
+                    <i class="bi bi-eraser"></i>
+                    Clear
+
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   asp-for="CommitteeMember2Signature"
+                   id="CommitteeMember2Signature" />
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBER 3                                        -->
+    <!-- ========================================================= -->
+
+    <div class="signature-card">
+
+        <div class="signature-card-header">
+
+            <h6>
+                <span class="signature-number">3</span>
+                Committee Member 3
+            </h6>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Surname
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember3Surname"
+                           class="form-control"
+                           placeholder="Enter surname"
+                           required />
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Initials
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember3Initials"
+                           class="form-control"
+                           placeholder="e.g. J.D."
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <i class="bi bi-vector-pen"
+                   style="color:#006838;"></i>
+
+                Signature
+                <span class="required-star">*</span>
+            </label>
+
+            <div class="signature-pad-container">
+
+                <canvas id="committeeMember3Canvas"
+                        class="signature-pad">
+                </canvas>
+
+            </div>
+
+            <div class="signature-actions">
+
+                <button type="button"
+                        id="clearCommitteeMember3"
+                        class="btn-clear-signature">
+
+                    <i class="bi bi-eraser"></i>
+                    Clear
+
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   asp-for="CommitteeMember3Signature"
+                   id="CommitteeMember3Signature" />
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBER 4                                        -->
+    <!-- ========================================================= -->
+
+    <div class="signature-card">
+
+        <div class="signature-card-header">
+
+            <h6>
+                <span class="signature-number">4</span>
+                Committee Member 4
+            </h6>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Surname
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember4Surname"
+                           class="form-control"
+                           placeholder="Enter surname"
+                           required />
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Initials
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember4Initials"
+                           class="form-control"
+                           placeholder="e.g. J.D."
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <i class="bi bi-vector-pen"
+                   style="color:#006838;"></i>
+
+                Signature
+                <span class="required-star">*</span>
+            </label>
+
+            <div class="signature-pad-container">
+
+                <canvas id="committeeMember4Canvas"
+                        class="signature-pad">
+                </canvas>
+
+            </div>
+
+            <div class="signature-actions">
+
+                <button type="button"
+                        id="clearCommitteeMember4"
+                        class="btn-clear-signature">
+
+                    <i class="bi bi-eraser"></i>
+                    Clear
+
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   asp-for="CommitteeMember4Signature"
+                   id="CommitteeMember4Signature" />
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- COMMITTEE MEMBER 5                                        -->
+    <!-- ========================================================= -->
+
+    <div class="signature-card">
+
+        <div class="signature-card-header">
+
+            <h6>
+                <span class="signature-number">5</span>
+                Committee Member 5
+            </h6>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Surname
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember5Surname"
+                           class="form-control"
+                           placeholder="Enter surname"
+                           required />
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+
+                    <label>
+                        Initials
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="CommitteeMember5Initials"
+                           class="form-control"
+                           placeholder="e.g. J.D."
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <i class="bi bi-vector-pen"
+                   style="color:#006838;"></i>
+
+                Signature
+                <span class="required-star">*</span>
+            </label>
+
+            <div class="signature-pad-container">
+
+                <canvas id="committeeMember5Canvas"
+                        class="signature-pad">
+                </canvas>
+
+            </div>
+
+            <div class="signature-actions">
+
+                <button type="button"
+                        id="clearCommitteeMember5"
+                        class="btn-clear-signature">
+
+                    <i class="bi bi-eraser"></i>
+                    Clear
+
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   asp-for="CommitteeMember5Signature"
+                   id="CommitteeMember5Signature" />
+
+        </div>
+
+    </div>
 
             <!-- ========================= -->
             <!-- SUBMIT -->
@@ -1244,13 +1937,11 @@
                     <i class="bi bi-arrow-left"></i>
                     Cancel
                 </a>
-                <button type="submit" class="btn-primary">
+                <a href="/PMDS/Cycles" class="btn-primary">
                     <i class="bi bi-save"></i>
                     Save Moderation
                     <i class="bi bi-chevron-right" style="font-size: 13px;"></i>
-                </button>
-            </div>
-
+                </a>
         </form>
     </div>
 </div>
@@ -1436,4 +2127,338 @@
             count + (count === 1 ? " KRA" : " KRAs");
 
     }
+        // ============================================================
+    // SIGNATURE PAD SYSTEM
+    // ============================================================
+
+    function initializeSignaturePad(canvasId, hiddenInputId, clearButtonId) {
+
+        const canvas = document.getElementById(canvasId);
+        const hiddenInput = document.getElementById(hiddenInputId);
+        const clearButton = document.getElementById(clearButtonId);
+
+        if (!canvas || !hiddenInput) {
+            console.error("Signature elements not found:", canvasId);
+            return;
+        }
+
+        const ctx = canvas.getContext("2d");
+
+        let isDrawing = false;
+
+        // --------------------------------------------------------
+        // RESIZE CANVAS
+        // --------------------------------------------------------
+
+        function resizeCanvas() {
+
+            const rect = canvas.getBoundingClientRect();
+
+            const ratio = Math.max(
+                window.devicePixelRatio || 1,
+                1
+            );
+
+            canvas.width = rect.width * ratio;
+            canvas.height = rect.height * ratio;
+
+            ctx.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0
+            );
+
+            // WHITE BACKGROUND
+            ctx.fillStyle = "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                rect.width,
+                rect.height
+            );
+
+            // BLACK SIGNATURE
+            ctx.strokeStyle = "#000000";
+
+            ctx.lineWidth = 2.5;
+
+            ctx.lineCap = "round";
+
+            ctx.lineJoin = "round";
+
+            // Restore previously saved signature
+            if (hiddenInput.value) {
+
+                const image = new Image();
+
+                image.onload = function () {
+
+                    ctx.drawImage(
+                        image,
+                        0,
+                        0,
+                        rect.width,
+                        rect.height
+                    );
+
+                };
+
+                image.src = hiddenInput.value;
+            }
+        }
+
+
+        // --------------------------------------------------------
+        // GET POINTER POSITION
+        // --------------------------------------------------------
+
+        function getPointerPosition(event) {
+
+            const rect = canvas.getBoundingClientRect();
+
+            return {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top
+            };
+        }
+
+
+        // --------------------------------------------------------
+        // START DRAWING
+        // --------------------------------------------------------
+
+        function startDrawing(event) {
+
+            event.preventDefault();
+
+            isDrawing = true;
+
+            const position =
+                getPointerPosition(event);
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                position.x,
+                position.y
+            );
+        }
+
+
+        // --------------------------------------------------------
+        // DRAW
+        // --------------------------------------------------------
+
+        function draw(event) {
+
+            if (!isDrawing) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const position =
+                getPointerPosition(event);
+
+            ctx.lineTo(
+                position.x,
+                position.y
+            );
+
+            ctx.stroke();
+        }
+
+
+        // --------------------------------------------------------
+        // STOP DRAWING
+        // --------------------------------------------------------
+
+        function stopDrawing(event) {
+
+            if (!isDrawing) {
+                return;
+            }
+
+            event.preventDefault();
+
+            isDrawing = false;
+
+            saveSignature();
+        }
+
+
+        // --------------------------------------------------------
+        // SAVE SIGNATURE TO HIDDEN INPUT
+        // --------------------------------------------------------
+
+        function saveSignature() {
+
+            hiddenInput.value =
+                canvas.toDataURL("image/png");
+
+            console.log(
+                "Signature saved:",
+                hiddenInputId
+            );
+        }
+
+
+        // --------------------------------------------------------
+        // CLEAR SIGNATURE
+        // --------------------------------------------------------
+
+        function clearSignature() {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            ctx.clearRect(
+                0,
+                0,
+                rect.width,
+                rect.height
+            );
+
+            // WHITE BACKGROUND
+            ctx.fillStyle = "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                rect.width,
+                rect.height
+            );
+
+            // BLACK PEN
+            ctx.strokeStyle = "#000000";
+
+            ctx.lineWidth = 2.5;
+
+            ctx.lineCap = "round";
+
+            ctx.lineJoin = "round";
+
+            hiddenInput.value = "";
+        }
+
+
+        // --------------------------------------------------------
+        // POINTER EVENTS
+        // --------------------------------------------------------
+
+        canvas.addEventListener(
+            "pointerdown",
+            startDrawing
+        );
+
+        canvas.addEventListener(
+            "pointermove",
+            draw
+        );
+
+        canvas.addEventListener(
+            "pointerup",
+            stopDrawing
+        );
+
+        canvas.addEventListener(
+            "pointercancel",
+            stopDrawing
+        );
+
+        canvas.addEventListener(
+            "pointerleave",
+            stopDrawing
+        );
+
+
+        // --------------------------------------------------------
+        // CLEAR BUTTON
+        // --------------------------------------------------------
+
+        if (clearButton) {
+
+            clearButton.addEventListener(
+                "click",
+                clearSignature
+            );
+        }
+
+
+        // --------------------------------------------------------
+        // RESIZE
+        // --------------------------------------------------------
+
+        window.addEventListener(
+            "resize",
+            resizeCanvas
+        );
+
+
+        // INITIALIZE
+        resizeCanvas();
+    }
+
+
+    // ============================================================
+    // INITIALIZE ALL SIGNATURES
+    // ============================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            // CHAIRPERSON
+            initializeSignaturePad(
+                "chairpersonSignatureCanvas",
+                "ChairpersonSignature",
+                "clearChairpersonSignature"
+            );
+
+
+            // COMMITTEE MEMBER 1
+            initializeSignaturePad(
+                "committeeMember1Canvas",
+                "CommitteeMember1Signature",
+                "clearCommitteeMember1"
+            );
+
+
+            // COMMITTEE MEMBER 2
+            initializeSignaturePad(
+                "committeeMember2Canvas",
+                "CommitteeMember2Signature",
+                "clearCommitteeMember2"
+            );
+
+
+            // COMMITTEE MEMBER 3
+            initializeSignaturePad(
+                "committeeMember3Canvas",
+                "CommitteeMember3Signature",
+                "clearCommitteeMember3"
+            );
+
+
+            // COMMITTEE MEMBER 4
+            initializeSignaturePad(
+                "committeeMember4Canvas",
+                "CommitteeMember4Signature",
+                "clearCommitteeMember4"
+            );
+
+
+            // COMMITTEE MEMBER 5
+            initializeSignaturePad(
+                "committeeMember5Canvas",
+                "CommitteeMember5Signature",
+                "clearCommitteeMember5"
+            );
+
+        }
+    );
 </script>

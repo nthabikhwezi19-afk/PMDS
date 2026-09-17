@@ -818,6 +818,7 @@ namespace PMDSSystems.Controllers
             "KGOSI MAMPURU II MALE MAXIMUM CORRCENT",
             "KGOSI MAMPURU II REMAND DETENTION FACILITY",
             "ODI CORRCENT",
+            "HEAD OFFICE",
             "PRETORIA C-MAX. CORRCENT",
             "PRETORIA CENTRAL CORRCENT",
             "KRUGERSDORP CORRCENT",

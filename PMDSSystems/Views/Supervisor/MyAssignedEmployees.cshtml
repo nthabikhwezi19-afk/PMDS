@@ -38,7 +38,7 @@
             border-radius: 15px;
             margin-top: 30px;
             margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
         }
 
             .page-header h2 {
@@ -55,30 +55,29 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
         }
 
         .employees-title {
             color: #006838;
             font-weight: 700;
-            margin-bottom: 20px;
         }
 
-        .employees-table thead th {
-            background: #006838 !important;
-            color: white;
-            vertical-align: middle;
-            padding: 14px;
+        .employees-table {
+            margin-top: 20px;
         }
 
-        .employees-table tbody td {
-            vertical-align: middle;
-            padding: 14px;
-        }
+            .employees-table thead th {
+                background: #006838 !important;
+                color: white;
+                vertical-align: middle;
+                padding: 14px;
+            }
 
-        .employees-table tbody tr {
-            transition: .2s ease;
-        }
+            .employees-table tbody td {
+                vertical-align: middle;
+                padding: 14px;
+            }
 
             .employees-table tbody tr:hover {
                 background: #f0f8f4;
@@ -99,8 +98,8 @@
             background: #006838;
             color: white;
             border: none;
-            padding: 7px 15px;
-            border-radius: 6px;
+            padding: 8px 15px;
+            border-radius: 7px;
             text-decoration: none;
             font-weight: 600;
             display: inline-flex;
@@ -126,14 +125,6 @@
                 text-decoration: underline;
             }
 
-        .no-employees {
-            border-left: 5px solid #006838;
-            background: #f0f8f4;
-            padding: 18px 20px;
-            border-radius: 8px;
-            color: #333;
-        }
-
         .employee-count {
             display: inline-block;
             background: #e8f5ee;
@@ -145,14 +136,22 @@
             margin-left: 8px;
         }
 
+        .no-employees {
+            background: #f0f8f4;
+            border-left: 5px solid #006838;
+            padding: 18px 20px;
+            border-radius: 8px;
+            color: #333;
+        }
+
     </style>
-   
+
 
 </head>
 
 <body>
 
-   
+ 
     <div class="container">
 
         <!-- HEADER -->
@@ -165,29 +164,30 @@
             </h2>
 
             <p>
-                View and manage employees assigned to you.
+                View all employees currently assigned to you.
             </p>
 
         </div>
 
 
-        <!-- BACK -->
+        <!-- BACK BUTTON -->
 
         <div class="mb-3">
 
             <a asp-controller="Supervisor"
-               asp-action="Cycles"
+               asp-action="Index"
                class="btn-back">
 
                 <i class="fa-solid fa-arrow-left me-2"></i>
-                Back to Performance Cycles
+
+                Back
 
             </a>
 
         </div>
 
 
-        <!-- EMPLOYEES -->
+        <!-- EMPLOYEE LIST -->
 
         <div class="employees-card">
 
@@ -206,7 +206,7 @@
 
             @if (Model == null || !Model.Any())
             {
-                <div class="no-employees">
+                <div class="no-employees mt-4">
 
                     <i class="fa-solid fa-circle-info me-2"></i>
 
@@ -226,29 +226,17 @@
 
                             <tr>
 
-                                <th>
-                                    Persal Number
-                                </th>
+                                <th>Persal Number</th>
 
-                                <th>
-                                    Employee Name
-                                </th>
+                                <th>Employee Name</th>
 
-                                <th>
-                                    Position
-                                </th>
+                                <th>Position</th>
 
-                                <th>
-                                    Department
-                                </th>
+                                <th>Department</th>
 
-                                <th>
-                                    Post Level
-                                </th>
+                                <th>Post Level</th>
 
-                                <th>
-                                    Action
-                                </th>
+                                <th>Action</th>
 
                             </tr>
 

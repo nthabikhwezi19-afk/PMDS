@@ -40,5 +40,12 @@ namespace PMDSSystems.Models
         // --- Sign-offs ---
         public string? SuperviseeInitialsAndSurname { get; set; }
         public string? SupervisorInitialsAndSurname { get; set; }
+        public string? SuperviseeSignature { get; set; }
+        public string? SuperviseeSurnameInitials { get; set; }
+        public DateTime? SuperviseeSignatureDate { get; set; }
+
+        public string? SupervisorSignature { get; set; }
+        public string? SupervisorSurnameInitials { get; set; }
+        public DateTime? SupervisorSignatureDate { get; set; }
     }
 }

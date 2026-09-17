@@ -3,120 +3,25 @@
 @{
     ViewData["Title"] = "Create Performance Agreement";
 }
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Create Performance Agreement</title>
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        /* ============================================
-           SUCCESS POPUP
-           ============================================ */
-
-        .success-toast {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            min-width: 380px;
-            max-width: 500px;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-            border-left: 5px solid #006838;
-            z-index: 99999;
-            animation: slideIn 0.4s ease;
-        }
-
-        .success-icon {
-            width: 42px;
-            height: 42px;
-            min-width: 42px;
-            border-radius: 50%;
-            background: #e8f5ee;
-            color: #006838;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .success-message {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            flex: 1;
-        }
-
-            .success-message strong {
-                color: #006838;
-                font-size: 16px;
-            }
-
-            .success-message span {
-                color: #4a5568;
-                font-size: 14px;
-            }
-
-        .toast-close {
-            border: none;
-            background: transparent;
-            color: #718096;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-            .toast-close:hover {
-                color: #dc3545;
-            }
-
-        @@keyframes slideIn {
-            from
-
-        {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        }
-
-        @@media (max-width: 576px) {
-            .success-toast
-
-        {
-            left: 15px;
-            right: 15px;
-            top: 15px;
-            min-width: auto;
-            max-width: none;
-        }
-
-        }
-        /* ============================================
-                   PAGE BACKGROUND & CONTAINER
-                   ============================================ */
-
+        /* ============================================================
+                                   BODY
+                                ============================================================ */
         body {
             background: #f4f7fc;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         .page-container {
@@ -125,27 +30,20 @@
             padding: 0 20px;
         }
 
-        /* ============================================
-                   CARD STYLES
-                   ============================================ */
-
+        /* ============================================================
+                                   MAIN CARD
+                                ============================================================ */
         .form-card {
             background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             padding: 40px 45px;
             border-top: 6px solid #006838;
-            transition: box-shadow 0.3s ease;
         }
 
-            .form-card:hover {
-                box-shadow: 0 12px 40px rgba(0, 104, 56, 0.12);
-            }
-
-        /* ============================================
-                   HEADER
-                   ============================================ */
-
+        /* ============================================================
+                                   HEADER
+                                ============================================================ */
         .page-header {
             display: flex;
             align-items: center;
@@ -169,43 +67,18 @@
                     margin-right: 12px;
                 }
 
-            .page-header .badge-cycle {
-                background: #006838;
-                color: white;
-                padding: 8px 18px;
-                border-radius: 30px;
-                font-size: 14px;
-                font-weight: 600;
-                letter-spacing: 0.3px;
-            }
-
-        /* ============================================
-                   ALERT / MESSAGE
-                   ============================================ */
-
-        .alert-custom {
-            border-radius: 12px;
-            padding: 16px 20px;
-            border: none;
-            font-weight: 500;
+        .badge-cycle {
+            background: #006838;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        .alert-success-custom {
-            background: #e8f5ee;
-            color: #006838;
-            border-left: 5px solid #006838;
-        }
-
-        .alert-danger-custom {
-            background: #fde8e8;
-            color: #a11f2c;
-            border-left: 5px solid #dc3545;
-        }
-
-        /* ============================================
-                   SECTION TITLES
-                   ============================================ */
-
+        /* ============================================================
+                                   SECTION TITLE
+                                ============================================================ */
         .section-title {
             font-size: 18px;
             font-weight: 700;
@@ -220,22 +93,12 @@
         }
 
             .section-title i {
-                font-size: 20px;
                 color: #006838;
             }
 
-        .section-divider {
-            border: 0;
-            height: 2px;
-            background: linear-gradient(to right, #006838, transparent);
-            margin: 35px 0;
-            opacity: 0.3;
-        }
-
-        /* ============================================
-                   FORM LABELS
-                   ============================================ */
-
+        /* ============================================================
+                                   FORM LABELS
+                                ============================================================ */
         .form-label-custom {
             font-weight: 600;
             color: #1a2a3a;
@@ -243,23 +106,22 @@
             font-size: 14px;
         }
 
-            .form-label-custom .required {
-                color: #dc3545;
-                margin-left: 4px;
-            }
+        .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
 
-        /* ============================================
-                   FORM CONTROLS
-                   ============================================ */
-
+        /* ============================================================
+                                   FORM CONTROLS
+                                ============================================================ */
         .form-control-custom,
         .form-select-custom {
             border-radius: 8px;
             border: 1.5px solid #e2e8f0;
             padding: 8px 12px;
             font-size: 13px;
-            transition: all 0.3s ease;
             background: #fafbfc;
+            transition: all 0.2s ease;
         }
 
             .form-control-custom:focus,
@@ -269,20 +131,39 @@
                 background: #ffffff;
             }
 
-            .form-control-custom::placeholder {
-                color: #a0aec0;
-                font-size: 12px;
-            }
-
         textarea.form-control-custom {
             resize: vertical;
             min-height: 60px;
         }
 
-        /* ============================================
-                   KRA TABLE
-                   ============================================ */
+        .text-muted-small {
+            font-size: 12px;
+            color: #718096;
+            display: block;
+            margin-top: 5px;
+        }
 
+        /* ============================================================
+                                   SALARY LEVEL INFO
+                                ============================================================ */
+        .salary-info {
+            margin-top: 8px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #f0f8f4;
+            border-left: 4px solid #006838;
+            color: #155d3c;
+            font-size: 13px;
+            display: none;
+        }
+
+            .salary-info.show {
+                display: block;
+            }
+
+        /* ============================================================
+                                   KRA TABLE
+                                ============================================================ */
         .kra-table-container {
             overflow-x: auto;
             margin-top: 15px;
@@ -294,7 +175,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 900px;
+            min-width: 1250px;
         }
 
             .kra-table thead th {
@@ -304,19 +185,9 @@
                 text-align: left;
                 font-weight: 700;
                 font-size: 13px;
-                letter-spacing: 0.3px;
                 white-space: nowrap;
                 border: 1px solid #004d28;
-                position: sticky;
-                top: 0;
-                z-index: 10;
             }
-
-                .kra-table thead th i {
-                    margin-right: 6px;
-                    font-size: 12px;
-                    opacity: 0.8;
-                }
 
             .kra-table tbody td {
                 padding: 8px 10px;
@@ -329,53 +200,160 @@
                 background: #f8fafc;
             }
 
-            .kra-table tbody tr:last-child td {
-                border-bottom: 1px solid #e9ecef;
-            }
-
-        /* KRA Number Column */
         .kra-number {
             text-align: center;
             font-weight: 700;
             color: #006838;
             font-size: 14px;
-            min-width: 60px;
+            min-width: 55px;
         }
 
-        /* Inputs inside table */
         .kra-table .form-control-custom,
         .kra-table .form-select-custom {
-            border-radius: 6px;
-            border: 1.5px solid #e2e8f0;
-            padding: 6px 10px;
-            font-size: 13px;
             width: 100%;
-            min-width: 80px;
+            min-width: 100px;
             background: #ffffff;
         }
 
-            .kra-table .form-control-custom:focus,
-            .kra-table .form-select-custom:focus {
-                border-color: #006838;
-                box-shadow: 0 0 0 3px rgba(0, 104, 56, 0.1);
-            }
-
-            .kra-table .form-control-custom.weight-input {
-                width: 70px;
-                min-width: 60px;
-                text-align: center;
-            }
-
-        .kra-table textarea.form-control-custom {
-            min-height: 40px;
-            height: 40px;
-            resize: vertical;
+        .weight-field {
+            width: 90px !important;
+            min-width: 80px !important;
         }
 
-        /* ============================================
-                   TABLE ACTIONS
-                   ============================================ */
+        /* ============================================================
+                                   COMPULSORY GAF
+                                ============================================================ */
+        .compulsory-gaf {
+            background: #f0f8f4;
+            border: 1px solid #b8dfca;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #155d3c;
+        }
 
+            .compulsory-gaf i {
+                color: #006838;
+            }
+
+        /* ============================================================
+                                   MULTI SELECT DROPDOWN
+                                ============================================================ */
+        .multi-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .multi-select-button {
+            width: 100%;
+            min-height: 42px;
+            border-radius: 8px;
+            border: 1.5px solid #e2e8f0;
+            background: #ffffff;
+            color: #1a2a3a;
+            padding: 8px 35px 8px 12px;
+            text-align: left;
+            font-size: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .multi-select-button:hover {
+                border-color: #006838;
+                background: #f8fafc;
+            }
+
+            .multi-select-button:focus,
+            .multi-select-button.active {
+                border-color: #006838;
+                box-shadow: 0 0 0 3px rgba(0, 104, 56, 0.12);
+                outline: none;
+            }
+
+            .multi-select-button .selected-text {
+                display: block;
+                padding-right: 5px;
+                line-height: 1.4;
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            .multi-select-button .dropdown-arrow {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #006838;
+            }
+
+        .multi-select-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% + 5px);
+            width: 100%;
+            min-width: 230px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #ffffff;
+            border: 1px solid #d9e2dc;
+            border-radius: 9px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            padding: 8px;
+        }
+
+            .multi-select-menu.show {
+                display: block;
+            }
+
+        .multi-select-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            width: 100%;
+            padding: 9px 8px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #1a2a3a;
+            margin: 0;
+        }
+
+            .multi-select-option:hover {
+                background: #f0f8f4;
+            }
+
+            .multi-select-option input {
+                margin-top: 2px;
+                accent-color: #006838;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+
+            .multi-select-option.mandatory {
+                background: #f0f8f4;
+                color: #155d3c;
+                font-weight: 600;
+            }
+
+                .multi-select-option.mandatory input {
+                    cursor: not-allowed;
+                }
+
+        .selection-count {
+            color: #006838;
+            font-weight: 600;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* ============================================================
+                                   BUTTONS
+                                ============================================================ */
         .btn-add-kra {
             background: #006838;
             color: white;
@@ -384,7 +362,7 @@
             border-radius: 8px;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -392,40 +370,36 @@
             margin-top: 15px;
         }
 
-            .btn-add-kra:hover {
+            .btn-add-kra:hover:not(:disabled) {
                 background: #004d28;
                 color: white;
                 transform: translateY(-2px);
                 box-shadow: 0 4px 16px rgba(0, 104, 56, 0.3);
             }
 
+            .btn-add-kra:disabled {
+                background: #9aa7a0;
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+
         .btn-remove-kra {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
         }
 
             .btn-remove-kra:hover {
                 background: #bb2d3b;
-                transform: scale(1.05);
             }
 
-            .btn-remove-kra i {
-                font-size: 13px;
-            }
-
-        /* ============================================
-                   TOTAL WEIGHT
-                   ============================================ */
-
+        /* ============================================================
+                                   TOTAL WEIGHT
+                                ============================================================ */
         .total-weight-container {
             display: flex;
             align-items: center;
@@ -442,7 +416,6 @@
                 font-weight: 700;
                 color: #1a2a3a;
                 margin: 0;
-                font-size: 15px;
             }
 
         .total-weight-display {
@@ -460,60 +433,116 @@
         .weight-status {
             font-size: 14px;
             font-weight: 600;
-            color: #006838;
+            color: #856404;
         }
-
-            .weight-status i {
-                margin-right: 6px;
-            }
 
             .weight-status.success {
                 color: #006838;
             }
 
-            .weight-status.warning {
-                color: #856404;
-            }
-
-        /* ============================================
-                   SAVE BUTTON
-                   ============================================ */
-
-        .btn-save {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-            color: white;
-            padding: 14px 50px;
-            font-weight: 700;
-            font-size: 17px;
-            border-radius: 12px;
-            border: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
+        /* ============================================================
+                                   SAVE BUTTON
+                                ============================================================ */
+        .pmds-navigation {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 14px;
-            box-shadow: 0 4px 20px rgba(0, 104, 56, 0.3);
-            cursor: pointer;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
         }
 
-            .btn-save:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 8px 30px rgba(0, 104, 56, 0.4);
-                color: white;
-                background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
+        /* Both buttons */
+        .pmds-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 190px !important;
+            height: 48px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #006838 !important;
+            color: #ffffff !important;
+            border: 2px solid #006838 !important;
+            border-radius: 8px !important;
+            font-family: "Segoe UI", Arial, sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            box-sizing: border-box !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+
+            /* Icon spacing */
+            .pmds-btn i {
+                font-size: 14px;
+                color: #ffffff;
             }
 
-            .btn-save:active {
-                transform: translateY(0px);
+            /* Back icon */
+            .pmds-btn:first-child {
+                gap: 10px;
             }
 
-            .btn-save i {
-                font-size: 18px;
+            /* Save icon */
+            .pmds-btn:last-child {
+                gap: 10px;
             }
 
-        /* ============================================
-                   RESPONSIVE
-                   ============================================ */
+            /* Hover */
+            .pmds-btn:hover {
+                background: #004d28 !important;
+                border-color: #004d28 !important;
+                color: #ffffff !important;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(0, 77, 40, 0.30);
+                text-decoration: none !important;
+            }
 
+            /* Back arrow animation */
+            .pmds-btn:first-child:hover i {
+                transform: translateX(-4px);
+            }
+
+            /* Save arrow animation */
+            .pmds-btn:last-child:hover i {
+                transform: translateX(4px);
+            }
+
+            /* Click */
+            .pmds-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            }
+
+        /* Mobile */
+        @@media (max-width: 576px) {
+            .pmds-navigation
+
+        {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pmds-btn {
+            width: 100% !important;
+        }
+
+        }
+        /* ============================================================
+                                   ALERT
+                                ============================================================ */
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+            padding: 15px;
+        }
+
+        /* ============================================================
+                                   RESPONSIVE
+                                ============================================================ */
         @@media (max-width: 768px) {
             .form-card {
                 padding: 20px;
@@ -523,19 +552,10 @@
                 font-size: 22px;
             }
 
-            .page-header .badge-cycle {
-                font-size: 12px;
-                padding: 6px 14px;
-            }
-
+            .btn-add-kra,
             .btn-save {
                 width: 100%;
                 justify-content: center;
-                padding: 14px 20px;
-            }
-
-            .section-title {
-                font-size: 16px;
             }
 
             .total-weight-container {
@@ -547,248 +567,88 @@
             .total-weight-display {
                 width: 100%;
             }
-
-            .btn-add-kra {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @@media (max-width: 480px) {
-            .form-card {
-                padding: 15px;
-                border-radius: 10px;
-            }
-
-            .kra-table thead th {
-                font-size: 11px;
-                padding: 8px 6px;
-            }
-
-            .kra-table tbody td {
-                padding: 4px 6px;
-            }
-
-            .kra-table .form-control-custom,
-            .kra-table .form-select-custom {
-                font-size: 12px;
-                padding: 4px 6px;
-            }
-
-                .kra-table .form-control-custom.weight-input {
-                    width: 50px;
-                    min-width: 40px;
-                }
-        }
-
-        /* ============================================
-                   UTILITY HELPERS
-                   ============================================ */
-
-        .text-muted-small {
-            font-size: 13px;
-            color: #718096;
-        }
-
-        .mt-30 {
-            margin-top: 30px;
-        }
-
-        .mb-30 {
-            margin-bottom: 30px;
         }
     </style>
 </head>
-
 <body>
 
     <div class="page-container">
-
         <div class="form-card">
-
-            <!-- ============================================
-                 HEADER
-                 ============================================ -->
-
+            <!-- HEADER -->
             <div class="page-header">
-
                 <h2>
                     <i class="fas fa-file-signature"></i>
                     Create Performance Agreement
                 </h2>
-
                 <span class="badge-cycle">
                     <i class="fas fa-calendar-alt me-2"></i>
                     2025/2026 Cycle
                 </span>
-
             </div>
 
-
-            <!-- ============================================
-                 SUCCESS / ERROR MESSAGES
-                 ============================================ -->
-        @*     @if (TempData["Success"] != null)
-            {
-                <div id="successToast"
-                     class="success-toast">
-
-                    <div class="success-icon">
-                        <i class="fas fa-check"></i>
-                    </div>
-
-                    <div class="success-message">
-                        <strong>Success!</strong>
-                        <span>@TempData["Success"]</span>
-                    </div>
-
-                    <button type="button"
-                            class="toast-close"
-                            onclick="closeSuccessToast()">
-                        <i class="fas fa-times"></i>
-                    </button>
-
-                </div>
-            } *@
-            <!-- ============================================
-                 FORM
-                 ============================================ -->
-
-            <form asp-controller="PerformanceAgreement"
-                  asp-action="Create"
-                  method="post"
-                  id="agreementForm">
-
+            <!-- FORM -->
+            <form asp-controller="PerformanceAgreement" asp-action="Create" method="post" id="agreementForm">
                 @Html.AntiForgeryToken()
 
-                <input type="hidden" name="Id" value="0" />
-
-
-                <!-- ============================================
-                     VALIDATION SUMMARY
-                     ============================================ -->
-
-                <div asp-validation-summary="All"
-                     class="alert alert-danger-custom alert-custom mb-4"
-                     style="display: @(ViewData.ModelState.ErrorCount > 0 ? "block" : "none");">
+                <!-- VALIDATION -->
+                <div asp-validation-summary="All" class="alert alert-danger alert-custom mb-4" style="display:@(ViewData.ModelState.ErrorCount > 0 ? "block" : "none");">
                 </div>
 
-
-                <!-- ============================================
-                     JOB PURPOSE
-                     ============================================ -->
-
+                <!-- JOB INFORMATION -->
                 <div class="section-title">
                     <i class="fas fa-bullseye"></i>
                     Job Information
                 </div>
 
                 <div class="mb-4">
-
                     <label class="form-label-custom">
                         Job Purpose
                         <span class="required">*</span>
                     </label>
-
-                    <textarea name="JobPurpose"
-                              class="form-control form-control-custom"
-                              rows="3"
-                              placeholder="Summarise the overall purpose of this position..."></textarea>
-
+                    <textarea name="JobPurpose" class="form-control form-control-custom" rows="3" required placeholder="Summarise the overall purpose of this position...">@Model?.JobPurpose</textarea>
                 </div>
 
-
-                <!-- ============================================
-                     JOB RELATED TASKS
-                     ============================================ -->
-
                 <div class="mb-4">
-
                     <label class="form-label-custom">
                         Job Related Tasks
                         <span class="required">*</span>
                     </label>
-
-                    <textarea name="JobRelatedTasks"
-                              class="form-control form-control-custom"
-                              rows="4"
-                              placeholder="List the key tasks and responsibilities of this role..."></textarea>
-
+                    <textarea name="JobRelatedTasks" class="form-control form-control-custom" rows="4" required placeholder="List the key tasks and responsibilities of this role...">@Model?.JobRelatedTasks</textarea>
                 </div>
 
-
-                <!-- ============================================
-                     SALARY LEVEL & NUMBER OF KRAs
-                     ============================================ -->
-
+                <!-- SALARY LEVEL -->
                 <div class="row g-4">
-
                     <div class="col-md-6">
-
                         <label class="form-label-custom">
                             Salary Level
                             <span class="required">*</span>
                         </label>
-
-                        <select name="SalaryLevel"
-                                class="form-select form-select-custom">
-
-                            <option value="">
-                                -- Select Salary Level --
-                            </option>
-
-                            <option value="Production (Level 2-7)">
-                                Production (Level 2-7)
-                            </option>
-
-                            <option value="Supervisor / Junior Management (Level 8-10)">
-                                Supervisor / Junior Management (Level 8-10)
-                            </option>
-
-                            <option value="Middle Management / Chief (Level 11-12)">
-                                Middle Management / Chief (Level 11-12)
-                            </option>
-
-                            <option value="Senior Management (Level 13-16)">
-                                Senior Management (Level 13-16)
-                            </option>
-
+                        <select name="SalaryLevel" id="salaryLevel" class="form-select form-select-custom" required>
+                            <option value="">-- Select Salary Level --</option>
+                            <option value="Production (Level 2-7)">Production (Level 2-7)</option>
+                            <option value="Supervisor / Junior Management (Level 8-10)">Supervisor / Junior Management (Level 8-10)</option>
+                            <option value="Middle Management / Chief (Level 11-12)">Middle Management / Chief (Level 11-12)</option>
+                            <option value="Senior Management (Level 13-16)">Senior Management (Level 13-16)</option>
                         </select>
-
+                        <div id="salaryInfo" class="salary-info">
+                            <i class="fas fa-info-circle me-1"></i>
+                            <span id="salaryInfoText"></span>
+                        </div>
                     </div>
-
                     <div class="col-md-6">
-
-                        <label class="form-label-custom">
-                            Number of KRAs
-                            <span class="required">*</span>
-                        </label>
-
-                        <input type="number"
-                               name="NumberOfKRAs"
-                               id="numberOfKRAs"
-                               class="form-control form-control-custom"
-                               value="4"
-                               min="1"
-                               max="10" />
-
+                        <label class="form-label-custom">Number of KRAs</label>
+                        <input type="number" name="NumberOfKRAs" id="numberOfKRAs" class="form-control form-control-custom" value="4" min="4" max="6" readonly />
                         <small class="text-muted-small">
                             <i class="fas fa-info-circle me-1"></i>
-                            Each KRA should contribute to the overall job objectives.
+                            Levels 2–7 require exactly 4 KRAs.
+                            Levels 8–16 may have up to 6 KRAs.
                         </small>
-
                     </div>
-
                 </div>
 
+                <hr class="my-4" />
 
-                <hr class="section-divider" />
-
-
-                <!-- ============================================
-                     WORKPLAN SECTION
-                     ============================================ -->
-
+                <!-- WORKPLAN -->
                 <div class="section-title">
                     <i class="fas fa-tasks"></i>
                     Workplan
@@ -796,891 +656,768 @@
 
                 <p class="text-muted-small mb-3">
                     <i class="fas fa-info-circle me-1"></i>
-                    Complete each KRA with its weight, activities, standards, and relevant Batho Pele and GAF principles.
+                    Complete each KRA with its weight, activities,
+                    performance standards, Batho Pele principle and GAF.
                 </p>
 
-
-                <!-- ============================================
-                     KRA TABLE
-                     ============================================ -->
-
+                <!-- KRA TABLE -->
                 <div class="kra-table-container">
-
                     <table class="kra-table" id="kraTable">
-
                         <thead>
-
                             <tr>
-
-                                <th style="min-width: 60px; text-align: center;">
-                                    <i class="fas fa-hashtag"></i>
-                                    #
-                                </th>
-
-                                <th style="min-width: 180px;">
-                                    <i class="fas fa-tag"></i>
-                                    KRA Name
-                                </th>
-
-                                <th style="min-width: 80px; text-align: center;">
-                                    <i class="fas fa-percent"></i>
-                                    Weight
-                                </th>
-
-                                <th style="min-width: 180px;">
-                                    <i class="fas fa-list"></i>
-                                    Key Activities
-                                </th>
-
-                                <th style="min-width: 180px;">
-                                    <i class="fas fa-flag"></i>
-                                    Performance Standards
-                                </th>
-
-                                <th style="min-width: 150px;">
-                                    <i class="fas fa-handshake"></i>
-                                    Batho Pele
-                                </th>
-
-                                <th style="min-width: 140px;">
-                                    <i class="fas fa-star"></i>
-                                    GAFs
-                                </th>
-
-                                <th style="min-width: 60px; text-align: center;">
-                                    <i class="fas fa-trash"></i>
-                                </th>
-
+                                <th style="width:60px;text-align:center;">#</th>
+                                <th style="min-width:180px;"><i class="fas fa-tag"></i> KRA Name</th>
+                                <th style="min-width:100px;"><i class="fas fa-percent"></i> Weight</th>
+                                <th style="min-width:200px;"><i class="fas fa-list"></i> Key Activities</th>
+                                <th style="min-width:200px;"><i class="fas fa-flag"></i> Performance Standards</th>
+                                <th style="min-width:210px;"><i class="fas fa-handshake"></i> Batho Pele</th>
+                                <th style="min-width:230px;"><i class="fas fa-star"></i> GAFs</th>
+                                <th style="width:70px;text-align:center;"><i class="fas fa-trash"></i></th>
                             </tr>
-
                         </thead>
                         <tbody id="kraTableBody">
-
                             <!-- KRA 1 -->
-                            <tr id="kraRow_0">
+                            <tr class="kra-row">
                                 <td class="kra-number">1</td>
-
+                                <td><input type="text" name="KRAs[0].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
                                 <td>
-                                    <input type="text"
-                                           name="KRAs[0].Name"
-                                           class="form-control form-control-custom"
-                                           placeholder="Enter KRA name..." />
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[${index}].Weight"
-                                            class="form-select form-select-custom weight-input weight-field"
-                                            required>
-                                        <option value="">-- Select Weight --</option>
-                                        <option value="10">10%</option>
-                                        <option value="11">11%</option>
-                                        <option value="12">12%</option>
-                                        <option value="13">13%</option>
-                                        <option value="14">14%</option>
-                                        <option value="15">15%</option>
-                                        <option value="16">16%</option>
-                                        <option value="17">17%</option>
-                                        <option value="18">18%</option>
-                                        <option value="19">19%</option>
-                                        <option value="20">20%</option>
-                                        <option value="21">21%</option>
-                                        <option value="22">22%</option>
-                                        <option value="23">23%</option>
-                                        <option value="24">24%</option>
-                                        <option value="25">25%</option>
-                                        <option value="26">26%</option>
-                                        <option value="27">27%</option>
-                                        <option value="28">28%</option>
-                                        <option value="29">29%</option>
-                                        <option value="30">30%</option>
+                                    <select name="KRAs[0].Weight" class="form-select form-select-custom weight-field" required>
+                                        <option value="">-- Weight --</option>
+                                        @for (int w = 10; w <= 30; w++)
+                                        {
+                                            <option value="@w">@w%</option>
+                                        }
                                     </select>
                                 </td>
-
+                                <td><textarea name="KRAs[0].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
+                                <td><textarea name="KRAs[0].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
+                                <!-- Batho Pele -->
                                 <td>
-                                    <textarea name="KRAs[0].Activities"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Activities..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button batho-button">
+                                            <span class="selected-text">Select Batho Pele</span>
+                                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                                        </button>
+                                        <div class="multi-select-menu batho-menu">
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[0].BathoPele" class="batho-hidden" />
                                 </td>
-
+                                <!-- GAF -->
                                 <td>
-                                    <textarea name="KRAs[0].Standards"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Standards..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button gaf-button">
+                                            <span class="selected-text">Select GAFs</span>
+                                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                                        </button>
+                                        <div class="multi-select-menu gaf-menu">
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[0].GAFs" class="gaf-hidden" />
                                 </td>
-
-                                <td>
-                                    <select name="KRAs[0].BathoPele"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select --</option>
-                                        <option value="Consultation">Consultation</option>
-                                        <option value="Setting Service Standards">Setting Service Standards</option>
-                                        <option value="Increasing Access">Increasing Access</option>
-                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
-                                        <option value="Providing Information">Providing Information</option>
-                                        <option value="Openness and Transparency">Openness and Transparency</option>
-                                        <option value="Redress">Redress</option>
-                                        <option value="Value for Money">Value for Money</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[0].GAFs"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select GAF --</option>
-                                        <option value="Job Knowledge">Job Knowledge</option>
-                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
-                                        <option value="Quality of Work">Quality of Work</option>
-                                        <option value="Technical Skills">Technical Skills</option>
-                                        <option value="Reliability">Reliability</option>
-                                        <option value="Initiative">Initiative</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
-                                        <option value="Flexibility">Flexibility</option>
-                                        <option value="Team Work">Team Work</option>
-                                        <option value="Planning and Execution">Planning and Execution</option>
-                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
-                                        <option value="Management of Human Resources">Management of Human Resources</option>
-                                        <option value="Leadership">Leadership</option>
-                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-                                    </select>
-                                </td>
-
-                                <td style="text-align: center;">
-                                    <button type="button"
-                                            class="btn-remove-kra remove-kra"
-                                            data-row="0">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
+                                <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
                             </tr>
-
 
                             <!-- KRA 2 -->
-                            <tr id="kraRow_1">
+                            <tr class="kra-row">
                                 <td class="kra-number">2</td>
-
+                                <td><input type="text" name="KRAs[1].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
                                 <td>
-                                    <input type="text"
-                                           name="KRAs[1].Name"
-                                           class="form-control form-control-custom"
-                                           placeholder="Enter KRA name..." />
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[${index}].Weight"
-                                            class="form-select form-select-custom weight-input weight-field"
-                                            required>
-                                        <option value="">-- Select Weight --</option>
-                                        <option value="10">10%</option>
-                                        <option value="11">11%</option>
-                                        <option value="12">12%</option>
-                                        <option value="13">13%</option>
-                                        <option value="14">14%</option>
-                                        <option value="15">15%</option>
-                                        <option value="16">16%</option>
-                                        <option value="17">17%</option>
-                                        <option value="18">18%</option>
-                                        <option value="19">19%</option>
-                                        <option value="20">20%</option>
-                                        <option value="21">21%</option>
-                                        <option value="22">22%</option>
-                                        <option value="23">23%</option>
-                                        <option value="24">24%</option>
-                                        <option value="25">25%</option>
-                                        <option value="26">26%</option>
-                                        <option value="27">27%</option>
-                                        <option value="28">28%</option>
-                                        <option value="29">29%</option>
-                                        <option value="30">30%</option>
+                                    <select name="KRAs[1].Weight" class="form-select form-select-custom weight-field" required>
+                                        <option value="">-- Weight --</option>
+                                        @for (int w = 10; w <= 30; w++)
+                                        {
+                                            <option value="@w">@w%</option>
+                                        }
                                     </select>
                                 </td>
-
+                                <td><textarea name="KRAs[1].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
+                                <td><textarea name="KRAs[1].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
                                 <td>
-                                    <textarea name="KRAs[1].Activities"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Activities..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button batho-button"><span class="selected-text">Select Batho Pele</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu batho-menu">
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[1].BathoPele" class="batho-hidden" />
                                 </td>
-
                                 <td>
-                                    <textarea name="KRAs[1].Standards"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Standards..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button gaf-button"><span class="selected-text">Select GAFs</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu gaf-menu">
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[1].GAFs" class="gaf-hidden" />
                                 </td>
-
-                                <td>
-                                    <select name="KRAs[1].BathoPele"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select --</option>
-                                        <option value="Consultation">Consultation</option>
-                                        <option value="Setting Service Standards">Setting Service Standards</option>
-                                        <option value="Increasing Access">Increasing Access</option>
-                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
-                                        <option value="Providing Information">Providing Information</option>
-                                        <option value="Openness and Transparency">Openness and Transparency</option>
-                                        <option value="Redress">Redress</option>
-                                        <option value="Value for Money">Value for Money</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[1].GAFs"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select GAF --</option>
-                                        <option value="Job Knowledge">Job Knowledge</option>
-                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
-                                        <option value="Quality of Work">Quality of Work</option>
-                                        <option value="Technical Skills">Technical Skills</option>
-                                        <option value="Reliability">Reliability</option>
-                                        <option value="Initiative">Initiative</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
-                                        <option value="Flexibility">Flexibility</option>
-                                        <option value="Team Work">Team Work</option>
-                                        <option value="Planning and Execution">Planning and Execution</option>
-                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
-                                        <option value="Management of Human Resources">Management of Human Resources</option>
-                                        <option value="Leadership">Leadership</option>
-                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-                                    </select>
-                                </td>
-
-                                <td style="text-align: center;">
-                                    <button type="button"
-                                            class="btn-remove-kra remove-kra"
-                                            data-row="1">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
+                                <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
                             </tr>
-
 
                             <!-- KRA 3 -->
-                            <tr id="kraRow_2">
+                            <tr class="kra-row">
                                 <td class="kra-number">3</td>
-
+                                <td><input type="text" name="KRAs[2].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
                                 <td>
-                                    <input type="text"
-                                           name="KRAs[2].Name"
-                                           class="form-control form-control-custom"
-                                           placeholder="Enter KRA name..." />
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[${index}].Weight"
-                                            class="form-select form-select-custom weight-input weight-field"
-                                            required>
-                                        <option value="">-- Select Weight --</option>
-                                        <option value="10">10%</option>
-                                        <option value="11">11%</option>
-                                        <option value="12">12%</option>
-                                        <option value="13">13%</option>
-                                        <option value="14">14%</option>
-                                        <option value="15">15%</option>
-                                        <option value="16">16%</option>
-                                        <option value="17">17%</option>
-                                        <option value="18">18%</option>
-                                        <option value="19">19%</option>
-                                        <option value="20">20%</option>
-                                        <option value="21">21%</option>
-                                        <option value="22">22%</option>
-                                        <option value="23">23%</option>
-                                        <option value="24">24%</option>
-                                        <option value="25">25%</option>
-                                        <option value="26">26%</option>
-                                        <option value="27">27%</option>
-                                        <option value="28">28%</option>
-                                        <option value="29">29%</option>
-                                        <option value="30">30%</option>
+                                    <select name="KRAs[2].Weight" class="form-select form-select-custom weight-field" required>
+                                        <option value="">-- Weight --</option>
+                                        @for (int w = 10; w <= 30; w++)
+                                        {
+                                            <option value="@w">@w%</option>
+                                        }
                                     </select>
                                 </td>
-
+                                <td><textarea name="KRAs[2].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
+                                <td><textarea name="KRAs[2].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
                                 <td>
-                                    <textarea name="KRAs[2].Activities"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Activities..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button batho-button"><span class="selected-text">Select Batho Pele</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu batho-menu">
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[2].BathoPele" class="batho-hidden" />
                                 </td>
-
                                 <td>
-                                    <textarea name="KRAs[2].Standards"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Standards..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button gaf-button"><span class="selected-text">Select GAFs</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu gaf-menu">
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[2].GAFs" class="gaf-hidden" />
                                 </td>
-
-                                <td>
-                                    <select name="KRAs[2].BathoPele"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select --</option>
-                                        <option value="Consultation">Consultation</option>
-                                        <option value="Setting Service Standards">Setting Service Standards</option>
-                                        <option value="Increasing Access">Increasing Access</option>
-                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
-                                        <option value="Providing Information">Providing Information</option>
-                                        <option value="Openness and Transparency">Openness and Transparency</option>
-                                        <option value="Redress">Redress</option>
-                                        <option value="Value for Money">Value for Money</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[2].GAFs"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select GAF --</option>
-                                        <option value="Job Knowledge">Job Knowledge</option>
-                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
-                                        <option value="Quality of Work">Quality of Work</option>
-                                        <option value="Technical Skills">Technical Skills</option>
-                                        <option value="Reliability">Reliability</option>
-                                        <option value="Initiative">Initiative</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
-                                        <option value="Flexibility">Flexibility</option>
-                                        <option value="Team Work">Team Work</option>
-                                        <option value="Planning and Execution">Planning and Execution</option>
-                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
-                                        <option value="Management of Human Resources">Management of Human Resources</option>
-                                        <option value="Leadership">Leadership</option>
-                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-                                    </select>
-                                </td>
-
-                                <td style="text-align: center;">
-                                    <button type="button"
-                                            class="btn-remove-kra remove-kra"
-                                            data-row="2">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
+                                <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
                             </tr>
-
 
                             <!-- KRA 4 -->
-                            <tr id="kraRow_3">
+                            <tr class="kra-row">
                                 <td class="kra-number">4</td>
-
+                                <td><input type="text" name="KRAs[3].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
                                 <td>
-                                    <input type="text"
-                                           name="KRAs[3].Name"
-                                           class="form-control form-control-custom"
-                                           placeholder="Enter KRA name..." />
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[${index}].Weight"
-                                            class="form-select form-select-custom weight-input weight-field"
-                                            required>
-                                        <option value="">-- Select Weight --</option>
-                                        <option value="10">10%</option>
-                                        <option value="11">11%</option>
-                                        <option value="12">12%</option>
-                                        <option value="13">13%</option>
-                                        <option value="14">14%</option>
-                                        <option value="15">15%</option>
-                                        <option value="16">16%</option>
-                                        <option value="17">17%</option>
-                                        <option value="18">18%</option>
-                                        <option value="19">19%</option>
-                                        <option value="20">20%</option>
-                                        <option value="21">21%</option>
-                                        <option value="22">22%</option>
-                                        <option value="23">23%</option>
-                                        <option value="24">24%</option>
-                                        <option value="25">25%</option>
-                                        <option value="26">26%</option>
-                                        <option value="27">27%</option>
-                                        <option value="28">28%</option>
-                                        <option value="29">29%</option>
-                                        <option value="30">30%</option>
+                                    <select name="KRAs[3].Weight" class="form-select form-select-custom weight-field" required>
+                                        <option value="">-- Weight --</option>
+                                        @for (int w = 10; w <= 30; w++)
+                                        {
+                                            <option value="@w">@w%</option>
+                                        }
                                     </select>
                                 </td>
-
+                                <td><textarea name="KRAs[3].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
+                                <td><textarea name="KRAs[3].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
                                 <td>
-                                    <textarea name="KRAs[3].Activities"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Activities..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button batho-button"><span class="selected-text">Select Batho Pele</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu batho-menu">
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[3].BathoPele" class="batho-hidden" />
                                 </td>
-
                                 <td>
-                                    <textarea name="KRAs[3].Standards"
-                                              class="form-control form-control-custom"
-                                              rows="2"
-                                              placeholder="Standards..."></textarea>
+                                    <div class="multi-select-container">
+                                        <button type="button" class="multi-select-button gaf-button"><span class="selected-text">Select GAFs</span><span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span></button>
+                                        <div class="multi-select-menu gaf-menu">
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
+                                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
+                                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="KRAs[3].GAFs" class="gaf-hidden" />
                                 </td>
-
-                                <td>
-                                    <select name="KRAs[3].BathoPele"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select --</option>
-                                        <option value="Consultation">Consultation</option>
-                                        <option value="Setting Service Standards">Setting Service Standards</option>
-                                        <option value="Increasing Access">Increasing Access</option>
-                                        <option value="Ensuring Courtesy">Ensuring Courtesy</option>
-                                        <option value="Providing Information">Providing Information</option>
-                                        <option value="Openness and Transparency">Openness and Transparency</option>
-                                        <option value="Redress">Redress</option>
-                                        <option value="Value for Money">Value for Money</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <select name="KRAs[3].GAFs"
-                                            class="form-select form-select-custom">
-                                        <option value="">-- Select GAF --</option>
-                                        <option value="Job Knowledge">Job Knowledge</option>
-                                        <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
-                                        <option value="Quality of Work">Quality of Work</option>
-                                        <option value="Technical Skills">Technical Skills</option>
-                                        <option value="Reliability">Reliability</option>
-                                        <option value="Initiative">Initiative</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Interpersonal Relationships">Interpersonal Relationships</option>
-                                        <option value="Flexibility">Flexibility</option>
-                                        <option value="Team Work">Team Work</option>
-                                        <option value="Planning and Execution">Planning and Execution</option>
-                                        <option value="Management of Financial Resources">Management of Financial Resources</option>
-                                        <option value="Management of Human Resources">Management of Human Resources</option>
-                                        <option value="Leadership">Leadership</option>
-                                        <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-                                    </select>
-                                </td>
-
-                                <td style="text-align: center;">
-                                    <button type="button"
-                                            class="btn-remove-kra remove-kra"
-                                            data-row="3">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
+                                <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
                             </tr>
-
                         </tbody>
-
                     </table>
-
                 </div>
 
-                <!-- ============================================
-                     ADD KRA BUTTON
-                     ============================================ -->
-
-                <button type="button"
-                        id="addKraBtn"
-                        class="btn-add-kra">
+                <!-- ADD KRA -->
+                <button type="button" id="addKraBtn" class="btn-add-kra">
                     <i class="fas fa-plus-circle"></i>
                     Add KRA
                 </button>
-
-
-                <!-- ============================================
-                     TOTAL WEIGHT
-                     ============================================ -->
-
-                <div class="total-weight-container">
-
-                    <label>
-                        <i class="fas fa-calculator me-2"></i>
-                        Total Weight:
-                    </label>
-
-                    <span class="total-weight-display" id="totalWeightDisplay">
-                        0%
-                    </span>
-
-                    <span class="weight-status" id="weightStatus">
-                        <i class="fas fa-info-circle"></i>
-                        Enter weights %
-                    </span>
-
+                <div class="text-muted-small mt-2" id="kraLimitMessage">
+                    Select a salary level to determine the KRA limit.
                 </div>
 
-                <!-- ============================================
-                SAVE / NEXT BUTTON
-                ============================================ -->
+                <!-- TOTAL WEIGHT -->
+                <div class="total-weight-container">
+                    <label><i class="fas fa-calculator me-2"></i>Total Weight:</label>
+                    <span id="totalWeightDisplay" class="total-weight-display">0%</span>
+                    <span id="weightStatus" class="weight-status"><i class="fas fa-info-circle"></i>Enter weights</span>
+                </div>
 
-                <div class="mt-30 text-center">
+                <!-- SAVE / NAVIGATION -->
+                <div class="pmds-navigation">
 
+                    <!-- BACK BUTTON -->
+                    <a href="javascript:history.back()"
+                       class="pmds-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
+                    </a>
+
+                    <!-- SAVE & CONTINUE -->
                     <button type="submit"
-                            class="btn-save">
-
-                        <i class="fas fa-save"></i>
-
-                        Save & Continue
-
-                        <i class="fas fa-chevron-right"></i>
-
+                            class="pmds-btn">
+                        <span>Save & Continue</span>
+                        <i class="fas fa-arrow-right"></i>
                     </button>
 
-                    <p class="text-muted-small mt-3">
-                        <i class="fas fa-lock me-1"></i>
-                        Your information is securely saved before moving to the next page.
-                    </p>
-
                 </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("agreementForm");
+            const tableBody = document.getElementById("kraTableBody");
+            const addBtn = document.getElementById("addKraBtn");
+            const salaryLevel = document.getElementById("salaryLevel");
+            const numberOfKRAs = document.getElementById("numberOfKRAs");
+            const totalDisplay = document.getElementById("totalWeightDisplay");
+            const weightStatus = document.getElementById("weightStatus");
+            const salaryInfo = document.getElementById("salaryInfo");
+            const salaryInfoText = document.getElementById("salaryInfoText");
+            const kraLimitMessage = document.getElementById("kraLimitMessage");
 
-    <!-- ============================================
-         VALIDATION SCRIPTS
-         ============================================ -->
-    @section Scripts {
+            /* COMPULSORY GAFs */
+            const mandatoryGafs = ["Job Knowledge", "Acceptance of Responsibility"];
 
-        <partial name="_ValidationScriptsPartial" />
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                // ============================================
-                // VARIABLES
-                // ============================================
-                let kraCount = 4;
-                const tableBody = document.getElementById("kraTableBody");
-                const addBtn = document.getElementById("addKraBtn");
-                const totalDisplay = document.getElementById("totalWeightDisplay");
-                const weightStatus = document.getElementById("weightStatus");
-                const numberOfKRAsInput = document.getElementById("numberOfKRAs");
-
-
-                // ============================================
-                // ADD KRA ROW
-                // ============================================
-
-                addBtn.addEventListener("click", function () {
-
-                    const index = kraCount;
-                    kraCount++;
-
-                    const row = document.createElement("tr");
-                    row.id = "kraRow_" + index;
-
-                    row.innerHTML = `
-
-                        <td class="kra-number">${index + 1}</td>
-
-                        <td>
-                            <input type="text"
-                                   name="KRAs[${index}].Name"
-                                   class="form-control form-control-custom"
-                                   placeholder="Enter KRA name..." />
-                        </td>
-
-                        <td>
-                            <input type="text"
-                                   name="KRAs[${index}].Weight"
-                                   class="form-control form-control-custom weight-input weight-field"
-                                   placeholder="%" />
-                        </td>
-
-                        <td>
-                            <textarea name="KRAs[${index}].Activities"
-                                      class="form-control form-control-custom"
-                                      rows="2"
-                                      placeholder="Activities..."></textarea>
-                        </td>
-
-                        <td>
-                            <textarea name="KRAs[${index}].Standards"
-                                      class="form-control form-control-custom"
-                                      rows="2"
-                                      placeholder="Standards..."></textarea>
-                        </td>
-
-                        <td>
-                            <select name="KRAs[${index}].BathoPele"
-                                    class="form-select form-select-custom">
-
-                                <option value="">-- Select --</option>
-                                <option value="Consultation">Consultation</option>
-                                <option value="Setting Service Standards">Setting Service Standards</option>
-                                <option value="Increasing Access">Increasing Access</option>
-                                <option value="Ensuring Courtesy">Ensuring Courtesy</option>
-                                <option value="Providing Information">Providing Information</option>
-                                <option value="Openness and Transparency">Openness and Transparency</option>
-                                <option value="Redress">Redress</option>
-                                <option value="Value for Money">Value for Money</option>
-
-                            </select>
-                        </td>
-
-                        <td>
-                            <select name="KRAs[${index}].GAFs"
-                                    class="form-select form-select-custom">
-
-                                <option value="">-- Select GAF --</option>
-                                <option value="Job Knowledge">Job Knowledge</option>
-                                <option value="Acceptance of Responsibility">Acceptance of Responsibility</option>
-                                <option value="Quality of Work">Quality of Work</option>
-                                <option value="Technical Skills">Technical Skills</option>
-                                <option value="Reliability">Reliability</option>
-                                <option value="Initiative">Initiative</option>
-                                <option value="Communication">Communication</option>
-                                <option value="Interpersonal Relationships">Interpersonal Relationships</option>
-                                <option value="Flexibility">Flexibility</option>
-                                <option value="Team Work">Team Work</option>
-                                <option value="Planning and Execution">Planning and Execution</option>
-                                <option value="Management of Financial Resources">Management of Financial Resources</option>
-                                <option value="Management of Human Resources">Management of Human Resources</option>
-                                <option value="Leadership">Leadership</option>
-                                <option value="Delegation and Empowerment">Delegation and Empowerment</option>
-
-                            </select>
-                        </td>
-
-                        <td style="text-align: center;">
-                            <button type="button"
-                                    class="btn-remove-kra remove-kra"
-                                    data-row="${index}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-
-                    `;
-
-                    tableBody.appendChild(row);
-
-                    // Update KRA numbers
-                    updateKRANumbers();
-
-                    // Update number of KRAs input
-                    updateKraCountInput();
-
-                    // Attach weight events
-                    attachWeightEvents();
-
-                    // Update remove buttons visibility
-                    updateRemoveButtons();
-
-                    // Calculate total
-                    calculateTotal();
-
+            /* ============================================================
+               OPEN / CLOSE DROPDOWN
+            ============================================================ */
+            document.addEventListener("click", function (event) {
+                const button = event.target.closest(".multi-select-button");
+                if (button) {
+                    const container = button.closest(".multi-select-container");
+                    const menu = container.querySelector(".multi-select-menu");
+                    document.querySelectorAll(".multi-select-menu.show").forEach(function (openMenu) {
+                        if (openMenu !== menu) {
+                            openMenu.classList.remove("show");
+                            const openButton = openMenu.closest(".multi-select-container").querySelector(".multi-select-button");
+                            if (openButton) openButton.classList.remove("active");
+                        }
+                    });
+                    menu.classList.toggle("show");
+                    button.classList.toggle("active", menu.classList.contains("show"));
+                    return;
+                }
+                if (event.target.closest(".multi-select-menu")) return;
+                document.querySelectorAll(".multi-select-menu.show").forEach(function (menu) {
+                    menu.classList.remove("show");
+                    const button = menu.closest(".multi-select-container").querySelector(".multi-select-button");
+                    if (button) button.classList.remove("active");
                 });
-
-
-                // ============================================
-                // REMOVE KRA ROW
-                // ============================================
-
-                tableBody.addEventListener("click", function (e) {
-
-                    const removeBtn = e.target.closest(".remove-kra");
-
-                    if (!removeBtn) return;
-
-                    const row = removeBtn.closest("tr");
-
-                    if (tableBody.children.length <= 1) {
-                        alert("You must have at least one KRA.");
-                        return;
-                    }
-
-                    if (confirm("Are you sure you want to remove this KRA?")) {
-                        row.remove();
-                        updateKRANumbers();
-                        updateKraCountInput();
-                        updateRemoveButtons();
-                        calculateTotal();
-                    }
-
-                });
-
-
-                // ============================================
-                // UPDATE KRA NUMBERS
-                // ============================================
-
-                function updateKRANumbers() {
-
-                    const rows = tableBody.querySelectorAll("tr");
-
-                    rows.forEach(function (row, index) {
-
-                        const numberCell = row.querySelector(".kra-number");
-
-                        if (numberCell) {
-                            numberCell.textContent = index + 1;
-                        }
-
-                        // Update the data-row attribute on remove button
-                        const removeBtn = row.querySelector(".remove-kra");
-
-                        if (removeBtn) {
-                            removeBtn.dataset.row = index;
-                        }
-
-                    });
-
-                }
-
-
-                // ============================================
-                // UPDATE KRA COUNT INPUT
-                // ============================================
-
-                function updateKraCountInput() {
-
-                    const count = tableBody.querySelectorAll("tr").length;
-
-                    if (numberOfKRAsInput) {
-                        numberOfKRAsInput.value = count;
-                    }
-
-                }
-
-
-                // ============================================
-                // UPDATE REMOVE BUTTONS VISIBILITY
-                // ============================================
-
-                function updateRemoveButtons() {
-
-                    const rows = tableBody.querySelectorAll("tr");
-                    const removeBtns = tableBody.querySelectorAll(".remove-kra");
-
-                    removeBtns.forEach(function (btn) {
-
-                        if (rows.length > 1) {
-                            btn.style.display = "inline-flex";
-                        } else {
-                            btn.style.display = "none";
-                        }
-
-                    });
-
-                }
-
-
-                // ============================================
-                // CALCULATE TOTAL WEIGHT
-                // ============================================
-
-                function calculateTotal() {
-
-                    let total = 0;
-                    let allFilled = true;
-                    const weightFields = tableBody.querySelectorAll(".weight-field");
-
-                    weightFields.forEach(function (input) {
-
-                        const value = parseFloat(input.value);
-
-                        if (!isNaN(value)) {
-                            total += value;
-                        }
-
-                        if (input.value.trim() === "") {
-                            allFilled = false;
-                        }
-
-                    });
-
-                    // Round to 2 decimal places
-                    total = Math.round(total * 100) / 100;
-
-                    // Update display
-                    totalDisplay.textContent = total + "%";
-
-                    // Update status
-                    if (Math.abs(total - 100) < 0.01 && allFilled && weightFields.length > 0) {
-
-                        totalDisplay.style.borderColor = "#006838";
-                        totalDisplay.style.backgroundColor = "#e8f5ee";
-
-                        weightStatus.className = "weight-status success";
-                        weightStatus.innerHTML =
-                            '<i class="fas fa-check-circle"></i> ✓ Perfect! Total equals 100%';
-
-                    } else if (total > 0) {
-
-                        totalDisplay.style.borderColor = "#ffc107";
-                        totalDisplay.style.backgroundColor = "#fff3cd";
-
-                        weightStatus.className = "weight-status warning";
-                        weightStatus.innerHTML =
-                            '<i class="fas fa-exclamation-triangle"></i> Total should equal 100% (currently ' + total + '%)';
-
-                    } else {
-
-                        totalDisplay.style.borderColor = "#006838";
-                        totalDisplay.style.backgroundColor = "#ffffff";
-
-                        weightStatus.className = "weight-status";
-                        weightStatus.innerHTML =
-                            '<i class="fas fa-info-circle"></i> Enter weights to total 100%';
-
-                    }
-
-                }
-
-
-                // ============================================
-                // ATTACH WEIGHT EVENTS
-                // ============================================
-
-                function attachWeightEvents() {
-
-                    const weightFields = tableBody.querySelectorAll(".weight-field");
-
-                    weightFields.forEach(function (input) {
-
-                        // Remove existing listeners to prevent duplicates
-                        input.removeEventListener("input", calculateTotal);
-                        input.removeEventListener("change", calculateTotal);
-
-                        // Add new listeners
-                        input.addEventListener("input", calculateTotal);
-                        input.addEventListener("change", calculateTotal);
-
-                    });
-
-                }
-
-
-                // ============================================
-                // INITIALIZE
-                // ============================================
-
-                updateRemoveButtons();
-                updateKraCountInput();
-                attachWeightEvents();
-                calculateTotal();
-
-                // Recalculate when form is submitted (for validation)
-                document.getElementById("agreementForm").addEventListener("submit", function () {
-                    updateKraCountInput();
-                });
-
             });
-                                    function closeSuccessToast() {
-                            const toast = document.getElementById("successToast");
 
-                            if (toast) {
-                                toast.style.animation = "slideIn 0.3s ease reverse";
+            /* ============================================================
+               UPDATE BATHO PELE DISPLAY
+            ============================================================ */
+            function updateBathoPele(row) {
+                const checkboxes = row.querySelectorAll(".batho-checkbox:checked");
+                const selected = Array.from(checkboxes).map(cb => cb.value);
+                const hidden = row.querySelector(".batho-hidden");
+                const buttonText = row.querySelector(".batho-button .selected-text");
+                hidden.value = selected.join(", ");
+                buttonText.textContent = selected.length === 0 ? "Select Batho Pele" : selected.join(", ");
+            }
 
-                                setTimeout(function () {
-                                    toast.remove();
-                                }, 300);
-                            }
-                        }
+            /* ============================================================
+               UPDATE GAF DISPLAY
+            ============================================================ */
+            function updateGafs(row) {
+                mandatoryGafs.forEach(function (mandatoryGaf) {
+                    const checkbox = Array.from(row.querySelectorAll(".gaf-checkbox")).find(item => item.value === mandatoryGaf);
+                    if (checkbox) checkbox.checked = true;
+                });
+                const checkboxes = row.querySelectorAll(".gaf-checkbox:checked");
+                const selected = Array.from(checkboxes).map(cb => cb.value);
+                const hidden = row.querySelector(".gaf-hidden");
+                const buttonText = row.querySelector(".gaf-button .selected-text");
+                hidden.value = selected.join(", ");
+                buttonText.textContent = selected.length === 0 ? "Select GAFs" : selected.join(", ");
+            }
 
-                        // Automatically close after 4 seconds
-                        document.addEventListener("DOMContentLoaded", function () {
+            /* ============================================================
+               CHECKBOX CHANGE
+            ============================================================ */
+            tableBody.addEventListener("change", function (event) {
+                const checkbox = event.target;
+                const row = checkbox.closest(".kra-row");
+                if (!row) return;
+                if (checkbox.classList.contains("batho-checkbox")) updateBathoPele(row);
+                if (checkbox.classList.contains("gaf-checkbox")) {
+                    if (checkbox.classList.contains("mandatory-gaf")) checkbox.checked = true;
+                    updateGafs(row);
+                }
+            });
 
-                            const toast = document.getElementById("successToast");
+            /* ============================================================
+               PROTECT COMPULSORY GAFs
+            ============================================================ */
+            tableBody.addEventListener("click", function (event) {
+                const checkbox = event.target.closest(".mandatory-gaf");
+                if (!checkbox) return;
+                setTimeout(function () {
+                    checkbox.checked = true;
+                    const row = checkbox.closest(".kra-row");
+                    if (row) updateGafs(row);
+                }, 0);
+            });
 
-                            if (toast) {
-                                setTimeout(function () {
-                                    closeSuccessToast();
-                                }, 4000);
-                            }
+            /* ============================================================
+               GET MAX KRAs
+            ============================================================ */
+            function getMaxKras() {
+                const value = salaryLevel.value;
+                if (value === "Production (Level 2-7)") return 4;
+                if (value === "Supervisor / Junior Management (Level 8-10)") return 6;
+                if (value === "Middle Management / Chief (Level 11-12)") return 6;
+                if (value === "Senior Management (Level 13-16)") return 6;
+                return 0;
+            }
 
-                        });
-        </script>
+            function getKraCount() {
+                return tableBody.querySelectorAll(".kra-row").length;
+            }
 
-    }
+            /* ============================================================
+               CREATE WEIGHT OPTIONS
+            ============================================================ */
+            function createWeightOptions() {
+                let html = `<option value="">-- Weight --</option>`;
+                for (let i = 10; i <= 30; i++) {
+                    html += `<option value="${i}">${i}%</option>`;
+                }
+                return html;
+            }
 
+            /* ============================================================
+               CREATE BATHO PELE DROPDOWN FOR NEW KRA
+            ============================================================ */
+            function createBathoPele(index) {
+                return `
+                    <div class="multi-select-container">
+                        <button type="button" class="multi-select-button batho-button">
+                            <span class="selected-text">Select Batho Pele</span>
+                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="multi-select-menu batho-menu">
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="KRAs[${index}].BathoPele" class="batho-hidden" />
+                `;
+            }
+
+            /* ============================================================
+               CREATE GAF DROPDOWN FOR NEW KRA
+            ============================================================ */
+            function createGafs(index) {
+                return `
+                    <div class="multi-select-container">
+                        <button type="button" class="multi-select-button gaf-button">
+                            <span class="selected-text">Select GAFs</span>
+                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="multi-select-menu gaf-menu">
+                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
+                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
+                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="KRAs[${index}].GAFs" class="gaf-hidden" />
+                `;
+            }
+
+            /* ============================================================
+               CREATE KRA ROW
+            ============================================================ */
+            function createKraRow() {
+                const index = getKraCount();
+                const row = document.createElement("tr");
+                row.className = "kra-row";
+                row.innerHTML = `
+                    <td class="kra-number">${index + 1}</td>
+                    <td><input type="text" name="KRAs[${index}].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
+                    <td>
+                        <select name="KRAs[${index}].Weight" class="form-select form-select-custom weight-field" required>
+                            ${createWeightOptions()}
+                        </select>
+                    </td>
+                    <td><textarea name="KRAs[${index}].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
+                    <td><textarea name="KRAs[${index}].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
+                    <td>${createBathoPele(index)}</td>
+                    <td>${createGafs(index)}</td>
+                    <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
+                `;
+                tableBody.appendChild(row);
+                updateKraIndexes();
+                updateRemoveButtons();
+                updateKraLimitButton();
+                calculateTotal();
+                updateGafs(row);
+            }
+
+            /* ============================================================
+               UPDATE KRA INDEXES
+            ============================================================ */
+            function updateKraIndexes() {
+                const rows = tableBody.querySelectorAll(".kra-row");
+                rows.forEach(function (row, index) {
+                    const number = row.querySelector(".kra-number");
+                    if (number) number.textContent = index + 1;
+                    const fields = row.querySelectorAll("[name]");
+                    fields.forEach(function (field) {
+                        let name = field.getAttribute("name");
+                        if (!name) return;
+                        name = name.replace(/KRAs\[\d+\]/g, "KRAs[" + index + "]");
+                        field.setAttribute("name", name);
+                    });
+                });
+            }
+
+            /* ============================================================
+               ADD KRA
+            ============================================================ */
+            addBtn.addEventListener("click", function () {
+                const maxKras = getMaxKras();
+                if (maxKras === 0) { alert("Please select a Salary Level first."); return; }
+                const currentCount = getKraCount();
+                if (currentCount >= maxKras) { alert("The selected Salary Level allows a maximum of " + maxKras + " KRAs."); return; }
+                createKraRow();
+            });
+
+            /* ============================================================
+               REMOVE KRA
+            ============================================================ */
+            tableBody.addEventListener("click", function (event) {
+                const button = event.target.closest(".remove-kra");
+                if (!button) return;
+                const maxKras = getMaxKras();
+                if (maxKras === 4) { alert("Salary Levels 2-7 must have exactly 4 KRAs."); return; }
+                const rows = tableBody.querySelectorAll(".kra-row");
+                if (rows.length <= 1) { alert("You must have at least one KRA."); return; }
+                if (!confirm("Are you sure you want to remove this KRA?")) return;
+                button.closest(".kra-row").remove();
+                updateKraIndexes();
+                updateNumberOfKras();
+                updateRemoveButtons();
+                updateKraLimitButton();
+                calculateTotal();
+            });
+
+            /* ============================================================
+               SALARY LEVEL CHANGE
+            ============================================================ */
+            salaryLevel.addEventListener("change", function () {
+                const maxKras = getMaxKras();
+                if (maxKras === 0) {
+                    salaryInfo.classList.remove("show");
+                    salaryInfoText.textContent = "";
+                    addBtn.disabled = true;
+                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Select Salary Level';
+                    kraLimitMessage.textContent = "Select a salary level to determine the KRA limit.";
+                    return;
+                }
+                if (maxKras === 4) {
+                    salaryInfo.classList.add("show");
+                    salaryInfoText.textContent = "Salary Levels 2-7 require exactly 4 KRAs.";
+                    while (getKraCount() > 4) tableBody.lastElementChild.remove();
+                    while (getKraCount() < 4) createKraRow();
+                }
+                if (maxKras === 6) {
+                    salaryInfo.classList.add("show");
+                    salaryInfoText.textContent = "This salary level allows up to 6 KRAs. You can add KRAs using the Add KRA button.";
+                    while (getKraCount() > 6) tableBody.lastElementChild.remove();
+                }
+                updateKraIndexes();
+                updateNumberOfKras();
+                updateRemoveButtons();
+                updateKraLimitButton();
+                calculateTotal();
+            });
+
+            /* ============================================================
+               UPDATE NUMBER
+            ============================================================ */
+            function updateNumberOfKras() {
+                numberOfKRAs.value = getKraCount();
+            }
+
+            /* ============================================================
+               UPDATE ADD BUTTON
+            ============================================================ */
+            function updateKraLimitButton() {
+                const maxKras = getMaxKras();
+                const currentCount = getKraCount();
+                if (maxKras === 0) {
+                    addBtn.disabled = true;
+                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Select Salary Level';
+                    kraLimitMessage.textContent = "Please select a Salary Level.";
+                    return;
+                }
+                if (maxKras === 4) {
+                    addBtn.disabled = true;
+                    addBtn.innerHTML = '<i class="fas fa-lock"></i> 4 KRAs Required';
+                    kraLimitMessage.textContent = "Salary Levels 2-7 require exactly 4 KRAs.";
+                    return;
+                }
+                if (currentCount < maxKras) {
+                    addBtn.disabled = false;
+                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add KRA';
+                    kraLimitMessage.textContent = "You currently have " + currentCount + " KRAs. You can add up to " + maxKras + " KRAs.";
+                } else {
+                    addBtn.disabled = true;
+                    addBtn.innerHTML = '<i class="fas fa-lock"></i> Maximum 6 KRAs';
+                    kraLimitMessage.textContent = "You have reached the maximum of 6 KRAs.";
+                }
+            }
+
+            /* ============================================================
+               REMOVE BUTTONS
+            ============================================================ */
+            function updateRemoveButtons() {
+                const maxKras = getMaxKras();
+                const rows = tableBody.querySelectorAll(".kra-row");
+                rows.forEach(function (row) {
+                    const button = row.querySelector(".remove-kra");
+                    if (!button) return;
+                    if (maxKras === 4) button.style.display = "none";
+                    else if (rows.length <= 1) button.style.display = "none";
+                    else button.style.display = "inline-flex";
+                });
+            }
+
+            /* ============================================================
+               CALCULATE TOTAL  <-- UPDATED WITH EVENT LISTENERS
+            ============================================================ */
+            function calculateTotal() {
+                let total = 0;
+                let allFilled = true;
+                const fields = tableBody.querySelectorAll(".weight-field");
+                fields.forEach(function (field) {
+                    const value = parseFloat(field.value);
+                    if (!isNaN(value)) total += value;
+                    if (field.value === "") allFilled = false;
+                });
+                total = Math.round(total * 100) / 100;
+                totalDisplay.textContent = total + "%";
+                if (total === 100 && allFilled && fields.length > 0) {
+                    totalDisplay.style.borderColor = "#006838";
+                    totalDisplay.style.backgroundColor = "#e8f5ee";
+                    weightStatus.className = "weight-status success";
+                    weightStatus.innerHTML = '<i class="fas fa-check-circle"></i> Perfect! Total equals 100%';
+                } else if (total > 0) {
+                    totalDisplay.style.borderColor = "#ffc107";
+                    totalDisplay.style.backgroundColor = "#fff3cd";
+                    weightStatus.className = "weight-status";
+                    weightStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Total should equal 100% (currently ' + total + '%)';
+                } else {
+                    totalDisplay.style.borderColor = "#006838";
+                    totalDisplay.style.backgroundColor = "#ffffff";
+                    weightStatus.className = "weight-status";
+                    weightStatus.innerHTML = '<i class="fas fa-info-circle"></i> Enter weights';
+                }
+            }
+
+            /* ============================================================
+               WEIGHT CHANGE DETECTION (attach to table, delegated)
+            ============================================================ */
+            tableBody.addEventListener("change", function (event) {
+                if (event.target.classList.contains("weight-field")) {
+                    calculateTotal();
+                }
+            });
+
+            /* ============================================================
+               PREPARE SELECTIONS BEFORE SUBMIT
+            ============================================================ */
+            function prepareSelections() {
+                const rows = tableBody.querySelectorAll(".kra-row");
+                rows.forEach(function (row) {
+                    updateBathoPele(row);
+                    updateGafs(row);
+                });
+            }
+
+            /* ============================================================
+               FORM SUBMISSION
+            ============================================================ */
+            form.addEventListener("submit", function (event) {
+                const maxKras = getMaxKras();
+                const currentCount = getKraCount();
+                prepareSelections();
+
+                if (maxKras === 0) {
+                    event.preventDefault();
+                    alert("Please select a Salary Level.");
+                    return;
+                }
+                if (maxKras === 4 && currentCount !== 4) {
+                    event.preventDefault();
+                    alert("Salary Levels 2-7 must have exactly 4 KRAs.");
+                    return;
+                }
+                if (maxKras === 6 && currentCount > 6) {
+                    event.preventDefault();
+                    alert("The selected Salary Level can have a maximum of 6 KRAs.");
+                    return;
+                }
+
+                let total = 0;
+                let allWeightsFilled = true;
+                tableBody.querySelectorAll(".weight-field").forEach(function (field) {
+                    if (field.value === "") allWeightsFilled = false;
+                    const value = parseFloat(field.value);
+                    if (!isNaN(value)) total += value;
+                });
+                if (!allWeightsFilled) {
+                    event.preventDefault();
+                    alert("Please select a weight for every KRA.");
+                    return;
+                }
+                if (Math.round(total) !== 100) {
+                    event.preventDefault();
+                    alert("The total KRA weight must equal 100%. Current total: " + total + "%");
+                    return;
+                }
+
+                let allBathoSelected = true;
+                tableBody.querySelectorAll(".kra-row").forEach(function (row) {
+                    const selected = row.querySelectorAll(".batho-checkbox:checked");
+                    if (selected.length === 0) allBathoSelected = false;
+                });
+                if (!allBathoSelected) {
+                    event.preventDefault();
+                    alert("Please select at least one Batho Pele principle for every KRA.");
+                    return;
+                }
+
+                updateKraIndexes();
+                updateNumberOfKras();
+            });
+
+            /* ============================================================
+               INITIALISE EXISTING GAFs AND TOTAL
+            ============================================================ */
+            tableBody.querySelectorAll(".kra-row").forEach(function (row) {
+                updateBathoPele(row);
+                updateGafs(row);
+            });
+
+            updateKraIndexes();
+            updateNumberOfKras();
+            updateRemoveButtons();
+            updateKraLimitButton();
+            calculateTotal();
+        });
+    </script>
 </body>
 </html>

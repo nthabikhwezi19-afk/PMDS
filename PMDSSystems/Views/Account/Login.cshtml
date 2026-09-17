@@ -569,6 +569,31 @@
                 font-size: 11px;
             }
         }
+        /* =========================================
+           FORGOT PASSWORD LINK
+        ========================================== */
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 14px;
+        }
+
+            .forgot-password a {
+                color: #006838;
+                font-size: 12px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+
+                .forgot-password a:hover {
+                    color: #004d2b;
+                    text-decoration: underline;
+                }
+
+            .forgot-password i {
+                margin-right: 5px;
+            }
 
     </style>
 
@@ -782,7 +807,23 @@
 
                 </form>
 
+                <!-- =============================
+                     FORGOT PASSWORD
+                ============================== -->
 
+                <div class="forgot-password">
+
+                    <a asp-controller="Account"
+                       asp-action="ForgotPassword"
+                       href="@Url.Action("ForgotPassword", "Account")">
+
+                        <i class="fa-solid fa-key"></i>
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
 
                 <!-- =================================
                      VALIDATION MESSAGE
