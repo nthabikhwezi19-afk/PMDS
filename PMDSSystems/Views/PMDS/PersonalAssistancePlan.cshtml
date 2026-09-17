@@ -797,7 +797,7 @@
 
     }
 
-    ```css
+
     /* =========================================================
        LOCKED SUPERVISOR SIGNATURE
        ========================================================= */
@@ -931,8 +931,9 @@
         }
     }
 
-    ```
+   
 </style>
+
 <!-- =========================================================
      FULL PAGE
      ========================================================= -->
@@ -961,9 +962,10 @@
     }
 
 
-    <form asp-controller="Pmds"
-          asp-action="SavePersonalAssistancePlan"
-          method="post">
+    <form method="post"
+          action="/PMDS/SavePersonalAssistancePlan">
+
+        @Html.AntiForgeryToken()
 
         <input type="hidden" asp-for="Id" />
 
@@ -1108,11 +1110,11 @@
             </label>
 
 
-            <textarea id="RemedialSteps"
-                      name="RemedialSteps"
-                      class="form-control remedial-textarea"
-                      rows="7"
-                      placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups..."></textarea>
+<textarea asp-for="RemedialSteps"
+          id="RemedialSteps"
+          class="form-control remedial-textarea"
+          rows="7"
+          placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups..."></textarea>
 
 
             <span asp-validation-for="RemedialSteps"
@@ -1651,6 +1653,7 @@
 
                 </div>
 
+</form>
                 <script>
 
         // =========================================================
@@ -1705,7 +1708,7 @@
         }
 
 
-                ```javascript
+            
                 // =============================================================
                 // LOCKED SUPERVISOR SIGNATURE
                 // =============================================================
@@ -1835,6 +1838,6 @@
                 );
 
                 }
-                ```
+                
 
 </script>

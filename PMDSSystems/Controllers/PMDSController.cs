@@ -323,7 +323,7 @@ namespace PMDSSystems.Controllers
 
                 await _context.SaveChangesAsync();
 
-          
+
 
                 return RedirectToAction(
                     nameof(MidTermReview),
@@ -367,15 +367,21 @@ namespace PMDSSystems.Controllers
 
             return View(model);
         }
+
+
+
+
+
         // =============================
         // PERSONAL ASSISTANCE PLAN (PAP)
         // =============================
+
         [HttpGet]
         public async Task<IActionResult> PersonalAssistancePlan(int? id)
         {
             PersonalAssistancePlan pap;
 
-            // If an existing PAP is being opened
+            // Existing PAP
             if (id.HasValue)
             {
                 pap = await _context.PersonalAssistancePlans
@@ -389,21 +395,19 @@ namespace PMDSSystems.Controllers
                 return View(pap);
             }
 
-            // Create a new PAP
+            // New PAP
             pap = new PersonalAssistancePlan();
 
-            // Get the currently logged-in user
+            // Get logged-in user
             var userId = _userManager.GetUserId(User);
 
             if (!string.IsNullOrEmpty(userId))
             {
-                // Find the employee linked to the logged-in user
                 var employee = await _context.Employees
                     .FirstOrDefaultAsync(e => e.UserId == userId);
 
                 if (employee != null)
                 {
-                    // Automatically populate Personal Particulars
                     pap.PersalNo = employee.PersalNumber;
 
                     pap.EmployeeName =
@@ -425,39 +429,42 @@ namespace PMDSSystems.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>
-            SavePersonalAssistancePlan(
-                PMDSSystems.Models
-                    .PersonalAssistancePlan model)
+        public async Task<IActionResult> SavePersonalAssistancePlan(
+            PersonalAssistancePlan model)
         {
-            if (ModelState.IsValid)
+            // Remove validation errors caused by read-only/system fields
+            ModelState.Remove(nameof(model.EmployeeName));
+            ModelState.Remove(nameof(model.Post));
+            ModelState.Remove(nameof(model.PersalNo));
+            ModelState.Remove(nameof(model.SupervisorName));
+            ModelState.Remove(nameof(model.SupervisorSignature));
+            ModelState.Remove(nameof(model.SupervisorInitialsAndSurname));
+
+            // Save the PAP
+            if (model.Id == 0)
             {
-                if (model.Id == 0)
-                {
-                    _context.PersonalAssistancePlans
-                        .Add(model);
-                }
-                else
-                {
-                    _context.PersonalAssistancePlans
-                        .Update(model);
-                }
-
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] =
-                    "Personal Assistance Plan saved!";
-
-                return RedirectToAction(
-                    nameof(PersonalAssistancePlan),
-                    new { id = model.Id });
+                _context.PersonalAssistancePlans.Add(model);
+            }
+            else
+            {
+                _context.PersonalAssistancePlans.Update(model);
             }
 
-            return View(
-                "PersonalAssistancePlan",
-                model);
+            if (model.RemedialSteps == null)
+            {
+                model.RemedialSteps = string.Empty;
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] =
+                "Personal Assistance Plan saved successfully!";
+
+            // FORCE REDIRECT TO ANNUAL ASSESSMENT
+            return Redirect("/AnnualAssessment/create");
         }
     }
-
-
 }
+
+
+
