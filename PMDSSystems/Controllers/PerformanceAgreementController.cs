@@ -601,6 +601,39 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
                            currentEmployee.LastName
                         ).Trim();
 
+
+                    // ------------------------------------------------
+                    // GET PERFORMANCE CYCLE FROM PART A
+                    // ------------------------------------------------
+
+                    var pmdsForm = await _context.PMDSForms
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(x =>
+                            x.EmployeeId == currentEmployee.Id);
+
+                    if (pmdsForm != null)
+                    {
+                        ViewBag.StartYear = pmdsForm.StartYear;
+                        ViewBag.EndYear = pmdsForm.EndYear;
+
+                        Console.WriteLine(
+                            "Part A Performance Cycle: " +
+                            pmdsForm.StartYear +
+                            "/" +
+                            pmdsForm.EndYear
+                        );
+                    }
+                    else
+                    {
+                        ViewBag.StartYear = null;
+                        ViewBag.EndYear = null;
+
+                        Console.WriteLine(
+                            "WARNING: No Part A PMDS Form found for Employee ID = " +
+                            currentEmployee.Id
+                        );
+                    }
+
                     // ------------------------------------------------
                     // Find assigned supervisor
                     // ------------------------------------------------

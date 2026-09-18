@@ -580,10 +580,20 @@
                     <i class="fas fa-file-signature"></i>
                     Create Performance Agreement
                 </h2>
+
                 <span class="badge-cycle">
                     <i class="fas fa-calendar-alt me-2"></i>
-                    2025/2026 Cycle
+
+                    @if (ViewBag.StartYear != null && ViewBag.EndYear != null)
+                    {
+                        @($"{ViewBag.StartYear}/{ViewBag.EndYear} Cycle")
+                    }
+                    else
+                    {
+                        @:Performance Cycle
+                    }
                 </span>
+               
             </div>
 
             <!-- FORM -->

@@ -48,6 +48,7 @@ namespace PMDSSystems.Controllers
 
             if (existing == null)
             {
+
                 _context.PMDSForms.Add(model);
             }
             else
@@ -64,7 +65,8 @@ namespace PMDSSystems.Controllers
                 existing.PreviousStation =  model.PreviousStation;
                 existing.TransferDate = model.TransferDate;
                 existing.PreviousCyclePerformance = model.PreviousCyclePerformance;
-
+                existing.StartYear = model.StartYear;
+                existing.EndYear = model.EndYear;
 
                 _context.PMDSForms.Update(existing);
             }

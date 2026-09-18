@@ -47,5 +47,16 @@ namespace PMDSSystems.Models
         public DateTime? TransferDate { get; set; }
         public decimal? PreviousCyclePerformance { get; set; }
 
+        // =========================
+        // PERFORMANCE CYCLE
+        // =========================
+
+        public int? StartYear { get; set; }
+
+        public int? EndYear { get; set; }
+
+
+
+
     }
 }
