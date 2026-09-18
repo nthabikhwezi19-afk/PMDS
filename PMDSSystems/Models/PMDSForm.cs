@@ -45,7 +45,7 @@ namespace PMDSSystems.Models
         public string SupervisorRankPostLevel { get; set; } = string.Empty;
         public String? PreviousStation { get; set; }
         public DateTime? TransferDate { get; set; }
-        public int? PreviousCyclePerformance { get; set; }
+        public decimal? PreviousCyclePerformance { get; set; }
 
     }
 }

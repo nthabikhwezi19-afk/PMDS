@@ -502,7 +502,9 @@
                             <label class="form-label">Previous Cycle Performance %</label>
 
                             <div class="info-box">
-                                @(Model.PreviousCyclePerformance?.ToString() ?? "Not Available")
+                                @(Model.PreviousCyclePerformance.HasValue
+                                                                ? Model.PreviousCyclePerformance.Value.ToString("0.##") + "%"
+                                                                : "Not Available")
                             </div>
                         </div>
                     </div>

@@ -125,7 +125,17 @@ namespace PMDSSystems.Controllers
 
                 // DATE ONLY
                 AppointmentDateInCurrentRank =
-        employee.AppointmentDateInCurrentRank?.Date
+        employee.AppointmentDateInCurrentRank?.Date,
+
+                // TRANSFER DETAILS
+                PreviousStation =
+        employee.PreviousStation,
+
+                TransferDate =
+        employee.TransferDate?.Date,
+
+                PreviousCyclePerformance =
+        employee.PreviousCyclePerformance
             };
 
 
