@@ -58,8 +58,13 @@ namespace PMDSSystems.Controllers
                 existing.PostDesignation = model.PostDesignation;
                 existing.SupervisorName = model.SupervisorName;
                 existing.AppointmentDate = model.AppointmentDate;
+                existing.AppointmentDateInCurrentRank = model.AppointmentDateInCurrentRank;
                 existing.CurrentRank = model.CurrentRank;
                 existing.RelatedOSDDescription = model.RelatedOSDDescription;
+                existing.PreviousStation =  model.PreviousStation;
+                existing.TransferDate = model.TransferDate;
+                existing.PreviousCyclePerformance = model.PreviousCyclePerformance;
+
 
                 _context.PMDSForms.Update(existing);
             }
@@ -70,6 +75,7 @@ namespace PMDSSystems.Controllers
 
             return RedirectToAction("Create", "PerformanceAgreement");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -99,34 +105,53 @@ namespace PMDSSystems.Controllers
                 SurnameInitials =
                     $"{employee.LastName} {employee.Initials}",
 
-                Directorate = employee.Department ?? "",
+                Directorate =
+                    employee.Department ?? "",
 
                 PostDesignation =
-                !string.IsNullOrWhiteSpace(employee.PostDesignation)
-                ? employee.PostDesignation
-                : employee.Position,
+                    !string.IsNullOrWhiteSpace(employee.PostDesignation)
+                        ? employee.PostDesignation
+                        : employee.Position,
 
-                CurrentRank = employee.PostLevel ?? "",
+                CurrentRank =
+                    employee.PostLevel ?? "",
 
                 RelatedOSDDescription =
-                employee.OSDDescription ?? "",
+                    employee.OSDDescription ?? "",
 
+                // Appointment Date in DCS
                 AppointmentDate =
-         employee.AppointmentInDcsDate?.ToString("yyyy-MM-dd") ?? ""
-            }; ;
+                    employee.AppointmentInDcsDate,
+
+                // Appointment / Promotion Date in Current Rank
+                AppointmentDateInCurrentRank =
+                    employee.AppointmentDateInCurrentRank
+            };
+
+
+            /* =====================================================
+               SUPERVISOR
+               ===================================================== */
+
             if (employee.SupervisorId != null)
             {
                 var supervisor = await _context.Employees
-                    .FirstOrDefaultAsync(e => e.Id == employee.SupervisorId);
+                    .FirstOrDefaultAsync(
+                        e => e.Id == employee.SupervisorId);
 
                 if (supervisor != null)
                 {
                     model.SupervisorName =
                         $"{supervisor.FirstName} {supervisor.LastName}";
+
+                    model.SupervisorSurnameInitials =
+                        $"{supervisor.LastName} {supervisor.Initials}";
+
                     model.SupervisorRankPostLevel =
-            supervisor.PostLevel ?? "";
+                        supervisor.PostLevel ?? "";
                 }
             }
+
 
             return View(model);
         }

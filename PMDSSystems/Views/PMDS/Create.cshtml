@@ -368,7 +368,7 @@
                         </label>
 
                         <div class="info-box">
-                          @*   @Model.AppointmentDateInCurrentRank *@
+                            @Model.AppointmentDateInCurrentRank
                         </div>
 
                     </div>
@@ -454,7 +454,7 @@
                         </label>
 
                         <div class="info-box">
-                            @Model.OSDDescription
+                            @Model.RelatedOSDDescription
                         </div>
 
                     </div>
@@ -481,7 +481,7 @@
                             <label class="form-label">Previous Station</label>
 
                             <div class="info-box">
-                                @(Model.PreviousStation ?? "Not Available")
+                                @(Model.PreviousStation)
                             </div>
                         </div>
 

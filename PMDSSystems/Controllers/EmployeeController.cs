@@ -85,7 +85,6 @@ namespace PMDSSystems.Controllers
             Console.WriteLine($"Department: {employee.PostDesignation}");
             Console.WriteLine($"Department: {employee.AppointmentDateInCurrentRank}");
             Console.WriteLine($"Department: {employee.AppointmentInDcsDate}");
-            Console.WriteLine($"Department: {employee.CurrentRankDate}");
             Console.WriteLine($"Department: {employee.AppointmentInDcsDate}");
             Console.WriteLine($"Department: {employee.SupervisorSurnameInitials}");
             Console.WriteLine($"Department: {employee.SupervisorRankPostLevel}");
@@ -471,10 +470,6 @@ namespace PMDSSystems.Controllers
 
                 appointmentInDcsDate =
                     employee.AppointmentInDcsDate?
-                    .ToString("yyyy-MM-dd"),
-
-                currentRankDate =
-                    employee.CurrentRankDate?
                     .ToString("yyyy-MM-dd"),
 
                 supervisor = supervisor == null

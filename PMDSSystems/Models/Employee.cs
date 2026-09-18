@@ -52,7 +52,7 @@ namespace PMDSSystems.Models
 
         public DateTime? AppointmentInDcsDate { get; set; }
 
-        public DateTime? CurrentRankDate { get; set; }
+        //public DateTime? CurrentRankDate { get; set; }
 
         public string? SupervisorSurnameInitials { get; set; }
 

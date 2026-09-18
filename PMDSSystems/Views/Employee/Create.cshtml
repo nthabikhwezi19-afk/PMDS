@@ -503,14 +503,13 @@
 
                 </div>
 
-
-                <!-- APPOINTMENT CURRENT RANK -->
+                <!-- APPOINTMENT / PROMOTION DATE -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
                         <label for="AppointmentDateInCurrentRank">
-                            Appointment Date in Current Rank
+                            Appointment / Promotion Date
                         </label>
 
                         <input type="date"
@@ -518,27 +517,6 @@
                                name="AppointmentDateInCurrentRank"
                                max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd"))"
-                               class="form-control" />
-
-                    </div>
-
-                </div>
-
-
-                <!-- CURRENT RANK DATE -->
-                <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label for="CurrentRankDate">
-                            Current Rank Date
-                        </label>
-
-                        <input type="date"
-                               id="CurrentRankDate"
-                               name="CurrentRankDate"
-                               max="@DateTime.Today.ToString("yyyy-MM-dd")"
-                               value="@(Model?.CurrentRankDate?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
 
                     </div>
@@ -560,11 +538,12 @@
                         </label>
 
                         <input type="date"
-                               id="AppointmentInDcsDate"
-                               name="AppointmentInDcsDate"
+                               id="AppointmentDate"
+                               name="AppointmentDate"
                                max="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(Model?.AppointmentInDcsDate?.ToString("yyyy-MM-dd"))"
                                class="form-control" />
+
 
                     </div>
 

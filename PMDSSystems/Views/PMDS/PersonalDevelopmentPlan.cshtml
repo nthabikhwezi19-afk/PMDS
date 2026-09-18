@@ -1,4 +1,5 @@
-﻿@model PMDSSystems.Models.PDPModel
+﻿
+@model PMDSSystems.Models.PDPModel
 
 @{
     ViewData["Title"] = "Personal Development Plan";
@@ -245,8 +246,8 @@
         }
 
     /* =========================================================
-       SIGNATURE
-       ========================================================= */
+           SIGNATURE
+           ========================================================= */
 
     .signature-wrapper {
         width: 100%;
@@ -276,8 +277,8 @@
     }
 
     /* =========================================================
-       SUPERVISOR SIGNATURE
-       ========================================================= */
+           SUPERVISOR SIGNATURE
+           ========================================================= */
 
     .supervisor-signature-wrapper {
         width: 100%;
@@ -310,7 +311,6 @@
         box-sizing: border-box;
     }
 
-    /* Supervisor can sign */
     .supervisor-unlocked {
         background-color: #e8f5ee;
         border: 1px solid #a8d5bb;
@@ -321,7 +321,6 @@
             color: #006838;
         }
 
-    /* Supervisor cannot sign */
     .supervisor-locked {
         background-color: #f1f1f1;
         border: 1px solid #d0d0d0;
@@ -333,8 +332,8 @@
         }
 
     /* =========================================================
-       READ-ONLY SUPERVISOR SIGNATURE
-       ========================================================= */
+           READ-ONLY SUPERVISOR SIGNATURE
+           ========================================================= */
 
     .supervisor-readonly-container {
         width: 100%;
@@ -351,7 +350,6 @@
         box-sizing: border-box;
     }
 
-    /* Existing supervisor signature */
     .existing-supervisor-signature {
         display: block;
         width: 100%;
@@ -364,7 +362,6 @@
         box-sizing: border-box;
     }
 
-    /* Waiting for supervisor */
     .signature-locked-placeholder {
         width: 100%;
         height: 100%;
@@ -385,30 +382,13 @@
         }
 
     /* =========================================================
-       SUPERVISOR DATE
-       ========================================================= */
+           SUPERVISOR DATE
+           ========================================================= */
 
     .supervisor-date-field {
         height: 42px;
     }
 
-    /* =========================================================
-       RESPONSIVE SUPERVISOR SIGNATURE
-       ========================================================= */
-
-    @@media (max-width: 768px) {
-
-        .supervisor-signature-pad,
-        .supervisor-readonly-container {
-            height: 160px;
-            min-height: 160px;
-            max-height: 160px;
-        }
-
-        .supervisor-signature-status {
-            font-size: 12px;
-        }
-    }
     /* =========================================================
            OFFICE USE
            ========================================================= */
@@ -526,6 +506,17 @@
         .section-header h4 {
             font-size: 16px;
         }
+
+        .supervisor-signature-pad,
+        .supervisor-readonly-container {
+            height: 160px;
+            min-height: 160px;
+            max-height: 160px;
+        }
+
+        .supervisor-signature-status {
+            font-size: 12px;
+        }
     }
 
     @@media (max-width: 576px) {
@@ -543,7 +534,6 @@
             font-size: 14px;
         }
     }
-
 </style>
 
 
@@ -784,18 +774,23 @@
                 </div>
 
 
-                <!-- AGE GROUP -->
                 <div class="col-md-4">
+
                     <div class="form-group">
+
                         <label for="AgeGroup">Age Group</label>
+
                         <input type="text"
                                id="AgeGroup"
                                name="AgeGroup"
                                class="form-control"
                                value="@Model?.AgeGroup"
                                readonly />
+
                     </div>
+
                 </div>
+
             </div>
 
 
@@ -818,35 +813,47 @@
                 </div>
 
 
-                <!-- DISABILITY -->
                 <div class="col-md-4">
+
                     <div class="form-group">
+
                         <label for="Disabled">Disability</label>
+
                         <input type="text"
                                id="Disabled"
                                name="Disabled"
                                class="form-control"
                                value="@Model?.Disabled"
                                readonly />
+
                     </div>
+
                 </div>
 
 
-
-                <!-- NATURE OF DISABILITY -->
                 <div class="col-md-4"
                      id="disabilityDetailsContainer"
                      style="display:none;">
+
                     <div class="form-group">
-                        <label for="DisabilityDetails">Nature of Disability</label>
+
+                        <label for="DisabilityDetails">
+                            Nature of Disability
+                        </label>
+
                         <input type="text"
                                id="DisabilityDetails"
                                name="DisabilityDetails"
                                class="form-control"
                                value="@Model?.DisabilityDetails"
                                readonly />
+
                     </div>
+
                 </div>
+
+            </div>
+
 
             <hr class="divider" />
 
@@ -874,9 +881,7 @@
                         <tr>
 
                             <th>Qualification</th>
-
                             <th>NQF Level</th>
-
                             <th>Year Completed</th>
 
                             <th style="width:100px;">
@@ -889,8 +894,6 @@
 
 
                     <tbody id="educationTableBody">
-
-                        <!-- FIRST EDUCATION ROW -->
 
                         <tr>
 
@@ -906,52 +909,19 @@
 
                             <td>
 
-                                <select name="NQFLevel1"
+                                <select name="EducationNQFLevel1"
                                         class="form-control">
 
                                     <option value="">
                                         -- Select NQF Level --
                                     </option>
 
-                                    <option value="1">
-                                        NQF Level 1
-                                    </option>
-
-                                    <option value="2">
-                                        NQF Level 2
-                                    </option>
-
-                                    <option value="3">
-                                        NQF Level 3
-                                    </option>
-
-                                    <option value="4">
-                                        NQF Level 4
-                                    </option>
-
-                                    <option value="5">
-                                        NQF Level 5
-                                    </option>
-
-                                    <option value="6">
-                                        NQF Level 6
-                                    </option>
-
-                                    <option value="7">
-                                        NQF Level 7
-                                    </option>
-
-                                    <option value="8">
-                                        NQF Level 8
-                                    </option>
-
-                                    <option value="9">
-                                        NQF Level 9
-                                    </option>
-
-                                    <option value="10">
-                                        NQF Level 10
-                                    </option>
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">
+                                            NQF Level @i
+                                        </option>
+                                    }
 
                                 </select>
 
@@ -1032,62 +1002,59 @@
             </div>
 
 
-            <!-- CURRENT STUDIES / BURSARY -->
-
+            <!-- =================================================
+              CURRENT STUDIES / BURSARY
+              ================================================= -->
             <div class="row">
 
                 <div class="col-md-6">
-
                     <div class="form-group">
 
-                        <label>Current Studies</label>
+                        <label for="CurrentStudies">
+                            Current Studies
+                        </label>
 
                         <input type="text"
+                               id="CurrentStudies"
                                name="CurrentStudies"
                                class="form-control"
                                placeholder="Enter current studies" />
 
                     </div>
-
                 </div>
 
 
                 <div class="col-md-6">
-
                     <div class="form-group">
 
-                        <label>Bursary Holder?</label>
+                        <label for="Bursary">
+                            Bursary Holder?
+                        </label>
 
                         <select id="Bursary"
                                 name="Bursary"
                                 class="form-control">
 
-                            <option value="">
-                                -- Select --
-                            </option>
-
-                            <option value="No">
-                                No
-                            </option>
-
-                            <option value="Yes">
-                                Yes
-                            </option>
+                            <option value="">-- Select --</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
 
                         </select>
 
                     </div>
-
                 </div>
 
 
                 <div class="col-md-6"
                      id="bursaryDurationContainer"
-                     style="display:none;">
+                     style="display: none;">
 
                     <div class="form-group">
 
-                        <label>Bursary Duration</label>
+                        <label for="BursaryDuration">
+                            Bursary Duration
+                            <span class="required">*</span>
+                        </label>
 
                         <input type="text"
                                id="BursaryDuration"
@@ -1101,11 +1068,6 @@
                 </div>
 
             </div>
-
-
-            <hr class="divider" />
-
-
             <!-- =================================================
                  3. JOB REQUIREMENTS
                  ================================================= -->
@@ -1131,15 +1093,10 @@
                         <tr>
 
                             <th>Tasks / KPA</th>
-
                             <th>Training Needed</th>
-
                             <th>Type of Learning</th>
-
                             <th>NQF</th>
-
                             <th>Cost</th>
-
                             <th>Impact</th>
 
                             <th style="width:80px;">
@@ -1152,8 +1109,6 @@
 
 
                     <tbody id="jobRequirementsTableBody">
-
-                        <!-- FIRST REQUIREMENT ROW -->
 
                         <tr>
 
@@ -1189,52 +1144,19 @@
 
                             <td>
 
-                                <select name="NQFLevel1"
+                                <select name="JobNQFLevel1"
                                         class="form-control">
 
                                     <option value="">
                                         -- Select NQF Level --
                                     </option>
 
-                                    <option value="1">
-                                        NQF Level 1
-                                    </option>
-
-                                    <option value="2">
-                                        NQF Level 2
-                                    </option>
-
-                                    <option value="3">
-                                        NQF Level 3
-                                    </option>
-
-                                    <option value="4">
-                                        NQF Level 4
-                                    </option>
-
-                                    <option value="5">
-                                        NQF Level 5
-                                    </option>
-
-                                    <option value="6">
-                                        NQF Level 6
-                                    </option>
-
-                                    <option value="7">
-                                        NQF Level 7
-                                    </option>
-
-                                    <option value="8">
-                                        NQF Level 8
-                                    </option>
-
-                                    <option value="9">
-                                        NQF Level 9
-                                    </option>
-
-                                    <option value="10">
-                                        NQF Level 10
-                                    </option>
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">
+                                            NQF Level @i
+                                        </option>
+                                    }
 
                                 </select>
 
@@ -1357,9 +1279,7 @@
 
 
                         <small class="text-muted">
-
                             Draw your signature in the box above.
-
                         </small>
 
                     </div>
@@ -1384,202 +1304,133 @@
             </div>
 
 
-                <!-- =========================================================
-                SUPERVISOR DECLARATION
-                ========================================================= -->
-                @{
-                    bool canSupervisorSign = ViewBag.CanSupervisorSign == true;
+            <!-- =========================================================
+                 SUPERVISOR DECLARATION
+                 ========================================================= -->
+            @{
+                bool canSupervisorSign =
+                ViewBag.CanSupervisorSign == true;
 
-                    string existingSupervisorSignature =
-                    ViewBag.ExistingSupervisorSignature as string ?? "";
+                string existingSupervisorSignature =
+                ViewBag.ExistingSupervisorSignature as string ?? "";
 
-                    string existingSupervisorDate =
-                    ViewBag.ExistingSupervisorDate as string ?? "";
+                string existingSupervisorDate =
+                ViewBag.ExistingSupervisorDate as string ?? "";
 
-                    string supervisorName =
-                    ViewBag.SupervisorName as string ?? "";
-                }
-
-                <div class="row">
-
-                    <!-- =====================================================
-                         SUPERVISOR SIGNATURE
-                         ===================================================== -->
-
-                    <div class="col-md-6">
-
-                        <div class="form-group">
-
-                            <label>
-                                Supervisor Signature
-                                <span class="required">*</span>
-                            </label>
-
-                            <div class="supervisor-signature-wrapper">
-
-                                @if (canSupervisorSign)
-                                {
-                                    <!-- =========================================
-                                         ASSIGNED SUPERVISOR CAN SIGN
-                                         ========================================= -->
-
-                                    <div class="supervisor-signature-status supervisor-unlocked">
-
-                                        <i class="fas fa-unlock-alt"></i>
-
-                                        <span>
-                                            You are the assigned supervisor. You may sign below.
-                                        </span>
-
-                                    </div>
-
-                                    <canvas id="supervisorSignaturePad"
-                                            class="signature-pad supervisor-signature-pad">
-                                    </canvas>
-
-                                    <div class="signature-actions">
-
-                                        <button type="button"
-                                                id="clearSupervisorSignature"
-                                                class="btn btn-outline-danger btn-sm">
-
-                                            <i class="fas fa-eraser"></i>
-                                            Clear Signature
-
-                                        </button>
-
-                                    </div>
-
-                                    <input type="hidden"
-                                           id="SupervisorSignature"
-                                           name="SupervisorSignature"
-                                           value="@existingSupervisorSignature" />
-
-                                    <small class="text-muted">
-                                        Draw your supervisor signature in the box above.
-                                    </small>
-                                }
-                                else
-                                {
-                                    <!-- =========================================
-                                         EMPLOYEE VIEW - LOCKED
-                                         ========================================= -->
-
-                                    <div class="supervisor-signature-status supervisor-locked">
-
-                                        <i class="fas fa-lock"></i>
-
-                                        <span>
-                                            Supervisor signature locked. Only the assigned
-                                            supervisor can sign.
-                                        </span>
-
-                                    </div>
-
-                                    <div class="supervisor-readonly-container">
-
-                                        @if (!string.IsNullOrWhiteSpace(existingSupervisorSignature))
-                                        {
-                                            <img src="@existingSupervisorSignature"
-                                                 class="existing-supervisor-signature"
-                                                 alt="Supervisor Signature" />
-                                        }
-                                        else
-                                        {
-                                            <div class="signature-locked-placeholder">
-
-                                                <i class="fas fa-lock"></i>
-
-                                                <span>
-                                                    Awaiting Supervisor Signature
-                                                </span>
-
-                                            </div>
-                                        }
-
-                                    </div>
-
-                                    <!-- Preserve existing signature -->
-                                    <input type="hidden"
-                                           id="SupervisorSignature"
-                                           name="SupervisorSignature"
-                                           value="@existingSupervisorSignature" />
-
-                                    <small class="text-muted">
-
-                                        <i class="fas fa-lock"></i>
-
-                                        This field can only be completed by the assigned supervisor.
-
-                                    </small>
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                string supervisorName =
+                ViewBag.SupervisorName as string ?? "";
+            }
 
 
-                    <!-- =====================================================
-                         SUPERVISOR INFORMATION
-                         ===================================================== -->
+            <div class="row">
 
-                    <div class="col-md-6">
+                <!-- SUPERVISOR SIGNATURE -->
 
-                        <div class="form-group">
+                <div class="col-md-6">
 
-                            <label>
-                                Supervisor Name
-                            </label>
+                    <div class="form-group">
 
-                            <input type="text"
-                                   id="SupervisorName"
-                                   name="SupervisorName"
-                                   class="form-control"
-                                   value="@supervisorName"
-                                   readonly />
-
-                            <small class="text-muted">
-                                Supervisor information is controlled by the system.
-                            </small>
-
-                        </div>
+                        <label>
+                            Supervisor Signature
+                            <span class="required">*</span>
+                        </label>
 
 
-                        <div class="form-group">
-
-                            <label>
-                                Supervisor Date
-                            </label>
+                        <div class="supervisor-signature-wrapper">
 
                             @if (canSupervisorSign)
                             {
-                                <input type="date"
-                                       id="SupervisorDate"
-                                       name="SupervisorDate"
-                                       class="form-control supervisor-date-field"
-                                       value="@existingSupervisorDate" />
+                                <div class="supervisor-signature-status supervisor-unlocked">
+
+                                    <i class="fas fa-unlock-alt"></i>
+
+                                    <span>
+                                        You are the assigned supervisor.
+                                        You may sign below.
+                                    </span>
+
+                                </div>
+
+
+                                <canvas id="supervisorSignaturePad"
+                                        class="signature-pad supervisor-signature-pad">
+                                </canvas>
+
+
+                                <div class="signature-actions">
+
+                                    <button type="button"
+                                            id="clearSupervisorSignature"
+                                            class="btn btn-outline-danger btn-sm">
+
+                                        <i class="fas fa-eraser"></i>
+
+                                        Clear Signature
+
+                                    </button>
+
+                                </div>
+
+
+                                <input type="hidden"
+                                       id="SupervisorSignature"
+                                       name="SupervisorSignature"
+                                       value="@existingSupervisorSignature" />
+
 
                                 <small class="text-muted">
-                                    The date is captured when the supervisor signs.
+                                    Draw your supervisor signature in the box above.
                                 </small>
                             }
                             else
                             {
-                                <input type="date"
-                                       id="SupervisorDate"
-                                       name="SupervisorDate"
-                                       class="form-control supervisor-date-field"
-                                       value="@existingSupervisorDate"
-                                       readonly
-                                       tabindex="-1" />
+                                <div class="supervisor-signature-status supervisor-locked">
+
+                                    <i class="fas fa-lock"></i>
+
+                                    <span>
+                                        Supervisor signature locked.
+                                        Only the assigned supervisor can sign.
+                                    </span>
+
+                                </div>
+
+
+                                <div class="supervisor-readonly-container">
+
+                                    @if (!string.IsNullOrWhiteSpace(existingSupervisorSignature))
+                                    {
+                                        <img src="@existingSupervisorSignature"
+                                             class="existing-supervisor-signature"
+                                             alt="Supervisor Signature" />
+                                    }
+                                    else
+                                    {
+                                        <div class="signature-locked-placeholder">
+
+                                            <i class="fas fa-lock"></i>
+
+                                            <span>
+                                                Awaiting Supervisor Signature
+                                            </span>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                                <input type="hidden"
+                                       id="SupervisorSignature"
+                                       name="SupervisorSignature"
+                                       value="@existingSupervisorSignature" />
+
 
                                 <small class="text-muted">
 
                                     <i class="fas fa-lock"></i>
 
-                                    Locked until completed by the supervisor.
+                                    This field can only be completed by the assigned supervisor.
 
                                 </small>
                             }
@@ -1589,6 +1440,75 @@
                     </div>
 
                 </div>
+
+
+                <!-- SUPERVISOR INFORMATION -->
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>
+                            Supervisor Name
+                        </label>
+
+                        <input type="text"
+                               id="SupervisorName"
+                               name="SupervisorName"
+                               class="form-control"
+                               value="@supervisorName"
+                               readonly />
+
+                        <small class="text-muted">
+                            Supervisor information is controlled by the system.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Supervisor Date
+                        </label>
+
+                        @if (canSupervisorSign)
+                        {
+                            <input type="date"
+                                   id="SupervisorDate"
+                                   name="SupervisorDate"
+                                   class="form-control supervisor-date-field"
+                                   value="@existingSupervisorDate" />
+
+                            <small class="text-muted">
+                                The date is captured when the supervisor signs.
+                            </small>
+                        }
+                        else
+                        {
+                            <input type="date"
+                                   id="SupervisorDate"
+                                   name="SupervisorDate"
+                                   class="form-control supervisor-date-field"
+                                   value="@existingSupervisorDate"
+                                   readonly
+                                   tabindex="-1" />
+
+                            <small class="text-muted">
+
+                                <i class="fas fa-lock"></i>
+
+                                Locked until completed by the supervisor.
+
+                            </small>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
 
             <!-- =================================================
                  5. OFFICE USE ONLY
@@ -1614,10 +1534,8 @@
                     <i class="fas fa-lock"></i>
 
                     <span>
-
                         This section is for official office use only.
                         Employees cannot enter or modify these fields.
-
                     </span>
 
                 </div>
@@ -1712,243 +1630,233 @@
 </div>
 
 
-<!-- Font Awesome -->
+<!-- =========================================================
+     FONT AWESOME
+     ========================================================= -->
+
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 
 <script>
+    /* =========================================================
+       PDP JAVASCRIPT
+       ========================================================= */
 
     document.addEventListener("DOMContentLoaded", function () {
-         // ============================================================
-    // SHOW NATURE OF DISABILITY ONLY WHEN DISABILITY = YES
-    // ============================================================
 
-    const disabilityField =
-        document.getElementById("Disabled");
+        /* =====================================================
+           BURSARY
+           ===================================================== */
 
-    const disabilityDetailsContainer =
-        document.getElementById("disabilityDetailsContainer");
+        const bursary = document.getElementById("Bursary");
+        const bursaryDurationContainer =
+            document.getElementById("bursaryDurationContainer");
+        const bursaryDuration =
+            document.getElementById("BursaryDuration");
 
-    const disabilityDetails =
-        document.getElementById("DisabilityDetails");
+        function updateBursaryDuration() {
 
-    function toggleDisabilityDetails() {
+            if (!bursary || !bursaryDurationContainer || !bursaryDuration) {
+                return;
+            }
 
-        if (!disabilityField ||
-            !disabilityDetailsContainer) {
-            return;
-        }
+            if (bursary.value === "Yes") {
 
-        const value =
-            (disabilityField.value || "")
-                .trim()
-                .toLowerCase();
+                bursaryDurationContainer.style.display = "block";
 
-        if (value === "yes") {
+                bursaryDuration.disabled = false;
 
-            // Show Nature of Disability
-            disabilityDetailsContainer.style.display = "block";
+                bursaryDuration.required = true;
 
-        } else {
+            } else {
 
-            // Hide Nature of Disability
-            disabilityDetailsContainer.style.display = "none";
+                bursaryDurationContainer.style.display = "none";
 
-            // Clear it when disability is No
-            if (disabilityDetails) {
-                disabilityDetails.value = "";
+                bursaryDuration.disabled = true;
+
+                bursaryDuration.required = false;
+
+                bursaryDuration.value = "";
             }
         }
-    }
 
-    // Run immediately when PDP loads
-    toggleDisabilityDetails();
+        if (bursary) {
+            bursary.addEventListener("change", updateBursaryDuration);
+            updateBursaryDuration();
+        }
 
-        // =========================================================
-        // EDUCATIONAL BACKGROUND
-        // =========================================================
 
-        const addEducationButton =
-            document.getElementById("addEducation");
+        /* =====================================================
+           DISABILITY
+           ===================================================== */
+
+        const disabilityField =
+            document.getElementById("Disabled");
+
+        const disabilityDetailsContainer =
+            document.getElementById("disabilityDetailsContainer");
+
+        const disabilityDetails =
+            document.getElementById("DisabilityDetails");
+
+        function toggleDisabilityDetails() {
+
+            if (!disabilityField || !disabilityDetailsContainer) {
+                return;
+            }
+
+            const value =
+                (disabilityField.value || "")
+                    .trim()
+                    .toLowerCase();
+
+            if (value === "yes") {
+
+                disabilityDetailsContainer.style.display = "block";
+
+            } else {
+
+                disabilityDetailsContainer.style.display = "none";
+
+                if (disabilityDetails) {
+                    disabilityDetails.value = "";
+                }
+            }
+        }
+
+        if (disabilityField) {
+
+            disabilityField.addEventListener(
+                "change",
+                toggleDisabilityDetails
+            );
+
+            toggleDisabilityDetails();
+        }
+
+
+        /* =====================================================
+           START YEAR / END YEAR
+           ===================================================== */
+
+        const startYear =
+            document.getElementById("StartYear");
+
+        const endYear =
+            document.getElementById("EndYear");
+
+        function updateEndYear() {
+
+            if (!startYear || !endYear) {
+                return;
+            }
+
+            const year =
+                parseInt(startYear.value);
+
+            if (isNaN(year)) {
+                return;
+            }
+
+            const nextYear = year + 1;
+
+            endYear.value = nextYear;
+
+            /*
+             * If EndYear is a select, make sure the option exists.
+             */
+            let optionExists = false;
+
+            for (let i = 0; i < endYear.options.length; i++) {
+
+                if (
+                    parseInt(endYear.options[i].value) === nextYear
+                ) {
+
+                    optionExists = true;
+                    break;
+                }
+            }
+
+            if (!optionExists) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = nextYear;
+                option.textContent = nextYear;
+
+                endYear.appendChild(option);
+
+                endYear.value = nextYear;
+            }
+        }
+
+        if (startYear) {
+
+            startYear.addEventListener(
+                "change",
+                updateEndYear
+            );
+
+            updateEndYear();
+        }
+
+
+        /* =====================================================
+           EDUCATION BACKGROUND
+           ===================================================== */
 
         const educationTableBody =
             document.getElementById("educationTableBody");
 
-        let educationRowNumber = 1;
+        const addEducationButton =
+            document.getElementById("addEducationRow");
 
-
-        function generateYearOptions() {
-
-            let options = "";
-
-            const currentYear =
-                new Date().getFullYear();
-
-            for (
-                let year = currentYear;
-                year >= 1980;
-                year--
-            ) {
-
-                options += `
-                    <option value="${year}">
-                        ${year}
-                    </option>
-                `;
-            }
-
-            return options;
-        }
-
-
-        function updateEducationRemoveButtons() {
-
-            const rows =
-                educationTableBody.querySelectorAll("tr");
-
-            const buttons =
-                educationTableBody.querySelectorAll(
-                    ".remove-education"
-                );
-
-
-            buttons.forEach(function (button) {
-
-                if (rows.length > 1) {
-
-                    button.style.display =
-                        "inline-flex";
-
-                } else {
-
-                    button.style.display =
-                        "none";
-                }
-
-            });
-        }
-
-
-        if (
-            addEducationButton &&
-            educationTableBody
-        ) {
+        if (addEducationButton && educationTableBody) {
 
             addEducationButton.addEventListener(
                 "click",
                 function () {
 
-                    educationRowNumber++;
+                    const rowCount =
+                        educationTableBody.querySelectorAll("tr").length;
 
-
-                    const newRow =
+                    const row =
                         document.createElement("tr");
 
-
-                    newRow.innerHTML = `
-
+                    row.innerHTML = `
                         <td>
-
                             <input type="text"
-                                   name="Qualification${educationRowNumber}"
+                                   name="EducationBackground[${rowCount}].Qualification"
                                    class="form-control"
                                    placeholder="Qualification" />
-
                         </td>
-
 
                         <td>
-
-                            <select name="NQFLevel${educationRowNumber}"
-                                    class="form-control">
-
-                                <option value="">
-                                    -- Select NQF Level --
-                                </option>
-
-                                <option value="1">
-                                    NQF Level 1
-                                </option>
-
-                                <option value="2">
-                                    NQF Level 2
-                                </option>
-
-                                <option value="3">
-                                    NQF Level 3
-                                </option>
-
-                                <option value="4">
-                                    NQF Level 4
-                                </option>
-
-                                <option value="5">
-                                    NQF Level 5
-                                </option>
-
-                                <option value="6">
-                                    NQF Level 6
-                                </option>
-
-                                <option value="7">
-                                    NQF Level 7
-                                </option>
-
-                                <option value="8">
-                                    NQF Level 8
-                                </option>
-
-                                <option value="9">
-                                    NQF Level 9
-                                </option>
-
-                                <option value="10">
-                                    NQF Level 10
-                                </option>
-
-                            </select>
-
+                            <input type="text"
+                                   name="EducationBackground[${rowCount}].Institution"
+                                   class="form-control"
+                                   placeholder="Institution" />
                         </td>
-
 
                         <td>
-
-                            <select name="YearCompleted${educationRowNumber}"
-                                    class="form-control">
-
-                                <option value="">
-                                    -- Select Year --
-                                </option>
-
-                                ${generateYearOptions()}
-
-                            </select>
-
+                            <input type="text"
+                                   name="EducationBackground[${rowCount}].Year"
+                                   class="form-control"
+                                   placeholder="Year" />
                         </td>
 
-
-                        <td class="text-center">
-
+                        <td>
                             <button type="button"
-                                    class="btn btn-danger btn-sm remove-education">
-
+                                    class="btn btn-danger btn-sm removeEducationRow">
                                 <i class="fas fa-trash"></i>
-
                             </button>
-
                         </td>
-
                     `;
 
-
-                    educationTableBody.appendChild(
-                        newRow
-                    );
-
-
-                    updateEducationRemoveButtons();
-
+                    educationTableBody.appendChild(row);
                 }
             );
 
@@ -1957,83 +1865,39 @@
                 "click",
                 function (event) {
 
-                    const removeButton =
+                    const button =
                         event.target.closest(
-                            ".remove-education"
+                            ".removeEducationRow"
                         );
 
-
-                    if (!removeButton) {
+                    if (!button) {
                         return;
                     }
 
-
                     const row =
-                        removeButton.closest("tr");
-
+                        button.closest("tr");
 
                     if (row) {
-
                         row.remove();
-
                     }
-
-
-                    updateEducationRemoveButtons();
-
                 }
             );
-
         }
 
 
-        // =========================================================
-        // JOB REQUIREMENTS
-        // =========================================================
-
-        const addJobRequirementButton =
-            document.getElementById(
-                "addJobRequirement"
-            );
+        /* =====================================================
+           JOB REQUIREMENTS
+           ===================================================== */
 
         const jobRequirementsTableBody =
             document.getElementById(
                 "jobRequirementsTableBody"
             );
 
-        let jobRequirementRowNumber = 1;
-
-
-        function updateJobRequirementRemoveButtons() {
-
-            const rows =
-                jobRequirementsTableBody.querySelectorAll(
-                    "tr"
-                );
-
-            const buttons =
-                jobRequirementsTableBody.querySelectorAll(
-                    ".remove-job-requirement"
-                );
-
-
-            buttons.forEach(function (button) {
-
-                if (rows.length > 1) {
-
-                    button.style.display =
-                        "inline-flex";
-
-                } else {
-
-                    button.style.display =
-                        "none";
-
-                }
-
-            });
-        }
-
+        const addJobRequirementButton =
+            document.getElementById(
+                "addJobRequirementRow"
+            );
 
         if (
             addJobRequirementButton &&
@@ -2044,140 +1908,38 @@
                 "click",
                 function () {
 
-                    jobRequirementRowNumber++;
+                    const rowCount =
+                        jobRequirementsTableBody
+                            .querySelectorAll("tr")
+                            .length;
 
-
-                    const newRow =
+                    const row =
                         document.createElement("tr");
 
-
-                    newRow.innerHTML = `
-
+                    row.innerHTML = `
                         <td>
-
                             <input type="text"
-                                   name="Task${jobRequirementRowNumber}"
+                                   name="JobRequirements[${rowCount}].Requirement"
                                    class="form-control"
-                                   placeholder="Task/KPA" />
-
+                                   placeholder="Job requirement" />
                         </td>
 
-
                         <td>
-
                             <input type="text"
-                                   name="Training${jobRequirementRowNumber}"
+                                   name="JobRequirements[${rowCount}].NQFLevel"
                                    class="form-control"
-                                   placeholder="Training needed" />
-
+                                   placeholder="NQF Level" />
                         </td>
-
 
                         <td>
-
-                            <input type="text"
-                                   name="LearningType${jobRequirementRowNumber}"
-                                   class="form-control"
-                                   placeholder="Type of learning" />
-
-                        </td>
-
-
-                        <td>
-
-                            <select name="NQFLevel${jobRequirementRowNumber}"
-                                    class="form-control">
-
-                                <option value="">
-                                    -- Select NQF Level --
-                                </option>
-
-                                <option value="1">
-                                    NQF Level 1
-                                </option>
-
-                                <option value="2">
-                                    NQF Level 2
-                                </option>
-
-                                <option value="3">
-                                    NQF Level 3
-                                </option>
-
-                                <option value="4">
-                                    NQF Level 4
-                                </option>
-
-                                <option value="5">
-                                    NQF Level 5
-                                </option>
-
-                                <option value="6">
-                                    NQF Level 6
-                                </option>
-
-                                <option value="7">
-                                    NQF Level 7
-                                </option>
-
-                                <option value="8">
-                                    NQF Level 8
-                                </option>
-
-                                <option value="9">
-                                    NQF Level 9
-                                </option>
-
-                                <option value="10">
-                                    NQF Level 10
-                                </option>
-
-                            </select>
-
-                        </td>
-
-
-                        <td>
-
-                            <input type="text"
-                                   name="Cost${jobRequirementRowNumber}"
-                                   class="form-control"
-                                   placeholder="Cost" />
-
-                        </td>
-
-
-                        <td>
-
-                            <input type="text"
-                                   name="Impact${jobRequirementRowNumber}"
-                                   class="form-control"
-                                   placeholder="Impact" />
-
-                        </td>
-
-
-                        <td class="text-center">
-
                             <button type="button"
-                                    class="btn btn-danger btn-sm remove-job-requirement">
-
+                                    class="btn btn-danger btn-sm removeJobRequirementRow">
                                 <i class="fas fa-trash"></i>
-
                             </button>
-
                         </td>
-
                     `;
 
-
-                    jobRequirementsTableBody.appendChild(
-                        newRow
-                    );
-
-
-                    updateJobRequirementRemoveButtons();
-
+                    jobRequirementsTableBody.appendChild(row);
                 }
             );
 
@@ -2186,175 +1948,51 @@
                 "click",
                 function (event) {
 
-                    const removeButton =
+                    const button =
                         event.target.closest(
-                            ".remove-job-requirement"
+                            ".removeJobRequirementRow"
                         );
 
-
-                    if (!removeButton) {
+                    if (!button) {
                         return;
                     }
 
-
                     const row =
-                        removeButton.closest("tr");
-
+                        button.closest("tr");
 
                     if (row) {
-
                         row.remove();
-
                     }
-
-
-                    updateJobRequirementRemoveButtons();
-
                 }
             );
-
         }
 
 
-        // =========================================================
-        // START YEAR → END YEAR
-        // =========================================================
-
-        const startYear =
-            document.getElementById("StartYear");
-
-        const endYear =
-            document.getElementById("EndYear");
-
-
-        if (startYear && endYear) {
-
-            startYear.addEventListener(
-                "change",
-                function () {
-
-                    const selectedYear =
-                        parseInt(this.value);
-
-
-                    if (!isNaN(selectedYear)) {
-
-                        endYear.value =
-                            (selectedYear + 1).toString();
-
-                    } else {
-
-                        endYear.value = "";
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        // =========================================================
-        // BURSARY
-        // =========================================================
-
-        const bursary =
-            document.getElementById("Bursary");
-
-        const durationContainer =
-            document.getElementById(
-                "bursaryDurationContainer"
-            );
-
-        const duration =
-            document.getElementById(
-                "BursaryDuration"
-            );
-
-
-        if (
-            bursary &&
-            durationContainer &&
-            duration
-        ) {
-
-            function toggleBursaryDuration() {
-
-                if (bursary.value === "Yes") {
-
-                    durationContainer.style.display =
-                        "block";
-
-                    duration.disabled = false;
-
-                } else {
-
-                    durationContainer.style.display =
-                        "none";
-
-                    duration.value = "";
-
-                    duration.disabled = true;
-
-                }
-
-            }
-
-
-            toggleBursaryDuration();
-
-
-            bursary.addEventListener(
-                "change",
-                toggleBursaryDuration
-            );
-
-        }
-
-
-        // =========================================================
-        // EMPLOYEE SIGNATURE
-        // =========================================================
+        /* =====================================================
+           EMPLOYEE SIGNATURE
+           ===================================================== */
 
         const employeeCanvas =
             document.getElementById(
                 "employeeSignaturePad"
             );
 
-        const employeeHidden =
+        const employeeSignatureInput =
             document.getElementById(
                 "EmployeeSignature"
             );
 
-        const employeeClear =
-            document.getElementById(
-                "clearEmployeeSignature"
-            );
-
-
-        function setupSignature(
-            canvas,
-            hiddenInput,
-            clearButton
+        if (
+            employeeCanvas &&
+            employeeSignatureInput
         ) {
 
-            if (
-                !canvas ||
-                !hiddenInput ||
-                !clearButton
-            ) {
-                return;
-            }
+            const employeeContext =
+                employeeCanvas.getContext("2d");
 
+            let employeeDrawing = false;
 
-            const ctx =
-                canvas.getContext("2d");
-
-
-            let drawing = false;
-
-
-            function resizeCanvas() {
+            function resizeEmployeeCanvas() {
 
                 const ratio =
                     Math.max(
@@ -2362,359 +2000,493 @@
                         1
                     );
 
-
                 const rect =
-                    canvas.getBoundingClientRect();
+                    employeeCanvas.getBoundingClientRect();
 
-
-                canvas.width =
+                employeeCanvas.width =
                     rect.width * ratio;
 
-                canvas.height =
+                employeeCanvas.height =
                     rect.height * ratio;
 
-
-                ctx.setTransform(
+                employeeContext.scale(
                     ratio,
-                    0,
-                    0,
-                    ratio,
-                    0,
-                    0
+                    ratio
                 );
 
-
-                ctx.lineWidth = 2;
-
-                ctx.lineCap = "round";
-
-                ctx.lineJoin = "round";
-
-                ctx.strokeStyle = "#000000";
-
+                employeeContext.lineWidth = 2;
+                employeeContext.lineCap = "round";
+                employeeContext.lineJoin = "round";
             }
 
-
-            resizeCanvas();
-
+            resizeEmployeeCanvas();
 
             window.addEventListener(
                 "resize",
-                resizeCanvas
+                resizeEmployeeCanvas
             );
 
 
-            function getPosition(event) {
+            function getEmployeePosition(event) {
 
                 const rect =
-                    canvas.getBoundingClientRect();
-
-
-                if (
-                    event.touches &&
-                    event.touches.length > 0
-                ) {
-
-                    return {
-
-                        x:
-                            event.touches[0].clientX -
-                            rect.left,
-
-                        y:
-                            event.touches[0].clientY -
-                            rect.top
-
-                    };
-
-                }
-
+                    employeeCanvas.getBoundingClientRect();
 
                 return {
-
-                    x:
-                        event.clientX -
-                        rect.left,
-
-                    y:
-                        event.clientY -
-                        rect.top
-
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
                 };
-
             }
 
 
-            function startDrawing(event) {
+            employeeCanvas.addEventListener(
+                "pointerdown",
+                function (event) {
 
-                event.preventDefault();
+                    employeeDrawing = true;
 
-                drawing = true;
+                    const position =
+                        getEmployeePosition(event);
 
+                    employeeContext.beginPath();
 
-                const position =
-                    getPosition(event);
-
-
-                ctx.beginPath();
-
-                ctx.moveTo(
-                    position.x,
-                    position.y
-                );
-
-            }
-
-
-            function draw(event) {
-
-                if (!drawing) {
-                    return;
+                    employeeContext.moveTo(
+                        position.x,
+                        position.y
+                    );
                 }
+            );
 
 
-                event.preventDefault();
+            employeeCanvas.addEventListener(
+                "pointermove",
+                function (event) {
 
+                    if (!employeeDrawing) {
+                        return;
+                    }
 
-                const position =
-                    getPosition(event);
+                    const position =
+                        getEmployeePosition(event);
 
-
-                ctx.lineTo(
-                    position.x,
-                    position.y
-                );
-
-                ctx.stroke();
-
-            }
-
-
-            function stopDrawing(event) {
-
-                if (!drawing) {
-                    return;
-                }
-
-
-                event.preventDefault();
-
-                drawing = false;
-
-
-                hiddenInput.value =
-                    canvas.toDataURL(
-                        "image/png"
+                    employeeContext.lineTo(
+                        position.x,
+                        position.y
                     );
 
-            }
-
-
-            canvas.addEventListener(
-                "mousedown",
-                startDrawing
-            );
-
-            canvas.addEventListener(
-                "mousemove",
-                draw
-            );
-
-            canvas.addEventListener(
-                "mouseup",
-                stopDrawing
-            );
-
-            canvas.addEventListener(
-                "mouseleave",
-                stopDrawing
+                    employeeContext.stroke();
+                }
             );
 
 
-            canvas.addEventListener(
-                "touchstart",
-                startDrawing,
-                { passive: false }
-            );
-
-            canvas.addEventListener(
-                "touchmove",
-                draw,
-                { passive: false }
-            );
-
-            canvas.addEventListener(
-                "touchend",
-                stopDrawing,
-                { passive: false }
-            );
-
-
-            clearButton.addEventListener(
-                "click",
+            employeeCanvas.addEventListener(
+                "pointerup",
                 function () {
 
-                    ctx.clearRect(
-                        0,
-                        0,
-                        canvas.width,
-                        canvas.height
-                    );
+                    employeeDrawing = false;
 
-
-                    hiddenInput.value = "";
-
+                    employeeSignatureInput.value =
+                        employeeCanvas.toDataURL(
+                            "image/png"
+                        );
                 }
             );
 
+
+            employeeCanvas.addEventListener(
+                "pointerleave",
+                function () {
+
+                    if (!employeeDrawing) {
+                        return;
+                    }
+
+                    employeeDrawing = false;
+
+                    employeeSignatureInput.value =
+                        employeeCanvas.toDataURL(
+                            "image/png"
+                        );
+                }
+            );
         }
 
 
-        setupSignature(
-            employeeCanvas,
-            employeeHidden,
-            employeeClear
-        );
+        /* =====================================================
+           SUPERVISOR SIGNATURE
+           ===================================================== */
 
-    // =========================================================
-    // SUPERVISOR SIGNATURE
-    // =========================================================
+        const supervisorCanvas =
+            document.getElementById(
+                "supervisorSignaturePad"
+            );
 
-    const canSupervisorSign =
-        @Html.Raw(
-            ViewBag.CanSupervisorSign == true
-                    ? "true"
-                    : "false"
+        const supervisorSignatureInput =
+            document.getElementById(
+                "SupervisorSignature"
+            );
+
+
+        /*
+         * Supervisor signature is intentionally locked
+         * unless the controller/view has enabled it.
+         */
+        if (
+            supervisorCanvas &&
+            supervisorSignatureInput
+        ) {
+
+            const canSupervisorSign =
+                supervisorCanvas.dataset.canSign === "true";
+
+            if (!canSupervisorSign) {
+
+                supervisorCanvas.style.pointerEvents =
+                    "none";
+
+                supervisorCanvas.style.opacity =
+                    "0.6";
+
+            } else {
+
+                const supervisorContext =
+                    supervisorCanvas.getContext("2d");
+
+                let supervisorDrawing = false;
+
+
+                function resizeSupervisorCanvas() {
+
+                    const ratio =
+                        Math.max(
+                            window.devicePixelRatio || 1,
+                            1
+                        );
+
+                    const rect =
+                        supervisorCanvas.getBoundingClientRect();
+
+                    supervisorCanvas.width =
+                        rect.width * ratio;
+
+                    supervisorCanvas.height =
+                        rect.height * ratio;
+
+                    supervisorContext.scale(
+                        ratio,
+                        ratio
+                    );
+
+                    supervisorContext.lineWidth = 2;
+                    supervisorContext.lineCap = "round";
+                    supervisorContext.lineJoin = "round";
+                }
+
+                resizeSupervisorCanvas();
+
+
+                window.addEventListener(
+                    "resize",
+                    resizeSupervisorCanvas
                 );
 
-    const supervisorCanvas =
-        document.getElementById(
-            "supervisorSignaturePad"
-        );
 
-    const supervisorHidden =
-        document.getElementById(
-            "SupervisorSignature"
-        );
+                function getSupervisorPosition(event) {
 
-    const supervisorClear =
-        document.getElementById(
-            "clearSupervisorSignature"
-        );
+                    const rect =
+                        supervisorCanvas.getBoundingClientRect();
 
-    const supervisorDate =
-        document.getElementById(
-            "SupervisorDate"
-        );
-
-
-    // =========================================================
-    // ONLY INITIALISE SUPERVISOR SIGNATURE WHEN ALLOWED
-    // =========================================================
-
-    if (
-        canSupervisorSign === true &&
-        supervisorCanvas &&
-        supervisorHidden &&
-        supervisorClear
-    ) {
-
-        setupSignature(
-            supervisorCanvas,
-            supervisorHidden,
-            supervisorClear
-        );
-
-
-        // =====================================================
-        // CAPTURE SUPERVISOR DATE WHEN SIGNATURE IS CREATED
-        // =====================================================
-
-        supervisorCanvas.addEventListener(
-            "mouseup",
-            function () {
-
-                if (
-                    supervisorHidden.value &&
-                    supervisorDate &&
-                    !supervisorDate.value
-                ) {
-
-                    const today =
-                        new Date();
-
-                    const year =
-                        today.getFullYear();
-
-                    const month =
-                        String(
-                            today.getMonth() + 1
-                        ).padStart(2, "0");
-
-                    const day =
-                        String(
-                            today.getDate()
-                        ).padStart(2, "0");
-
-                    supervisorDate.value =
-                        `${year}-${month}-${day}`;
+                    return {
+                        x: event.clientX - rect.left,
+                        y: event.clientY - rect.top
+                    };
                 }
 
+
+                supervisorCanvas.addEventListener(
+                    "pointerdown",
+                    function (event) {
+
+                        supervisorDrawing = true;
+
+                        const position =
+                            getSupervisorPosition(event);
+
+                        supervisorContext.beginPath();
+
+                        supervisorContext.moveTo(
+                            position.x,
+                            position.y
+                        );
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointermove",
+                    function (event) {
+
+                        if (!supervisorDrawing) {
+                            return;
+                        }
+
+                        const position =
+                            getSupervisorPosition(event);
+
+                        supervisorContext.lineTo(
+                            position.x,
+                            position.y
+                        );
+
+                        supervisorContext.stroke();
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointerup",
+                    function () {
+
+                        supervisorDrawing = false;
+
+                        supervisorSignatureInput.value =
+                            supervisorCanvas.toDataURL(
+                                "image/png"
+                            );
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointerleave",
+                    function () {
+
+                        if (!supervisorDrawing) {
+                            return;
+                        }
+
+                        supervisorDrawing = false;
+
+                        supervisorSignatureInput.value =
+                            supervisorCanvas.toDataURL(
+                                "image/png"
+                            );
+                    }
+                );
             }
-        );
+        }
 
 
-        supervisorCanvas.addEventListener(
-            "touchend",
-            function () {
+        /* =====================================================
+           CLEAR EMPLOYEE SIGNATURE
+           ===================================================== */
 
-                if (
-                    supervisorHidden.value &&
-                    supervisorDate &&
-                    !supervisorDate.value
-                ) {
+        const clearEmployeeSignature =
+            document.getElementById(
+                "clearEmployeeSignature"
+            );
 
-                    const today =
-                        new Date();
+        if (
+            clearEmployeeSignature &&
+            employeeCanvas &&
+            employeeSignatureInput
+        ) {
 
-                    const year =
-                        today.getFullYear();
+            clearEmployeeSignature.addEventListener(
+                "click",
+                function () {
 
-                    const month =
-                        String(
-                            today.getMonth() + 1
-                        ).padStart(2, "0");
+                    const context =
+                        employeeCanvas.getContext("2d");
 
-                    const day =
-                        String(
-                            today.getDate()
-                        ).padStart(2, "0");
+                    context.clearRect(
+                        0,
+                        0,
+                        employeeCanvas.width,
+                        employeeCanvas.height
+                    );
 
-                    supervisorDate.value =
-                        `${year}-${month}-${day}`;
+                    employeeSignatureInput.value = "";
                 }
+            );
+        }
 
-            }
-        );
 
+        /* =====================================================
+           CLEAR SUPERVISOR SIGNATURE
+           ===================================================== */
 
-        // =====================================================
-        // CLEAR SIGNATURE ALSO CLEARS DATE
-        // =====================================================
+        const clearSupervisorSignature =
+            document.getElementById(
+                "clearSupervisorSignature"
+            );
 
-        supervisorClear.addEventListener(
-            "click",
-            function () {
+        if (
+            clearSupervisorSignature &&
+            supervisorCanvas &&
+            supervisorSignatureInput
+        ) {
 
-                if (supervisorDate) {
+            clearSupervisorSignature.addEventListener(
+                "click",
+                function () {
 
-                    supervisorDate.value = "";
+                    const context =
+                        supervisorCanvas.getContext("2d");
 
+                    context.clearRect(
+                        0,
+                        0,
+                        supervisorCanvas.width,
+                        supervisorCanvas.height
+                    );
+
+                    supervisorSignatureInput.value = "";
                 }
+            );
+        }
 
-            }
-        );
 
-    }
+        /* =====================================================
+           FORM SUBMISSION
+           ===================================================== */
 
+        const form =
+            document.querySelector(
+                "form"
+            );
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    /*
+                     * Make absolutely sure the bursary duration
+                     * is enabled when Bursary = Yes so that
+                     * ASP.NET Core model binding receives it.
+                     */
+
+                    if (
+                        bursary &&
+                        bursaryDuration
+                    ) {
+
+                        if (
+                            bursary.value === "Yes"
+                        ) {
+
+                            bursaryDuration.disabled =
+                                false;
+
+                        } else {
+
+                            bursaryDuration.disabled =
+                                true;
+
+                            bursaryDuration.value =
+                                "";
+                        }
+                    }
+
+
+                    /*
+                     * Save employee signature one final time
+                     * before posting.
+                     */
+
+                    if (
+                        employeeCanvas &&
+                        employeeSignatureInput
+                    ) {
+
+                        const employeeContext =
+                            employeeCanvas.getContext("2d");
+
+                        const imageData =
+                            employeeContext.getImageData(
+                                0,
+                                0,
+                                employeeCanvas.width,
+                                employeeCanvas.height
+                            );
+
+                        let hasSignature = false;
+
+                        for (
+                            let i = 3;
+                            i < imageData.data.length;
+                            i += 4
+                        ) {
+
+                            if (
+                                imageData.data[i] !== 0
+                            ) {
+
+                                hasSignature = true;
+                                break;
+                            }
+                        }
+
+                        if (hasSignature) {
+
+                            employeeSignatureInput.value =
+                                employeeCanvas.toDataURL(
+                                    "image/png"
+                                );
+                        }
+                    }
+
+
+                    /*
+                     * Save supervisor signature one final time.
+                     */
+
+                    if (
+                        supervisorCanvas &&
+                        supervisorSignatureInput
+                    ) {
+
+                        const supervisorContext =
+                            supervisorCanvas.getContext("2d");
+
+                        const imageData =
+                            supervisorContext.getImageData(
+                                0,
+                                0,
+                                supervisorCanvas.width,
+                                supervisorCanvas.height
+                            );
+
+                        let hasSignature = false;
+
+                        for (
+                            let i = 3;
+                            i < imageData.data.length;
+                            i += 4
+                        ) {
+
+                            if (
+                                imageData.data[i] !== 0
+                            ) {
+
+                                hasSignature = true;
+                                break;
+                            }
+                        }
+
+                        if (hasSignature) {
+
+                            supervisorSignatureInput.value =
+                                supervisorCanvas.toDataURL(
+                                    "image/png"
+                                );
+                        }
+                    }
+                }
+            );
+        }
+
+    });
 </script>

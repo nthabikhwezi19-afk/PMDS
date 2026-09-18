@@ -31,7 +31,9 @@ namespace PMDSSystems.Models
 
         public string SupervisorName { get; set; } = string.Empty;
 
-        public string AppointmentDate { get; set; } = string.Empty;
+        public DateTime? AppointmentDate { get; set; }
+
+        public DateTime? AppointmentDateInCurrentRank { get; set; }
 
         public string CurrentRank { get; set; } = string.Empty;
         
