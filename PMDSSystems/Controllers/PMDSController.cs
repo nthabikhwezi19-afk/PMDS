@@ -119,13 +119,13 @@ namespace PMDSSystems.Controllers
                 RelatedOSDDescription =
                     employee.OSDDescription ?? "",
 
-                // Appointment Date in DCS
+                // DATE ONLY
                 AppointmentDate =
-                    employee.AppointmentInDcsDate,
+        employee.AppointmentInDcsDate?.Date,
 
-                // Appointment / Promotion Date in Current Rank
+                // DATE ONLY
                 AppointmentDateInCurrentRank =
-                    employee.AppointmentDateInCurrentRank
+        employee.AppointmentDateInCurrentRank?.Date
             };
 
 

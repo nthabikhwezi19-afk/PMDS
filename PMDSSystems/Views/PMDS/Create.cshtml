@@ -368,7 +368,7 @@
                         </label>
 
                         <div class="info-box">
-                            @Model.AppointmentDateInCurrentRank
+                            @(Model.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd") ?? "")
                         </div>
 
                     </div>
@@ -400,9 +400,8 @@
                         </label>
 
                         <div class="info-box">
-                            @Model.AppointmentDate
+                            @(Model.AppointmentDate?.ToString("yyyy-MM-dd") ?? "")
                         </div>
-
                     </div>
 
                 </div>

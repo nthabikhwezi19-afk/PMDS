@@ -515,9 +515,9 @@
                         <input type="date"
                                id="AppointmentDateInCurrentRank"
                                name="AppointmentDateInCurrentRank"
+                               class="form-control"
                                max="@DateTime.Today.ToString("yyyy-MM-dd")"
-                               value="@(Model?.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd"))"
-                               class="form-control" />
+                               value="@(Model?.AppointmentDateInCurrentRank?.ToString("yyyy-MM-dd"))" />
 
                     </div>
 
@@ -533,17 +533,16 @@
 
                     <div class="form-group">
 
-                        <label for="AppointmentInDcsDate">
+                        <label for="AppointmentDate">
                             Appointment Date in DCS
                         </label>
 
                         <input type="date"
                                id="AppointmentDate"
                                name="AppointmentDate"
+                               class="form-control"
                                max="@DateTime.Today.ToString("yyyy-MM-dd")"
-                               value="@(Model?.AppointmentInDcsDate?.ToString("yyyy-MM-dd"))"
-                               class="form-control" />
-
+                               value="@(Model?.AppointmentInDcsDate?.ToString("yyyy-MM-dd"))" />
 
                     </div>
 
