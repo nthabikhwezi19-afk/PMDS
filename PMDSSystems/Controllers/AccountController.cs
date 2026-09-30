@@ -26,7 +26,12 @@ namespace PMDSSystems.Controllers
             _context = context;
             _emailService = emailService;
         }
-
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string? returnUrl = null)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
 
         // =========================================================
         // GET: LOGIN

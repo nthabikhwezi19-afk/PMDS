@@ -920,6 +920,9 @@ namespace PMDSSystems.Migrations
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EndYear")
+                        .HasColumnType("int");
+
                     b.Property<bool>("JobKnowledge")
                         .HasColumnType("bit");
 
@@ -946,6 +949,9 @@ namespace PMDSSystems.Migrations
 
                     b.Property<string>("SalaryLevel")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StartYear")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TeamWork")
                         .HasColumnType("bit");

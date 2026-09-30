@@ -29,6 +29,16 @@ namespace PMDSSystems.Models
         public int NumberOfKRAs { get; set; }
 
         // ============================================================
+        // AGREEMENT PERIOD
+        // ============================================================
+
+        [Required]
+        public int StartYear { get; set; }
+
+        [Required]
+        public int EndYear { get; set; }
+
+        // ============================================================
         // GAF
         // ============================================================
 
@@ -47,6 +57,7 @@ namespace PMDSSystems.Models
 
         public List<KRA> KRAs { get; set; } = new List<KRA>();
     }
+
 
     public class KRA
     {

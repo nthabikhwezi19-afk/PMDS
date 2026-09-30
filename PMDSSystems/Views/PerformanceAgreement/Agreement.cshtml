@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PMDSSystems.Models.PerformanceAgreement
+
+@{
     ViewData["Title"] = "Performance Agreement";
 
     bool canSupervisorSign = ViewBag.CanSupervisorSign == true;
@@ -124,6 +126,24 @@
 
 
     /* =========================================================
+           YEAR DISPLAY
+           ========================================================= */
+
+    .agreement-year {
+        display: inline-block;
+        min-width: 70px;
+        padding: 5px 12px;
+        margin: 0 4px;
+        background-color: #f1f7f4;
+        border: 2px solid #006838;
+        border-radius: 6px;
+        color: #006838;
+        font-weight: 700;
+        text-align: center;
+    }
+
+
+    /* =========================================================
            FORM CONTROLS
            ========================================================= */
 
@@ -136,28 +156,6 @@
         .form-control:focus {
             border-color: #006838;
             box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.25);
-        }
-
-
-    /* =========================================================
-           YEAR DROPDOWNS
-           ========================================================= */
-
-    .year-dropdown {
-        width: 110px !important;
-        display: inline-block;
-        padding: 8px 10px;
-        border: 2px solid #cde0d5;
-        border-radius: 6px;
-        font-weight: 600;
-        color: #333;
-        background-color: white;
-    }
-
-        .year-dropdown:focus {
-            border-color: #006838;
-            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.25);
-            outline: none;
         }
 
 
@@ -361,31 +359,14 @@
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        text-decoration: none;
     }
-
-        .btn-save-agreement::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient( 90deg, transparent, rgba(255,255,255,0.2), transparent );
-            transition: left 0.6s ease;
-        }
 
         .btn-save-agreement:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0,104,56,0.5);
             background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
             color: white;
-            text-decoration: none;
         }
-
-            .btn-save-agreement:hover::before {
-                left: 100%;
-            }
 
         .btn-save-agreement:active {
             transform: translateY(0px);
@@ -394,23 +375,6 @@
 
         .btn-save-agreement i {
             font-size: 18px;
-        }
-
-        .btn-save-agreement .fa-save {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-save-agreement:hover .fa-save {
-            transform: scale(1.1) rotate(-3deg);
-        }
-
-        .btn-save-agreement .fa-chevron-right {
-            transition: transform 0.3s ease;
-            font-size: 13px;
-        }
-
-        .btn-save-agreement:hover .fa-chevron-right {
-            transform: translateX(5px);
         }
 
 
@@ -457,6 +421,10 @@
             width: 100%;
             justify-content: center;
         }
+
+        .agreement-year {
+            margin: 3px 2px;
+        }
     }
 
 </style>
@@ -496,182 +464,173 @@
 
 
     <!-- =====================================================
-         REPRESENTATIVES
-         ===================================================== -->
-
-    <div class="agreement-text">
-
-        <div class="mb-3">
-
-            The Department of Correctional Services herein represented by:
-
-        </div>
-
-
-        <div class="row g-3 mb-3">
-
-            <!-- =================================================
-                 SUPERVISOR
-                 ================================================= -->
-
-            <div class="col-md-6">
-
-                <label class="form-label fw-bold text-success">
-
-                    Full Name and Capacity of Supervisor
-
-                </label>
-
-                <input type="text"
-                       name="SupervisorNameAndCapacity"
-                       class="form-control"
-                       value="@ViewBag.SupervisorNameAndCapacity"
-                       readonly
-                       required />
-
-                <small class="text-muted">
-
-                    Automatically populated from the assigned supervisor.
-
-                </small>
-
-            </div>
-
-
-            <!-- =================================================
-                 EMPLOYEE
-                 ================================================= -->
-
-            <div class="col-md-6">
-
-                <label class="form-label fw-bold text-success">
-
-                    Full Name and Capacity of Employee / Supervisee
-
-                </label>
-
-                <input type="text"
-                       name="EmployeeNameAndCapacity"
-                       class="form-control"
-                       value="@ViewBag.EmployeeNameAndCapacity"
-                       readonly
-                       required />
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         AGREEMENT CONDITIONS
-         ===================================================== -->
-
-    <ul class="agreement-list">
-
-        <li>
-            To outline the expectations of the Supervisee.
-        </li>
-
-        <li>
-            To continuously monitor and assess the performance
-            of the Supervisee to determine if the performance
-            expectations have been met.
-        </li>
-
-        <li>
-
-            <div class="d-flex align-items-center flex-wrap gap-2">
-
-                <span>
-                    The Agreement will be valid for the period of
-                </span>
-
-                <strong>
-                    1 April
-                </strong>
-
-
-                <!-- START YEAR -->
-
-                <select name="StartYear"
-                        id="StartYear"
-                        class="form-control year-dropdown"
-                        required>
-
-                    <option value="">
-                        Year
-                    </option>
-
-                    @for (int year = 2020; year <= 2035; year++)
-                    {
-                        <option value="@year">
-                            @year
-                        </option>
-                    }
-
-                </select>
-
-
-                <strong>
-                    to 31 March
-                </strong>
-
-
-                <!-- END YEAR -->
-
-                <select name="EndYear"
-                        id="EndYear"
-                        class="form-control year-dropdown"
-                        required>
-
-                    <option value="">
-                        Year
-                    </option>
-
-                    @for (int year = 2021; year <= 2036; year++)
-                    {
-                        <option value="@year">
-                            @year
-                        </option>
-                    }
-
-                </select>
-
-
-                <strong>
-                    .
-                </strong>
-
-            </div>
-
-        </li>
-
-
-        <li>
-
-            The content of the Agreement may be revised at any time
-            during the above-mentioned period to determine the
-            applicability of the Personal Workplan / Personal
-            Development Plan agreed upon.
-
-        </li>
-
-    </ul>
-
-
-    <!-- =====================================================
          FORM
          ===================================================== -->
 
     <form method="post"
           id="performanceAgreementForm">
 
+        @Html.AntiForgeryToken()
 
-        <!-- =================================================
+
+        <!-- =====================================================
+             REPRESENTATIVES
+             ===================================================== -->
+
+        <div class="agreement-text">
+
+            <div class="mb-3">
+
+                The Department of Correctional Services herein represented by:
+
+            </div>
+
+
+            <div class="row g-3 mb-3">
+
+                <!-- =================================================
+                     SUPERVISOR
+                     ================================================= -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label fw-bold text-success">
+
+                        Full Name and Capacity of Supervisor
+
+                    </label>
+
+                    <input type="text"
+                           name="SupervisorNameAndCapacity"
+                           class="form-control"
+                           value="@ViewBag.SupervisorNameAndCapacity"
+                           readonly
+                           required />
+
+                    <small class="text-muted">
+
+                        Automatically populated from the assigned supervisor.
+
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     EMPLOYEE
+                     ================================================= -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label fw-bold text-success">
+
+                        Full Name and Capacity of Employee / Supervisee
+
+                    </label>
+
+                    <input type="text"
+                           name="EmployeeNameAndCapacity"
+                           class="form-control"
+                           value="@ViewBag.EmployeeNameAndCapacity"
+                           readonly
+                           required />
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             AGREEMENT CONDITIONS
+             ===================================================== -->
+
+        <ul class="agreement-list">
+
+            <li>
+
+                To outline the expectations of the Supervisee.
+
+            </li>
+
+
+            <li>
+
+                To continuously monitor and assess the performance
+                of the Supervisee to determine if the performance
+                expectations have been met.
+
+            </li>
+
+
+            <!-- =================================================
+                 AUTOMATIC PERFORMANCE AGREEMENT YEAR
+                 ================================================= -->
+
+            <li>
+
+                <div class="d-flex align-items-center flex-wrap gap-2">
+
+                    <span>
+                        The Agreement will be valid for the period of
+                    </span>
+
+                    <strong>
+                        1 April
+                    </strong>
+
+                    <span class="agreement-year">
+                        @Model.StartYear
+                    </span>
+
+                    <strong>
+                        to 31 March
+                    </strong>
+
+                    <span class="agreement-year">
+                        @Model.EndYear
+                    </span>
+
+                    <strong>
+                        .
+                    </strong>
+
+                </div>
+
+            </li>
+
+
+            <li>
+
+                The content of the Agreement may be revised at any time
+                during the above-mentioned period to determine the
+                applicability of the Personal Workplan / Personal
+                Development Plan agreed upon.
+
+            </li>
+
+        </ul>
+
+
+        <!-- =====================================================
+             HIDDEN YEAR VALUES
+
+             These are NOT visible to the employee.
+             They allow the controller to receive the year values
+             that were populated from Part A.
+             ===================================================== -->
+
+        <input type="hidden"
+               asp-for="StartYear" />
+
+        <input type="hidden"
+               asp-for="EndYear" />
+
+
+        <!-- =====================================================
              SIGNATURE SECTION
-             ================================================= -->
+             ===================================================== -->
 
         <div class="row signature-section text-center">
 
@@ -685,7 +644,9 @@
                 <div class="signature-card">
 
                     <div class="signature-title">
+
                         JOB HOLDER / SUPERVISEE
+
                     </div>
 
 
@@ -737,7 +698,9 @@
                 <div class="signature-card">
 
                     <div class="signature-title">
+
                         SUPERVISOR
+
                     </div>
 
 
@@ -807,24 +770,24 @@
         </div>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              SAVE BUTTON
-             ================================================= -->
+             ===================================================== -->
 
-        <d<div class="button-wrapper">
+        <div class="button-wrapper">
 
-    <a href="/PMDS/PersonalDevelopmentPlan"
-       class="btn-save-agreement">
+            <button type="submit"
+                    class="btn-save-agreement">
 
-        <i class="fas fa-save"></i>
+                <i class="fas fa-save"></i>
 
-        Save Agreement
+                Save Agreement
 
-        <i class="fas fa-chevron-right"></i>
+                <i class="fas fa-chevron-right"></i>
 
-    </a>
+            </button>
 
-</div>
+        </div>
 
     </form>
 
@@ -861,7 +824,6 @@
 
         const ctx =
             canvas.getContext("2d");
-
 
         let drawing = false;
 
@@ -907,11 +869,8 @@
             );
 
 
-            /*
-             * White background
-             */
-
-            ctx.fillStyle = "#ffffff";
+            ctx.fillStyle =
+                "#ffffff";
 
             ctx.fillRect(
                 0,
@@ -963,10 +922,12 @@
             const rect =
                 canvas.getBoundingClientRect();
 
-
             return {
+
                 x: e.clientX - rect.left,
+
                 y: e.clientY - rect.top
+
             };
 
         }
@@ -980,10 +941,8 @@
 
             drawing = true;
 
-
             const position =
                 getPosition(e);
-
 
             lastX = position.x;
 
@@ -1002,9 +961,7 @@
                 return;
             }
 
-
             e.preventDefault();
-
 
             const position =
                 getPosition(e);
@@ -1023,25 +980,17 @@
             );
 
 
-            /*
-             * BLACK SIGNATURE
-             */
-
             ctx.strokeStyle =
                 "#000000";
-
 
             ctx.lineWidth =
                 2.5;
 
-
             ctx.lineCap =
                 "round";
 
-
             ctx.lineJoin =
                 "round";
-
 
             ctx.stroke();
 
@@ -1101,14 +1050,17 @@
 
                 e.preventDefault();
 
-
                 const touch =
                     e.touches[0];
 
-
                 startDrawing({
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
+
+                    clientX:
+                        touch.clientX,
+
+                    clientY:
+                        touch.clientY
+
                 });
 
             },
@@ -1124,20 +1076,24 @@
 
                 e.preventDefault();
 
-
                 if (!drawing) {
                     return;
                 }
 
-
                 const touch =
                     e.touches[0];
 
-
                 draw({
-                    preventDefault: function () {},
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
+
+                    preventDefault:
+                        function () { },
+
+                    clientX:
+                        touch.clientX,
+
+                    clientY:
+                        touch.clientY
+
                 });
 
             },
@@ -1173,8 +1129,20 @@
         const canvas =
             document.getElementById(id);
 
-
         if (!canvas) {
+            return;
+        }
+
+
+        /*
+         * Supervisor security:
+         * Employee cannot clear supervisor signature.
+         */
+
+        if (
+            id === "sigSupervisor" &&
+            !canSupervisorSign
+        ) {
             return;
         }
 
@@ -1190,10 +1158,6 @@
             canvas.height
         );
 
-
-        /*
-         * Put the white background back.
-         */
 
         ctx.fillStyle =
             "#ffffff";
@@ -1218,7 +1182,6 @@
                     "EmployeeSignature"
                 );
 
-
             if (input) {
                 input.value = "";
             }
@@ -1228,21 +1191,10 @@
 
         if (id === "sigSupervisor") {
 
-            /*
-             * Only the assigned supervisor
-             * can clear their signature.
-             */
-
-            if (!canSupervisorSign) {
-                return;
-            }
-
-
             const input =
                 document.getElementById(
                     "SupervisorSignature"
                 );
-
 
             if (input) {
                 input.value = "";
@@ -1305,9 +1257,8 @@
 
 
         /*
-         * SECURITY:
-         * Only the assigned supervisor is allowed
-         * to create/update this signature.
+         * Only the assigned supervisor
+         * can create/update this signature.
          */
 
         if (
@@ -1379,7 +1330,9 @@
                 ) {
 
                     const ctx =
-                        supervisorCanvas.getContext("2d");
+                        supervisorCanvas.getContext(
+                            "2d"
+                        );
 
 
                     const image =
@@ -1390,7 +1343,8 @@
                         function () {
 
                             const rect =
-                                supervisorCanvas.getBoundingClientRect();
+                                supervisorCanvas
+                                    .getBoundingClientRect();
 
 
                             const scale =
@@ -1440,6 +1394,7 @@
 
                     image.src =
                         "@Html.Raw(existingSupervisorSignature)";
+
                 }
 
             }
@@ -1470,6 +1425,11 @@
             form.addEventListener(
                 "submit",
                 function () {
+
+                    /*
+                     * Save signatures immediately
+                     * before the form is submitted.
+                     */
 
                     saveSignatures();
 

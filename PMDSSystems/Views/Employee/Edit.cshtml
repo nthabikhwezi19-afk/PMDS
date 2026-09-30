@@ -1,0 +1,1796 @@
+﻿@model PMDSSystems.Models.Employee
+
+@{
+    ViewData["Title"] = "Edit My Details";
+}
+
+<style>
+
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .employee-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    /* =========================================================
+           HEADER
+           ========================================================= */
+
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-top: 5px solid #006838;
+    }
+
+        .page-header h2 {
+            color: #006838;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+
+    /* =========================================================
+           FORM CONTAINER
+           ========================================================= */
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+
+    /* =========================================================
+           SECTION HEADERS
+           ========================================================= */
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+    }
+
+        .section-header h4 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .section-number {
+        background: #006838;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+
+    /* =========================================================
+           FORM
+           ========================================================= */
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+    .required {
+        color: #dc3545;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #dce3e8;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+        min-height: 44px;
+        background-color: white;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #006838;
+            box-shadow: 0 0 0 3px rgba(0,104,56,0.15);
+        }
+
+
+    /* =========================================================
+           PERSAL READ ONLY
+           ========================================================= */
+
+    .readonly-field {
+        background-color: #e9ecef !important;
+        color: #495057;
+        cursor: not-allowed;
+        font-weight: 600;
+    }
+
+    .readonly-note {
+        display: block;
+        color: #6c757d;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+
+    /* =========================================================
+           VALIDATION
+           ========================================================= */
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 13px;
+    }
+
+
+    /* =========================================================
+           DIVIDER
+           ========================================================= */
+
+    .divider {
+        border: 0;
+        border-top: 2px dashed #006838;
+        margin: 30px 0;
+        opacity: 0.4;
+    }
+
+
+    /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 2px solid #e8edf0;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 6px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-success {
+        background: #006838;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background: #004d28;
+            color: white;
+        }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            color: white;
+        }
+
+
+    /* =========================================================
+           SIGNATURE
+           ========================================================= */
+
+    .signature-wrapper {
+        width: 100%;
+        height: 180px;
+        border: 2px solid #dce3e8;
+        border-radius: 8px;
+        background: #ffffff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .signature-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: crosshair;
+        touch-action: none;
+        background: #ffffff;
+    }
+
+    .signature-wrapper:focus-within {
+        border-color: #006838;
+        box-shadow: 0 0 0 3px rgba(0,104,56,0.15);
+    }
+
+    .signature-actions {
+        margin-top: 8px;
+    }
+
+        .signature-actions .btn {
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+
+    /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+    @@media (max-width: 768px) {
+
+        .employee-container {
+            padding: 10px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+<div class="employee-container">
+
+
+    <!-- ===================================================== -->
+    <!-- PAGE HEADER -->
+    <!-- ===================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+            <i class="fas fa-user-edit me-2"></i>
+            Edit My Details
+        </h2>
+
+        <p>
+            <strong>Department of Correctional Services</strong>
+        </p>
+
+        <p>
+            Update your employee information below.
+        </p>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FORM -->
+    <!-- ===================================================== -->
+
+    <div class="form-container">
+
+        <form asp-controller="Employee"
+              asp-action="Edit"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+
+            <!-- Employee ID -->
+            <input type="hidden"
+                   asp-for="Id" />
+
+
+            <!-- ================================================= -->
+            <!-- VALIDATION -->
+            <!-- ================================================= -->
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- 1. PERSONAL INFORMATION -->
+            <!-- ================================================= -->
+
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h4>Personal Information</h4>
+            </div>
+
+            <div class="row">
+
+                <!-- PERSAL NUMBER -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label>Persal Number</label>
+
+                        <input type="text"
+                               value="@Model?.PersalNumber"
+                               class="form-control readonly-field"
+                               readonly />
+
+                        <small class="readonly-note">
+                            <i class="fas fa-lock me-1"></i>
+                            Persal Number cannot be changed.
+                        </small>
+
+                    </div>
+                </div>
+
+                <!-- FIRST NAME -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="FirstName">
+                            First Name
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="FirstName"
+                               name="FirstName"
+                               value="@Model?.FirstName"
+                               class="form-control" />
+
+                        <span asp-validation-for="FirstName"
+                              class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <!-- LAST NAME -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="LastName">
+                            Last Name
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="LastName"
+                               name="LastName"
+                               value="@Model?.LastName"
+                               class="form-control" />
+
+                        <span asp-validation-for="LastName"
+                              class="text-danger"></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- INITIALS -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="Initials">
+                            Initials
+                        </label>
+
+                        <input type="text"
+                               id="Initials"
+                               name="Initials"
+                               value="@Model?.Initials"
+                               class="form-control" />
+
+                    </div>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="Email">
+                            Email
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="email"
+                               id="Email"
+                               name="Email"
+                               value="@Model?.Email"
+                               class="form-control" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <!-- ID NUMBER -->
+                <div class="col-md-4">
+                    <label for="IdentificationNumber" class="form-label">
+                        <i class="fas fa-id-card me-1"></i> ID Number
+                    </label>
+
+                    <input type="text"
+                           id="IdentificationNumber"
+                           name="IdentificationNumber"
+                           value="@Model?.IdentificationNumber"
+                           class="form-control"
+                           readonly />
+
+                    <small class="text-muted">
+                        ID Number cannot be changed.
+                    </small>
+                </div>
+
+
+            <!-- ================================================= -->
+            <!-- 2. WORK INFORMATION -->
+            <!-- ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    2
+                </span>
+
+                <h4>
+                    Work Information
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+
+                <!-- DEPARTMENT -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="Department">
+                            Department
+                        </label>
+
+                        <input asp-for="Department"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- POSITION -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="Position">
+
+                            Position
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input asp-for="Position"
+                               class="form-control" />
+
+                        <span asp-validation-for="Position"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALARY LEVEL -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="SalaryLevel">
+                            Salary Level
+                        </label>
+
+                        <select asp-for="SalaryLevel" class="form-control">
+
+                            <option value="">-- Select Level --</option>
+
+                            <option value="Production (Level 2-7)"
+                                    selected="@(Model.SalaryLevel == "Production (Level 2-7)" ? "selected" : null)">
+                                Production (Level 2-7)
+                            </option>
+
+                            <option value="Supervisor / Junior Management (Level 8-10)"
+                                    selected="@(Model.SalaryLevel == "Supervisor / Junior Management (Level 8-10)" ? "selected" : null)">
+                                Supervisor / Junior Management (Level 8-10)
+                            </option>
+
+                            <option value="Middle Management / Chief (Level 11-12)"
+                                    selected="@(Model.SalaryLevel == "Middle Management / Chief (Level 11-12)" ? "selected" : null)">
+                                Middle Management / Chief (Level 11-12)
+                            </option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <!-- POST DESIGNATION -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="PostDesignation">
+                            Post Designation
+                        </label>
+
+                        <input asp-for="PostDesignation"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- POST LEVEL -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="PostLevel">
+                            Post Level
+                        </label>
+
+                        <select asp-for="PostLevel" class="form-control">
+
+                            <option value="">-- Select Post Level --</option>
+
+                            @for (int level = 1; level <= 16; level++)
+                            {
+                                var value = $"level {level}";
+
+                                <option value="@value"
+                                        selected="@(Model.PostLevel == value ? "selected" : null)">
+                                    @value
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="PostLevel"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+                </div>
+
+
+                <!-- APPOINTMENT CURRENT RANK -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="AppointmentDateInCurrentRank">
+
+                            Appointment / Promotion Date
+
+                        </label>
+
+                        <input asp-for="AppointmentDateInCurrentRank"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+
+                <!-- APPOINTMENT IN DCS -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="AppointmentInDcsDate">
+
+                            Appointment Date in DCS
+
+                        </label>
+
+                        <input asp-for="AppointmentInDcsDate"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPERVISOR SURNAME -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="SupervisorSurnameInitials">
+
+                            Supervisor Surname and Initials
+
+                        </label>
+
+                        <input asp-for="SupervisorSurnameInitials"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPERVISOR RANK -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label asp-for="SupervisorRankPostLevel">
+
+                            Supervisor Rank / Post Level
+
+                        </label>
+
+                        <input asp-for="SupervisorRankPostLevel"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- 3. STATION INFORMATION -->
+            <!-- ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    3
+                </span>
+
+                <h4>
+                    Station Information
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- RELATED OSD DESCRIPTION -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="OSDDescription">
+                            Related OSD Description
+                        </label>
+
+                        <select id="OSDDescription"
+                                name="OSDDescription"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select OSD Description --
+                            </option>
+
+                            @if (Model?.OSDDescription == "Non Center Based")
+                            {
+                                <option value="Non Center Based" selected>
+                                    Non Center Based
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="Non Center Based">
+                                    Non Center Based
+                                </option>
+                            }
+
+                            @if (Model?.OSDDescription == "Center Based")
+                            {
+                                <option value="Center Based" selected>
+                                    Center Based
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="Center Based">
+                                    Center Based
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <!-- CENTRE / BRANCH -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="BranchOrRegion">
+                            Centre / Branch
+                        </label>
+
+                        <select id="BranchOrRegion"
+                                name="BranchOrRegion"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select Centre --
+                            </option>
+
+                            @if (ViewBag.Centers != null)
+                            {
+                                foreach (var centre in ViewBag.Centers)
+                                {
+                                    if (Model?.BranchOrRegion == centre)
+                                    {
+                                        <option value="@centre" selected>
+                                            @centre
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@centre">
+                                            @centre
+                                        </option>
+                                    }
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <!-- PREVIOUS STATION -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="PreviousStation">
+                            Previous Station
+                        </label>
+
+                        <select id="PreviousStation"
+                                name="PreviousStation"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select Previous Station --
+                            </option>
+
+                            @if (Model?.PreviousStation == "N/A")
+                            {
+                                <option value="N/A" selected>
+                                    N/A
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="N/A">
+                                    N/A
+                                </option>
+                            }
+
+                            @if (ViewBag.Centers != null)
+                            {
+                                foreach (var centre in ViewBag.Centers)
+                                {
+                                    if (Model?.PreviousStation == centre)
+                                    {
+                                        <option value="@centre" selected>
+                                            @centre
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@centre">
+                                            @centre
+                                        </option>
+                                    }
+                                }
+                            }
+
+                            @if (Model?.PreviousStation == "Other")
+                            {
+                                <option value="Other" selected>
+                                    Other
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="Other">
+                                    Other
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- OTHER PREVIOUS STATION -->
+                <div class="col-md-4"
+                     id="otherPreviousStationContainer">
+
+                    <div class="form-group">
+
+                        <label asp-for="OtherPreviousStation">
+                            Specify Previous Station
+                        </label>
+
+                        <input type="text"
+                               id="OtherPreviousStation"
+                               name="OtherPreviousStation"
+                               value="@Model?.OtherPreviousStation"
+                               class="form-control"
+                               placeholder="Enter previous station" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSFER DATE -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="TransferDate">
+                            Date of Transfer
+                        </label>
+
+                        <input type="date"
+                               id="TransferDate"
+                               name="TransferDate"
+                               value="@(Model?.TransferDate?.ToString("yyyy-MM-dd"))"
+                               class="form-control" />
+
+                    </div>
+                </div>
+
+
+                <!-- PREVIOUS CYCLE PERFORMANCE -->
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        <label asp-for="PreviousCyclePerformance">
+                            Previous Cycle Performance
+                        </label>
+
+                        <div class="input-group">
+
+                            <input type="number"
+                                   id="PreviousCyclePerformance"
+                                   name="PreviousCyclePerformance"
+                                   value="@Model?.PreviousCyclePerformance"
+                                   class="form-control"
+                                   min="0"
+                                   max="100"
+                                   step="0.01" />
+
+                            <span class="input-group-text">
+                                %
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- 4. DEMOGRAPHICS -->
+            <!-- ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    4
+                </span>
+
+                <h4>
+                    Demographics
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+                <!-- GENDER -->
+                <div class="col-md-3">
+                    <div class="form-group">
+
+                        <label asp-for="Gender">
+                            Gender
+                        </label>
+
+                        <select asp-for="Gender" class="form-control">
+
+                            <option value="">-- Select --</option>
+
+                            <option value="Male"
+                                    selected="@(Model.Gender == "Male" ? "selected" : null)">
+                                Male
+                            </option>
+
+                            <option value="Female"
+                                    selected="@(Model.Gender == "Female" ? "selected" : null)">
+                                Female
+                            </option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <!-- AGE GROUP -->
+                <div class="col-md-3">
+                    <div class="form-group">
+
+                        <label asp-for="AgeGroup">
+                            Age Group
+                        </label>
+
+                        <select asp-for="AgeGroup" class="form-control">
+
+                            <option value="">-- Select --</option>
+
+                            <option value="Below 35"
+                                    selected="@(Model.AgeGroup == "Below 35" ? "selected" : null)">
+                                Below 35
+                            </option>
+
+                            <option value="35 – 55"
+                                    selected="@(Model.AgeGroup == "35 – 55" ? "selected" : null)">
+                                35 – 55
+                            </option>
+
+                            <option value="Above 55"
+                                    selected="@(Model.AgeGroup == "Above 55" ? "selected" : null)">
+                                Above 55
+                            </option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <!-- RACE -->
+                <div class="col-md-3">
+                    <div class="form-group">
+
+                        <label asp-for="Race">
+                            Race
+                        </label>
+
+                        <select asp-for="Race" class="form-control">
+
+                            <option value="">-- Select --</option>
+
+                            <option value="African"
+                                    selected="@(Model.Race == "African" ? "selected" : null)">
+                                African
+                            </option>
+
+                            <option value="Coloured"
+                                    selected="@(Model.Race == "Coloured" ? "selected" : null)">
+                                Coloured
+                            </option>
+
+                            <option value="Indian"
+                                    selected="@(Model.Race == "Indian" ? "selected" : null)">
+                                Indian
+                            </option>
+
+                            <option value="White"
+                                    selected="@(Model.Race == "White" ? "selected" : null)">
+                                White
+                            </option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <!-- DISABILITY -->
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <label asp-for="HasDisability">
+                            Disability
+                        </label>
+
+                        <select asp-for="HasDisability"
+                                id="HasDisability"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select --
+                            </option>
+
+                            <option value="true">
+                                Yes
+                            </option>
+
+                            <option value="false">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- NATURE OF DISABILITY -->
+            <!-- ================================================= -->
+
+            <div class="row"
+                 id="natureOfDisabilityContainer">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label asp-for="NatureOfDisability">
+
+                            Nature of Disability
+
+                        </label>
+
+                        <select asp-for="NatureOfDisability"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select Disability --
+                            </option>
+
+                            <option value="Visual Impairment">
+                                Visual Impairment
+                            </option>
+
+                            <option value="Hearing Impairment">
+                                Hearing Impairment
+                            </option>
+
+                            <option value="Speech Impairment">
+                                Speech Impairment
+                            </option>
+
+                            <option value="Physical Disability">
+                                Physical Disability
+                            </option>
+
+                            <option value="Intellectual Disability">
+                                Intellectual Disability
+                            </option>
+
+                            <option value="Psychosocial Disability">
+                                Psychosocial Disability
+                            </option>
+
+                            <option value="Chronic Medical Condition">
+                                Chronic Medical Condition
+                            </option>
+
+                            <option value="Multiple Disabilities">
+                                Multiple Disabilities
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="divider" />
+
+
+            <!-- ================================================= -->
+            <!-- 5. DECLARATION -->
+            <!-- ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">
+                    5
+                </span>
+
+                <h4>
+                    Declaration
+                </h4>
+
+            </div>
+
+
+            <div class="row">
+
+
+                <!-- EMPLOYEE SIGNATURE -->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee Signature
+                        </label>
+
+                        <div class="signature-wrapper">
+
+                            <canvas id="employeeSignaturePad"
+                                    class="signature-canvas">
+                            </canvas>
+
+                        </div>
+
+
+                        <input type="hidden"
+                               id="EmployeeSignature"
+                               name="EmployeeSignature"
+                               value="@Model?.EmployeeSignature" />
+
+
+                        <div class="signature-actions">
+
+                            <button type="button"
+                                    id="clearEmployeeSignature"
+                                    class="btn btn-secondary btn-sm">
+
+                                <i class="fas fa-eraser"></i>
+
+                                Clear Signature
+
+                            </button>
+
+                        </div>
+
+
+                        <small class="text-muted">
+
+                            Draw your signature above if you want
+                            to update your existing signature.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SIGNATURE DATE -->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label asp-for="SignatureDate">
+
+                            Signature Date
+
+                        </label>
+
+                        <input asp-for="SignatureDate"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- DECLARATION DATE -->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label asp-for="DeclarationDate">
+
+                            Declaration Date
+
+                        </label>
+
+                        <input asp-for="DeclarationDate"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- ACTION BUTTONS -->
+            <!-- ================================================= -->
+
+            <div class="form-actions">
+
+                <a asp-controller="PMDS"
+                   asp-action="Cycles"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            // =====================================================
+            // DISABILITY
+            // =====================================================
+
+            const disabilitySelect =
+                document.getElementById("HasDisability");
+
+            const disabilityContainer =
+                document.getElementById(
+                    "natureOfDisabilityContainer"
+                );
+
+
+            function toggleDisability() {
+
+                if (!disabilitySelect ||
+                    !disabilityContainer) {
+
+                    return;
+                }
+
+
+                if (disabilitySelect.value === "true") {
+
+                    disabilityContainer.style.display =
+                        "block";
+
+                }
+                else {
+
+                    disabilityContainer.style.display =
+                        "none";
+
+                }
+
+            }
+
+
+            if (disabilitySelect) {
+
+                disabilitySelect.addEventListener(
+                    "change",
+                    toggleDisability
+                );
+
+
+                // IMPORTANT:
+                // This loads the existing database value
+                // when the Edit page opens.
+
+                toggleDisability();
+
+            }
+
+
+            // =====================================================
+            // PREVIOUS STATION
+            // =====================================================
+
+            const previousStation =
+                document.getElementById(
+                    "PreviousStation"
+                );
+
+
+            const otherContainer =
+                document.getElementById(
+                    "otherPreviousStationContainer"
+                );
+
+
+            function toggleOtherPreviousStation() {
+
+                if (!previousStation ||
+                    !otherContainer) {
+
+                    return;
+                }
+
+
+                if (previousStation.value === "Other") {
+
+                    otherContainer.style.display =
+                        "block";
+
+                }
+                else {
+
+                    otherContainer.style.display =
+                        "none";
+
+                }
+
+            }
+
+
+            if (previousStation) {
+
+                previousStation.addEventListener(
+                    "change",
+                    toggleOtherPreviousStation
+                );
+
+
+                // Run when page loads
+                toggleOtherPreviousStation();
+
+            }
+
+
+            // =====================================================
+            // NUMERIC ID NUMBER
+            // =====================================================
+
+            const idInput =
+                document.getElementById(
+                    "IdentificationNumber"
+                );
+
+
+            if (idInput) {
+
+                idInput.addEventListener(
+                    "input",
+                    function () {
+
+                        this.value =
+                            this.value.replace(
+                                /[^0-9]/g,
+                                ""
+                            );
+
+                    }
+                );
+
+            }
+
+
+            // =====================================================
+            // EMPLOYEE SIGNATURE
+            // =====================================================
+
+            const canvas =
+                document.getElementById(
+                    "employeeSignaturePad"
+                );
+
+
+            const signatureInput =
+                document.getElementById(
+                    "EmployeeSignature"
+                );
+
+
+            const clearButton =
+                document.getElementById(
+                    "clearEmployeeSignature"
+                );
+
+
+            if (!canvas || !signatureInput) {
+
+                return;
+
+            }
+
+
+            const ctx =
+                canvas.getContext("2d");
+
+
+            let drawing = false;
+
+
+            // =====================================================
+            // RESIZE CANVAS
+            // =====================================================
+
+            function resizeCanvas() {
+
+                const rect =
+                    canvas.getBoundingClientRect();
+
+
+                const existingSignature =
+                    signatureInput.value;
+
+
+                canvas.width =
+                    rect.width *
+                    window.devicePixelRatio;
+
+
+                canvas.height =
+                    rect.height *
+                    window.devicePixelRatio;
+
+
+                ctx.scale(
+                    window.devicePixelRatio,
+                    window.devicePixelRatio
+                );
+
+
+                ctx.lineWidth = 2.5;
+
+                ctx.lineCap = "round";
+
+                ctx.lineJoin = "round";
+
+                ctx.strokeStyle = "#000000";
+
+
+                // Restore existing signature
+
+                if (existingSignature) {
+
+                    const image =
+                        new Image();
+
+
+                    image.onload =
+                        function () {
+
+                            ctx.drawImage(
+                                image,
+                                0,
+                                0,
+                                rect.width,
+                                rect.height
+                            );
+
+                        };
+
+
+                    image.src =
+                        existingSignature;
+
+                }
+
+            }
+
+
+            resizeCanvas();
+
+
+            window.addEventListener(
+                "resize",
+                resizeCanvas
+            );
+
+
+            // =====================================================
+            // GET MOUSE / TOUCH POSITION
+            // =====================================================
+
+            function getPosition(event) {
+
+                const rect =
+                    canvas.getBoundingClientRect();
+
+
+                let clientX;
+
+                let clientY;
+
+
+                if (event.touches &&
+                    event.touches.length > 0) {
+
+                    clientX =
+                        event.touches[0].clientX;
+
+                    clientY =
+                        event.touches[0].clientY;
+
+                }
+                else {
+
+                    clientX =
+                        event.clientX;
+
+                    clientY =
+                        event.clientY;
+
+                }
+
+
+                return {
+
+                    x: clientX - rect.left,
+
+                    y: clientY - rect.top
+
+                };
+
+            }
+
+
+            // =====================================================
+            // START DRAWING
+            // =====================================================
+
+            function startDrawing(event) {
+
+                event.preventDefault();
+
+                drawing = true;
+
+
+                const position =
+                    getPosition(event);
+
+
+                ctx.beginPath();
+
+
+                ctx.moveTo(
+                    position.x,
+                    position.y
+                );
+
+            }
+
+
+            // =====================================================
+            // DRAW
+            // =====================================================
+
+            function draw(event) {
+
+                if (!drawing) {
+
+                    return;
+
+                }
+
+
+                event.preventDefault();
+
+
+                const position =
+                    getPosition(event);
+
+
+                ctx.lineTo(
+                    position.x,
+                    position.y
+                );
+
+
+                ctx.stroke();
+
+            }
+
+
+            // =====================================================
+            // STOP DRAWING
+            // =====================================================
+
+            function stopDrawing(event) {
+
+                if (!drawing) {
+
+                    return;
+
+                }
+
+
+                event.preventDefault();
+
+
+                drawing = false;
+
+
+                ctx.closePath();
+
+
+                // Save signature
+
+                signatureInput.value =
+                    canvas.toDataURL("image/png");
+
+            }
+
+
+            // =====================================================
+            // MOUSE EVENTS
+            // =====================================================
+
+            canvas.addEventListener(
+                "mousedown",
+                startDrawing
+            );
+
+
+            canvas.addEventListener(
+                "mousemove",
+                draw
+            );
+
+
+            canvas.addEventListener(
+                "mouseup",
+                stopDrawing
+            );
+
+
+            canvas.addEventListener(
+                "mouseleave",
+                stopDrawing
+            );
+
+
+            // =====================================================
+            // TOUCH EVENTS
+            // =====================================================
+
+            canvas.addEventListener(
+                "touchstart",
+                startDrawing,
+                {
+                    passive: false
+                }
+            );
+
+
+            canvas.addEventListener(
+                "touchmove",
+                draw,
+                {
+                    passive: false
+                }
+            );
+
+
+            canvas.addEventListener(
+                "touchend",
+                stopDrawing,
+                {
+                    passive: false
+                }
+            );
+
+
+            // =====================================================
+            // CLEAR SIGNATURE
+            // =====================================================
+
+            if (clearButton) {
+
+                clearButton.addEventListener(
+                    "click",
+                    function () {
+
+                        ctx.clearRect(
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                        );
+
+
+                        signatureInput.value = "";
+
+                    }
+                );
+
+            }
+
+        });
+
+    </script>
+
+}

@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Data;
 using PMDSSystems.Models;
 using PMDSSystems.Services;
+using System.Security.Claims;
 
 namespace PMDSSystems.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class EmployeeController : Controller
+    [Authorize]
+public class EmployeeController : Controller
     {
 
         private readonly ApplicationDbContext _context;
@@ -253,6 +254,11 @@ namespace PMDSSystems.Controllers
 
                 Console.WriteLine("EMPLOYEE ROLE ASSIGNED");
 
+                // ============================================================
+                // EDIT EMPLOYEE - GET
+                // ============================================================
+
+        
                 // =====================================================
                 // LINK EMPLOYEE TO IDENTITY USER
                 // =====================================================
@@ -620,8 +626,265 @@ namespace PMDSSystems.Controllers
                 + $"{employee.FirstName} "
                 + $"{employee.LastName}");
         }
+        // ============================================================
+        // EDIT EMPLOYEE - GET
+        // ============================================================
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            // Get the currently logged-in Identity user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Challenge();
+            }
+
+            // ========================================================
+            // LOAD EMPLOYEE
+            // ========================================================
+
+            var employee = await _context.Employees
+                .Include(e => e.Supervisor)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (employee == null)
+            {
+                return NotFound("Employee record was not found.");
+            }
+
+            // ========================================================
+            // SECURITY
+            // ========================================================
+
+            // Employees may only edit their own employee record.
+            if (User.IsInRole("Employee") &&
+                employee.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            LoadSupervisors();
+
+            // ========================================================
+            // DEBUG INFORMATION
+            // ========================================================
+            // Temporarily leave these in while testing.
+            // We can remove them once the data displays correctly.
+
+            Console.WriteLine("==========================================");
+            Console.WriteLine("EDIT EMPLOYEE GET");
+            Console.WriteLine($"Employee ID: {employee.Id}");
+            Console.WriteLine($"Persal Number: {employee.PersalNumber}");
+            Console.WriteLine($"User ID: {employee.UserId}");
+            Console.WriteLine($"Logged-in User ID: {userId}");
+            Console.WriteLine($"First Name: {employee.FirstName}");
+            Console.WriteLine($"Last Name: {employee.LastName}");
+            Console.WriteLine($"Email: {employee.Email}");
+            Console.WriteLine($"Department: {employee.Department}");
+            Console.WriteLine($"Position: {employee.Position}");
+            Console.WriteLine($"Salary Level: {employee.SalaryLevel}");
+            Console.WriteLine($"Post Designation: {employee.PostDesignation}");
+            Console.WriteLine($"Post Level: {employee.PostLevel}");
+            Console.WriteLine($"Branch/Region: {employee.BranchOrRegion}");
+            Console.WriteLine($"Gender: {employee.Gender}");
+            Console.WriteLine($"Age Group: {employee.AgeGroup}");
+            Console.WriteLine($"Race: {employee.Race}");
+            Console.WriteLine($"Has Disability: {employee.HasDisability}");
+            Console.WriteLine($"Nature Disability: {employee.NatureOfDisability}");
+            Console.WriteLine($"Previous Performance: {employee.PreviousCyclePerformance}");
+            Console.WriteLine("==========================================");
+
+            return View(employee);
+        }
+
+        // ============================================================
+        // EDIT EMPLOYEE - POST
+        // ============================================================
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Employee employee)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Challenge();
+            }
+
+            // ========================================================
+            // LOAD ORIGINAL DATABASE RECORD
+            // ========================================================
+
+            var existingEmployee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (existingEmployee == null)
+            {
+                return NotFound("Employee record was not found.");
+            }
+
+            // ========================================================
+            // SECURITY
+            // ========================================================
+
+            if (User.IsInRole("Employee") &&
+                existingEmployee.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            // ========================================================
+            // VALIDATION
+            // ========================================================
+
+            if (!ModelState.IsValid)
+            {
+                var centers = await _context.Employees
+                    .Where(e => !string.IsNullOrWhiteSpace(e.BranchOrRegion))
+                    .Select(e => e.BranchOrRegion!)
+                    .Distinct()
+                    .OrderBy(e => e)
+                    .ToListAsync();
+
+                if (!string.IsNullOrWhiteSpace(employee.BranchOrRegion) &&
+                    !centers.Contains(employee.BranchOrRegion))
+                {
+                    centers.Add(employee.BranchOrRegion);
+                    centers = centers.OrderBy(x => x).ToList();
+                }
+
+                ViewBag.Centers = centers;
+
+                return View(employee);
+            }
+
+            // ========================================================
+            // DO NOT UPDATE THESE:
+            //
+            // Id
+            // PersalNumber
+            // UserId
+            // SupervisorId
+            // MustChangePassword
+            // ========================================================
 
 
+            // ========================================================
+            // PERSONAL INFORMATION
+            // ========================================================
+
+            existingEmployee.FirstName = employee.FirstName;
+            existingEmployee.LastName = employee.LastName;
+            existingEmployee.Initials = employee.Initials;
+            existingEmployee.Email = employee.Email;
+            existingEmployee.IdentificationNumber = employee.IdentificationNumber;
+
+
+            // ========================================================
+            // WORK INFORMATION
+            // ========================================================
+
+            existingEmployee.Department = employee.Department;
+            existingEmployee.Position = employee.Position;
+            existingEmployee.SalaryLevel = employee.SalaryLevel;
+            existingEmployee.PostDesignation = employee.PostDesignation;
+            existingEmployee.PostLevel = employee.PostLevel;
+
+            existingEmployee.AppointmentDateInCurrentRank =
+                employee.AppointmentDateInCurrentRank;
+
+            existingEmployee.AppointmentInDcsDate =
+                employee.AppointmentInDcsDate;
+
+
+            // ========================================================
+            // SUPERVISOR INFORMATION
+            // ========================================================
+
+            existingEmployee.SupervisorSurnameInitials =
+                employee.SupervisorSurnameInitials;
+
+            existingEmployee.SupervisorRankPostLevel =
+                employee.SupervisorRankPostLevel;
+
+
+            // ========================================================
+            // STATION INFORMATION
+            // ========================================================
+
+            existingEmployee.OSDDescription =
+                employee.OSDDescription;
+
+            existingEmployee.BranchOrRegion =
+                employee.BranchOrRegion;
+
+            existingEmployee.PreviousStation =
+                employee.PreviousStation;
+
+            existingEmployee.OtherPreviousStation =
+                employee.OtherPreviousStation;
+
+            existingEmployee.TransferDate =
+                employee.TransferDate;
+
+
+            // ========================================================
+            // DEMOGRAPHICS
+            // ========================================================
+
+            existingEmployee.Gender =
+                employee.Gender;
+
+            existingEmployee.AgeGroup =
+                employee.AgeGroup;
+
+            existingEmployee.Race =
+                employee.Race;
+
+            existingEmployee.HasDisability =
+                employee.HasDisability;
+
+            existingEmployee.NatureOfDisability =
+                employee.NatureOfDisability;
+
+
+            // ========================================================
+            // PREVIOUS CYCLE PERFORMANCE
+            // ========================================================
+
+            existingEmployee.PreviousCyclePerformance =
+                employee.PreviousCyclePerformance;
+
+
+            // ========================================================
+            // DECLARATION
+            // ========================================================
+
+            existingEmployee.EmployeeSignature =
+                employee.EmployeeSignature;
+
+            existingEmployee.SignatureDate =
+                employee.SignatureDate;
+
+            existingEmployee.DeclarationDate =
+                employee.DeclarationDate;
+
+
+            // ========================================================
+            // SAVE
+            // ========================================================
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] =
+                "Your employee details have been updated successfully.";
+
+            return RedirectToAction("Cycles", "PMDS");
+        }
         //========================================================
         // LOAD SUPERVISORS AND CENTERS
         //========================================================

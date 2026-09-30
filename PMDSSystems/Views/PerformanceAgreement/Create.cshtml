@@ -635,10 +635,26 @@
                         </label>
                         <select name="SalaryLevel" id="salaryLevel" class="form-select form-select-custom" required>
                             <option value="">-- Select Salary Level --</option>
-                            <option value="Production (Level 2-7)">Production (Level 2-7)</option>
-                            <option value="Supervisor / Junior Management (Level 8-10)">Supervisor / Junior Management (Level 8-10)</option>
-                            <option value="Middle Management / Chief (Level 11-12)">Middle Management / Chief (Level 11-12)</option>
-                            <option value="Senior Management (Level 13-16)">Senior Management (Level 13-16)</option>
+
+                            <option value="Production (Level 2-4)">
+                                Production (Level 2-4)
+                            </option>
+
+                            <option value="Production (Level 5-7)">
+                                Production (Level 5-7)
+                            </option>
+
+                            <option value="Supervisor / Junior Management (Level 8-10)">
+                                Supervisor / Junior Management (Level 8-10)
+                            </option>
+
+                            <option value="Middle Management / Chief (Level 11-12)">
+                                Middle Management / Chief (Level 11-12)
+                            </option>
+
+                            <option value="Senior Management (Level 13-16)">
+                                Senior Management (Level 13-16)
+                            </option>
                         </select>
                         <div id="salaryInfo" class="salary-info">
                             <i class="fas fa-info-circle me-1"></i>
@@ -647,11 +663,20 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label-custom">Number of KRAs</label>
-                        <input type="number" name="NumberOfKRAs" id="numberOfKRAs" class="form-control form-control-custom" value="4" min="4" max="6" readonly />
+
+                        <input type="number"
+                               name="NumberOfKRAs"
+                               id="numberOfKRAs"
+                               class="form-control form-control-custom"
+                               value="4"
+                               min="4"
+                               max="6"
+                               readonly />
+
                         <small class="text-muted-small">
                             <i class="fas fa-info-circle me-1"></i>
-                            Levels 2–7 require exactly 4 KRAs.
-                            Levels 8–16 may have up to 6 KRAs.
+                            Salary Levels 2–4 require exactly 4 KRAs.
+                            Salary Levels 8–16 may have a maximum of 6 KRAs.
                         </small>
                     </div>
                 </div>
@@ -966,467 +991,1464 @@
     <!-- JAVASCRIPT -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // ELEMENTS
+            // ============================================================
+
             const form = document.getElementById("agreementForm");
             const tableBody = document.getElementById("kraTableBody");
             const addBtn = document.getElementById("addKraBtn");
             const salaryLevel = document.getElementById("salaryLevel");
             const numberOfKRAs = document.getElementById("numberOfKRAs");
+
             const totalDisplay = document.getElementById("totalWeightDisplay");
             const weightStatus = document.getElementById("weightStatus");
+
             const salaryInfo = document.getElementById("salaryInfo");
             const salaryInfoText = document.getElementById("salaryInfoText");
             const kraLimitMessage = document.getElementById("kraLimitMessage");
 
-            /* COMPULSORY GAFs */
-            const mandatoryGafs = ["Job Knowledge", "Acceptance of Responsibility"];
 
-            /* ============================================================
-               OPEN / CLOSE DROPDOWN
-            ============================================================ */
-            document.addEventListener("click", function (event) {
-                const button = event.target.closest(".multi-select-button");
-                if (button) {
-                    const container = button.closest(".multi-select-container");
-                    const menu = container.querySelector(".multi-select-menu");
-                    document.querySelectorAll(".multi-select-menu.show").forEach(function (openMenu) {
-                        if (openMenu !== menu) {
-                            openMenu.classList.remove("show");
-                            const openButton = openMenu.closest(".multi-select-container").querySelector(".multi-select-button");
-                            if (openButton) openButton.classList.remove("active");
-                        }
-                    });
-                    menu.classList.toggle("show");
-                    button.classList.toggle("active", menu.classList.contains("show"));
-                    return;
-                }
-                if (event.target.closest(".multi-select-menu")) return;
-                document.querySelectorAll(".multi-select-menu.show").forEach(function (menu) {
-                    menu.classList.remove("show");
-                    const button = menu.closest(".multi-select-container").querySelector(".multi-select-button");
-                    if (button) button.classList.remove("active");
-                });
-            });
+            // ============================================================
+            // MANDATORY GAFs
+            // ============================================================
 
-            /* ============================================================
-               UPDATE BATHO PELE DISPLAY
-            ============================================================ */
-            function updateBathoPele(row) {
-                const checkboxes = row.querySelectorAll(".batho-checkbox:checked");
-                const selected = Array.from(checkboxes).map(cb => cb.value);
-                const hidden = row.querySelector(".batho-hidden");
-                const buttonText = row.querySelector(".batho-button .selected-text");
-                hidden.value = selected.join(", ");
-                buttonText.textContent = selected.length === 0 ? "Select Batho Pele" : selected.join(", ");
-            }
+            const mandatoryGafs = [
+                "Job Knowledge",
+                "Acceptance of Responsibility"
+            ];
 
-            /* ============================================================
-               UPDATE GAF DISPLAY
-            ============================================================ */
-            function updateGafs(row) {
-                mandatoryGafs.forEach(function (mandatoryGaf) {
-                    const checkbox = Array.from(row.querySelectorAll(".gaf-checkbox")).find(item => item.value === mandatoryGaf);
-                    if (checkbox) checkbox.checked = true;
-                });
-                const checkboxes = row.querySelectorAll(".gaf-checkbox:checked");
-                const selected = Array.from(checkboxes).map(cb => cb.value);
-                const hidden = row.querySelector(".gaf-hidden");
-                const buttonText = row.querySelector(".gaf-button .selected-text");
-                hidden.value = selected.join(", ");
-                buttonText.textContent = selected.length === 0 ? "Select GAFs" : selected.join(", ");
-            }
 
-            /* ============================================================
-               CHECKBOX CHANGE
-            ============================================================ */
-            tableBody.addEventListener("change", function (event) {
-                const checkbox = event.target;
-                const row = checkbox.closest(".kra-row");
-                if (!row) return;
-                if (checkbox.classList.contains("batho-checkbox")) updateBathoPele(row);
-                if (checkbox.classList.contains("gaf-checkbox")) {
-                    if (checkbox.classList.contains("mandatory-gaf")) checkbox.checked = true;
-                    updateGafs(row);
-                }
-            });
-
-            /* ============================================================
-               PROTECT COMPULSORY GAFs
-            ============================================================ */
-            tableBody.addEventListener("click", function (event) {
-                const checkbox = event.target.closest(".mandatory-gaf");
-                if (!checkbox) return;
-                setTimeout(function () {
-                    checkbox.checked = true;
-                    const row = checkbox.closest(".kra-row");
-                    if (row) updateGafs(row);
-                }, 0);
-            });
-
-            /* ============================================================
-               GET MAX KRAs
-            ============================================================ */
-            function getMaxKras() {
-                const value = salaryLevel.value;
-                if (value === "Production (Level 2-7)") return 4;
-                if (value === "Supervisor / Junior Management (Level 8-10)") return 6;
-                if (value === "Middle Management / Chief (Level 11-12)") return 6;
-                if (value === "Senior Management (Level 13-16)") return 6;
-                return 0;
-            }
+            // ============================================================
+            // GET CURRENT KRA COUNT
+            // ============================================================
 
             function getKraCount() {
                 return tableBody.querySelectorAll(".kra-row").length;
             }
 
-            /* ============================================================
-               CREATE WEIGHT OPTIONS
-            ============================================================ */
-            function createWeightOptions() {
-                let html = `<option value="">-- Weight --</option>`;
-                for (let i = 10; i <= 30; i++) {
-                    html += `<option value="${i}">${i}%</option>`;
+
+            // ============================================================
+            // GET MAXIMUM KRA COUNT
+            // ============================================================
+
+            function getMaxKras() {
+
+                const value = salaryLevel.value;
+
+                // Levels 2-4 = exactly 4
+                if (value === "Production (Level 2-4)") {
+                    return 4;
                 }
-                return html;
+
+                // Levels 5-7
+                // Change this to 4 if you also want Levels 5-7
+                // to have exactly 4 KRAs.
+                if (value === "Production (Level 5-7)") {
+                    return 6;
+                }
+
+                // Levels 8-16 = maximum 6
+                if (value === "Supervisor / Junior Management (Level 8-10)") {
+                    return 6;
+                }
+
+                if (value === "Middle Management / Chief (Level 11-12)") {
+                    return 6;
+                }
+
+                if (value === "Senior Management (Level 13-16)") {
+                    return 6;
+                }
+
+                return 0;
             }
 
-            /* ============================================================
-               CREATE BATHO PELE DROPDOWN FOR NEW KRA
-            ============================================================ */
-            function createBathoPele(index) {
-                return `
-                    <div class="multi-select-container">
-                        <button type="button" class="multi-select-button batho-button">
-                            <span class="selected-text">Select Batho Pele</span>
-                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                        </button>
-                        <div class="multi-select-menu batho-menu">
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Consultation" /><span>Consultation</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Setting Service Standards" /><span>Setting Service Standards</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Increasing Access" /><span>Increasing Access</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Ensuring Courtesy" /><span>Ensuring Courtesy</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Providing Information" /><span>Providing Information</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Openness and Transparency" /><span>Openness and Transparency</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Redress" /><span>Redress</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="batho-checkbox" value="Value for Money" /><span>Value for Money</span></label>
-                        </div>
-                    </div>
-                    <input type="hidden" name="KRAs[${index}].BathoPele" class="batho-hidden" />
-                `;
-            }
 
-            /* ============================================================
-               CREATE GAF DROPDOWN FOR NEW KRA
-            ============================================================ */
-            function createGafs(index) {
-                return `
-                    <div class="multi-select-container">
-                        <button type="button" class="multi-select-button gaf-button">
-                            <span class="selected-text">Select GAFs</span>
-                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                        </button>
-                        <div class="multi-select-menu gaf-menu">
-                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Job Knowledge" checked /><span><i class="fas fa-lock me-1"></i>Job Knowledge</span></label>
-                            <label class="multi-select-option mandatory"><input type="checkbox" class="gaf-checkbox mandatory-gaf" value="Acceptance of Responsibility" checked /><span><i class="fas fa-lock me-1"></i>Acceptance of Responsibility</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Quality of Work" /><span>Quality of Work</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Technical Skills" /><span>Technical Skills</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Reliability" /><span>Reliability</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Initiative" /><span>Initiative</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Communication" /><span>Communication</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Interpersonal Relationships" /><span>Interpersonal Relationships</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Flexibility" /><span>Flexibility</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Team Work" /><span>Team Work</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Planning and Execution" /><span>Planning and Execution</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Financial Resources" /><span>Management of Financial Resources</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Management of Human Resources" /><span>Management of Human Resources</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Leadership" /><span>Leadership</span></label>
-                            <label class="multi-select-option"><input type="checkbox" class="gaf-checkbox" value="Delegation and Empowerment" /><span>Delegation and Empowerment</span></label>
-                        </div>
-                    </div>
-                    <input type="hidden" name="KRAs[${index}].GAFs" class="gaf-hidden" />
-                `;
-            }
+            // ============================================================
+            // UPDATE KRA NUMBERING AND NAMES
+            // ============================================================
 
-            /* ============================================================
-               CREATE KRA ROW
-            ============================================================ */
-            function createKraRow() {
-                const index = getKraCount();
-                const row = document.createElement("tr");
-                row.className = "kra-row";
-                row.innerHTML = `
-                    <td class="kra-number">${index + 1}</td>
-                    <td><input type="text" name="KRAs[${index}].Name" class="form-control form-control-custom" placeholder="Enter KRA name..." required /></td>
-                    <td>
-                        <select name="KRAs[${index}].Weight" class="form-select form-select-custom weight-field" required>
-                            ${createWeightOptions()}
-                        </select>
-                    </td>
-                    <td><textarea name="KRAs[${index}].Activities" class="form-control form-control-custom" rows="2" placeholder="Activities..." required></textarea></td>
-                    <td><textarea name="KRAs[${index}].Standards" class="form-control form-control-custom" rows="2" placeholder="Standards..." required></textarea></td>
-                    <td>${createBathoPele(index)}</td>
-                    <td>${createGafs(index)}</td>
-                    <td style="text-align:center;"><button type="button" class="btn-remove-kra remove-kra"><i class="fas fa-trash"></i></button></td>
-                `;
-                tableBody.appendChild(row);
-                updateKraIndexes();
-                updateRemoveButtons();
-                updateKraLimitButton();
-                calculateTotal();
-                updateGafs(row);
-            }
-
-            /* ============================================================
-               UPDATE KRA INDEXES
-            ============================================================ */
             function updateKraIndexes() {
+
                 const rows = tableBody.querySelectorAll(".kra-row");
+
                 rows.forEach(function (row, index) {
+
+                    // Number
                     const number = row.querySelector(".kra-number");
-                    if (number) number.textContent = index + 1;
+
+                    if (number) {
+                        number.textContent = index + 1;
+                    }
+
+                    // Update all names
                     const fields = row.querySelectorAll("[name]");
+
                     fields.forEach(function (field) {
+
                         let name = field.getAttribute("name");
-                        if (!name) return;
-                        name = name.replace(/KRAs\[\d+\]/g, "KRAs[" + index + "]");
+
+                        if (!name) {
+                            return;
+                        }
+
+                        name = name.replace(
+                            /KRAs\[\d+\]/g,
+                            "KRAs[" + index + "]"
+                        );
+
                         field.setAttribute("name", name);
                     });
                 });
             }
 
-            /* ============================================================
-               ADD KRA
-            ============================================================ */
-            addBtn.addEventListener("click", function () {
-                const maxKras = getMaxKras();
-                if (maxKras === 0) { alert("Please select a Salary Level first."); return; }
-                const currentCount = getKraCount();
-                if (currentCount >= maxKras) { alert("The selected Salary Level allows a maximum of " + maxKras + " KRAs."); return; }
-                createKraRow();
-            });
 
-            /* ============================================================
-               REMOVE KRA
-            ============================================================ */
-            tableBody.addEventListener("click", function (event) {
-                const button = event.target.closest(".remove-kra");
-                if (!button) return;
-                const maxKras = getMaxKras();
-                if (maxKras === 4) { alert("Salary Levels 2-7 must have exactly 4 KRAs."); return; }
-                const rows = tableBody.querySelectorAll(".kra-row");
-                if (rows.length <= 1) { alert("You must have at least one KRA."); return; }
-                if (!confirm("Are you sure you want to remove this KRA?")) return;
-                button.closest(".kra-row").remove();
-                updateKraIndexes();
-                updateNumberOfKras();
-                updateRemoveButtons();
-                updateKraLimitButton();
-                calculateTotal();
-            });
+            // ============================================================
+            // UPDATE NUMBER OF KRAs
+            // ============================================================
 
-            /* ============================================================
-               SALARY LEVEL CHANGE
-            ============================================================ */
-            salaryLevel.addEventListener("change", function () {
-                const maxKras = getMaxKras();
-                if (maxKras === 0) {
-                    salaryInfo.classList.remove("show");
-                    salaryInfoText.textContent = "";
-                    addBtn.disabled = true;
-                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Select Salary Level';
-                    kraLimitMessage.textContent = "Select a salary level to determine the KRA limit.";
-                    return;
-                }
-                if (maxKras === 4) {
-                    salaryInfo.classList.add("show");
-                    salaryInfoText.textContent = "Salary Levels 2-7 require exactly 4 KRAs.";
-                    while (getKraCount() > 4) tableBody.lastElementChild.remove();
-                    while (getKraCount() < 4) createKraRow();
-                }
-                if (maxKras === 6) {
-                    salaryInfo.classList.add("show");
-                    salaryInfoText.textContent = "This salary level allows up to 6 KRAs. You can add KRAs using the Add KRA button.";
-                    while (getKraCount() > 6) tableBody.lastElementChild.remove();
-                }
-                updateKraIndexes();
-                updateNumberOfKras();
-                updateRemoveButtons();
-                updateKraLimitButton();
-                calculateTotal();
-            });
+            function updateNumberOfKRAs() {
 
-            /* ============================================================
-               UPDATE NUMBER
-            ============================================================ */
-            function updateNumberOfKras() {
                 numberOfKRAs.value = getKraCount();
             }
 
-            /* ============================================================
-               UPDATE ADD BUTTON
-            ============================================================ */
-            function updateKraLimitButton() {
+
+            // ============================================================
+            // CREATE WEIGHT OPTIONS
+            // ============================================================
+
+            function createWeightOptions() {
+
+                let html = '<option value="">-- Weight --</option>';
+
+                for (let i = 10; i <= 30; i++) {
+
+                    html +=
+                        '<option value="' +
+                        i +
+                        '">' +
+                        i +
+                        '%</option>';
+                }
+
+                return html;
+            }
+
+
+            // ============================================================
+            // BATHO PELE OPTIONS
+            // ============================================================
+
+            function createBathoPele(index) {
+
+                return `
+                    <div class="multi-select-container">
+
+                        <button type="button"
+                                class="multi-select-button batho-button">
+
+                            <span class="selected-text">
+                                Select Batho Pele
+                            </span>
+
+                            <span class="dropdown-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+
+                        </button>
+
+                        <div class="multi-select-menu batho-menu">
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Consultation" />
+                                <span>Consultation</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Setting Service Standards" />
+                                <span>Setting Service Standards</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Increasing Access" />
+                                <span>Increasing Access</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Ensuring Courtesy" />
+                                <span>Ensuring Courtesy</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Providing Information" />
+                                <span>Providing Information</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Openness and Transparency" />
+                                <span>Openness and Transparency</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Redress" />
+                                <span>Redress</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="batho-checkbox"
+                                       value="Value for Money" />
+                                <span>Value for Money</span>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <input type="hidden"
+                           name="KRAs[${index}].BathoPele"
+                           class="batho-hidden" />
+                `;
+            }
+
+
+            // ============================================================
+            // GAF OPTIONS
+            // ============================================================
+
+            function createGafs(index) {
+
+                return `
+                    <div class="multi-select-container">
+
+                        <button type="button"
+                                class="multi-select-button gaf-button">
+
+                            <span class="selected-text">
+                                Select GAFs
+                            </span>
+
+                            <span class="dropdown-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+
+                        </button>
+
+                        <div class="multi-select-menu gaf-menu">
+
+                            <!-- MANDATORY -->
+
+                            <label class="multi-select-option mandatory">
+
+                                <input type="checkbox"
+                                       class="gaf-checkbox mandatory-gaf"
+                                       value="Job Knowledge"
+                                       checked />
+
+                                <span>
+                                    <i class="fas fa-lock me-1"></i>
+                                    Job Knowledge
+                                </span>
+
+                            </label>
+
+
+                            <label class="multi-select-option mandatory">
+
+                                <input type="checkbox"
+                                       class="gaf-checkbox mandatory-gaf"
+                                       value="Acceptance of Responsibility"
+                                       checked />
+
+                                <span>
+                                    <i class="fas fa-lock me-1"></i>
+                                    Acceptance of Responsibility
+                                </span>
+
+                            </label>
+
+
+                            <!-- OPTIONAL -->
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Quality of Work" />
+                                <span>Quality of Work</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Technical Skills" />
+                                <span>Technical Skills</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Reliability" />
+                                <span>Reliability</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Initiative" />
+                                <span>Initiative</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Communication" />
+                                <span>Communication</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Interpersonal Relationships" />
+                                <span>Interpersonal Relationships</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Flexibility" />
+                                <span>Flexibility</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Team Work" />
+                                <span>Team Work</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Planning and Execution" />
+                                <span>Planning and Execution</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Management of Financial Resources" />
+                                <span>Management of Financial Resources</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Management of Human Resources" />
+                                <span>Management of Human Resources</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Leadership" />
+                                <span>Leadership</span>
+                            </label>
+
+                            <label class="multi-select-option">
+                                <input type="checkbox"
+                                       class="gaf-checkbox"
+                                       value="Delegation and Empowerment" />
+                                <span>Delegation and Empowerment</span>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <input type="hidden"
+                           name="KRAs[${index}].GAFs"
+                           class="gaf-hidden" />
+                `;
+            }
+
+
+            // ============================================================
+            // UPDATE BATHO PELE
+            // ============================================================
+
+            function updateBathoPele(row) {
+
+                const checkboxes =
+                    row.querySelectorAll(".batho-checkbox:checked");
+
+                const selected =
+                    Array.from(checkboxes)
+                        .map(cb => cb.value);
+
+                const hidden =
+                    row.querySelector(".batho-hidden");
+
+                const buttonText =
+                    row.querySelector(".batho-button .selected-text");
+
+                if (hidden) {
+                    hidden.value = selected.join(", ");
+                }
+
+                if (buttonText) {
+
+                    buttonText.textContent =
+                        selected.length === 0
+                            ? "Select Batho Pele"
+                            : selected.join(", ");
+                }
+            }
+
+
+            // ============================================================
+            // UPDATE GAFs
+            // ============================================================
+
+            function updateGafs(row) {
+
+                // Always force mandatory GAFs to remain selected
+                mandatoryGafs.forEach(function (mandatoryGaf) {
+
+                    const checkbox =
+                        Array.from(
+                            row.querySelectorAll(".gaf-checkbox")
+                        ).find(
+                            item => item.value === mandatoryGaf
+                        );
+
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+
+
+                const checkboxes =
+                    row.querySelectorAll(".gaf-checkbox:checked");
+
+                const selected =
+                    Array.from(checkboxes)
+                        .map(cb => cb.value);
+
+                const hidden =
+                    row.querySelector(".gaf-hidden");
+
+                const buttonText =
+                    row.querySelector(".gaf-button .selected-text");
+
+
+                if (hidden) {
+                    hidden.value = selected.join(", ");
+                }
+
+                if (buttonText) {
+
+                    buttonText.textContent =
+                        selected.length === 0
+                            ? "Select GAFs"
+                            : selected.join(", ");
+                }
+            }
+
+
+            // ============================================================
+            // CREATE NEW KRA
+            // ============================================================
+
+            function createKraRow() {
+
+                const index = getKraCount();
+
+                const row = document.createElement("tr");
+
+                row.className = "kra-row";
+
+                row.innerHTML = `
+
+                    <td class="kra-number">
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="KRAs[${index}].Name"
+                               class="form-control form-control-custom"
+                               placeholder="Enter KRA name..."
+                               required />
+                    </td>
+
+                    <td>
+
+                        <select name="KRAs[${index}].Weight"
+                                class="form-select form-select-custom weight-field"
+                                required>
+
+                            ${createWeightOptions()}
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <textarea name="KRAs[${index}].Activities"
+                                  class="form-control form-control-custom"
+                                  rows="2"
+                                  placeholder="Activities..."
+                                  required></textarea>
+
+                    </td>
+
+                    <td>
+
+                        <textarea name="KRAs[${index}].Standards"
+                                  class="form-control form-control-custom"
+                                  rows="2"
+                                  placeholder="Standards..."
+                                  required></textarea>
+
+                    </td>
+
+                    <td>
+                        ${createBathoPele(index)}
+                    </td>
+
+                    <td>
+                        ${createGafs(index)}
+                    </td>
+
+                    <td style="text-align:center;">
+
+                        <button type="button"
+                                class="btn-remove-kra remove-kra">
+
+                            <i class="fas fa-trash"></i>
+
+                        </button>
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+                updateKraIndexes();
+                updateNumberOfKRAs();
+                updateRemoveButtons();
+                updateKraLimitButton();
+
+                // Initialise GAFs
+                updateGafs(row);
+
+                // Recalculate total
+                calculateTotal();
+            }
+
+
+            // ============================================================
+            // ADD KRA BUTTON
+            // ============================================================
+
+            addBtn.addEventListener("click", function () {
+
                 const maxKras = getMaxKras();
-                const currentCount = getKraCount();
+
                 if (maxKras === 0) {
-                    addBtn.disabled = true;
-                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Select Salary Level';
-                    kraLimitMessage.textContent = "Please select a Salary Level.";
-                    return;
-                }
-                if (maxKras === 4) {
-                    addBtn.disabled = true;
-                    addBtn.innerHTML = '<i class="fas fa-lock"></i> 4 KRAs Required';
-                    kraLimitMessage.textContent = "Salary Levels 2-7 require exactly 4 KRAs.";
-                    return;
-                }
-                if (currentCount < maxKras) {
-                    addBtn.disabled = false;
-                    addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add KRA';
-                    kraLimitMessage.textContent = "You currently have " + currentCount + " KRAs. You can add up to " + maxKras + " KRAs.";
-                } else {
-                    addBtn.disabled = true;
-                    addBtn.innerHTML = '<i class="fas fa-lock"></i> Maximum 6 KRAs';
-                    kraLimitMessage.textContent = "You have reached the maximum of 6 KRAs.";
-                }
-            }
 
-            /* ============================================================
-               REMOVE BUTTONS
-            ============================================================ */
-            function updateRemoveButtons() {
+                    alert("Please select a Salary Level first.");
+
+                    return;
+                }
+
+
+                const currentCount = getKraCount();
+
+
+                if (currentCount >= maxKras) {
+
+                    alert(
+                        "The selected Salary Level allows a maximum of " +
+                        maxKras +
+                        " KRAs."
+                    );
+
+                    return;
+                }
+
+
+                createKraRow();
+            });
+
+
+            // ============================================================
+            // REMOVE KRA
+            // ============================================================
+
+            tableBody.addEventListener("click", function (event) {
+
+                const button =
+                    event.target.closest(".remove-kra");
+
+                if (!button) {
+                    return;
+                }
+
+
                 const maxKras = getMaxKras();
-                const rows = tableBody.querySelectorAll(".kra-row");
+
+
+                // Level 2-4 MUST remain at exactly 4
+                if (maxKras === 4) {
+
+                    alert(
+                        "Salary Levels 2-4 must have exactly 4 KRAs."
+                    );
+
+                    return;
+                }
+
+
+                const rows =
+                    tableBody.querySelectorAll(".kra-row");
+
+
+                if (rows.length <= 1) {
+
+                    alert(
+                        "You must have at least one KRA."
+                    );
+
+                    return;
+                }
+
+
+                if (!confirm(
+                    "Are you sure you want to remove this KRA?"
+                )) {
+
+                    return;
+                }
+
+
+                button.closest(".kra-row").remove();
+
+
+                updateKraIndexes();
+                updateNumberOfKRAs();
+                updateRemoveButtons();
+                updateKraLimitButton();
+                calculateTotal();
+            });
+
+
+            // ============================================================
+            // SALARY LEVEL CHANGE
+            // ============================================================
+
+            salaryLevel.addEventListener("change", function () {
+
+                const maxKras = getMaxKras();
+
+
+                // No salary level
+                if (maxKras === 0) {
+
+                    salaryInfo.classList.remove("show");
+
+                    salaryInfoText.textContent = "";
+
+                    addBtn.disabled = true;
+
+                    addBtn.innerHTML =
+                        '<i class="fas fa-plus-circle"></i> Select Salary Level';
+
+                    kraLimitMessage.textContent =
+                        "Please select a Salary Level.";
+
+                    updateKraLimitButton();
+
+                    return;
+                }
+
+
+                // ========================================================
+                // LEVEL 2-4
+                // ========================================================
+
+                if (salaryLevel.value === "Production (Level 2-4)") {
+
+                    salaryInfo.classList.add("show");
+
+                    salaryInfoText.textContent =
+                        "Salary Levels 2-4 require exactly 4 KRAs.";
+
+                    // Remove extra rows if there are more than 4
+                    while (getKraCount() > 4) {
+
+                        tableBody.lastElementChild.remove();
+                    }
+
+                    // Add rows until there are exactly 4
+                    while (getKraCount() < 4) {
+
+                        createKraRow();
+                    }
+                }
+
+
+                // ========================================================
+                // LEVELS 5-16
+                // ========================================================
+
+                else {
+
+                    salaryInfo.classList.add("show");
+
+                    salaryInfoText.textContent =
+                        "This salary level allows a maximum of 6 KRAs.";
+
+                    // Never allow more than 6
+                    while (getKraCount() > 6) {
+
+                        tableBody.lastElementChild.remove();
+                    }
+                }
+
+
+                updateKraIndexes();
+                updateNumberOfKRAs();
+                updateRemoveButtons();
+                updateKraLimitButton();
+                calculateTotal();
+            });
+
+
+            // ============================================================
+            // UPDATE ADD BUTTON
+            // ============================================================
+
+            function updateKraLimitButton() {
+
+                const maxKras = getMaxKras();
+
+                const currentCount = getKraCount();
+
+
+                // No salary selected
+                if (maxKras === 0) {
+
+                    addBtn.disabled = true;
+
+                    addBtn.innerHTML =
+                        '<i class="fas fa-plus-circle"></i> Select Salary Level';
+
+                    kraLimitMessage.textContent =
+                        "Please select a Salary Level.";
+
+                    return;
+                }
+
+
+                // Exactly 4 for levels 2-4
+                if (maxKras === 4) {
+
+                    addBtn.disabled = true;
+
+                    addBtn.innerHTML =
+                        '<i class="fas fa-lock"></i> 4 KRAs Required';
+
+                    kraLimitMessage.textContent =
+                        "Salary Levels 2-4 require exactly 4 KRAs.";
+
+                    return;
+                }
+
+
+                // Less than 6
+                if (currentCount < 6) {
+
+                    addBtn.disabled = false;
+
+                    addBtn.innerHTML =
+                        '<i class="fas fa-plus-circle"></i> Add KRA';
+
+                    kraLimitMessage.textContent =
+                        "You currently have " +
+                        currentCount +
+                        " KRAs. You can add up to 6 KRAs.";
+
+                    return;
+                }
+
+
+                // Maximum reached
+                addBtn.disabled = true;
+
+                addBtn.innerHTML =
+                    '<i class="fas fa-lock"></i> Maximum 6 KRAs';
+
+                kraLimitMessage.textContent =
+                    "You have reached the maximum of 6 KRAs.";
+            }
+
+
+            // ============================================================
+            // UPDATE REMOVE BUTTONS
+            // ============================================================
+
+            function updateRemoveButtons() {
+
+                const maxKras = getMaxKras();
+
+                const rows =
+                    tableBody.querySelectorAll(".kra-row");
+
+
                 rows.forEach(function (row) {
-                    const button = row.querySelector(".remove-kra");
-                    if (!button) return;
-                    if (maxKras === 4) button.style.display = "none";
-                    else if (rows.length <= 1) button.style.display = "none";
-                    else button.style.display = "inline-flex";
+
+                    const button =
+                        row.querySelector(".remove-kra");
+
+                    if (!button) {
+                        return;
+                    }
+
+
+                    // Levels 2-4: cannot remove
+                    if (maxKras === 4) {
+
+                        button.style.display = "none";
+                    }
+
+                    // Other levels
+                    else if (rows.length <= 1) {
+
+                        button.style.display = "none";
+                    }
+
+                    else {
+
+                        button.style.display = "inline-flex";
+                    }
                 });
             }
 
-            /* ============================================================
-               CALCULATE TOTAL  <-- UPDATED WITH EVENT LISTENERS
-            ============================================================ */
+
+            // ============================================================
+            // CALCULATE TOTAL WEIGHT
+            // ============================================================
+
             function calculateTotal() {
+
                 let total = 0;
+
                 let allFilled = true;
-                const fields = tableBody.querySelectorAll(".weight-field");
+
+
+                const fields =
+                    tableBody.querySelectorAll(".weight-field");
+
+
                 fields.forEach(function (field) {
-                    const value = parseFloat(field.value);
-                    if (!isNaN(value)) total += value;
-                    if (field.value === "") allFilled = false;
+
+                    const value =
+                        parseFloat(field.value);
+
+
+                    if (!isNaN(value)) {
+
+                        total += value;
+                    }
+
+
+                    if (field.value === "") {
+
+                        allFilled = false;
+                    }
                 });
-                total = Math.round(total * 100) / 100;
-                totalDisplay.textContent = total + "%";
-                if (total === 100 && allFilled && fields.length > 0) {
-                    totalDisplay.style.borderColor = "#006838";
-                    totalDisplay.style.backgroundColor = "#e8f5ee";
-                    weightStatus.className = "weight-status success";
-                    weightStatus.innerHTML = '<i class="fas fa-check-circle"></i> Perfect! Total equals 100%';
-                } else if (total > 0) {
-                    totalDisplay.style.borderColor = "#ffc107";
-                    totalDisplay.style.backgroundColor = "#fff3cd";
-                    weightStatus.className = "weight-status";
-                    weightStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Total should equal 100% (currently ' + total + '%)';
-                } else {
-                    totalDisplay.style.borderColor = "#006838";
-                    totalDisplay.style.backgroundColor = "#ffffff";
-                    weightStatus.className = "weight-status";
-                    weightStatus.innerHTML = '<i class="fas fa-info-circle"></i> Enter weights';
+
+
+                total =
+                    Math.round(total * 100) / 100;
+
+
+                // Display total
+                totalDisplay.textContent =
+                    total + "%";
+
+
+                // ========================================================
+                // 100%
+                // ========================================================
+
+                if (
+                    total === 100 &&
+                    allFilled &&
+                    fields.length > 0
+                ) {
+
+                    totalDisplay.style.borderColor =
+                        "#006838";
+
+                    totalDisplay.style.backgroundColor =
+                        "#e8f5ee";
+
+                    weightStatus.className =
+                        "weight-status success";
+
+                    weightStatus.innerHTML =
+                        '<i class="fas fa-check-circle"></i> ' +
+                        'Perfect! Total equals 100%';
+                }
+
+
+                // ========================================================
+                // ABOVE 100%
+                // ========================================================
+
+                else if (total > 100) {
+
+                    totalDisplay.style.borderColor =
+                        "#dc3545";
+
+                    totalDisplay.style.backgroundColor =
+                        "#f8d7da";
+
+                    weightStatus.className =
+                        "weight-status";
+
+                    weightStatus.style.color =
+                        "#dc3545";
+
+                    weightStatus.innerHTML =
+                        '<i class="fas fa-exclamation-triangle"></i> ' +
+                        'Total exceeds 100% (' +
+                        total +
+                        '%)';
+                }
+
+
+                // ========================================================
+                // BELOW 100%
+                // ========================================================
+
+                else if (total > 0) {
+
+                    totalDisplay.style.borderColor =
+                        "#ffc107";
+
+                    totalDisplay.style.backgroundColor =
+                        "#fff3cd";
+
+                    weightStatus.className =
+                        "weight-status";
+
+                    weightStatus.style.color =
+                        "#856404";
+
+                    weightStatus.innerHTML =
+                        '<i class="fas fa-exclamation-triangle"></i> ' +
+                        'Total should equal 100% (currently ' +
+                        total +
+                        '%)';
+                }
+
+
+                // ========================================================
+                // NOTHING ENTERED
+                // ========================================================
+
+                else {
+
+                    totalDisplay.style.borderColor =
+                        "#006838";
+
+                    totalDisplay.style.backgroundColor =
+                        "#ffffff";
+
+                    weightStatus.className =
+                        "weight-status";
+
+                    weightStatus.style.color =
+                        "#856404";
+
+                    weightStatus.innerHTML =
+                        '<i class="fas fa-info-circle"></i> ' +
+                        'Enter weights';
                 }
             }
 
-            /* ============================================================
-               WEIGHT CHANGE DETECTION (attach to table, delegated)
-            ============================================================ */
-            tableBody.addEventListener("change", function (event) {
-                if (event.target.classList.contains("weight-field")) {
+
+            // ============================================================
+            // WEIGHT CHANGE
+            // ============================================================
+
+            tableBody.addEventListener("input", function (event) {
+
+                if (
+                    event.target.classList.contains("weight-field")
+                ) {
+
                     calculateTotal();
                 }
             });
 
-            /* ============================================================
-               PREPARE SELECTIONS BEFORE SUBMIT
-            ============================================================ */
-            function prepareSelections() {
-                const rows = tableBody.querySelectorAll(".kra-row");
-                rows.forEach(function (row) {
+
+            tableBody.addEventListener("change", function (event) {
+
+                if (
+                    event.target.classList.contains("weight-field")
+                ) {
+
+                    calculateTotal();
+                }
+            });
+
+
+            // ============================================================
+            // MULTI SELECT DROPDOWNS
+            // ============================================================
+
+            document.addEventListener("click", function (event) {
+
+                const button =
+                    event.target.closest(".multi-select-button");
+
+
+                // Open dropdown
+                if (button) {
+
+                    const container =
+                        button.closest(".multi-select-container");
+
+                    const menu =
+                        container.querySelector(".multi-select-menu");
+
+
+                    // Close other menus
+                    document
+                        .querySelectorAll(".multi-select-menu.show")
+                        .forEach(function (openMenu) {
+
+                            if (openMenu !== menu) {
+
+                                openMenu.classList.remove("show");
+
+                                const openButton =
+                                    openMenu
+                                        .closest(".multi-select-container")
+                                        .querySelector(".multi-select-button");
+
+                                if (openButton) {
+
+                                    openButton.classList.remove("active");
+                                }
+                            }
+                        });
+
+
+                    menu.classList.toggle("show");
+
+                    button.classList.toggle(
+                        "active",
+                        menu.classList.contains("show")
+                    );
+
+                    return;
+                }
+
+
+                // Click inside menu - don't close
+                if (
+                    event.target.closest(".multi-select-menu")
+                ) {
+
+                    return;
+                }
+
+
+                // Click outside - close all
+                document
+                    .querySelectorAll(".multi-select-menu.show")
+                    .forEach(function (menu) {
+
+                        menu.classList.remove("show");
+
+                        const button =
+                            menu
+                                .closest(".multi-select-container")
+                                .querySelector(".multi-select-button");
+
+                        if (button) {
+
+                            button.classList.remove("active");
+                        }
+                    });
+            });
+
+
+            // ============================================================
+            // CHECKBOX CHANGES
+            // ============================================================
+
+            tableBody.addEventListener("change", function (event) {
+
+                const checkbox = event.target;
+
+                const row =
+                    checkbox.closest(".kra-row");
+
+
+                if (!row) {
+                    return;
+                }
+
+
+                // Batho Pele
+                if (
+                    checkbox.classList.contains("batho-checkbox")
+                ) {
+
                     updateBathoPele(row);
+                }
+
+
+                // GAF
+                if (
+                    checkbox.classList.contains("gaf-checkbox")
+                ) {
+
+                    // Mandatory GAF cannot be unchecked
+                    if (
+                        checkbox.classList.contains("mandatory-gaf")
+                    ) {
+
+                        checkbox.checked = true;
+                    }
+
+                    updateGafs(row);
+                }
+            });
+
+
+            // ============================================================
+            // PROTECT MANDATORY GAFs
+            // ============================================================
+
+            tableBody.addEventListener("click", function (event) {
+
+                const checkbox =
+                    event.target.closest(".mandatory-gaf");
+
+
+                if (!checkbox) {
+                    return;
+                }
+
+
+                setTimeout(function () {
+
+                    checkbox.checked = true;
+
+                    const row =
+                        checkbox.closest(".kra-row");
+
+
+                    if (row) {
+
+                        updateGafs(row);
+                    }
+
+                }, 0);
+            });
+
+
+            // ============================================================
+            // PREPARE HIDDEN FIELDS
+            // ============================================================
+
+            function prepareSelections() {
+
+                const rows =
+                    tableBody.querySelectorAll(".kra-row");
+
+
+                rows.forEach(function (row) {
+
+                    updateBathoPele(row);
+
                     updateGafs(row);
                 });
             }
 
-            /* ============================================================
-               FORM SUBMISSION
-            ============================================================ */
+
+            // ============================================================
+            // FORM SUBMISSION VALIDATION
+            // ============================================================
+
             form.addEventListener("submit", function (event) {
-                const maxKras = getMaxKras();
-                const currentCount = getKraCount();
+
+                const maxKras =
+                    getMaxKras();
+
+                const currentCount =
+                    getKraCount();
+
+
+                // Prepare hidden fields
                 prepareSelections();
 
+
+                // ========================================================
+                // SALARY LEVEL
+                // ========================================================
+
                 if (maxKras === 0) {
+
                     event.preventDefault();
-                    alert("Please select a Salary Level.");
+
+                    alert(
+                        "Please select a Salary Level."
+                    );
+
                     return;
                 }
-                if (maxKras === 4 && currentCount !== 4) {
+
+
+                // ========================================================
+                // LEVEL 2-4 MUST HAVE EXACTLY 4
+                // ========================================================
+
+                if (
+                    salaryLevel.value ===
+                    "Production (Level 2-4)" &&
+                    currentCount !== 4
+                ) {
+
                     event.preventDefault();
-                    alert("Salary Levels 2-7 must have exactly 4 KRAs.");
+
+                    alert(
+                        "Salary Levels 2-4 must have exactly 4 KRAs."
+                    );
+
                     return;
                 }
-                if (maxKras === 6 && currentCount > 6) {
+
+
+                // ========================================================
+                // LEVELS 5-16 MAXIMUM 6
+                // ========================================================
+
+                if (
+                    maxKras === 6 &&
+                    (currentCount < 4 || currentCount > 6)
+                ) {
+
                     event.preventDefault();
-                    alert("The selected Salary Level can have a maximum of 6 KRAs.");
+
+                    alert(
+                        "The selected Salary Level must have between 4 and 6 KRAs."
+                    );
+
                     return;
                 }
+
+
+                // ========================================================
+                // WEIGHTS
+                // ========================================================
 
                 let total = 0;
+
                 let allWeightsFilled = true;
-                tableBody.querySelectorAll(".weight-field").forEach(function (field) {
-                    if (field.value === "") allWeightsFilled = false;
-                    const value = parseFloat(field.value);
-                    if (!isNaN(value)) total += value;
-                });
+
+
+                tableBody
+                    .querySelectorAll(".weight-field")
+                    .forEach(function (field) {
+
+                        if (field.value === "") {
+
+                            allWeightsFilled = false;
+                        }
+
+
+                        const value =
+                            parseFloat(field.value);
+
+
+                        if (!isNaN(value)) {
+
+                            total += value;
+                        }
+                    });
+
+
+                total =
+                    Math.round(total * 100) / 100;
+
+
                 if (!allWeightsFilled) {
+
                     event.preventDefault();
-                    alert("Please select a weight for every KRA.");
+
+                    alert(
+                        "Please select a weight for every KRA."
+                    );
+
                     return;
                 }
-                if (Math.round(total) !== 100) {
+
+
+                if (total !== 100) {
+
                     event.preventDefault();
-                    alert("The total KRA weight must equal 100%. Current total: " + total + "%");
+
+                    alert(
+                        "The total KRA weight must equal 100%. " +
+                        "Current total: " +
+                        total +
+                        "%"
+                    );
+
                     return;
                 }
+
+
+                // ========================================================
+                // BATHO PELE
+                // ========================================================
 
                 let allBathoSelected = true;
-                tableBody.querySelectorAll(".kra-row").forEach(function (row) {
-                    const selected = row.querySelectorAll(".batho-checkbox:checked");
-                    if (selected.length === 0) allBathoSelected = false;
-                });
+
+
+                tableBody
+                    .querySelectorAll(".kra-row")
+                    .forEach(function (row) {
+
+                        const selected =
+                            row.querySelectorAll(
+                                ".batho-checkbox:checked"
+                            );
+
+
+                        if (selected.length === 0) {
+
+                            allBathoSelected = false;
+                        }
+                    });
+
+
                 if (!allBathoSelected) {
+
                     event.preventDefault();
-                    alert("Please select at least one Batho Pele principle for every KRA.");
+
+                    alert(
+                        "Please select at least one Batho Pele principle for every KRA."
+                    );
+
                     return;
                 }
 
+
+                // ========================================================
+                // GAFs
+                // ========================================================
+
+                let allMandatoryGafsSelected = true;
+
+
+                tableBody
+                    .querySelectorAll(".kra-row")
+                    .forEach(function (row) {
+
+                        mandatoryGafs.forEach(function (mandatoryGaf) {
+
+                            const checkbox =
+                                Array.from(
+                                    row.querySelectorAll(".gaf-checkbox")
+                                ).find(
+                                    item =>
+                                        item.value === mandatoryGaf
+                                );
+
+
+                            if (
+                                !checkbox ||
+                                !checkbox.checked
+                            ) {
+
+                                allMandatoryGafsSelected = false;
+                            }
+                        });
+                    });
+
+
+                if (!allMandatoryGafsSelected) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Job Knowledge and Acceptance of Responsibility are mandatory GAFs for every KRA."
+                    );
+
+                    return;
+                }
+
+
+                // Make sure indexes are correct
                 updateKraIndexes();
-                updateNumberOfKras();
+
+                updateNumberOfKRAs();
             });
 
-            /* ============================================================
-               INITIALISE EXISTING GAFs AND TOTAL
-            ============================================================ */
-            tableBody.querySelectorAll(".kra-row").forEach(function (row) {
-                updateBathoPele(row);
-                updateGafs(row);
-            });
+
+            // ============================================================
+            // INITIALISE EXISTING KRA ROWS
+            // ============================================================
+
+            tableBody
+                .querySelectorAll(".kra-row")
+                .forEach(function (row) {
+
+                    updateBathoPele(row);
+
+                    updateGafs(row);
+                });
+
+
+            // ============================================================
+            // INITIAL PAGE SETUP
+            // ============================================================
 
             updateKraIndexes();
-            updateNumberOfKras();
+
+            updateNumberOfKRAs();
+
             updateRemoveButtons();
+
             updateKraLimitButton();
+
             calculateTotal();
+
         });
     </script>
 </body>

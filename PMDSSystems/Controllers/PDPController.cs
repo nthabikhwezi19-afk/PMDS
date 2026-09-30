@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Data;
 using PMDSSystems.Models;
+using System.Security.Claims;
 
 namespace PMDSSystems.Controllers
 {
@@ -18,178 +19,283 @@ namespace PMDSSystems.Controllers
         // CREATE PDP
         // ============================================================
         [HttpGet]
-        public async Task<IActionResult> Create(string persalNo)
+        public async Task<IActionResult> Create(string? persalNo)
         {
-            var model = new PDPModel();
+            Employee? employee = null;
 
-            // ========================================================
-            // IF NO PERSAL NUMBER WAS SUPPLIED
-            // ========================================================
-            if (string.IsNullOrWhiteSpace(persalNo))
+            // ============================================================
+            // 1. FIND EMPLOYEE USING PERSAL NUMBER
+            // ============================================================
+            if (!string.IsNullOrWhiteSpace(persalNo))
             {
-                return View(model);
+                employee = await _context.Employees
+                    .Include(e => e.Supervisor)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(e =>
+                        e.PersalNumber == persalNo);
             }
 
-            // ========================================================
-            // FIND EMPLOYEE USING PERSAL NUMBER
-            // ========================================================
-            var employee = await _context.Employees
-                .Include(e => e.Supervisor)
-                .FirstOrDefaultAsync(e => e.PersalNumber == persalNo);
-
-            // ========================================================
-            // EMPLOYEE NOT FOUND
-            // ========================================================
+            // ============================================================
+            // 2. IF NOT FOUND, USE LOGGED-IN USER
+            // ============================================================
             if (employee == null)
             {
-                TempData["Error"] =
-                    "Employee with PERSAL number " +
-                    persalNo +
-                    " was not found.";
+                var userId =
+                    User.FindFirstValue(
+                        ClaimTypes.NameIdentifier);
 
-                model.PersalNo = persalNo;
+                Console.WriteLine("======================================");
+                Console.WriteLine("PDP LOOKUP USING LOGGED-IN USER");
+                Console.WriteLine("UserId = " + userId);
+                Console.WriteLine("======================================");
 
-                return View(model);
+                if (!string.IsNullOrWhiteSpace(userId))
+                {
+                    employee = await _context.Employees
+                        .Include(e => e.Supervisor)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(e =>
+                            e.UserId == userId);
+                }
             }
 
-            // ========================================================
-            // MAP EMPLOYEE INFORMATION TO PDP MODEL
-            // ========================================================
-
-            // --------------------------------------------------------
-            // PERSAL NUMBER
-            // --------------------------------------------------------
-            model.PersalNo = employee.PersalNumber;
-
-            // --------------------------------------------------------
-            // SURNAME & INITIALS
-            // --------------------------------------------------------
-            model.Surname = string.IsNullOrWhiteSpace(employee.Initials)
-                ? employee.LastName
-                : employee.LastName + " " + employee.Initials;
-
-            // --------------------------------------------------------
-            // DIRECTORATE / DEPARTMENT
-            // --------------------------------------------------------
-            model.Directorate = employee.Department;
-
-            // --------------------------------------------------------
-            // ID NUMBER
-            // --------------------------------------------------------
-            model.IdNumber = employee.IdentificationNumber;
-
-            // --------------------------------------------------------
-            // BRANCH / REGION
-            // --------------------------------------------------------
-            model.Branch = employee.BranchOrRegion;
-
-            // --------------------------------------------------------
-            // SALARY LEVEL
-            // --------------------------------------------------------
-            model.SalaryLevel = employee.SalaryLevel;
-
-            // --------------------------------------------------------
-            // GENDER
-            // --------------------------------------------------------
-            model.Gender = employee.Gender;
-
-            // --------------------------------------------------------
-            // RACE
-            // --------------------------------------------------------
-            model.Race = employee.Race;
-
-            // ========================================================
-            // AGE GROUP - AUTO POPULATE
-            // ========================================================
-            model.AgeGroup = employee.AgeGroup;
-
-            // ========================================================
-            // DISABILITY - AUTO POPULATE
-            // ========================================================
-
-            if (employee.HasDisability.HasValue)
+            // ============================================================
+            // 3. EMPLOYEE NOT FOUND
+            // ============================================================
+            if (employee == null)
             {
-                model.Disabled = employee.HasDisability.Value
+                Console.WriteLine("======================================");
+                Console.WriteLine("PDP ERROR");
+                Console.WriteLine("EMPLOYEE NOT FOUND");
+                Console.WriteLine("======================================");
+
+                TempData["Error"] =
+                    "Employee could not be found.";
+
+                return View(new PDPModel());
+            }
+
+            // ============================================================
+            // 4. DISPLAY EXACT DATABASE VALUES
+            // ============================================================
+            Console.WriteLine("======================================");
+            Console.WriteLine("PDP EMPLOYEE DATABASE VALUES");
+            Console.WriteLine("======================================");
+
+            Console.WriteLine(
+                "Employee ID: [" +
+                employee.Id +
+                "]");
+
+            Console.WriteLine(
+                "PersalNumber: [" +
+                employee.PersalNumber +
+                "]");
+
+            Console.WriteLine(
+                "FirstName: [" +
+                employee.FirstName +
+                "]");
+
+            Console.WriteLine(
+                "LastName: [" +
+                employee.LastName +
+                "]");
+
+            Console.WriteLine(
+                "IdentificationNumber: [" +
+                employee.IdentificationNumber +
+                "]");
+
+            Console.WriteLine(
+                "AgeGroup: [" +
+                employee.AgeGroup +
+                "]");
+
+            Console.WriteLine(
+                "HasDisability: [" +
+                employee.HasDisability +
+                "]");
+
+            Console.WriteLine(
+                "NatureOfDisability: [" +
+                employee.NatureOfDisability +
+                "]");
+
+            Console.WriteLine(
+                "Gender: [" +
+                employee.Gender +
+                "]");
+
+            Console.WriteLine(
+                "Race: [" +
+                employee.Race +
+                "]");
+
+            Console.WriteLine("======================================");
+
+
+            // ============================================================
+            // 5. LOAD PMDS FORM
+            // ============================================================
+            var pmdsForm = await _context.PMDSForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x =>
+                    x.EmployeeId == employee.Id);
+
+            if (pmdsForm != null)
+            {
+                ViewBag.StartYear = pmdsForm.StartYear;
+                ViewBag.EndYear = pmdsForm.EndYear;
+
+                Console.WriteLine(
+                    "Performance Cycle: " +
+                    pmdsForm.StartYear +
+                    "/" +
+                    pmdsForm.EndYear);
+            }
+            else
+            {
+                ViewBag.StartYear = null;
+                ViewBag.EndYear = null;
+
+                Console.WriteLine(
+                    "WARNING: PMDS Form was not found.");
+            }
+
+
+            // ============================================================
+            // 6. AGE GROUP
+            // ============================================================
+            string ageGroup =
+                employee.AgeGroup ?? "";
+
+            // If AgeGroup is empty, calculate it from ID number
+            if (string.IsNullOrWhiteSpace(ageGroup))
+            {
+                ageGroup =
+                    CalculateAgeGroup(
+                        employee.IdentificationNumber);
+            }
+
+
+            // ============================================================
+            // 7. DISABILITY
+            // ============================================================
+            //
+            // IMPORTANT:
+            // HasDisability is bool?, therefore we explicitly compare
+            // it to true.
+            //
+            // true  = Yes
+            // false = No
+            // null  = No
+            // ============================================================
+
+            bool hasDisability =
+                employee.HasDisability == true;
+
+            string disabled =
+                hasDisability
                     ? "Yes"
                     : "No";
-            }
-            else
+
+
+            // ============================================================
+            // 8. DISABILITY DETAILS
+            // ============================================================
+            string disabilityDetails =
+                hasDisability
+                    ? employee.NatureOfDisability ?? ""
+                    : "";
+
+
+            // ============================================================
+            // 9. BUILD PDP MODEL
+            // ============================================================
+            var model = new PDPModel
             {
-                model.Disabled = "No";
-            }
+                // --------------------------------------------------------
+                // EMPLOYEE INFORMATION
+                // --------------------------------------------------------
 
-            // ========================================================
-            // NATURE OF DISABILITY
-            //
-            // ONLY POPULATE THIS FIELD IF DISABILITY = YES
-            // ========================================================
+                PersalNo =
+                    employee.PersalNumber,
 
-            if (employee.HasDisability == true)
-            {
-                model.DisabilityDetails =
-                    employee.NatureOfDisability;
-            }
-            else
-            {
-                model.DisabilityDetails = null;
-            }
+                Surname =
+                    string.IsNullOrWhiteSpace(employee.Initials)
+                        ? employee.LastName
+                        : employee.LastName +
+                          " " +
+                          employee.Initials,
 
-            // ========================================================
-            // DEBUG INFORMATION
-            // ========================================================
+                Directorate =
+                    employee.Department,
 
-            Console.WriteLine("======================================");
-            Console.WriteLine("PDP EMPLOYEE LOOKUP");
-            Console.WriteLine("======================================");
+                IdNumber =
+                    employee.IdentificationNumber,
 
-            Console.WriteLine(
-                "PERSAL: " +
-                employee.PersalNumber
-            );
+                Branch =
+                    employee.BranchOrRegion,
 
-            Console.WriteLine(
-                "AGE GROUP: " +
-                employee.AgeGroup
-            );
+                SalaryLevel =
+                    employee.SalaryLevel,
 
-            Console.WriteLine(
-                "HAS DISABILITY: " +
-                employee.HasDisability
-            );
 
-            Console.WriteLine(
-                "DISABILITY DISPLAY: " +
-                model.Disabled
-            );
+                // --------------------------------------------------------
+                // AUTO-POPULATED AGE GROUP
+                // --------------------------------------------------------
 
-            Console.WriteLine(
-                "NATURE OF DISABILITY: " +
-                (
-                    employee.HasDisability == true
-                        ? employee.NatureOfDisability
-                        : "Hidden / N/A"
-                )
-            );
+                AgeGroup =
+                    ageGroup,
 
-            Console.WriteLine("======================================");
 
-            // ========================================================
-            // SUPERVISOR
-            // ========================================================
+                // --------------------------------------------------------
+                // AUTO-POPULATED GENDER
+                // --------------------------------------------------------
 
+                Gender =
+                    employee.Gender,
+
+
+                // --------------------------------------------------------
+                // AUTO-POPULATED RACE
+                // --------------------------------------------------------
+
+                Race =
+                    employee.Race,
+
+
+                // --------------------------------------------------------
+                // AUTO-POPULATED DISABILITY
+                // --------------------------------------------------------
+
+                Disabled =
+                    disabled,
+
+
+                // --------------------------------------------------------
+                // AUTO-POPULATED DISABILITY DETAILS
+                // --------------------------------------------------------
+
+                DisabilityDetails =
+                    disabilityDetails
+            };
+
+
+            // ============================================================
+            // 10. SUPERVISOR
+            // ============================================================
             if (employee.Supervisor != null)
             {
-                // Supervisor surname
                 model.Supervisor =
                     employee.Supervisor.LastName;
 
-                // Supervisor position
                 model.SupervisorPosition =
                     employee.Supervisor.Position;
             }
             else
             {
-                // Fallback to manually captured supervisor information
                 model.Supervisor =
                     employee.SupervisorSurnameInitials;
 
@@ -197,11 +303,222 @@ namespace PMDSSystems.Controllers
                     employee.SupervisorRankPostLevel;
             }
 
-            // ========================================================
-            // RETURN PDP VIEW
-            // ========================================================
 
+            // ============================================================
+            // 11. DEBUG - VALUES SENT TO VIEW
+            // ============================================================
+            Console.WriteLine("======================================");
+            Console.WriteLine("PDP MODEL SENT TO VIEW");
+            Console.WriteLine("======================================");
+
+            Console.WriteLine(
+                "MODEL AgeGroup = [" +
+                model.AgeGroup +
+                "]");
+
+            Console.WriteLine(
+                "MODEL Disabled = [" +
+                model.Disabled +
+                "]");
+
+            Console.WriteLine(
+                "MODEL DisabilityDetails = [" +
+                model.DisabilityDetails +
+                "]");
+
+            Console.WriteLine(
+                "MODEL Gender = [" +
+                model.Gender +
+                "]");
+
+            Console.WriteLine(
+                "MODEL Race = [" +
+                model.Race +
+                "]");
+
+            Console.WriteLine("======================================");
+
+
+            // ============================================================
+            // 12. RETURN PDP VIEW
+            // ============================================================
             return View(model);
+        }
+
+
+        // ============================================================
+        // CALCULATE AGE GROUP
+        // ============================================================
+        private string CalculateAgeGroup(
+            string? idNumber)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idNumber))
+                {
+                    Console.WriteLine(
+                        "AGE GROUP: ID NUMBER IS EMPTY.");
+
+                    return "";
+                }
+
+                // Remove spaces and non-numeric characters
+                string cleanId =
+                    new string(
+                        idNumber
+                            .Where(char.IsDigit)
+                            .ToArray());
+
+                Console.WriteLine(
+                    "AGE GROUP: Clean ID = [" +
+                    cleanId +
+                    "]");
+
+
+                // South African ID number must have 13 digits
+                if (cleanId.Length != 13)
+                {
+                    Console.WriteLine(
+                        "AGE GROUP: ID NUMBER IS NOT 13 DIGITS.");
+
+                    return "";
+                }
+
+
+                // --------------------------------------------------------
+                // YEAR
+                // --------------------------------------------------------
+                int yy =
+                    int.Parse(
+                        cleanId.Substring(
+                            0,
+                            2));
+
+
+                // --------------------------------------------------------
+                // MONTH
+                // --------------------------------------------------------
+                int month =
+                    int.Parse(
+                        cleanId.Substring(
+                            2,
+                            2));
+
+
+                // --------------------------------------------------------
+                // DAY
+                // --------------------------------------------------------
+                int day =
+                    int.Parse(
+                        cleanId.Substring(
+                            4,
+                            2));
+
+
+                // --------------------------------------------------------
+                // DETERMINE CENTURY
+                // --------------------------------------------------------
+                int currentYear =
+                    DateTime.Today.Year;
+
+                int currentCentury =
+                    currentYear / 100;
+
+                int currentTwoDigitYear =
+                    currentYear % 100;
+
+                int year;
+
+                if (yy <= currentTwoDigitYear)
+                {
+                    year =
+                        (currentCentury * 100) +
+                        yy;
+                }
+                else
+                {
+                    year =
+                        ((currentCentury - 1) * 100) +
+                        yy;
+                }
+
+
+                // --------------------------------------------------------
+                // CREATE DATE OF BIRTH
+                // --------------------------------------------------------
+                DateTime dateOfBirth;
+
+                try
+                {
+                    dateOfBirth =
+                        new DateTime(
+                            year,
+                            month,
+                            day);
+                }
+                catch
+                {
+                    Console.WriteLine(
+                        "AGE GROUP: INVALID DATE IN ID NUMBER.");
+
+                    return "";
+                }
+
+
+                // --------------------------------------------------------
+                // CALCULATE AGE
+                // --------------------------------------------------------
+                int age =
+                    DateTime.Today.Year -
+                    dateOfBirth.Year;
+
+                if (dateOfBirth.Date >
+                    DateTime.Today.AddYears(-age))
+                {
+                    age--;
+                }
+
+
+                Console.WriteLine(
+                    "AGE GROUP: Date of Birth = " +
+                    dateOfBirth.ToString("yyyy-MM-dd"));
+
+                Console.WriteLine(
+                    "AGE GROUP: Age = " +
+                    age);
+
+
+                // --------------------------------------------------------
+                // AGE GROUPS
+                // --------------------------------------------------------
+                if (age < 18)
+                    return "Under 18";
+
+                if (age <= 24)
+                    return "18 - 24";
+
+                if (age <= 34)
+                    return "25 - 34";
+
+                if (age <= 44)
+                    return "35 - 44";
+
+                if (age <= 54)
+                    return "45 - 54";
+
+                if (age <= 64)
+                    return "55 - 64";
+
+                return "65+";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    "AGE GROUP ERROR: " +
+                    ex.Message);
+
+                return "";
+            }
         }
 
 
@@ -210,64 +527,171 @@ namespace PMDSSystems.Controllers
         // ============================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SavePDP(PDPModel model)
+        public async Task<IActionResult> SavePDP(
+            PDPModel model)
         {
-            // ========================================================
-            // VALIDATE MODEL
-            // ========================================================
+            // ============================================================
+            // FIND EMPLOYEE AGAIN
+            // ============================================================
+            Employee? employee = null;
 
-            if (!ModelState.IsValid)
+            if (!string.IsNullOrWhiteSpace(model.PersalNo))
             {
-                return View("Create", model);
+                employee = await _context.Employees
+                    .Include(e => e.Supervisor)
+                    .FirstOrDefaultAsync(e =>
+                        e.PersalNumber == model.PersalNo);
             }
 
-            // ========================================================
-            // CREATE MAIN PDP
-            // ========================================================
 
+            // ============================================================
+            // IF EMPLOYEE NOT FOUND, USE LOGGED-IN USER
+            // ============================================================
+            if (employee == null)
+            {
+                var userId =
+                    User.FindFirstValue(
+                        ClaimTypes.NameIdentifier);
+
+                if (!string.IsNullOrWhiteSpace(userId))
+                {
+                    employee = await _context.Employees
+                        .Include(e => e.Supervisor)
+                        .FirstOrDefaultAsync(e =>
+                            e.UserId == userId);
+                }
+            }
+
+
+            // ============================================================
+            // EMPLOYEE NOT FOUND
+            // ============================================================
+            if (employee == null)
+            {
+                TempData["Error"] =
+                    "Employee record could not be found.";
+
+                return View(
+                    "Create",
+                    model);
+            }
+
+
+            // ============================================================
+            // VALIDATE MODEL
+            // ============================================================
+            if (!ModelState.IsValid)
+            {
+                return View(
+                    "Create",
+                    model);
+            }
+
+
+            // ============================================================
+            // AUTO-POPULATE EMPLOYEE INFORMATION
+            // ============================================================
+
+            string ageGroup =
+                employee.AgeGroup ?? "";
+
+            if (string.IsNullOrWhiteSpace(ageGroup))
+            {
+                ageGroup =
+                    CalculateAgeGroup(
+                        employee.IdentificationNumber);
+            }
+
+
+            // ============================================================
+            // DISABILITY
+            // ============================================================
+
+            bool hasDisability =
+                employee.HasDisability == true;
+
+            string disabled =
+                hasDisability
+                    ? "Yes"
+                    : "No";
+
+
+            string disabilityDetails =
+                hasDisability
+                    ? employee.NatureOfDisability ?? ""
+                    : "";
+
+
+            // ============================================================
+            // CREATE MAIN PDP
+            // ============================================================
             var pdp = new PDPModel
             {
-                // ====================================================
+                // ========================================================
                 // EMPLOYEE INFORMATION
-                // ====================================================
+                // ========================================================
 
-                Surname = model.Surname,
+                Surname =
+                    string.IsNullOrWhiteSpace(employee.Initials)
+                        ? employee.LastName
+                        : employee.LastName +
+                          " " +
+                          employee.Initials,
 
-                PersalNo = model.PersalNo,
+                PersalNo =
+                    employee.PersalNumber,
 
-                Directorate = model.Directorate,
+                Directorate =
+                    employee.Department,
 
-                IdNumber = model.IdNumber,
+                IdNumber =
+                    employee.IdentificationNumber,
 
-                Branch = model.Branch,
+                Branch =
+                    employee.BranchOrRegion,
 
-                SalaryLevel = model.SalaryLevel,
-
-                AgeGroup = model.AgeGroup,
-
-                Gender = model.Gender,
-
-                Race = model.Race,
-
-                Disabled = model.Disabled,
-
-                DisabilityDetails = model.DisabilityDetails,
+                SalaryLevel =
+                    employee.SalaryLevel,
 
 
-                // ====================================================
+                // ========================================================
+                // AUTO-POPULATED INFORMATION
+                // ========================================================
+
+                AgeGroup =
+                    ageGroup,
+
+                Gender =
+                    employee.Gender,
+
+                Race =
+                    employee.Race,
+
+                Disabled =
+                    disabled,
+
+                DisabilityDetails =
+                    disabilityDetails,
+
+
+                // ========================================================
                 // SUPERVISOR
-                // ====================================================
+                // ========================================================
 
                 SupervisorPosition =
-                    model.SupervisorPosition,
+                    employee.Supervisor != null
+                        ? employee.Supervisor.Position
+                        : employee.SupervisorRankPostLevel,
 
                 Supervisor =
-                    model.Supervisor,
+                    employee.Supervisor != null
+                        ? employee.Supervisor.LastName
+                        : employee.SupervisorSurnameInitials,
 
 
-                // ====================================================
+                // ========================================================
                 // EDUCATIONAL / DEVELOPMENT INFORMATION
-                // ====================================================
+                // ========================================================
 
                 Workshops =
                     model.Workshops,
@@ -282,9 +706,9 @@ namespace PMDSSystems.Controllers
                     model.BursaryDuration,
 
 
-                // ====================================================
+                // ========================================================
                 // DECLARATION / SIGNATURES
-                // ====================================================
+                // ========================================================
 
                 EmployeeSignature =
                     model.EmployeeSignature,
@@ -302,9 +726,9 @@ namespace PMDSSystems.Controllers
                     model.SupervisorDate,
 
 
-                // ====================================================
+                // ========================================================
                 // OFFICE USE ONLY
-                // ====================================================
+                // ========================================================
 
                 CapturedOnDatabase =
                     model.CapturedOnDatabase,
@@ -313,9 +737,9 @@ namespace PMDSSystems.Controllers
                     model.DateCaptured,
 
 
-                // ====================================================
+                // ========================================================
                 // PDP
-                // ====================================================
+                // ========================================================
 
                 Goal =
                     model.Goal,
@@ -333,39 +757,23 @@ namespace PMDSSystems.Controllers
 
             while (true)
             {
-                // --------------------------------------------------------
-                // QUALIFICATION
-                // --------------------------------------------------------
                 var qualification =
                     Request.Form[
                         $"Qualification{educationNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // NQF LEVEL
-                //
-                // IMPORTANT:
-                // The PDP view uses NQFLevel1, NQFLevel2, etc.
-                // --------------------------------------------------------
                 var nqf =
                     Request.Form[
-                        $"NQFLevel{educationNumber}"
+                        $"EducationNQFLevel{educationNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // YEAR COMPLETED
-                //
-                // IMPORTANT:
-                // The PDP view uses YearCompleted1, YearCompleted2, etc.
-                // --------------------------------------------------------
                 var year =
                     Request.Form[
                         $"YearCompleted{educationNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // STOP WHEN THERE ARE NO MORE EDUCATION ROWS
-                // --------------------------------------------------------
+
+                // STOP WHEN THERE ARE NO MORE ROWS
                 if (qualification == null &&
                     nqf == null &&
                     year == null)
@@ -373,9 +781,8 @@ namespace PMDSSystems.Controllers
                     break;
                 }
 
-                // --------------------------------------------------------
-                // SAVE ROW ONLY IF IT HAS INFORMATION
-                // --------------------------------------------------------
+
+                // SAVE ROW IF IT HAS INFORMATION
                 if (!string.IsNullOrWhiteSpace(qualification) ||
                     !string.IsNullOrWhiteSpace(nqf) ||
                     !string.IsNullOrWhiteSpace(year))
@@ -383,13 +790,15 @@ namespace PMDSSystems.Controllers
                     pdp.Education.Add(
                         new PDPEducation
                         {
-                            Qualification = qualification,
+                            Qualification =
+                                qualification,
 
-                            NQF = nqf,
+                            NQF =
+                                nqf,
 
-                            Year = year
-                        }
-                    );
+                            Year =
+                                year
+                        });
                 }
 
                 educationNumber++;
@@ -404,57 +813,38 @@ namespace PMDSSystems.Controllers
 
             while (true)
             {
-                // --------------------------------------------------------
-                // TASK
-                // --------------------------------------------------------
                 var task =
                     Request.Form[
                         $"Task{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // TRAINING
-                // --------------------------------------------------------
                 var training =
                     Request.Form[
                         $"Training{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // LEARNING TYPE
-                // --------------------------------------------------------
                 var learningType =
                     Request.Form[
                         $"LearningType{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // NQF LEVEL
-                // --------------------------------------------------------
                 var nqfLevel =
                     Request.Form[
-                        $"NQFLevel{jobNumber}"
+                        $"JobNQFLevel{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // COST
-                // --------------------------------------------------------
                 var cost =
                     Request.Form[
                         $"Cost{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // IMPACT
-                // --------------------------------------------------------
                 var impact =
                     Request.Form[
                         $"Impact{jobNumber}"
                     ].FirstOrDefault();
 
-                // --------------------------------------------------------
-                // STOP WHEN THERE ARE NO MORE JOB REQUIREMENT ROWS
-                // --------------------------------------------------------
+
+                // STOP WHEN THERE ARE NO MORE ROWS
                 if (task == null &&
                     training == null &&
                     learningType == null &&
@@ -465,9 +855,8 @@ namespace PMDSSystems.Controllers
                     break;
                 }
 
-                // --------------------------------------------------------
-                // SAVE ROW IF AT LEAST ONE FIELD HAS INFORMATION
-                // --------------------------------------------------------
+
+                // SAVE ROW IF IT HAS INFORMATION
                 if (!string.IsNullOrWhiteSpace(task) ||
                     !string.IsNullOrWhiteSpace(training) ||
                     !string.IsNullOrWhiteSpace(learningType) ||
@@ -478,19 +867,24 @@ namespace PMDSSystems.Controllers
                     pdp.JobRequirements.Add(
                         new PDPJobRequirement
                         {
-                            Task = task,
+                            Task =
+                                task,
 
-                            Training = training,
+                            Training =
+                                training,
 
-                            LearningType = learningType,
+                            LearningType =
+                                learningType,
 
-                            NQFLevel = nqfLevel,
+                            NQFLevel =
+                                nqfLevel,
 
-                            Cost = cost,
+                            Cost =
+                                cost,
 
-                            Impact = impact
-                        }
-                    );
+                            Impact =
+                                impact
+                        });
                 }
 
                 jobNumber++;
@@ -498,11 +892,11 @@ namespace PMDSSystems.Controllers
 
 
             // ============================================================
-            // SAVE EVERYTHING TO DATABASE
+            // SAVE PDP
             // ============================================================
 
             _context.PDPs.Add(pdp);
-
+      
             await _context.SaveChangesAsync();
 
 
@@ -515,16 +909,16 @@ namespace PMDSSystems.Controllers
 
 
             // ============================================================
-            // RETURN TO PDP PAGE
+            // RETURN TO PDP
             // ============================================================
 
             return RedirectToAction(
                 "Create",
                 new
                 {
-                    persalNo = model.PersalNo
-                }
-            );
+                    persalNo =
+                        employee.PersalNumber
+                });
         }
     }
 }

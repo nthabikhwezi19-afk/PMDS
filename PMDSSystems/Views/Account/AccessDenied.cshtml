@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+                        <i class="fas fa-lock fa-4x text-danger"></i>
+                    </div>
+
+                    <h2 class="fw-bold mb-3">
+                        Access Denied
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        You do not have permission to access this page.
+                    </p>
+
+                    <p class="small text-muted mb-4">
+                        Please contact your system administrator if you believe
+                        you should have access to this function.
+                    </p>
+
+                    <a asp-controller="PMDS"
+                       asp-action="Cycles"
+                       class="btn btn-success px-4">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Back to PMDS
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+   
+
+</div>

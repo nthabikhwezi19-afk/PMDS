@@ -1,20 +1,15 @@
-﻿using Humanizer;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMDSSystems.Data;
 using PMDSSystems.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
+using System.Globalization;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.RegularExpressions;
 
 namespace PMDSSystems.Controllers
 {
+    [Authorize]
     public class PerformanceAgreementController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,12 +17,8 @@ namespace PMDSSystems.Controllers
         public PerformanceAgreementController(ApplicationDbContext context)
         {
             _context = context;
-
         }
 
-        // ============================================================
-        // CREATE - GET
-        // ============================================================
         // ============================================================
         // CREATE - GET
         // ============================================================
@@ -39,86 +30,316 @@ namespace PMDSSystems.Controllers
             Console.WriteLine("PERFORMANCE AGREEMENT CREATE GET");
             Console.WriteLine("========================================");
 
-            string? currentUserId =
-                User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(
+                ClaimTypes.NameIdentifier
+            );
 
-            if (string.IsNullOrWhiteSpace(currentUserId))
+            Console.WriteLine(
+                "Logged-in UserId: " +
+                (userId ?? "NULL")
+            );
+
+            // --------------------------------------------------------
+            // CHECK USER
+            // --------------------------------------------------------
+
+            if (string.IsNullOrWhiteSpace(userId))
             {
-                return RedirectToAction("Login", "Account");
+                Console.WriteLine(
+                    "ERROR: No logged-in Identity user."
+                );
+
+                return Challenge();
             }
 
+            // --------------------------------------------------------
+            // FIND EMPLOYEE
+            // --------------------------------------------------------
+
             var employee = await _context.Employees
-                .FirstOrDefaultAsync(e => e.UserId == currentUserId);
+                .Include(e => e.Supervisor)
+                .FirstOrDefaultAsync(
+                    e => e.UserId == userId
+                );
 
             if (employee == null)
             {
-                TempData["Error"] = "Employee profile was not found.";
-                return RedirectToAction("Index", "Home");
+                Console.WriteLine("========================================");
+                Console.WriteLine("ERROR: EMPLOYEE NOT FOUND");
+                Console.WriteLine(
+                    "UserId searched: " + userId
+                );
+                Console.WriteLine("========================================");
+
+                return Content(
+                    "Performance Agreement cannot open because your Employee record " +
+                    "does not have the correct UserId linked to your logged-in account."
+                );
             }
+
+            Console.WriteLine("Employee found:");
+            Console.WriteLine(
+                "Employee ID: " + employee.Id
+            );
+            Console.WriteLine(
+                "Persal Number: " + employee.PersalNumber
+            );
+            Console.WriteLine(
+                "Name: " +
+                employee.FirstName +
+                " " +
+                employee.LastName
+            );
+            Console.WriteLine(
+                "Salary Level: " +
+                employee.SalaryLevel
+            );
+
+            // --------------------------------------------------------
+            // FIND PART A
+            // --------------------------------------------------------
+
+            var pmdsForm = await _context.PMDSForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(
+                    x => x.EmployeeId == employee.Id
+                );
+
+            if (pmdsForm == null)
+            {
+                Console.WriteLine("========================================");
+                Console.WriteLine("ERROR: PART A NOT FOUND");
+                Console.WriteLine(
+                    "Employee ID: " + employee.Id
+                );
+                Console.WriteLine("========================================");
+
+                return Content(
+                    "Performance Agreement cannot open because no Part A record " +
+                    "was found for this employee."
+                );
+            }
+
+            // --------------------------------------------------------
+            // CHECK PART A PERFORMANCE CYCLE
+            // --------------------------------------------------------
+
+            if (!pmdsForm.StartYear.HasValue ||
+                !pmdsForm.EndYear.HasValue)
+            {
+                Console.WriteLine("========================================");
+                Console.WriteLine(
+                    "ERROR: PART A HAS NO PERFORMANCE CYCLE"
+                );
+                Console.WriteLine("========================================");
+
+                return Content(
+                    "Performance Agreement cannot open because the Start Year " +
+                    "and End Year have not been saved in Part A."
+                );
+            }
+
+            int startYear = pmdsForm.StartYear.Value;
+            int endYear = pmdsForm.EndYear.Value;
+
+            Console.WriteLine(
+                $"Performance Cycle: {startYear}/{endYear}"
+            );
+
+            // --------------------------------------------------------
+            // CREATE MODEL
+            // --------------------------------------------------------
 
             var model = new PerformanceAgreement
             {
+                StartYear = startYear,
+                EndYear = endYear,
+
+                // Always take salary level from Employee.
+                SalaryLevel = employee.SalaryLevel,
+
+                // Level 2-4 starts with exactly 4.
+                // Other levels start with 1 and can be increased
+                // according to the rules in the Create page.
+                NumberOfKRAs =
+                    GetInitialKraCount(
+                        employee.SalaryLevel
+                    ),
+
                 KRAs = new List<KRA>()
             };
 
-            // Create four empty KRA rows
-            for (int i = 0; i < 4; i++)
+            // --------------------------------------------------------
+            // EMPLOYEE INFORMATION
+            // --------------------------------------------------------
+
+            ViewBag.EmployeeNameAndCapacity =
+                $"{employee.FirstName} " +
+                $"{employee.LastName} - " +
+                $"{employee.Position}";
+
+            // --------------------------------------------------------
+            // SUPERVISOR INFORMATION
+            // --------------------------------------------------------
+
+            if (employee.Supervisor != null)
             {
-                model.KRAs.Add(new KRA());
+                ViewBag.SupervisorNameAndCapacity =
+                    $"{employee.Supervisor.FirstName} " +
+                    $"{employee.Supervisor.LastName} - " +
+                    $"{employee.Supervisor.Position}";
+            }
+            else
+            {
+                ViewBag.SupervisorNameAndCapacity =
+                    "Supervisor Not Assigned";
             }
 
-            model.NumberOfKRAs = model.KRAs.Count;
+            // --------------------------------------------------------
+            // PERFORMANCE CYCLE
+            // --------------------------------------------------------
 
+            ViewBag.StartYear = startYear;
+            ViewBag.EndYear = endYear;
+
+            ViewBag.PerformanceCycle =
+                $"{startYear}/{endYear}";
+
+            // --------------------------------------------------------
+            // TOTAL WEIGHT
+            // --------------------------------------------------------
+
+            ViewBag.TotalWeight = 0m;
+
+            // --------------------------------------------------------
+            // SUPERVISOR SIGNATURE
+            // --------------------------------------------------------
+
+            ViewBag.CanSupervisorSign = false;
+            ViewBag.ExistingSupervisorSignature = "";
+
+            Console.WriteLine("========================================");
+            Console.WriteLine("CREATE PAGE READY");
             Console.WriteLine(
-                "Employee loaded: " +
-                employee.FirstName + " " +
-                employee.LastName
+                $"Cycle: {startYear}/{endYear}"
             );
-
             Console.WriteLine(
-                "Employee ID: " +
-                employee.Id
+                $"Salary Level: {employee.SalaryLevel}"
             );
-
             Console.WriteLine(
-                "Default KRA count: " +
-                model.KRAs.Count
+                $"Initial KRA Count: {model.NumberOfKRAs}"
             );
+            Console.WriteLine("========================================");
 
-            return View(model);
+            return View("Create", model);
         }
 
-      
-// ============================================================
-// CREATE - POST
-// ============================================================
 
-[HttpPost]
+        // ============================================================
+        // CREATE - POST
+        // ============================================================
 
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Create(PerformanceAgreement model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+            PerformanceAgreement model)
         {
             Console.WriteLine("========================================");
-            Console.WriteLine("PERFORMANCE AGREEMENT CREATE POST");
+            Console.WriteLine(
+                "PERFORMANCE AGREEMENT CREATE POST"
+            );
             Console.WriteLine("========================================");
 
-            // ------------------------------------------------------------
-            // LOG MAIN AGREEMENT DATA
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
+            // GET CURRENT USER
+            // --------------------------------------------------------
 
-            Console.WriteLine("Job Purpose: " + model.JobPurpose);
-            Console.WriteLine("Job Related Tasks: " + model.JobRelatedTasks);
-            Console.WriteLine("Salary Level: " + model.SalaryLevel);
-            Console.WriteLine("Number Of KRAs: " + model.NumberOfKRAs);
-
-            Console.WriteLine(
-                "KRA COUNT RECEIVED: " +
-                (model.KRAs == null ? 0 : model.KRAs.Count)
+            var userId = User.FindFirstValue(
+                ClaimTypes.NameIdentifier
             );
 
-            // ------------------------------------------------------------
-            // REMOVE VALIDATION FOR OPTIONAL / UNUSED FIELDS
-            // ------------------------------------------------------------
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Challenge();
+            }
+
+            // --------------------------------------------------------
+            // FIND EMPLOYEE
+            // --------------------------------------------------------
+
+            var employee = await _context.Employees
+                .Include(e => e.Supervisor)
+                .FirstOrDefaultAsync(
+                    e => e.UserId == userId
+                );
+
+            if (employee == null)
+            {
+                TempData["Error"] =
+                    "Your employee profile could not be found.";
+
+                return RedirectToAction(
+                    "Cycles",
+                    "PMDS"
+                );
+            }
+
+            // --------------------------------------------------------
+            // GET PART A
+            // --------------------------------------------------------
+
+            var pmdsForm = await _context.PMDSForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(
+                    x => x.EmployeeId == employee.Id
+                );
+
+            if (pmdsForm == null ||
+                !pmdsForm.StartYear.HasValue ||
+                !pmdsForm.EndYear.HasValue)
+            {
+                TempData["Error"] =
+                    "Please complete Part A before saving the Performance Agreement.";
+
+                return RedirectToAction(
+                    "Create",
+                    "PMDS"
+                );
+            }
+
+            // --------------------------------------------------------
+            // FORCE CYCLE FROM PART A
+            // --------------------------------------------------------
+
+            model.StartYear =
+                pmdsForm.StartYear.Value;
+
+            model.EndYear =
+                pmdsForm.EndYear.Value;
+
+            // --------------------------------------------------------
+            // FORCE SALARY LEVEL FROM EMPLOYEE
+            // --------------------------------------------------------
+            //
+            // Do NOT trust the salary level posted by the browser.
+            //
+
+            model.SalaryLevel =
+                employee.SalaryLevel;
+
+            Console.WriteLine(
+                "Employee Salary Level: " +
+                employee.SalaryLevel
+            );
+
+            Console.WriteLine(
+                "Received KRA Count: " +
+                (model.KRAs?.Count ?? 0)
+            );
+
+            // --------------------------------------------------------
+            // REMOVE OPTIONAL VALIDATION
+            // --------------------------------------------------------
 
             ModelState.Remove("JobPurpose");
             ModelState.Remove("JobKnowledge");
@@ -129,40 +350,20 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
             ModelState.Remove("Communication");
             ModelState.Remove("TeamWork");
             ModelState.Remove("Leadership");
+            ModelState.Remove("Id");
 
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
             // MAKE SURE KRA COLLECTION EXISTS
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
 
             if (model.KRAs == null)
             {
                 model.KRAs = new List<KRA>();
             }
 
-            // ------------------------------------------------------------
-            // LOG ALL RECEIVED KRAs
-            // ------------------------------------------------------------
-
-            int kraNumber = 1;
-
-            foreach (var kra in model.KRAs)
-            {
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("KRA " + kraNumber);
-                Console.WriteLine("Name       : " + kra.Name);
-                Console.WriteLine("Weight     : " + kra.Weight);
-                Console.WriteLine("Activities : " + kra.Activities);
-                Console.WriteLine("Standards  : " + kra.Standards);
-                Console.WriteLine("Batho Pele : " + kra.BathoPele);
-                Console.WriteLine("GAFs       : " + kra.GAFs);
-                Console.WriteLine("----------------------------------------");
-
-                kraNumber++;
-            }
-
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
             // REMOVE COMPLETELY EMPTY KRA ROWS
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
 
             model.KRAs = model.KRAs
                 .Where(k =>
@@ -175,26 +376,212 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
                 )
                 .ToList();
 
-            // ------------------------------------------------------------
-            // UPDATE NUMBER OF KRAs
-            // ------------------------------------------------------------
+            // --------------------------------------------------------
+            // ACTUAL KRA COUNT
+            // --------------------------------------------------------
 
-            model.NumberOfKRAs = model.KRAs.Count;
+            int actualKraCount =
+                model.KRAs.Count;
+
+            model.NumberOfKRAs =
+                actualKraCount;
 
             Console.WriteLine(
                 "FINAL KRA COUNT: " +
-                model.KRAs.Count
+                actualKraCount
             );
 
-            // ------------------------------------------------------------
-            // VALIDATION
-            // ------------------------------------------------------------
-            ModelState.Remove("Id");
+            // ========================================================
+            // KRA COUNT VALIDATION
+            // ========================================================
+
+            ValidateKraCount(
+                employee.SalaryLevel,
+                actualKraCount
+            );
+
+            // ========================================================
+            // VALIDATE EACH KRA
+            // ========================================================
+
+            decimal totalWeight = 0m;
+
+            for (int i = 0; i < model.KRAs.Count; i++)
+            {
+                var kra = model.KRAs[i];
+
+                // ----------------------------------------------------
+                // KRA NAME
+                // ----------------------------------------------------
+
+                if (string.IsNullOrWhiteSpace(kra.Name))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].Name",
+                        $"KRA {i + 1}: Please enter the KRA name."
+                    );
+                }
+
+                // ----------------------------------------------------
+                // ACTIVITIES
+                // ----------------------------------------------------
+
+                if (string.IsNullOrWhiteSpace(kra.Activities))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].Activities",
+                        $"KRA {i + 1}: Please enter the activities."
+                    );
+                }
+
+                // ----------------------------------------------------
+                // STANDARDS
+                // ----------------------------------------------------
+
+                if (string.IsNullOrWhiteSpace(kra.Standards))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].Standards",
+                        $"KRA {i + 1}: Please enter the standards."
+                    );
+                }
+
+                // ====================================================
+                // WEIGHT
+                // ====================================================
+
+                if (string.IsNullOrWhiteSpace(kra.Weight))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].Weight",
+                        $"KRA {i + 1}: Please enter a weight."
+                    );
+                }
+                else
+                {
+                    if (TryParseWeight(
+                        kra.Weight,
+                        out decimal parsedWeight))
+                    {
+                        if (parsedWeight <= 0)
+                        {
+                            ModelState.AddModelError(
+                                $"KRAs[{i}].Weight",
+                                $"KRA {i + 1}: Weight must be greater than 0%."
+                            );
+                        }
+                        else
+                        {
+                            totalWeight += parsedWeight;
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(
+                            $"KRAs[{i}].Weight",
+                            $"KRA {i + 1}: Weight must be a valid number."
+                        );
+                    }
+                }
+
+                // ====================================================
+                // BATHO PELE
+                // ====================================================
+
+                if (string.IsNullOrWhiteSpace(kra.BathoPele))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].BathoPele",
+                        $"KRA {i + 1}: Please select at least one Batho Pele principle."
+                    );
+                }
+
+                // ====================================================
+                // GAF
+                // ====================================================
+
+                if (string.IsNullOrWhiteSpace(kra.GAFs))
+                {
+                    ModelState.AddModelError(
+                        $"KRAs[{i}].GAFs",
+                        $"KRA {i + 1}: Please select the applicable GAFs."
+                    );
+                }
+                else
+                {
+                    // ------------------------------------------------
+                    // JOB KNOWLEDGE
+                    // ------------------------------------------------
+
+                    if (!ContainsSelection(
+                        kra.GAFs,
+                        "Job Knowledge"))
+                    {
+                        ModelState.AddModelError(
+                            $"KRAs[{i}].GAFs",
+                            $"KRA {i + 1}: Job Knowledge is compulsory."
+                        );
+                    }
+
+                    // ------------------------------------------------
+                    // ACCEPTANCE OF RESPONSIBILITY
+                    // ------------------------------------------------
+
+                    if (!ContainsSelection(
+                        kra.GAFs,
+                        "Acceptance of Responsibility"))
+                    {
+                        ModelState.AddModelError(
+                            $"KRAs[{i}].GAFs",
+                            $"KRA {i + 1}: Acceptance of Responsibility is compulsory."
+                        );
+                    }
+                }
+            }
+
+            // ========================================================
+            // TOTAL WEIGHT
+            // ========================================================
+
+            totalWeight =
+                decimal.Round(
+                    totalWeight,
+                    2,
+                    MidpointRounding.AwayFromZero
+                );
+
+            Console.WriteLine(
+                "TOTAL KRA WEIGHT: " +
+                totalWeight +
+                "%"
+            );
+
+            // --------------------------------------------------------
+            // MUST BE EXACTLY 100
+            // --------------------------------------------------------
+
+            if (totalWeight != 100m)
+            {
+                ModelState.AddModelError(
+                    "",
+                    $"The total KRA weight must be exactly 100%. " +
+                    $"Current total is {totalWeight}%."
+                );
+            }
+
+            ViewBag.TotalWeight =
+                totalWeight;
+
+            // ========================================================
+            // VALIDATE MODEL STATE
+            // ========================================================
 
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("========================================");
-                Console.WriteLine("MODEL STATE INVALID");
+                Console.WriteLine(
+                    "PERFORMANCE AGREEMENT VALIDATION FAILED"
+                );
                 Console.WriteLine("========================================");
 
                 foreach (var state in ModelState)
@@ -210,34 +597,60 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
                     }
                 }
 
-                return View(model);
+                await PrepareCreateView(
+                    employee,
+                    model
+                );
+
+                return View(
+                    "Create",
+                    model
+                );
             }
-            model.Id = 0;
-            // ------------------------------------------------------------
+
+            // ========================================================
             // DATABASE SAVE
-            // ------------------------------------------------------------
+            // ========================================================
 
             try
             {
-                Console.WriteLine("========================================");
-                Console.WriteLine("STARTING DATABASE SAVE");
-                Console.WriteLine("========================================");
+                Console.WriteLine(
+                    "STARTING DATABASE SAVE"
+                );
 
-                // ========================================================
-                // STEP 1
-                // SAVE PERFORMANCE AGREEMENT FIRST
-                // ========================================================
+                var krasToSave =
+                    model.KRAs.ToList();
 
-                // Make sure this is treated as a new agreement.
+                // ----------------------------------------------------
+                // RESET AGREEMENT ID
+                // ----------------------------------------------------
+
                 model.Id = 0;
 
-                // Do not send the KRA navigation collection with the
-                // agreement when doing the first save.
-                var krasToSave = model.KRAs;
+                // ----------------------------------------------------
+                // RESET KRA IDs
+                // ----------------------------------------------------
 
-                model.KRAs = new List<KRA>();
+                foreach (var kra in krasToSave)
+                {
+                    kra.Id = 0;
 
-                _context.PerformanceAgreements.Add(model);
+                    kra.PerformanceAgreementId = 0;
+
+                    kra.PerformanceAgreement =
+                        model;
+                }
+
+                model.KRAs =
+                    krasToSave;
+
+                // ----------------------------------------------------
+                // SAVE
+                // ----------------------------------------------------
+
+                _context.PerformanceAgreements.Add(
+                    model
+                );
 
                 await _context.SaveChangesAsync();
 
@@ -246,47 +659,14 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
                     model.Id
                 );
 
-                // ========================================================
-                // STEP 2
-                // SAVE EACH KRA USING THE GENERATED AGREEMENT ID
-                // ========================================================
+                Console.WriteLine(
+                    "KRAs SAVED = " +
+                    model.KRAs.Count
+                );
 
-                foreach (var kra in krasToSave)
-                {
-                    // Make absolutely sure this is a NEW KRA.
-                    kra.Id = 0;
-
-                    // This is the important relationship.
-                    kra.PerformanceAgreementId = model.Id;
-
-                    // Do not attach the agreement navigation property.
-                    kra.PerformanceAgreement = null;
-
-                    Console.WriteLine("----------------------------------------");
-                    Console.WriteLine("SAVING KRA");
-                    Console.WriteLine("Agreement ID : " + kra.PerformanceAgreementId);
-                    Console.WriteLine("Name         : " + kra.Name);
-                    Console.WriteLine("Weight       : " + kra.Weight);
-                    Console.WriteLine("Activities   : " + kra.Activities);
-                    Console.WriteLine("Standards    : " + kra.Standards);
-                    Console.WriteLine("Batho Pele   : " + kra.BathoPele);
-                    Console.WriteLine("GAFs         : " + kra.GAFs);
-                    Console.WriteLine("----------------------------------------");
-
-                    _context.KRAs.Add(kra);
-
-                    await _context.SaveChangesAsync();
-
-                    Console.WriteLine(
-                        "KRA SAVED SUCCESSFULLY. KRA ID = " +
-                        kra.Id
-                    );
-                }
-
-                // ========================================================
-                // STEP 3
-                // VERIFY THE AGREEMENT AND KRAs IN DATABASE
-                // ========================================================
+                // ====================================================
+                // VERIFY AGREEMENT
+                // ====================================================
 
                 var savedAgreement =
                     await _context.PerformanceAgreements
@@ -298,120 +678,100 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
 
                 if (savedAgreement == null)
                 {
-                    Console.WriteLine(
-                        "ERROR: AGREEMENT WAS NOT FOUND AFTER SAVE."
-                    );
-
                     ModelState.AddModelError(
                         "",
                         "The Performance Agreement could not be found after saving."
                     );
 
-                    model.KRAs = krasToSave;
+                    model.KRAs =
+                        krasToSave;
 
-                    return View(model);
+                    await PrepareCreateView(
+                        employee,
+                        model
+                    );
+
+                    return View(
+                        "Create",
+                        model
+                    );
                 }
 
-                // --------------------------------------------------------
-                // DATABASE VERIFICATION
-                // --------------------------------------------------------
+                // ====================================================
+                // VERIFY KRAs
+                // ====================================================
 
-                Console.WriteLine("========================================");
-                Console.WriteLine("DATABASE VERIFICATION");
-                Console.WriteLine("========================================");
+                int savedKraCount =
+                    savedAgreement.KRAs?.Count ?? 0;
+
+                Console.WriteLine(
+                    "Expected KRAs: " +
+                    krasToSave.Count
+                );
+
+                Console.WriteLine(
+                    "Saved KRAs: " +
+                    savedKraCount
+                );
+
+                if (savedKraCount != krasToSave.Count)
+                {
+                    ModelState.AddModelError(
+                        "",
+                        "The Performance Agreement was saved, " +
+                        "but not all KRAs were saved."
+                    );
+
+                    model.KRAs =
+                        krasToSave;
+
+                    await PrepareCreateView(
+                        employee,
+                        model
+                    );
+
+                    return View(
+                        "Create",
+                        model
+                    );
+                }
+                // ====================================================
+                // SUCCESS
+                // ====================================================
+
+                TempData["Success"] =
+                    "Performance Agreement and " +
+                    savedKraCount +
+                    " KRA(s) saved successfully.";
+
+                Console.WriteLine(
+                    "PERFORMANCE AGREEMENT SAVED SUCCESSFULLY."
+                );
 
                 Console.WriteLine(
                     "Agreement ID: " +
                     savedAgreement.Id
                 );
 
-                Console.WriteLine(
-                    "KRAs FOUND IN DATABASE: " +
-                    (savedAgreement.KRAs?.Count ?? 0)
-                );
-
-                if (savedAgreement.KRAs != null)
-                {
-                    foreach (var savedKra in savedAgreement.KRAs)
-                    {
-                        Console.WriteLine(
-                            "KRA ID=" +
-                            savedKra.Id +
-                            " | AgreementID=" +
-                            savedKra.PerformanceAgreementId +
-                            " | Name=" +
-                            savedKra.Name +
-                            " | Weight=" +
-                            savedKra.Weight
-                        );
-                    }
-                }
-
-                Console.WriteLine("========================================");
-
-                // ========================================================
-                // CHECK THAT ALL KRAs WERE SAVED
-                // ========================================================
-
-                int expectedKraCount = krasToSave.Count;
-                int actualKraCount = savedAgreement.KRAs?.Count ?? 0;
-
-                if (actualKraCount != expectedKraCount)
-                {
-                    Console.WriteLine(
-                        "WARNING: EXPECTED " +
-                        expectedKraCount +
-                        " KRAs BUT FOUND " +
-                        actualKraCount
-                    );
-
-                    ModelState.AddModelError(
-                        "",
-                        "The Performance Agreement was saved, but not all KRAs were saved."
-                    );
-
-                    model.KRAs = krasToSave;
-
-                    return View(model);
-                }
-
-                // ========================================================
-                // SUCCESS
-                // ========================================================
-
-                TempData["Success"] =
-                    "Performance Agreement and " +
-                    actualKraCount +
-                    " KRA(s) saved successfully.";
-
-                // ========================================================
-                // REDIRECT TO AGREEMENT PAGE
-                // ========================================================
+                // ----------------------------------------------------
+                // REDIRECT TO PMDS CYCLES PAGE
+                // ----------------------------------------------------
 
                 return RedirectToAction(
-                    nameof(Agreement),
-                    new
-                    {
-                        agreementId = savedAgreement.Id
-                    }
+                    "Cycles",
+                    "PMDS"
                 );
             }
             catch (DbUpdateException ex)
             {
                 Console.WriteLine("========================================");
                 Console.WriteLine("DATABASE ERROR");
-                Console.WriteLine("========================================");
-
                 Console.WriteLine(ex.ToString());
+                Console.WriteLine("========================================");
 
                 string errorMessage =
                     ex.InnerException?.Message ??
                     ex.Message;
-
-                Console.WriteLine(
-                    "DATABASE ERROR MESSAGE: " +
-                    errorMessage
-                );
 
                 ModelState.AddModelError(
                     "",
@@ -419,144 +779,616 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
                     errorMessage
                 );
 
-                return View(model);
+                model.KRAs =
+                    model.KRAs ??
+                    new List<KRA>();
+
+                await PrepareCreateView(
+                    employee,
+                    model
+                );
+
+                return View(
+                    "Create",
+                    model
+                );
             }
             catch (Exception ex)
             {
                 Console.WriteLine("========================================");
                 Console.WriteLine("GENERAL ERROR");
-                Console.WriteLine("========================================");
-
                 Console.WriteLine(ex.ToString());
-
-                string errorMessage =
-                    ex.InnerException?.Message ??
-                    ex.Message;
+                Console.WriteLine("========================================");
 
                 ModelState.AddModelError(
                     "",
                     "ERROR: " +
-                    errorMessage
+                    (
+                        ex.InnerException?.Message ??
+                        ex.Message
+                    )
                 );
 
-                return View(model);
+                model.KRAs =
+                    model.KRAs ??
+                    new List<KRA>();
+
+                await PrepareCreateView(
+                    employee,
+                    model
+                );
+
+                return View(
+                    "Create",
+                    model
+                );
             }
         }
 
+
         // ============================================================
-        // CREATE - POST
+        // VALIDATE KRA COUNT
         // ============================================================
 
+        private void ValidateKraCount(
+            string? salaryLevel,
+            int kraCount)
+        {
+            int level =
+                ExtractSalaryLevel(
+                    salaryLevel
+                );
 
+            Console.WriteLine(
+                "========================================"
+            );
+
+            Console.WriteLine(
+                "KRA COUNT VALIDATION"
+            );
+
+            Console.WriteLine(
+                "Salary Level: " +
+                salaryLevel
+            );
+
+            Console.WriteLine(
+                "Extracted Level: " +
+                level
+            );
+
+            Console.WriteLine(
+                "KRA Count: " +
+                kraCount
+            );
+
+            Console.WriteLine(
+                "========================================");
+
+            // --------------------------------------------------------
+            // LEVEL 2-4
+            // EXACTLY 4
+            // --------------------------------------------------------
+
+            if (level >= 2 && level <= 4)
+            {
+                if (kraCount != 4)
+                {
+                    ModelState.AddModelError(
+                        "NumberOfKRAs",
+                        "Salary Levels 2–4 require exactly 4 KRAs."
+                    );
+                }
+
+                return;
+            }
+
+            // --------------------------------------------------------
+            // LEVEL 5-7
+            // MAXIMUM 6
+            // --------------------------------------------------------
+
+            if (level >= 5 && level <= 7)
+            {
+                if (kraCount < 1)
+                {
+                    ModelState.AddModelError(
+                        "NumberOfKRAs",
+                        "At least 1 KRA is required."
+                    );
+                }
+
+                if (kraCount > 6)
+                {
+                    ModelState.AddModelError(
+                        "NumberOfKRAs",
+                        "Salary Levels 5–7 allow a maximum of 6 KRAs."
+                    );
+                }
+
+                return;
+            }
+
+            // --------------------------------------------------------
+            // LEVEL 8-16
+            // MAXIMUM 6
+            // --------------------------------------------------------
+
+            if (level >= 8 && level <= 16)
+            {
+                if (kraCount < 1)
+                {
+                    ModelState.AddModelError(
+                        "NumberOfKRAs",
+                        "At least 1 KRA is required."
+                    );
+                }
+
+                if (kraCount > 6)
+                {
+                    ModelState.AddModelError(
+                        "NumberOfKRAs",
+                        "Salary Levels 8–16 allow a maximum of 6 KRAs."
+                    );
+                }
+
+                return;
+            }
+
+            // --------------------------------------------------------
+            // INVALID SALARY LEVEL
+            // --------------------------------------------------------
+
+            if (string.IsNullOrWhiteSpace(salaryLevel))
+            {
+                ModelState.AddModelError(
+                    "SalaryLevel",
+                    "Salary Level could not be determined from your employee profile."
+                );
+
+                return;
+            }
+
+            if (level == 0)
+            {
+                ModelState.AddModelError(
+                    "SalaryLevel",
+                    "The employee salary level is invalid or could not be determined."
+                );
+            }
+        }
+
+
+        // ============================================================
+        // EXTRACT NUMERIC SALARY LEVEL
+        // ============================================================
+
+        private int ExtractSalaryLevel(
+            string? salaryLevel)
+        {
+            if (string.IsNullOrWhiteSpace(salaryLevel))
+            {
+                return 0;
+            }
+
+            // --------------------------------------------------------
+            // Examples:
+            //
+            // Production (Level 2-4)
+            // Production (Level 5-7)
+            // Supervisor / Junior Management (Level 8-10)
+            // Middle Management / Chief (Level 11-12)
+            // Senior Management (Level 13-16)
+            //
+            // Returns the first number.
+            // --------------------------------------------------------
+
+            Match match =
+                Regex.Match(
+                    salaryLevel,
+                    @"Level\s*(\d+)",
+                    RegexOptions.IgnoreCase
+                );
+
+            if (match.Success &&
+                int.TryParse(
+                    match.Groups[1].Value,
+                    out int level
+                ))
+            {
+                return level;
+            }
+
+            // --------------------------------------------------------
+            // If database contains simply:
+            //
+            // "2"
+            // "8"
+            // "12"
+            //
+            // --------------------------------------------------------
+
+            Match numberMatch =
+                Regex.Match(
+                    salaryLevel,
+                    @"\b(\d{1,2})\b"
+                );
+
+            if (numberMatch.Success &&
+                int.TryParse(
+                    numberMatch.Groups[1].Value,
+                    out int numericLevel
+                ))
+            {
+                return numericLevel;
+            }
+
+            return 0;
+        }
+
+
+        // ============================================================
+        // INITIAL KRA COUNT
+        // ============================================================
+
+        private int GetInitialKraCount(
+            string? salaryLevel)
+        {
+            int level =
+                ExtractSalaryLevel(
+                    salaryLevel
+                );
+
+            // Level 2-4 MUST have exactly 4.
+            if (level >= 2 && level <= 4)
+            {
+                return 4;
+            }
+
+            // Other levels start with 1.
+            return 1;
+        }
+
+
+        // ============================================================
+        // PARSE WEIGHT
+        // ============================================================
+
+        private bool TryParseWeight(
+            string? value,
+            out decimal weight)
+        {
+            weight = 0m;
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            // --------------------------------------------------------
+            // First try invariant culture.
+            // --------------------------------------------------------
+
+            if (decimal.TryParse(
+                value.Trim(),
+                NumberStyles.Number,
+                CultureInfo.InvariantCulture,
+                out weight))
+            {
+                return true;
+            }
+
+            // --------------------------------------------------------
+            // Then try current culture.
+            // --------------------------------------------------------
+
+            if (decimal.TryParse(
+                value.Trim(),
+                NumberStyles.Number,
+                CultureInfo.CurrentCulture,
+                out weight))
+            {
+                return true;
+            }
+
+            // --------------------------------------------------------
+            // Finally try South African culture.
+            // --------------------------------------------------------
+
+            var southAfricanCulture =
+                CultureInfo.GetCultureInfo("en-ZA");
+
+            return decimal.TryParse(
+                value.Trim(),
+                NumberStyles.Number,
+                southAfricanCulture,
+                out weight
+            );
+        }
+
+
+        // ============================================================
+        // CHECK GAF SELECTION
+        // ============================================================
+
+        private bool ContainsSelection(
+            string? selections,
+            string requiredSelection)
+        {
+            if (string.IsNullOrWhiteSpace(selections))
+            {
+                return false;
+            }
+
+            // --------------------------------------------------------
+            // Remove common JSON-style characters.
+            // --------------------------------------------------------
+
+            string cleaned =
+                selections
+                    .Replace("[", "")
+                    .Replace("]", "")
+                    .Replace("\"", "");
+
+            // --------------------------------------------------------
+            // Split possible multi-select formats.
+            // --------------------------------------------------------
+
+            var values =
+                cleaned
+                    .Split(
+                        new[]
+                        {
+                            ',',
+                            ';',
+                            '|'
+                        },
+                        StringSplitOptions.RemoveEmptyEntries
+                    )
+                    .Select(
+                        x => x.Trim()
+                    )
+                    .Where(
+                        x =>
+                            !string.IsNullOrWhiteSpace(x)
+                    )
+                    .ToList();
+
+            return values.Any(
+                x =>
+                    string.Equals(
+                        x,
+                        requiredSelection,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+            );
+        }
+
+
+        // ============================================================
+        // PREPARE CREATE VIEW
+        // ============================================================
+
+        private async Task PrepareCreateView(
+            Employee employee,
+            PerformanceAgreement model)
+        {
+            // --------------------------------------------------------
+            // EMPLOYEE
+            // --------------------------------------------------------
+
+            ViewBag.EmployeeNameAndCapacity =
+                $"{employee.FirstName} " +
+                $"{employee.LastName} - " +
+                $"{employee.Position}";
+
+            // --------------------------------------------------------
+            // SUPERVISOR
+            // --------------------------------------------------------
+
+            if (employee.Supervisor != null)
+            {
+                ViewBag.SupervisorNameAndCapacity =
+                    $"{employee.Supervisor.FirstName} " +
+                    $"{employee.Supervisor.LastName} - " +
+                    $"{employee.Supervisor.Position}";
+            }
+            else
+            {
+                ViewBag.SupervisorNameAndCapacity =
+                    "Supervisor Not Assigned";
+            }
+
+            // --------------------------------------------------------
+            // PART A CYCLE
+            // --------------------------------------------------------
+
+            var pmdsForm =
+                await _context.PMDSForms
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(
+                        x =>
+                            x.EmployeeId ==
+                            employee.Id
+                    );
+
+            if (pmdsForm != null &&
+                pmdsForm.StartYear.HasValue &&
+                pmdsForm.EndYear.HasValue)
+            {
+                // PMDSForm fields are nullable int?.
+                ViewBag.StartYear =
+                    pmdsForm.StartYear.Value;
+
+                ViewBag.EndYear =
+                    pmdsForm.EndYear.Value;
+
+                ViewBag.PerformanceCycle =
+                    $"{pmdsForm.StartYear.Value}/" +
+                    $"{pmdsForm.EndYear.Value}";
+            }
+            else
+            {
+                // PerformanceAgreement fields are normal int.
+                ViewBag.StartYear =
+                    model.StartYear;
+
+                ViewBag.EndYear =
+                    model.EndYear;
+
+                ViewBag.PerformanceCycle =
+                    $"{model.StartYear}/" +
+                    $"{model.EndYear}";
+            }
+
+            // --------------------------------------------------------
+            // SALARY LEVEL
+            // --------------------------------------------------------
+
+            ViewBag.SalaryLevel =
+                employee.SalaryLevel;
+
+            // --------------------------------------------------------
+            // KRA LIMIT
+            // --------------------------------------------------------
+
+            int level =
+                ExtractSalaryLevel(
+                    employee.SalaryLevel
+                );
+
+            if (level >= 2 && level <= 4)
+            {
+                ViewBag.RequiredKraCount = 4;
+                ViewBag.MaxKraCount = 4;
+            }
+            else
+            {
+                ViewBag.RequiredKraCount = 1;
+                ViewBag.MaxKraCount = 6;
+            }
+
+            // --------------------------------------------------------
+            // TOTAL WEIGHT
+            // --------------------------------------------------------
+
+            decimal totalWeight = 0m;
+
+            if (model.KRAs != null)
+            {
+                foreach (var kra in model.KRAs)
+                {
+                    if (TryParseWeight(
+                        kra.Weight,
+                        out decimal weight))
+                    {
+                        totalWeight += weight;
+                    }
+                }
+            }
+
+            ViewBag.TotalWeight =
+                decimal.Round(
+                    totalWeight,
+                    2,
+                    MidpointRounding.AwayFromZero
+                );
+
+            // --------------------------------------------------------
+            // SUPERVISOR SIGNATURE
+            // --------------------------------------------------------
+
+            ViewBag.CanSupervisorSign =
+                false;
+
+            ViewBag.ExistingSupervisorSignature =
+                "";
+        }
 
 
         // ============================================================
         // AGREEMENT - GET
-        //
-        // This works with:
-        //
-        // /PerformanceAgreement/Agreement?agreementId=1003
-        //
-        // AND also:
-        //
-        // /PerformanceAgreement/Agreement
-        //
-        // If no ID is supplied, the latest agreement is opened.
         // ============================================================
 
         [HttpGet]
-        public async Task<IActionResult> Agreement(int? agreementId)
+        public async Task<IActionResult> Agreement(
+            int? agreementId)
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine("AGREEMENT PAGE REQUESTED");
-            Console.WriteLine("========================================");
+            Console.WriteLine(
+                "========================================"
+            );
 
             Console.WriteLine(
-                "Agreement ID received: " +
-                (agreementId.HasValue
-                    ? agreementId.Value.ToString()
-                    : "NULL")
+                "AGREEMENT PAGE REQUESTED"
+            );
+
+            Console.WriteLine(
+                "Agreement ID: " +
+                (
+                    agreementId?.ToString() ??
+                    "NULL"
+                )
             );
 
             // --------------------------------------------------------
-            // If no ID was supplied, get the latest agreement
+            // LOAD AGREEMENT
             // --------------------------------------------------------
 
             PerformanceAgreement? agreement;
 
-            if (!agreementId.HasValue || agreementId.Value <= 0)
+            if (!agreementId.HasValue ||
+                agreementId.Value <= 0)
             {
-                Console.WriteLine(
-                    "No valid Agreement ID supplied."
-                );
-
-                agreement = await _context.PerformanceAgreements
-                    .Include(p => p.KRAs)
-                    .OrderByDescending(p => p.Id)
-                    .FirstOrDefaultAsync();
+                agreement =
+                    await _context.PerformanceAgreements
+                        .Include(p => p.KRAs)
+                        .OrderByDescending(
+                            p => p.Id
+                        )
+                        .FirstOrDefaultAsync();
 
                 if (agreement == null)
                 {
-                    Console.WriteLine(
-                        "NO PERFORMANCE AGREEMENTS FOUND."
-                    );
-
                     TempData["Error"] =
                         "No Performance Agreement was found.";
 
-                    return RedirectToAction(nameof(Create));
+                    return RedirectToAction(
+                        nameof(Create)
+                    );
                 }
-
-                Console.WriteLine(
-                    "Opening latest Agreement ID: " +
-                    agreement.Id
-                );
             }
             else
             {
-                // ----------------------------------------------------
-                // ID was supplied - load that exact agreement
-                // ----------------------------------------------------
-
-                agreement = await _context.PerformanceAgreements
-                    .Include(p => p.KRAs)
-                    .FirstOrDefaultAsync(
-                        p => p.Id == agreementId.Value
-                    );
+                agreement =
+                    await _context.PerformanceAgreements
+                        .Include(p => p.KRAs)
+                        .FirstOrDefaultAsync(
+                            p =>
+                                p.Id ==
+                                agreementId.Value
+                        );
 
                 if (agreement == null)
                 {
-                    Console.WriteLine(
-                        "Agreement not found. ID = " +
-                        agreementId.Value
-                    );
-
                     TempData["Error"] =
                         "Performance Agreement with ID " +
                         agreementId.Value +
                         " was not found.";
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(
+                        nameof(Index)
+                    );
                 }
             }
 
             // --------------------------------------------------------
-            // Current logged-in Identity user
+            // CURRENT USER
             // --------------------------------------------------------
 
-            string? currentUserId =
+            var currentUserId =
                 User.FindFirstValue(
                     ClaimTypes.NameIdentifier
                 );
-
-            Console.WriteLine(
-                "Current Identity User ID: " +
-                (currentUserId ?? "NULL")
-            );
-
-            // --------------------------------------------------------
-            // Default values
-            // --------------------------------------------------------
 
             ViewBag.EmployeeNameAndCapacity =
                 "Employee";
@@ -564,171 +1396,103 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
             ViewBag.SupervisorNameAndCapacity =
                 "Supervisor";
 
-            ViewBag.CanSupervisorSign = false;
+            ViewBag.CanSupervisorSign =
+                false;
 
             ViewBag.ExistingSupervisorSignature =
                 "";
 
             // --------------------------------------------------------
-            // Find logged-in employee
+            // CURRENT EMPLOYEE
             // --------------------------------------------------------
 
-            if (!string.IsNullOrWhiteSpace(currentUserId))
+            if (!string.IsNullOrWhiteSpace(
+                currentUserId))
             {
                 var currentEmployee =
                     await _context.Employees
+                        .Include(e => e.Supervisor)
                         .FirstOrDefaultAsync(
-                            e => e.UserId == currentUserId
+                            e =>
+                                e.UserId ==
+                                currentUserId
                         );
 
                 if (currentEmployee != null)
                 {
-                    Console.WriteLine(
-                        "Employee found: " +
-                        currentEmployee.FirstName +
-                        " " +
-                        currentEmployee.LastName
-                    );
-
-                    // ------------------------------------------------
-                    // Employee display name
-                    // ------------------------------------------------
-
                     ViewBag.EmployeeNameAndCapacity =
-                        (
-                            currentEmployee.FirstName +
-                            " " +
-                           currentEmployee.LastName
-                        ).Trim();
-
+                        $"{currentEmployee.FirstName} " +
+                        $"{currentEmployee.LastName}";
 
                     // ------------------------------------------------
-                    // GET PERFORMANCE CYCLE FROM PART A
+                    // PART A CYCLE
                     // ------------------------------------------------
 
-                    var pmdsForm = await _context.PMDSForms
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(x =>
-                            x.EmployeeId == currentEmployee.Id);
+                    var pmdsForm =
+                        await _context.PMDSForms
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(
+                                x =>
+                                    x.EmployeeId ==
+                                    currentEmployee.Id
+                            );
 
-                    if (pmdsForm != null)
+                    if (pmdsForm != null &&
+                        pmdsForm.StartYear.HasValue &&
+                        pmdsForm.EndYear.HasValue)
                     {
-                        ViewBag.StartYear = pmdsForm.StartYear;
-                        ViewBag.EndYear = pmdsForm.EndYear;
+                        // PMDSForm = nullable int?.
+                        ViewBag.StartYear =
+                            pmdsForm.StartYear.Value;
 
-                        Console.WriteLine(
-                            "Part A Performance Cycle: " +
-                            pmdsForm.StartYear +
-                            "/" +
-                            pmdsForm.EndYear
-                        );
+                        ViewBag.EndYear =
+                            pmdsForm.EndYear.Value;
                     }
                     else
                     {
-                        ViewBag.StartYear = null;
-                        ViewBag.EndYear = null;
+                        // PerformanceAgreement = int.
+                        ViewBag.StartYear =
+                            agreement.StartYear;
 
-                        Console.WriteLine(
-                            "WARNING: No Part A PMDS Form found for Employee ID = " +
-                            currentEmployee.Id
-                        );
+                        ViewBag.EndYear =
+                            agreement.EndYear;
                     }
 
                     // ------------------------------------------------
-                    // Find assigned supervisor
+                    // SUPERVISOR
                     // ------------------------------------------------
 
-                    if (currentEmployee.SupervisorId.HasValue)
+                    if (currentEmployee.Supervisor != null)
                     {
                         var supervisor =
-                            await _context.Employees
-                                .FirstOrDefaultAsync(
-                                    e =>
-                                        e.Id ==
-                                        currentEmployee.SupervisorId.Value
-                                );
+                            currentEmployee.Supervisor;
 
-                        if (supervisor != null)
-                        {
-                            string supervisorName =
-                                (
-                                    supervisor.FirstName +
-                                    " " +
-                                   supervisor.LastName
-                                ).Trim();
+                        ViewBag.SupervisorNameAndCapacity =
+                            $"{supervisor.FirstName} " +
+                            $"{supervisor.LastName}";
 
-                            ViewBag.SupervisorNameAndCapacity =
-                                supervisorName;
+                        bool isSupervisor =
+                            supervisor.UserId ==
+                            currentUserId;
 
-                            // ----------------------------------------
-                            // Determine whether logged-in user is
-                            // the assigned supervisor
-                            // ----------------------------------------
-
-                            bool isSupervisor =
-                                supervisor.UserId ==
-                                currentUserId;
-
-                            ViewBag.CanSupervisorSign =
-                                isSupervisor;
-
-                            Console.WriteLine(
-                                "Assigned Supervisor: " +
-                                supervisorName
-                            );
-
-                            Console.WriteLine(
-                                "Can Supervisor Sign: " +
-                                isSupervisor
-                            );
-                        }
+                        ViewBag.CanSupervisorSign =
+                            isSupervisor;
                     }
                 }
             }
 
             // --------------------------------------------------------
-            // Existing supervisor signature
-            //
-            // This uses the property already used by your Agreement
-            // view/controller workflow.
+            // EXTRA VIEWBAGS
             // --------------------------------------------------------
 
-            ViewBag.ExistingSupervisorSignature = "";
-
-            // --------------------------------------------------------
-            // Extra useful ViewBags
-            // --------------------------------------------------------
-
-            ViewBag.AgreementId = agreement.Id;
+            ViewBag.AgreementId =
+                agreement.Id;
 
             ViewBag.KraCount =
                 agreement.KRAs?.Count ?? 0;
 
             // --------------------------------------------------------
-            // Log final information
-            // --------------------------------------------------------
-
-            Console.WriteLine("========================================");
-            Console.WriteLine("AGREEMENT FOUND");
-            Console.WriteLine(
-                "Agreement ID: " +
-                agreement.Id
-            );
-
-            Console.WriteLine(
-                "KRA Count: " +
-                (agreement.KRAs?.Count ?? 0)
-            );
-
-            Console.WriteLine(
-                "Can Supervisor Sign: " +
-                (ViewBag.CanSupervisorSign ?? false)
-            );
-
-            Console.WriteLine("========================================");
-
-            // --------------------------------------------------------
-            // Send agreement to Agreement.cshtml
+            // RETURN VIEW
             // --------------------------------------------------------
 
             return View(agreement);
@@ -745,7 +1509,9 @@ public async Task<IActionResult> Create(PerformanceAgreement model)
             var agreements =
                 await _context.PerformanceAgreements
                     .Include(p => p.KRAs)
-                    .OrderByDescending(p => p.Id)
+                    .OrderByDescending(
+                        p => p.Id
+                    )
                     .AsNoTracking()
                     .ToListAsync();
 

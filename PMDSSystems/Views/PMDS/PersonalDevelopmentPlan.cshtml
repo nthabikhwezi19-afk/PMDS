@@ -4,6 +4,34 @@
 @{
     ViewData["Title"] = "Personal Development Plan";
 }
+<div style="background:#fff3cd; border:2px solid #856404; padding:15px; margin:20px 0;">
+    <h5>PDP DEBUG TEST</h5>
+
+    <p>
+        <strong>Age Group:</strong>
+        [@Model.AgeGroup]
+    </p>
+
+    <p>
+        <strong>Disability:</strong>
+        [@Model.Disabled]
+    </p>
+
+    <p>
+        <strong>Nature of Disability:</strong>
+        [@Model.DisabilityDetails]
+    </p>
+
+    <p>
+        <strong>Gender:</strong>
+        [@Model.Gender]
+    </p>
+
+    <p>
+        <strong>Race:</strong>
+        [@Model.Race]
+    </p>
+</div>
 
 <style>
     /* =========================================================
@@ -610,7 +638,6 @@
 
             @Html.AntiForgeryToken()
 
-
             <!-- =================================================
                  1. PERSONAL DETAILS
                  ================================================= -->
@@ -624,15 +651,19 @@
             </div>
 
 
+            <!-- Surname / Supervisor Position -->
             <div class="row">
 
                 <div class="col-md-6">
 
                     <div class="form-group">
 
-                        <label>Surname & Initials</label>
+                        <label for="Surname">
+                            Surname & Initials
+                        </label>
 
                         <input type="text"
+                               id="Surname"
                                name="Surname"
                                value="@Model.Surname"
                                class="form-control"
@@ -647,9 +678,12 @@
 
                     <div class="form-group">
 
-                        <label>Supervisor's Position</label>
+                        <label for="SupervisorPosition">
+                            Supervisor's Position
+                        </label>
 
                         <input type="text"
+                               id="SupervisorPosition"
                                name="SupervisorPosition"
                                value="@Model.SupervisorPosition"
                                class="form-control"
@@ -662,15 +696,19 @@
             </div>
 
 
+            <!-- Persal / Directorate -->
             <div class="row">
 
                 <div class="col-md-6">
 
                     <div class="form-group">
 
-                        <label>Persal No</label>
+                        <label for="PersalNo">
+                            Persal No
+                        </label>
 
                         <input type="text"
+                               id="PersalNo"
                                name="PersalNo"
                                value="@Model.PersalNo"
                                class="form-control"
@@ -685,9 +723,12 @@
 
                     <div class="form-group">
 
-                        <label>Directorate / Section</label>
+                        <label for="Directorate">
+                            Directorate / Section
+                        </label>
 
                         <input type="text"
+                               id="Directorate"
                                name="Directorate"
                                value="@Model.Directorate"
                                class="form-control"
@@ -700,15 +741,19 @@
             </div>
 
 
+            <!-- ID / Branch -->
             <div class="row">
 
                 <div class="col-md-6">
 
                     <div class="form-group">
 
-                        <label>ID Number</label>
+                        <label for="IdNumber">
+                            ID Number
+                        </label>
 
                         <input type="text"
+                               id="IdNumber"
                                name="IdNumber"
                                value="@Model.IdNumber"
                                class="form-control"
@@ -723,9 +768,12 @@
 
                     <div class="form-group">
 
-                        <label>Branch / Region</label>
+                        <label for="Branch">
+                            Branch / Region
+                        </label>
 
                         <input type="text"
+                               id="Branch"
                                name="Branch"
                                value="@Model.Branch"
                                class="form-control"
@@ -737,16 +785,23 @@
 
             </div>
 
+            <!-- =================================================
+                 SALARY / GENDER / AGE GROUP
+                 ================================================= -->
 
             <div class="row">
 
+                <!-- SALARY LEVEL -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
-                        <label>Salary Level</label>
+                        <label for="SalaryLevel">
+                            Salary Level
+                        </label>
 
                         <input type="text"
+                               id="SalaryLevel"
                                name="SalaryLevel"
                                value="@Model.SalaryLevel"
                                class="form-control"
@@ -757,13 +812,17 @@
                 </div>
 
 
+                <!-- GENDER -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
-                        <label>Gender</label>
+                        <label for="Gender">
+                            Gender
+                        </label>
 
                         <input type="text"
+                               id="Gender"
                                name="Gender"
                                value="@Model.Gender"
                                class="form-control"
@@ -774,17 +833,20 @@
                 </div>
 
 
+                <!-- AGE GROUP -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
-                        <label for="AgeGroup">Age Group</label>
+                        <label for="AgeGroup">
+                            Age Group
+                        </label>
 
                         <input type="text"
                                id="AgeGroup"
                                name="AgeGroup"
+                               value="@Model.AgeGroup"
                                class="form-control"
-                               value="@Model?.AgeGroup"
                                readonly />
 
                     </div>
@@ -794,15 +856,23 @@
             </div>
 
 
+            <!-- =================================================
+                 RACE / DISABILITY / NATURE OF DISABILITY
+                 ================================================= -->
+
             <div class="row">
 
+                <!-- RACE -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
-                        <label>Race</label>
+                        <label for="Race">
+                            Race
+                        </label>
 
                         <input type="text"
+                               id="Race"
                                name="Race"
                                value="@Model.Race"
                                class="form-control"
@@ -813,17 +883,20 @@
                 </div>
 
 
+                <!-- DISABILITY -->
                 <div class="col-md-4">
 
                     <div class="form-group">
 
-                        <label for="Disabled">Disability</label>
+                        <label for="Disabled">
+                            Disability
+                        </label>
 
                         <input type="text"
                                id="Disabled"
                                name="Disabled"
+                               value="@Model.Disabled"
                                class="form-control"
-                               value="@Model?.Disabled"
                                readonly />
 
                     </div>
@@ -831,9 +904,8 @@
                 </div>
 
 
-                <div class="col-md-4"
-                     id="disabilityDetailsContainer"
-                     style="display:none;">
+                <!-- NATURE OF DISABILITY -->
+                <div class="col-md-4">
 
                     <div class="form-group">
 
@@ -844,8 +916,8 @@
                         <input type="text"
                                id="DisabilityDetails"
                                name="DisabilityDetails"
+                               value="@Model.DisabilityDetails"
                                class="form-control"
-                               value="@Model?.DisabilityDetails"
                                readonly />
 
                     </div>
@@ -853,9 +925,6 @@
                 </div>
 
             </div>
-
-
-            <hr class="divider" />
 
 
             <!-- =================================================
@@ -909,7 +978,7 @@
 
                             <td>
 
-                                <select name="EducationNQFLevel1"
+                                <select name="NQFLevel1"
                                         class="form-control">
 
                                     <option value="">
@@ -1144,7 +1213,7 @@
 
                             <td>
 
-                                <select name="JobNQFLevel1"
+                                <select name="NQFLevel1"
                                         class="form-control">
 
                                     <option value="">
@@ -1628,7 +1697,20 @@
     </div>
 
 </div>
+<div class="alert alert-warning mt-3">
+    <strong>DEBUG INFORMATION</strong><br />
 
+    AgeGroup:
+    <strong>[@Model.AgeGroup]</strong>
+    <br />
+
+    Disabled:
+    <strong>[@Model.Disabled]</strong>
+    <br />
+
+    DisabilityDetails:
+    <strong>[@Model.DisabilityDetails]</strong>
+</div>
 
 <!-- =========================================================
      FONT AWESOME
@@ -1691,51 +1773,51 @@
            DISABILITY
            ===================================================== */
 
-        const disabilityField =
-            document.getElementById("Disabled");
+        // const disabilityField =
+        //     document.getElementById("Disabled");
 
-        const disabilityDetailsContainer =
-            document.getElementById("disabilityDetailsContainer");
+        // const disabilityDetailsContainer =
+        //     document.getElementById("disabilityDetailsContainer");
 
-        const disabilityDetails =
-            document.getElementById("DisabilityDetails");
+        // const disabilityDetails =
+        //     document.getElementById("DisabilityDetails");
 
-        function toggleDisabilityDetails() {
+        // function toggleDisabilityDetails() {
 
-            if (!disabilityField || !disabilityDetailsContainer) {
-                return;
-            }
+        //     if (!disabilityField || !disabilityDetailsContainer) {
+        //         return;
+        //     }
 
-            const value =
-                (disabilityField.value || "")
-                    .trim()
-                    .toLowerCase();
+        //     const value =
+        //         (disabilityField.value || "")
+        //             .trim()
+        //             .toLowerCase();
 
-            if (value === "yes") {
+        //     if (value === "yes") {
 
-                disabilityDetailsContainer.style.display = "block";
+        //         disabilityDetailsContainer.style.display = "block";
 
-            } else {
+        //     } else {
 
-                disabilityDetailsContainer.style.display = "none";
+        //         disabilityDetailsContainer.style.display = "none";
 
-                if (disabilityDetails) {
-                    disabilityDetails.value = "";
-                }
-            }
-        }
+        //         if (disabilityDetails) {
+        //             disabilityDetails.value = "";
+        //         }
+        //     }
+        // }
 
-        if (disabilityField) {
+        // if (disabilityField) {
 
-            disabilityField.addEventListener(
-                "change",
-                toggleDisabilityDetails
-            );
+        //     disabilityField.addEventListener(
+        //         "change",
+        //         toggleDisabilityDetails
+        //     );
 
-            toggleDisabilityDetails();
-        }
+        //     toggleDisabilityDetails();
+        // }
 
-
+  
         /* =====================================================
            START YEAR / END YEAR
            ===================================================== */
@@ -1804,169 +1886,220 @@
         }
 
 
-        /* =====================================================
-           EDUCATION BACKGROUND
-           ===================================================== */
+          /* =====================================================
+       EDUCATION BACKGROUND
+       ===================================================== */
+    const educationTableBody =
+        document.getElementById("educationTableBody");
 
-        const educationTableBody =
-            document.getElementById("educationTableBody");
+    const addEducationButton =
+        document.getElementById("addEducation");
 
-        const addEducationButton =
-            document.getElementById("addEducationRow");
+    if (addEducationButton && educationTableBody) {
 
-        if (addEducationButton && educationTableBody) {
+        addEducationButton.addEventListener("click", function () {
 
-            addEducationButton.addEventListener(
-                "click",
-                function () {
+            const rowNumber =
+                educationTableBody.querySelectorAll("tr").length + 1;
 
-                    const rowCount =
-                        educationTableBody.querySelectorAll("tr").length;
+            const row = document.createElement("tr");
 
-                    const row =
-                        document.createElement("tr");
+            row.innerHTML = `
+                <td>
+                    <input type="text"
+                           name="Qualification${rowNumber}"
+                           class="form-control"
+                           placeholder="Qualification" />
+                </td>
 
-                    row.innerHTML = `
-                        <td>
-                            <input type="text"
-                                   name="EducationBackground[${rowCount}].Qualification"
-                                   class="form-control"
-                                   placeholder="Qualification" />
-                        </td>
+                <td>
+                    <select name="EducationNQFLevel${rowNumber}"
+                            class="form-control">
 
-                        <td>
-                            <input type="text"
-                                   name="EducationBackground[${rowCount}].Institution"
-                                   class="form-control"
-                                   placeholder="Institution" />
-                        </td>
+                        <option value="">
+                            -- Select NQF Level --
+                        </option>
 
-                        <td>
-                            <input type="text"
-                                   name="EducationBackground[${rowCount}].Year"
-                                   class="form-control"
-                                   placeholder="Year" />
-                        </td>
+                        ${Array.from({ length: 10 }, (_, i) =>
+                            `<option value="${i + 1}">
+                                NQF Level ${i + 1}
+                            </option>`
+                        ).join("")}
 
-                        <td>
-                            <button type="button"
-                                    class="btn btn-danger btn-sm removeEducationRow">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
+                    </select>
+                </td>
 
-                    educationTableBody.appendChild(row);
-                }
-            );
+                <td>
+                    <select name="YearCompleted${rowNumber}"
+                            class="form-control">
 
+                        <option value="">
+                            -- Select Year --
+                        </option>
 
-            educationTableBody.addEventListener(
-                "click",
-                function (event) {
+                        ${Array.from(
+                            { length: new Date().getFullYear() - 1979 },
+                            (_, i) => {
+                                const year =
+                                    new Date().getFullYear() - i;
 
-                    const button =
-                        event.target.closest(
-                            ".removeEducationRow"
-                        );
+                                return `<option value="${year}">
+                                            ${year}
+                                        </option>`;
+                            }
+                        ).join("")}
 
-                    if (!button) {
-                        return;
-                    }
+                    </select>
+                </td>
 
-                    const row =
-                        button.closest("tr");
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-education">
 
-                    if (row) {
-                        row.remove();
-                    }
-                }
-            );
-        }
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+                </td>
+            `;
+
+            educationTableBody.appendChild(row);
+        });
 
 
-        /* =====================================================
-           JOB REQUIREMENTS
-           ===================================================== */
+        educationTableBody.addEventListener("click", function (event) {
+
+            const button =
+                event.target.closest(".remove-education");
+
+            if (!button) {
+                return;
+            }
+
+            const row =
+                button.closest("tr");
+
+            if (row) {
+                row.remove();
+            }
+        });
+    }
+           /* =====================================================
+       JOB REQUIREMENTS
+       ===================================================== */
 
         const jobRequirementsTableBody =
-            document.getElementById(
-                "jobRequirementsTableBody"
-            );
+        document.getElementById("jobRequirementsTableBody");
 
-        const addJobRequirementButton =
-            document.getElementById(
-                "addJobRequirementRow"
-            );
+    const addJobRequirementButton =
+        document.getElementById("addJobRequirement");
 
-        if (
-            addJobRequirementButton &&
-            jobRequirementsTableBody
-        ) {
+    if (
+        addJobRequirementButton &&
+        jobRequirementsTableBody
+    ) {
 
-            addJobRequirementButton.addEventListener(
-                "click",
-                function () {
+        addJobRequirementButton.addEventListener(
+            "click",
+            function () {
 
-                    const rowCount =
-                        jobRequirementsTableBody
-                            .querySelectorAll("tr")
-                            .length;
+                const rowNumber =
+                    jobRequirementsTableBody
+                        .querySelectorAll("tr")
+                        .length + 1;
 
-                    const row =
-                        document.createElement("tr");
+                const row =
+                    document.createElement("tr");
 
-                    row.innerHTML = `
-                        <td>
-                            <input type="text"
-                                   name="JobRequirements[${rowCount}].Requirement"
-                                   class="form-control"
-                                   placeholder="Job requirement" />
-                        </td>
+                row.innerHTML = `
+                    <td>
+                        <input type="text"
+                               name="Task${rowNumber}"
+                               class="form-control"
+                               placeholder="Task/KPA" />
+                    </td>
 
-                        <td>
-                            <input type="text"
-                                   name="JobRequirements[${rowCount}].NQFLevel"
-                                   class="form-control"
-                                   placeholder="NQF Level" />
-                        </td>
+                    <td>
+                        <input type="text"
+                               name="Training${rowNumber}"
+                               class="form-control"
+                               placeholder="Training needed" />
+                    </td>
 
-                        <td>
-                            <button type="button"
-                                    class="btn btn-danger btn-sm removeJobRequirementRow">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
+                    <td>
+                        <input type="text"
+                               name="LearningType${rowNumber}"
+                               class="form-control"
+                               placeholder="Type of learning" />
+                    </td>
 
-                    jobRequirementsTableBody.appendChild(row);
+                    <td>
+                        <select name="JobNQFLevel${rowNumber}"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select NQF Level --
+                            </option>
+
+                            ${Array.from({ length: 10 }, (_, i) =>
+                                `<option value="${i + 1}">
+                                    NQF Level ${i + 1}
+                                </option>`
+                            ).join("")}
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="Cost${rowNumber}"
+                               class="form-control"
+                               placeholder="Cost" />
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="Impact${rowNumber}"
+                               class="form-control"
+                               placeholder="Impact" />
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-danger btn-sm remove-job-requirement">
+
+                            <i class="fas fa-trash"></i>
+
+                        </button>
+                    </td>
+                `;
+
+                jobRequirementsTableBody.appendChild(row);
+            }
+        );
+
+
+        jobRequirementsTableBody.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        ".remove-job-requirement"
+                    );
+
+                if (!button) {
+                    return;
                 }
-            );
 
+                const row =
+                    button.closest("tr");
 
-            jobRequirementsTableBody.addEventListener(
-                "click",
-                function (event) {
-
-                    const button =
-                        event.target.closest(
-                            ".removeJobRequirementRow"
-                        );
-
-                    if (!button) {
-                        return;
-                    }
-
-                    const row =
-                        button.closest("tr");
-
-                    if (row) {
-                        row.remove();
-                    }
+                if (row) {
+                    row.remove();
                 }
-            );
-        }
-
+            }
+        );
+    }
 
         /* =====================================================
            EMPLOYEE SIGNATURE

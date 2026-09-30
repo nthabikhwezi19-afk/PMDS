@@ -258,6 +258,15 @@
             <!-- ============================= -->
             <!-- PART A -->
             <!-- ============================= -->
+            <form asp-controller="PMDS"
+                  asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="subtitle">
+                   
+                </div>
 
             <div class="subtitle">
 
@@ -270,38 +279,42 @@
 
                     <strong>1 April</strong>
 
-                    <select name="StartYear"
-                            id="StartYear"
-                            class="cycle-year-dropdown"
-                            required>
-                        <option value="">Year</option>
+                        <select asp-for="StartYear"
+                                id="StartYear"
+                                name="StartYear"
+                                class="cycle-year-dropdown"
+                                required>
 
-                        @for (int year = 2020; year <= 2035; year++)
-                        {
-                            <option value="@year">@year</option>
-                        }
-                    </select>
+                            <option value="">Year</option>
 
-                    <strong>- 31 March</strong>
+                            @for (int year = 2020; year <= 2035; year++)
+                            {
+                                <option value="@year">@year</option>
+                            }
 
-                    <select name="EndYear"
-                            id="EndYear"
-                            class="cycle-year-dropdown"
-                            required>
-                        <option value="">Year</option>
+                        </select>
 
-                        @for (int year = 2021; year <= 2036; year++)
-                        {
-                            <option value="@year">@year</option>
-                        }
-                    </select>
+                        <strong>- 31 March</strong>
+
+                        <select asp-for="EndYear"
+                                id="EndYear"
+                                name="EndYear"
+                                class="cycle-year-dropdown"
+                                required>
+
+                            <option value="">Year</option>
+
+                            @for (int year = 2021; year <= 2036; year++)
+                            {
+                                <option value="@year">@year</option>
+                            }
+
+                        </select>
 
                 </h6>
 
             </div>
 
-
-            <form asp-action="Create" method="post">
 
                 <!-- ============================= -->
                 <!-- PERSONAL PARTICULARS -->
@@ -596,12 +609,12 @@
                         Back
                     </a>
 
-                    <a href="/PerformanceAgreement/Create/Agreement"
-                       class="btn btn-success btn-lg">
+                    <button type="submit" class="btn btn-success btn-lg">
                         Save
-                    </a>
+                    </button>
 
                 </div>
+            </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 
     </script>

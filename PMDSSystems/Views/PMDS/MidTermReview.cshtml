@@ -1,1995 +1,2173 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCS · PMDS Mid-Term Review</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        /* ===== GLOBAL STYLES ===== */
-        body {
-            background-color: #f0f2f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+﻿@model PMDSSystems.Models.MidTermReview
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+@{
+    ViewData["Title"] = "Mid-Term Review";
 
-        /* ===== PMDS CARD ===== */
-        .pmds-card {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            margin-top: 20px;
-            border-top: 5px solid #006838;
-            position: relative;
-            overflow: hidden;
-        }
+    var kraEvaluations = Model.KraEvaluations?.ToList()
+                         ?? new List<PMDSSystems.Models.MidTermKraEvaluation>();
+}
 
-            .pmds-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 200px;
-                height: 200px;
-                background: radial-gradient(circle, rgba(0,104,56,0.03) 0%, transparent 70%);
-                border-radius: 50%;
-                pointer-events: none;
-            }
+<style>
+    /* ============================================================
+           GLOBAL
+           ============================================================ */
 
-        /* ===== CARD HEADER ===== */
-        .card-header.bg-dark {
-            background: linear-gradient(135deg, #004d28 0%, #006838 100%) !important;
-            border-radius: 12px 12px 0 0 !important;
-            position: relative;
-            overflow: hidden;
-        }
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-            .card-header.bg-dark::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 4px;
-                background: linear-gradient(to right, #a8e6cf, #006838, #a8e6cf);
-            }
+    .pmds-container {
+        max-width: 1500px;
+        margin: 30px auto;
+        padding: 0 20px 50px;
+    }
 
-        .card-header .badge.bg-primary {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%) !important;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 2px 10px rgba(0,104,56,0.3);
+    .page-header {
+        background: linear-gradient(135deg, #006838, #004d28);
+        color: white;
+        padding: 22px 28px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    }
+
+        .page-header h2 {
+            margin: 0;
             font-weight: 700;
-            letter-spacing: 0.5px;
         }
 
-        .card-header .text-uppercase {
-            color: rgba(255,255,255,0.8);
-            font-size: 12px;
+        .page-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
         }
 
-        .card-header h2 {
+    .section-card {
+        background: white;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        padding: 25px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        border: 1px solid #e1e5e9;
+    }
+
+    .section-title {
+        background: #006838;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 8px;
+        margin: -25px -25px 25px;
+        font-weight: 700;
+    }
+
+    .sub-title {
+        color: #006838;
+        font-weight: 700;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 7px;
+        border: 1px solid #ced4da;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.15);
+        }
+
+    /* ============================================================
+           TABLE
+           ============================================================ */
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .kra-table {
+        width: 100%;
+        min-width: 1250px;
+        border-collapse: collapse;
+    }
+
+        .kra-table th {
+            background: #004d28;
             color: white;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .card-header .text-white-50 {
-            color: rgba(255,255,255,0.7) !important;
-        }
-
-        /* ===== SCALE BOX ===== */
-        .scale-box {
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-            .scale-box::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.02) 100%);
-                pointer-events: none;
-            }
-
-            .scale-box:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            }
-
-            .scale-box .fw-bold {
-                font-size: 20px;
-            }
-
-            .scale-box small {
-                font-size: 12px;
-            }
-
-            .scale-box.border-danger {
-                border-left-color: #dc3545 !important;
-            }
-
-            .scale-box.border-warning {
-                border-left-color: #ffc107 !important;
-            }
-
-            .scale-box.border-info {
-                border-left-color: #17a2b8 !important;
-            }
-
-            .scale-box.border-success {
-                border-left-color: #006838 !important;
-            }
-
-        /* ===== NAV PILLS ===== */
-        .nav-pills .nav-link {
-            border-radius: 8px;
-            font-weight: 600;
-            color: #495057;
-            padding: 12px 24px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-            border: 2px solid transparent;
-        }
-
-            .nav-pills .nav-link i {
-                margin-right: 8px;
-                color: #006838;
-            }
-
-            .nav-pills .nav-link.active {
-                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-                box-shadow: 0 4px 15px rgba(0, 104, 56, 0.3);
-                color: white;
-                border-color: #006838;
-            }
-
-                .nav-pills .nav-link.active i {
-                    color: white;
-                }
-
-            .nav-pills .nav-link:hover:not(.active) {
-                background-color: #e8f5ee;
-                color: #006838;
-                border-color: #006838;
-                transform: translateY(-2px);
-            }
-
-        /* ===== TABLE STYLES ===== */
-        .table {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-            .table th {
-                font-weight: 600;
-                text-transform: uppercase;
-                font-size: 0.75rem;
-                letter-spacing: 0.5px;
-                color: white;
-                border-bottom: 2px solid #006838;
-                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-                padding: 12px 10px;
-            }
-
-            .table thead.table-light th {
-                background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-                color: white;
-                border-bottom: 2px solid #006838;
-            }
-
-            .table tbody tr:hover {
-                background-color: #f8faf9;
-            }
-
-            .table td {
-                padding: 10px 8px;
-                vertical-align: middle;
-            }
-
-        /* ===== RATING INPUT ===== */
-        .rating-input {
-            max-width: 70px;
             text-align: center;
-            font-weight: bold;
-            border-radius: 6px;
-            border: 2px solid #dce3e8;
-            transition: all 0.3s ease;
+            vertical-align: middle;
+            padding: 12px;
+            border: 1px solid #ddd;
         }
 
-            .rating-input:focus {
-                border-color: #006838;
-                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
-                outline: none;
-            }
-
-            .rating-input.border-primary {
-                border-color: #006838 !important;
-                background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%) !important;
-            }
-
-        /* ===== FORM CONTROLS ===== */
-        .form-control {
-            border-radius: 6px;
-            border: 2px solid #dce3e8;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            padding: 8px 12px;
+        .kra-table td {
+            padding: 10px;
+            vertical-align: top;
+            border: 1px solid #ddd;
             background: white;
         }
 
-            .form-control:focus {
-                border-color: #006838;
-                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
-                outline: none;
-            }
-
-            .form-control::placeholder {
-                color: #b0b8c0;
-            }
-
-        .form-control-sm {
-            font-size: 13px;
-            padding: 6px 10px;
-        }
-
-        .form-control.border-0.bg-transparent {
-            font-weight: 600;
-            color: #004d28;
-            border: 2px solid transparent !important;
-        }
-
-            .form-control.border-0.bg-transparent:focus {
-                background-color: #f0f7f3 !important;
-                border-radius: 6px;
-                border-color: #006838 !important;
-            }
-
-        textarea.form-control {
+        .kra-table textarea {
+            min-height: 100px;
             resize: vertical;
-            min-height: 60px;
         }
 
-        .input-group-text {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-            color: white;
-            border: none;
-            font-weight: 600;
-            border-radius: 0 6px 6px 0;
+    /* ============================================================
+           LOCKED EMPLOYEE FIELDS
+           ============================================================ */
+
+    .employee-locked {
+        background-color: #f1f3f5 !important;
+        color: #6c757d !important;
+        border: 1px solid #ced4da !important;
+        cursor: not-allowed !important;
+    }
+
+        .employee-locked:focus {
+            box-shadow: none !important;
+            border-color: #ced4da !important;
         }
 
-        /* ===== ALERT STYLES ===== */
-        .alert-success {
-            background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
-            border-color: #006838;
-            color: #004d28;
-            border-left: 4px solid #006838;
-            border-radius: 8px;
-        }
+    .locked-field-wrapper {
+        position: relative;
+    }
 
-            .alert-success .btn-close {
-                color: #006838;
-            }
-
-                .alert-success .btn-close:hover {
-                    color: #004d28;
-                }
-
-        .alert-info {
-            background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
-            border-color: #006838;
-            color: #004d28;
-            border-left: 4px solid #006838;
-            border-radius: 8px;
-        }
-
-            .alert-info i {
-                color: #006838 !important;
-            }
-
-        .alert-danger {
-            border-left: 4px solid #dc3545;
-            border-radius: 8px;
-        }
-
-        /* ========================================== */
-        /* SAVE BUTTON STYLING (DCS green)           */
-        /* ========================================== */
-        .btn-primary {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-            color: white;
-            padding: 12px 40px;
-            font-weight: 700;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 104, 56, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-            .btn-primary::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-                transition: left 0.5s ease;
-            }
-
-            .btn-primary:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 8px 25px rgba(0, 104, 56, 0.5);
-                background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
-                color: white;
-            }
-
-                .btn-primary:hover::before {
-                    left: 100%;
-                }
-
-            .btn-primary:active {
-                transform: translateY(0px);
-                box-shadow: 0 2px 10px rgba(0, 104, 56, 0.3);
-            }
-
-            .btn-primary i {
-                font-size: 18px;
-                transition: transform 0.3s ease;
-            }
-
-            .btn-primary:hover i {
-                transform: scale(1.1);
-            }
-
-            .btn-primary.btn-lg {
-                padding: 14px 50px;
-                font-size: 16px;
-            }
-
-        /* ===== BADGE STYLES ===== */
-        .badge.bg-success {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%) !important;
-            color: white;
-            padding: 8px 16px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 10px rgba(0,104,56,0.2);
-        }
-
-        .badge.bg-danger {
-            background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%) !important;
-            padding: 8px 16px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 10px rgba(220,53,69,0.2);
-        }
-
-        /* ===== DISPUTE FIELDS ===== */
-        #disputeFields .form-control {
-            border-color: #006838;
-            background: white;
-        }
-
-            #disputeFields .form-control:focus {
-                border-color: #006838;
-                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
-            }
-
-        #disputeFields .form-text.text-danger {
-            color: #006838 !important;
-            font-weight: 600;
-            background: #e8f5ee;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-top: 6px;
-        }
-
-        /* ===== DISPUTE CARD ===== */
-        .card.border-0.bg-light {
-            background: #f8faf9 !important;
-            border-left: 4px solid #006838 !important;
-            border-radius: 10px !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-
-        /* ===== RADIO BUTTONS ===== */
-        .form-check-input:checked {
-            background-color: #006838;
-            border-color: #006838;
-        }
-
-        .form-check-input:focus {
-            border-color: #006838;
-            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
-        }
-
-        .form-check-label {
-            font-weight: 500;
-            color: #333;
-        }
-
-        /* ===== SECTION TITLE ===== */
-        .section-title {
-            background: #f8faf9;
-            padding: 12px 20px;
-            border-left: 5px solid #006838;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            color: #006838;
-            border-radius: 0 6px 6px 0;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* ===== C2 SECTION HEADER & BADGE ===== */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #006838;
-            position: relative;
-        }
-
-            .section-header h5 {
-                color: #006838;
-                font-weight: 700;
-                margin: 0;
-                font-size: 17px;
-                letter-spacing: 0.5px;
-            }
-
-            .section-header i {
-                color: #006838;
-                font-size: 20px;
-                width: 24px;
-                text-align: center;
-            }
-
-            .section-header .badge-section {
-                margin-left: auto;
-                background: #e8f5ee;
-                color: #006838;
-                padding: 4px 14px;
-                border-radius: 50px;
-                font-size: 11px;
-                font-weight: 600;
-            }
-
-        /* ===== C2 ADD / REMOVE KRA BUTTONS ===== */
-        .add-kra-container {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0 25px 0;
-        }
-
-        .btn-add-kra {
-            background: linear-gradient(135deg, #006838 0%, #004d28 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 28px;
+        .locked-field-wrapper::after {
+            content: "🔒";
+            position: absolute;
+            top: 8px;
+            right: 10px;
             font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 104, 56, 0.25);
-            transition: all 0.3s ease;
-            text-decoration: none;
+            opacity: 0.7;
+            pointer-events: none;
         }
 
-            .btn-add-kra:hover {
-                background: linear-gradient(135deg, #004d28 0%, #003d1f 100%);
-                transform: translateY(-2px);
-                color: white;
-            }
+    select.employee-locked {
+        pointer-events: none;
+    }
 
-        .btn-remove-kra {
-            background: #dc3545;
+    /* ============================================================
+           SUPERVISOR LOCKED
+           ============================================================ */
+
+    .supervisor-locked {
+        background-color: #f1f3f5 !important;
+        color: #6c757d !important;
+        cursor: not-allowed !important;
+    }
+
+        .supervisor-locked:focus {
+            box-shadow: none !important;
+        }
+
+    .supervisor-signature-locked {
+        position: relative;
+        background: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .signature-lock-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(248,249,250,0.55);
+        color: #6c757d;
+        font-weight: 600;
+        border-radius: 8px;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    /* ============================================================
+           HIGHER MANAGER LOCKED
+           ============================================================ */
+
+    .higher-manager-locked {
+        background-color: #f1f3f5 !important;
+        color: #6c757d !important;
+        border-color: #ced4da !important;
+        cursor: not-allowed !important;
+    }
+
+        .higher-manager-locked:focus {
+            box-shadow: none !important;
+        }
+
+    .locked-signature-wrapper {
+        position: relative;
+        background: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .locked-signature-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(248,249,250,0.60);
+        color: #6c757d;
+        font-weight: 600;
+        border-radius: 8px;
+        z-index: 20;
+        pointer-events: none;
+    }
+
+    /* ============================================================
+           SIGNATURE PAD
+           ============================================================ */
+
+    .signature-container {
+        max-width: 500px;
+    }
+
+    .signature-pad {
+        width: 100%;
+        height: 180px;
+        border: 2px dashed #006838;
+        border-radius: 8px;
+        background: white;
+        touch-action: none;
+        display: block;
+    }
+
+    .signature-label {
+        font-weight: 700;
+        color: #006838;
+        margin-bottom: 8px;
+    }
+
+    /* ============================================================
+           BUTTONS
+           ============================================================ */
+
+    .btn-pmds {
+        background: #006838;
+        border-color: #006838;
+        color: white;
+        font-weight: 600;
+    }
+
+        .btn-pmds:hover {
+            background: #004d28;
+            border-color: #004d28;
             color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 10px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s ease;
         }
 
-            .btn-remove-kra:hover {
-                background: #bb2d3b;
-            }
+    .btn-gold {
+        background: #c9a84c;
+        border-color: #c9a84c;
+        color: #fff;
+        font-weight: 600;
+    }
 
-        /* ========================================== */
-        /* RESPONSIVE                                */
-        /* ========================================== */
-        @@media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            .pmds-card {
-                padding: 15px !important;
-            }
-
-            .card-header {
-                padding: 20px !important;
-            }
-
-                .card-header h2 {
-                    font-size: 20px;
-                }
-
-                .card-header .badge {
-                    position: relative !important;
-                    top: auto !important;
-                    right: auto !important;
-                    margin-top: 10px;
-                    display: inline-block;
-                }
-
-            .nav-pills .nav-link {
-                font-size: 13px;
-                padding: 10px 16px;
-            }
-
-            .nav-pills {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-                .nav-pills .nav-item {
-                    flex: 1;
-                    min-width: 120px;
-                }
-
-                .nav-pills .nav-link {
-                    width: 100%;
-                    text-align: center;
-                }
-
-            .scale-box {
-                padding: 12px !important;
-            }
-
-                .scale-box .fw-bold {
-                    font-size: 17px !important;
-                }
-
-                .scale-box small {
-                    font-size: 11px !important;
-                }
-
-            .btn-primary.btn-lg {
-                padding: 12px 25px;
-                font-size: 14px;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .table-responsive {
-                font-size: 13px;
-            }
-
-            .rating-input {
-                max-width: 55px;
-                font-size: 13px;
-            }
-
-            .form-control-sm {
-                font-size: 12px;
-            }
-
-            .pmds-card::before {
-                display: none;
-            }
-
-            .alert-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-                .alert-info i {
-                    margin-bottom: 10px;
-                }
+        .btn-gold:hover {
+            background: #b3933e;
+            border-color: #b3933e;
+            color: white;
         }
 
-        @@media (max-width: 576px) {
-            .container {
-                padding: 5px;
-            }
-
-            .pmds-card {
-                padding: 10px !important;
-            }
-
-            .card-header h2 {
-                font-size: 17px;
-            }
-
-            .nav-pills .nav-link {
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-
-            .nav-pills .nav-item {
-                min-width: 100%;
-            }
-
-            .table th, .table td {
-                padding: 6px 4px !important;
-                font-size: 11px;
-            }
-
-            .scale-box {
-                padding: 8px !important;
-            }
-
-                .scale-box .fw-bold {
-                    font-size: 15px !important;
-                }
-
-                .scale-box small {
-                    font-size: 10px !important;
-                }
-
-            .btn-primary {
-                font-size: 13px;
-                padding: 10px 20px;
-            }
-
-                .btn-primary.btn-lg {
-                    padding: 10px 20px;
-                    font-size: 13px;
-                }
-
-            .form-control {
-                font-size: 13px;
-                padding: 6px 10px;
-            }
-
-            .section-title {
-                font-size: 14px;
-                padding: 8px 12px;
-            }
-
-            .badge.bg-success, .badge.bg-danger {
-                font-size: 14px !important;
-                padding: 4px 12px;
-            }
-        }
-
-        /* ========================================== */
-        /* PRINT STYLES                              */
-        /* ========================================== */
-        @@media print {
-            .sticky-bottom, .btn-primary {
-                display: none !important;
-            }
-
-            .pmds-card {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-            }
-
-            .card-header.bg-dark {
-                background: #006838 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .nav-pills {
-                display: none !important;
-            }
-
-            .tab-pane {
-                display: block !important;
-                opacity: 1 !important;
-            }
-
-                .tab-pane.fade {
-                    opacity: 1 !important;
-                }
-
-            .table thead th {
-                background: #006838 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .pmds-card::before {
-                display: none;
-            }
-
-            .card-header.bg-dark::after {
-                display: none;
-            }
-        }
-
-        /* ========================================== */
-        /* ANIMATIONS                                */
-        /* ========================================== */
-        @@keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .pmds-card {
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .card-header {
-            animation: fadeInUp 0.4s ease;
-        }
-
-        /* ===== UTILITY ===== */
-        .mt-2 {
-            margin-top: 10px;
-        }
-
-        .mt-3 {
-            margin-top: 15px;
-        }
-
-        .mb-2 {
-            margin-bottom: 10px;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .fw-bold {
-            font-weight: 700;
-        }
-
-        .fs-7 {
-            font-size: 0.85rem;
-        }
-
-        .tracking-wider {
-            letter-spacing: 1px;
-        }
-
-        .bg-primary-subtle {
-            background: #e8f5ee !important;
-        }
-
-        /* =========================================================
-                   DRAWABLE SIGNATURE STYLES
-                   ========================================================= */
-        .signature-card {
-            background: #f8faf9;
-            border: 1px solid #dce3e8;
-            border-radius: 10px;
-            padding: 20px;
-            height: 100%;
-            transition: all 0.3s ease;
-        }
-
-            .signature-card:hover {
-                border-color: #006838;
-                box-shadow: 0 4px 15px rgba(0, 104, 56, 0.10);
-            }
-
-        .signature-wrapper {
-            position: relative;
-            width: 100%;
-            height: 250px;
-            border: 2px solid #006838;
-            border-radius: 8px;
-            background: white;
-            overflow: hidden;
-        }
-
-            .signature-wrapper:focus-within {
-                border-color: #006838;
-                box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
-            }
-
-        .signature-pad,
-        #higherManagerSignaturePad {
-            display: block;
-            width: 100%;
-            height: 250px;
-            background: #ffffff;
-            cursor: crosshair;
-            touch-action: none;
-        }
-
-        .signature-actions {
-            margin-top: 10px;
-        }
-
-            .signature-actions .btn {
-                border-radius: 6px;
-            }
-
-        .signature-card .form-label {
-            color: #004d28;
-        }
-
-        .signature-card small {
-            font-size: 12px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container py-4">
-
-        <!-- validation placeholder -->
-        <div class="alert alert-danger border-0 shadow-sm mb-4" role="alert" style="display:none;"></div>
-
-        <form asp-controller="Pmds" asp-action="SaveMidTermReview" method="post">
-            <!-- hidden fields for model binding -->
-            <input type="hidden" id="Id" name="Id" value="1" />
-            <input type="hidden" id="EmployeeId" name="EmployeeId" value="101" />
-            <input type="hidden" id="ReviewPeriod" name="ReviewPeriod" value="2025/2026" />
-
-            <!-- MAIN CARD -->
-            <div class="card pmds-card mb-4 overflow-hidden">
-                <div class="card-header bg-dark text-white p-4 border-0 position-relative">
-                    <span class="badge bg-primary px-3 py-2 position-absolute top-0 end-0 m-4">Active Cycle</span>
-                    <p class="text-uppercase tracking-wider fs-7 text-muted mb-1 fw-bold">Performance Management & Development System</p>
-                    <h2 class="mb-0 fw-bold">Part C: Formal Mid-Term Review</h2>
-                    <div class="d-flex align-items-center mt-3 text-white-50">
-                        <span class="me-3"><i class="bi bi-calendar3 me-1"></i> Cycle Period: <strong>2025/2026</strong></span>
-                    </div>
-                </div>
-
-                <!-- Scale -->
-                <div class="card-body bg-light border-bottom p-4">
-                    <h6 class="text-secondary text-uppercase fw-bold mb-3">4-Point Evaluation Scale for Awarding Points</h6>
-                    <div class="row g-3">
-                        <div class="col-6 col-md-3">
-                            <div class="scale-box p-3 border-start border-4 border-danger bg-white h-100">
-                                <span class="fw-bold text-danger d-block fs-5">Rating 1</span>
-                                <small class="text-muted">Not Effective (≤ 66%)</small>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="scale-box p-3 border-start border-4 border-warning bg-white h-100">
-                                <span class="fw-bold text-warning d-block fs-5">Rating 2</span>
-                                <small class="text-muted">Partially Effective (67% - 99%)</small>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="scale-box p-3 border-start border-4 border-info bg-white h-100">
-                                <span class="fw-bold text-info d-block fs-5">Rating 3</span>
-                                <small class="text-muted">Fully Effective (100% - 119%)</small>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="scale-box p-3 border-start border-4 border-success bg-white h-100">
-                                <span class="fw-bold text-success d-block fs-5">Rating 4</span>
-                                <small class="text-muted">Highly Effective (120% - 133%)</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabs -->
-            <ul class="nav nav-pills mb-4" id="midtermTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="c1-tab" data-bs-toggle="pill" data-bs-target="#c1-content" type="button" role="tab">
-                        <i class="bi bi-file-text me-1"></i> Part C1: Motivations
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="c2-tab" data-bs-toggle="pill" data-bs-target="#c2-content" type="button" role="tab">
-                        <i class="bi bi-star me-1"></i> Part C2: Ratings & Dispute
-                    </button>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="midtermTabsContent">
-
-                <!-- ==========================================
-                     TAB 1: C1
-                     ========================================== -->
-
-                <div class="tab-pane fade show active"
-                     id="c1-content"
-                     role="tabpanel">
-
-                    <!-- PART C1 HEADER -->
-                    <div class="section-header">
-                        <i class="bi bi-list-task"></i>
-                        <h5>Part C1: Motivation for KRAs</h5>
-                        <span class="badge-section" id="c1KraCount">4 KRAs</span>
-                    </div>
-
-                    <!-- C1 TABLE -->
-                    <div class="table-responsive">
-
-                        <table class="table table-bordered" id="c1KraTable">
-
-                            <thead>
-                                <tr>
-                                    <th style="width:32%;">
-                                        Key Result Area (KRA)
-                                    </th>
-                                    <th style="width:12%;">
-                                        Weight
-                                    </th>
-                                    <th style="width:26%;">
-                                        Employee Achievements
-                                    </th>
-                                    <th style="width:25%;">
-                                        Supervisor Comments
-                                    </th>
-                                    <th style="width:5%;">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="c1KraBody">
-
-                                @for (int i = 0; i < Model.KraEvaluations.Count; i++)
-                                {
-                                    <tr class="c1-kra-row" data-kra="@(i + 1)">
-
-                                        <td>
-                                            <div style="display:flex; align-items:center; gap:8px;">
-
-                                                <span class="kra-number fw-bold text-success"
-                                                      style="min-width:18px;">
-                                                    @(i + 1)
-                                                </span>
-
-                                                <input name="KraEvaluations[@i].KraDescription"
-                                                       value="@Model.KraEvaluations[i].KraDescription"
-                                                       class="form-control"
-                                                       placeholder="KRA Description..."
-                                                       readonly />
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <input name="KraEvaluations[@i].Weight"
-                                                   value="@Model.KraEvaluations[i].Weight"
-                                                   type="number"
-                                                   class="form-control text-center weight-input kra-weight"
-                                                   min="0"
-                                                   max="100"
-                                                   step="1"
-                                                   readonly />
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[@i].AchievementStandard"
-                                                  class="form-control"
-                                                  rows="3"
-                                                  placeholder="Describe the standards achieved..."></textarea>
-                                        </td>
-
-                                        <td>
-                                            <textarea name="KraEvaluations[@i].SupervisorComments"
-                                                  class="form-control"
-                                                  rows="3"
-                                                  placeholder="Supervisor feedback..."></textarea>
-                                        </td>
-
-                                        <td class="text-center">
-
-                                            <button type="button"
-                                                    class="btn-remove-kra"
-                                                    onclick="removeC1Kra(@(i + 1))"
-                                                    style="display:none;">
-
-                                                <i class="bi bi-trash"></i>
-
-                                            </button>
-
-                                        </td>
-
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- ADD KRA -->
-                    <div class="add-kra-container">
-                        <button type="button"
-                                id="addC1KraBtn"
-                                class="btn-add-kra"
-                                onclick="addC1Kra()">
-                            <i class="bi bi-plus-circle"></i>
-                            Add KRA
-                        </button>
-                    </div>
-
-                    <!-- GAF NOTE -->
-                    <div class="alert alert-info border-0 mt-3 d-flex align-items-center" role="alert">
-                        <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
-                        <div>
-                            <strong>GAF's Note:</strong>
-                            Generic Assessment Factors (GAFs) shall not be weighted.
-                            GAF's shall not be assessed independently, but must be
-                            integrated and assessed in an integrated manner with the
-                            KRA's.
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- ==========================================
-                     TAB 2: C2
-                     ========================================== -->
-                <div class="tab-pane fade" id="c2-content" role="tabpanel">
-                    <div class="card pmds-card p-4">
-
-                        <!-- C2 SECTION HEADER -->
-                        <div class="section-header">
-                            <i class="bi bi-star"></i>
-                            <h5>Part C2: Point Evaluation Scale for Awarding Points</h5>
-                            <span class="badge-section" id="c2KraCount">4 KRAs</span>
-                        </div>
-
-                        <!-- C2 TABLE -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered align-middle text-center" id="c2KraTable">
-                                <thead>
-                                    <tr>
-                                        <th style="width:8%;">KRA</th>
-                                        <th style="width:12%;">Weight</th>
-                                        <th style="width:20%;">Own Rating (OR)</th>
-                                        <th style="width:20%;">Supervisor Rating (SR)</th>
-                                        <th style="width:20%;">Agreed Rating (AR)</th>
-                                        <th style="width:10%;">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="c2KraBody">
-
-                                    @for (int i = 0; i < Model.KraEvaluations.Count; i++)
-                                    {
-                                        <tr class="c2-kra-row">
-
-                                            <!-- KRA -->
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-
-                                                    <span class="kra-number fw-bold text-success">
-                                                        @(i + 1)
-                                                    </span>
-
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           value="@Model.KraEvaluations[i].KraDescription"
-                                                           readonly />
-
-                                                    <input type="hidden"
-                                                           name="KraEvaluations[@i].KraDescription"
-                                                           value="@Model.KraEvaluations[i].KraDescription" />
-
-                                                    <input type="hidden"
-                                                           name="KraEvaluations[@i].KraNumber"
-                                                           value="@(i + 1)" />
-
-                                                </div>
-                                            </td>
-
-
-                                            <!-- WEIGHT -->
-                                            <td>
-                                                <div class="input-group input-group-sm mx-auto"
-                                                     style="max-width:100px;">
-
-                                                    <input type="number"
-                                                           name="KraEvaluations[@i].Weight"
-                                                           value="@Model.KraEvaluations[i].Weight"
-                                                           class="form-control text-center kra-weight"
-                                                           readonly />
-
-                                                    <span class="input-group-text">
-                                                        %
-                                                    </span>
-
-                                                </div>
-                                            </td>
-
-
-                                            <!-- OWN RATING -->
-                                            <td>
-                                                <select name="KraEvaluations[@i].OwnRating"
-                                                        class="form-select">
-
-                                                    <option value="0">
-                                                        Select
-                                                    </option>
-
-                                                    <option value="1"
-                                                            selected="@(Model.KraEvaluations[i].OwnRating == 1)">
-                                                        1 – Not Effective
-                                                    </option>
-
-                                                    <option value="2"
-                                                            selected="@(Model.KraEvaluations[i].OwnRating == 2)">
-                                                        2 – Partially Effective
-                                                    </option>
-
-                                                    <option value="3"
-                                                            selected="@(Model.KraEvaluations[i].OwnRating == 3)">
-                                                        3 – Fully Effective
-                                                    </option>
-
-                                                    <option value="4"
-                                                            selected="@(Model.KraEvaluations[i].OwnRating == 4)">
-                                                        4 – Highly Effective
-                                                    </option>
-
-                                                </select>
-                                            </td>
-
-
-                                            <!-- SUPERVISOR RATING -->
-                                            <td>
-                                                <select name="KraEvaluations[@i].SupervisorRating"
-                                                        class="form-select">
-
-                                                    <option value="0">
-                                                        Select
-                                                    </option>
-
-                                                    <option value="1"
-                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 1)">
-                                                        1 – Not Effective
-                                                    </option>
-
-                                                    <option value="2"
-                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 2)">
-                                                        2 – Partially Effective
-                                                    </option>
-
-                                                    <option value="3"
-                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 3)">
-                                                        3 – Fully Effective
-                                                    </option>
-
-                                                    <option value="4"
-                                                            selected="@(Model.KraEvaluations[i].SupervisorRating == 4)">
-                                                        4 – Highly Effective
-                                                    </option>
-
-                                                </select>
-                                            </td>
-
-
-                                            <!-- AGREED RATING -->
-                                            <td>
-                                                <select name="KraEvaluations[@i].AgreedRating"
-                                                        class="form-select">
-
-                                                    <option value="0">
-                                                        Select
-                                                    </option>
-
-                                                    <option value="1"
-                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 1)">
-                                                        1 – Not Effective
-                                                    </option>
-
-                                                    <option value="2"
-                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 2)">
-                                                        2 – Partially Effective
-                                                    </option>
-
-                                                    <option value="3"
-                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 3)">
-                                                        3 – Fully Effective
-                                                    </option>
-
-                                                    <option value="4"
-                                                            selected="@(Model.KraEvaluations[i].AgreedRating == 4)">
-                                                        4 – Highly Effective
-                                                    </option>
-
-                                                </select>
-                                            </td>
-
-
-                                            <!-- ACTION -->
-                                            <td class="text-center">
-
-                                                <button type="button"
-                                                        class="btn-remove-kra"
-                                                        style="display:none;">
-
-                                                    <i class="bi bi-trash"></i>
-
-                                                </button>
-
-                                            </td>
-
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- ADD KRA -->
-                        <div class="add-kra-container">
-                            <button type="button" id="addC2KraBtn" class="btn-add-kra">
-                                <i class="bi bi-plus-circle"></i>
-                                Add KRA
-                            </button>
-                        </div>
-
-                        <!-- DISPUTE CARD -->
-                        <div class="card border-0 bg-light p-4 mb-4"
-                             style="border-radius: 10px; border-left: 4px solid #006838 !important;">
-
-                            <h5 class="fw-bold text-dark mb-3">
-                                <i class="bi bi-shield-fill-exclamation me-2" style="color: #006838;"></i>
-                                Dispute Protocol Settings
-                            </h5>
-
-                            <div class="row align-items-center mb-3">
-                                <label class="col-md-5 col-form-label fw-semibold">
-                                    Is there an unresolved dispute between Supervisor / Supervisee?
-                                </label>
-                                <div class="col-md-7">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="HasDispute" value="true" id="disputeYes">
-                                        <label class="form-check-label" for="disputeYes">Yes, there is a dispute</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="HasDispute" value="false" id="disputeNo" checked>
-                                        <label class="form-check-label" for="disputeNo">No dispute exists</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="disputeFields" style="display: none;">
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Specify Disputed KRA Numbers:</label>
-                                        <input name="DisputedKraNumbers"
-                                               class="form-control"
-                                               placeholder="e.g. KRA 1, KRA 3" />
-                                        <span class="form-text text-danger">
-                                            ✓ Note: Supervisor must refer this to the next higher Line Manager within 10 working days.
-                                        </span>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Decision of Next Higher Line Manager:</label>
-                                        <textarea name="HigherManagerDecision"
-                                                  class="form-control"
-                                                  rows="4"
-                                                  placeholder="Describe resolution..."></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row g-4 mt-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">
-                                            Next Higher Line Manager Surname & Initials:
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text"
-                                               name="HigherManagerSurnameInitials"
-                                               class="form-control"
-                                               placeholder="Enter surname and initials" />
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">
-                                            Date:
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="date"
-                                               name="HigherManagerSignDate"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <div class="signature-card">
-                                            <label class="form-label fw-bold">
-                                                Next Higher Line Manager Signature
-                                                <span class="text-danger">*</span>
-                                            </label>
-
-                                            <div class="signature-wrapper">
-                                                <canvas id="higherManagerSignaturePad"></canvas>
-                                            </div>
-
-                                            <input type="hidden"
-                                                   id="HigherManagerSignature"
-                                                   name="HigherManagerSignature" />
-
-                                            <div class="signature-actions mt-2">
-                                                <button type="button"
-                                                        id="clearHigherManagerSignature"
-                                                        class="btn btn-outline-danger btn-sm">
-                                                    <i class="bi bi-eraser me-1"></i>
-                                                    Clear Signature
-                                                </button>
-                                            </div>
-
-                                            <small class="text-muted d-block mt-2">
-                                                Draw the Next Higher Line Manager's signature in the box above.
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SIGNATURES -->
-                        <div class="border-top pt-4" style="border-color: #006838 !important;">
-                            <h5 class="fw-bold mb-4">
-                                <i class="bi bi-vector-pen me-2" style="color: #006838;"></i>
-                                Signatures & Verification
-                            </h5>
-
-                            <div class="row g-4">
-
-                                <!-- Job Holder -->
-                                <div class="col-md-6">
-                                    <div class="signature-card">
-                                        <label class="form-label fw-bold">
-                                            Job Holder / Supervisee Signature
-                                            <span class="text-danger">*</span>
-                                        </label>
-
-                                        <div class="signature-wrapper">
-                                            <canvas id="superviseeSignaturePad" class="signature-pad"></canvas>
-                                        </div>
-
-                                        <input type="hidden"
-                                               id="SuperviseeSignature"
-                                               name="SuperviseeSignature" />
-
-                                        <div class="signature-actions">
-                                            <button type="button"
-                                                    id="clearSuperviseeSignature"
-                                                    class="btn btn-outline-danger btn-sm">
-                                                <i class="bi bi-eraser me-1"></i>
-                                                Clear Signature
-                                            </button>
-                                        </div>
-
-                                        <small class="text-muted d-block mt-2">
-                                            Draw your signature in the box above.
-                                        </small>
-
-                                        <label class="form-label fw-bold mt-3">Job Holder / Supervisee Date</label>
-                                        <input name="SuperviseeSignDate"
-                                               type="date"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-
-                                <!-- Supervisor -->
-                                <div class="col-md-6">
-                                    <div class="signature-card">
-                                        <label class="form-label fw-bold">
-                                            Supervisor Signature
-                                            <span class="text-danger">*</span>
-                                        </label>
-
-                                        <div class="signature-wrapper">
-                                            <canvas id="supervisorSignaturePad" class="signature-pad"></canvas>
-                                        </div>
-
-                                        <input type="hidden"
-                                               id="SupervisorSignature"
-                                               name="SupervisorSignature" />
-
-                                        <div class="signature-actions">
-                                            <button type="button"
-                                                    id="clearSupervisorSignature"
-                                                    class="btn btn-outline-danger btn-sm">
-                                                <i class="bi bi-eraser me-1"></i>
-                                                Clear Signature
-                                            </button>
-                                        </div>
-
-                                        <small class="text-muted d-block mt-2">
-                                            Draw the supervisor's signature in the box above.
-                                        </small>
-
-                                        <label class="form-label fw-bold mt-3">Supervisor Date</label>
-                                        <input name="SupervisorSignDate"
-                                               type="date"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- Save button -->
-                        <div class="text-center mt-4">
-                            <a href="/PMDS/PersonalAssistancePlan" class="btn btn-success btn-lg">
-                                <i class="bi bi-save me-2"></i>
-                                Save Changes
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div><!-- /tab-content -->
-
-        </form>
+    .btn-danger {
+        font-weight: 600;
+    }
+
+    /* ============================================================
+           DISPUTE
+           ============================================================ */
+
+    #disputeFields {
+        display: none;
+    }
+
+    .dispute-box {
+        border: 1px solid #e2c44f;
+        background: #fffdf0;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 15px;
+    }
+
+    /* ============================================================
+           INFO BOX
+           ============================================================ */
+
+    .info-box {
+        background: #f4f8f6;
+        border-left: 5px solid #006838;
+        padding: 15px 18px;
+        border-radius: 7px;
+        margin-bottom: 20px;
+    }
+
+    .lock-info {
+        background: #f8f9fa;
+        border-left: 4px solid #6c757d;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    /* ============================================================
+           MOBILE
+           ============================================================ */
+
+    @@media (max-width: 768px) {
+        .pmds-container
+
+    {
+        padding: 0 10px 30px;
+    }
+
+    .section-card {
+        padding: 15px;
+    }
+
+    .section-title {
+        margin: -15px -15px 20px;
+    }
+
+    .page-header {
+        padding: 18px;
+    }
+
+    }
+</style>
+
+
+<div class="pmds-container">
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <div class="page-header">
+        <h2>
+            <i class="fas fa-clipboard-check me-2"></i>
+            Mid-Term Review
+        </h2>
+
+        <p>
+            Performance Management and Development System
+        </p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <form asp-controller="Pmds"
+          asp-action="SaveMidTermReview"
+          method="post"
+          id="midTermReviewForm">
+
+        @Html.AntiForgeryToken()
+
+        <!-- =====================================================
+             HIDDEN INFORMATION
+             ===================================================== -->
+
+        <input type="hidden"
+               asp-for="Id" />
+
+        <input type="hidden"
+               asp-for="EmployeeId" />
+
+        <input type="hidden"
+               asp-for="ReviewPeriod" />
+
+
+        <!-- =====================================================
+             PART C1
+             ===================================================== -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                PART C1 : MID-TERM REVIEW
+            </div>
+
+            <div class="info-box">
+                <strong>
+                    <i class="fas fa-info-circle me-1"></i>
+                    Employee Section
+                </strong>
+
+                <p class="mb-0 mt-1">
+                    Enter your achievements against each Key Result Area.
+                    Supervisor comments are completed by the supervisor
+                    and cannot be edited by the employee.
+                </p>
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table kra-table"
+                       id="c1KraTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th style="width:5%;">
+                                #
+                            </th>
+
+                            <th style="width:20%;">
+                                Key Result Area
+                            </th>
+
+                            <th style="width:8%;">
+                                Weight
+                            </th>
+
+                            <th style="width:32%;">
+                                Employee Achievements
+                            </th>
+
+                            <th style="width:30%;">
+                                Supervisor Comment(s)
+                            </th>
+
+                            <th style="width:5%;">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="c1KraBody">
+
+                        @for (int i = 0; i < kraEvaluations.Count; i++)
+                        {
+                            <tr class="kra-row">
+
+                                <td class="text-center kra-number">
+                                    @(i + 1)
+                                </td>
+
+
+                                <!-- KRA -->
+
+                                <td>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           name="KraEvaluations[@i].KraDescription"
+                                           value="@kraEvaluations[i].KraDescription"
+                                           readonly />
+
+                                </td>
+
+
+                                <!-- WEIGHT -->
+
+                                <td>
+
+                                    <input type="text"
+                                           class="form-control text-center"
+                                           name="KraEvaluations[@i].Weight"
+                                           value="@kraEvaluations[i].Weight"
+                                           readonly />
+
+                                </td>
+
+
+                                <!-- EMPLOYEE ACHIEVEMENT -->
+
+                                <td>
+
+                                    <textarea name="KraEvaluations[@i].AchievementStandard"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="Enter your achievements...">@kraEvaluations[i].AchievementStandard</textarea>
+
+                                </td>
+
+
+                                <!-- SUPERVISOR COMMENTS LOCKED -->
+
+                                <td>
+
+                                    <div class="locked-field-wrapper">
+
+                                        <textarea name="KraEvaluations[@i].SupervisorComments"
+                                              class="form-control employee-locked"
+                                              rows="4"
+                                              placeholder="Supervisor feedback..."
+                                              readonly>@kraEvaluations[i].SupervisorComments</textarea>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- REMOVE -->
+
+                                <td class="text-center">
+
+                                    @if (i > 0)
+                                    {
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm remove-c1">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="mt-3">
+
+                <button type="button"
+                        class="btn btn-gold"
+                        id="addC1KraButton">
+
+                    <i class="fas fa-plus me-1"></i>
+                    Add KRA
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             PART C2
+             ===================================================== -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                PART C2 : MID-TERM ASSESSMENT
+            </div>
+
+            <div class="info-box">
+
+                <strong>
+                    <i class="fas fa-star me-1"></i>
+                    Rating Section
+                </strong>
+
+                <p class="mb-0 mt-1">
+                    Select your own rating for each KRA.
+                    The Supervisor Rating is completed by the supervisor
+                    and is locked for the employee.
+                </p>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table kra-table"
+                       id="c2KraTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th style="width:5%;">
+                                #
+                            </th>
+
+                            <th style="width:25%;">
+                                Key Result Area
+                            </th>
+
+                            <th style="width:10%;">
+                                Weight
+                            </th>
+
+                            <th style="width:18%;">
+                                Own Rating
+                            </th>
+
+                            <th style="width:18%;">
+                                Supervisor Rating
+                            </th>
+
+                            <th style="width:18%;">
+                                Agreed Rating
+                            </th>
+
+                            <th style="width:6%;">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="c2KraBody">
+
+                        @for (int i = 0; i < kraEvaluations.Count; i++)
+                        {
+                            <tr class="kra-row">
+
+                                <td class="text-center kra-number">
+                                    @(i + 1)
+                                </td>
+
+
+                                <!-- KRA -->
+
+                                <td>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           name="KraEvaluations[@i].KraDescription"
+                                           value="@kraEvaluations[i].KraDescription"
+                                           readonly />
+
+                                    <input type="hidden"
+                                           name="KraEvaluations[@i].Id"
+                                           value="@kraEvaluations[i].Id" />
+
+                                </td>
+
+
+                                <!-- WEIGHT -->
+
+                                <td>
+
+                                    <input type="text"
+                                           class="form-control text-center"
+                                           name="KraEvaluations[@i].Weight"
+                                           value="@kraEvaluations[i].Weight"
+                                           readonly />
+
+                                </td>
+
+
+                                <!-- OWN RATING -->
+
+                                <td>
+
+                                    <select name="KraEvaluations[@i].OwnRating"
+                                            class="form-select">
+
+                                        <option value="">
+                                            Select Rating
+                                        </option>
+
+                                        <option value="1"
+                                                selected="@(kraEvaluations[i].OwnRating == 1)">
+                                            1 - Does Not Meet
+                                        </option>
+
+                                        <option value="2"
+                                                selected="@(kraEvaluations[i].OwnRating == 2)">
+                                            2 - Partially Meets
+                                        </option>
+
+                                        <option value="3"
+                                                selected="@(kraEvaluations[i].OwnRating == 3)">
+                                            3 - Meets
+                                        </option>
+
+                                        <option value="4"
+                                                selected="@(kraEvaluations[i].OwnRating == 4)">
+                                            4 - Exceeds
+                                        </option>
+
+                                        <option value="5"
+                                                selected="@(kraEvaluations[i].OwnRating == 5)">
+                                            5 - Outstanding
+                                        </option>
+
+                                    </select>
+
+                                </td>
+
+
+                                <!-- SUPERVISOR RATING LOCKED -->
+
+                                <td>
+
+                                    <div class="locked-field-wrapper">
+
+                                        <select name="KraEvaluations[@i].SupervisorRating"
+                                                class="form-select employee-locked supervisor-rating"
+                                                tabindex="-1"
+                                                aria-disabled="true"
+                                                style="pointer-events:none;">
+
+                                            <option value="">
+                                                Awaiting Supervisor
+                                            </option>
+
+                                            <option value="1"
+                                                    selected="@(kraEvaluations[i].SupervisorRating == 1)">
+                                                1 - Does Not Meet
+                                            </option>
+
+                                            <option value="2"
+                                                    selected="@(kraEvaluations[i].SupervisorRating == 2)">
+                                                2 - Partially Meets
+                                            </option>
+
+                                            <option value="3"
+                                                    selected="@(kraEvaluations[i].SupervisorRating == 3)">
+                                                3 - Meets
+                                            </option>
+
+                                            <option value="4"
+                                                    selected="@(kraEvaluations[i].SupervisorRating == 4)">
+                                                4 - Exceeds
+                                            </option>
+
+                                            <option value="5"
+                                                    selected="@(kraEvaluations[i].SupervisorRating == 5)">
+                                                5 - Outstanding
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- AGREED RATING -->
+
+                                <td>
+
+                                    <select name="KraEvaluations[@i].AgreedRating"
+                                            class="form-select">
+
+                                        <option value="">
+                                            Select Rating
+                                        </option>
+
+                                        <option value="1"
+                                                selected="@(kraEvaluations[i].AgreedRating == 1)">
+                                            1 - Does Not Meet
+                                        </option>
+
+                                        <option value="2"
+                                                selected="@(kraEvaluations[i].AgreedRating == 2)">
+                                            2 - Partially Meets
+                                        </option>
+
+                                        <option value="3"
+                                                selected="@(kraEvaluations[i].AgreedRating == 3)">
+                                            3 - Meets
+                                        </option>
+
+                                        <option value="4"
+                                                selected="@(kraEvaluations[i].AgreedRating == 4)">
+                                            4 - Exceeds
+                                        </option>
+
+                                        <option value="5"
+                                                selected="@(kraEvaluations[i].AgreedRating == 5)">
+                                            5 - Outstanding
+                                        </option>
+
+                                    </select>
+
+                                </td>
+
+
+                                <!-- REMOVE -->
+
+                                <td class="text-center">
+
+                                    @if (i > 0)
+                                    {
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm remove-c2">
+
+                                            <i class="fas fa-trash"></i>
+
+                                        </button>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="mt-3">
+
+                <button type="button"
+                        class="btn btn-gold"
+                        id="addC2KraButton">
+
+                    <i class="fas fa-plus me-1"></i>
+                    Add KRA
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             DISPUTE PROTOCOL
+             ===================================================== -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                DISPUTE PROTOCOL
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>
+                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    Dispute Information
+                </strong>
+
+                <p class="mb-0 mt-1">
+                    If there is a disagreement during the review process,
+                    indicate the disputed KRA below. Resolution by the
+                    Next Higher Line Manager is not editable by the employee.
+                </p>
+
+            </div>
+
+
+            <!-- HAS DISPUTE -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Is there a dispute?
+                    </label>
+
+                    <div>
+
+                        <div class="form-check form-check-inline">
+
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="HasDispute"
+                                   id="hasDisputeYes"
+                                   value="true"
+                                   @(Model.HasDispute ? "checked" : "") />
+
+                            <label class="form-check-label"
+                                   for="hasDisputeYes">
+
+                                Yes
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-check form-check-inline">
+
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="HasDispute"
+                                   id="hasDisputeNo"
+                                   value="false"
+                                   @(!Model.HasDispute ? "checked" : "") />
+
+                            <label class="form-check-label"
+                                   for="hasDisputeNo">
+
+                                No
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="disputeFields"
+                 class="dispute-box">
+
+                <!-- DISPUTED KRA -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Disputed KRA Number(s)
+                    </label>
+
+                    <input type="text"
+                           name="DisputedKraNumbers"
+                           class="form-control"
+                           value="@Model.DisputedKraNumbers"
+                           placeholder="Example: KRA 2, KRA 4" />
+
+                </div>
+
+
+                <!-- HIGHER MANAGER DECISION LOCKED -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Decision of Next Higher Line Manager
+                    </label>
+
+                    <div class="locked-field-wrapper">
+
+                        <textarea name="HigherManagerDecision"
+                                  class="form-control higher-manager-locked"
+                                  rows="4"
+                                  placeholder="To be completed by Next Higher Line Manager..."
+                                  readonly>@Model.HigherManagerDecision</textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SURNAME INITIALS LOCKED -->
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Next Higher Line Manager Surname &amp; Initials
+                        </label>
+
+                        <div class="locked-field-wrapper">
+
+                            <input type="text"
+                                   name="HigherManagerSurnameInitials"
+                                   class="form-control higher-manager-locked"
+                                   value="@Model.HigherManagerSurnameInitials"
+                                   placeholder="To be completed by Next Higher Line Manager"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATE LOCKED -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Date
+                        </label>
+
+                        <div class="locked-field-wrapper">
+
+                            <input type="date"
+                                   name="HigherManagerSignDate"
+                                   class="form-control higher-manager-locked"
+                                   value="@(Model.HigherManagerSignDate.HasValue? Model.HigherManagerSignDate.Value.ToString("yyyy-MM-dd") : "")"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HIGHER MANAGER SIGNATURE -->
+
+                <div class="mt-3">
+
+                    <label class="signature-label">
+                        Next Higher Line Manager Signature
+                    </label>
+
+
+                    <div class="locked-signature-wrapper">
+
+                        <canvas id="higherManagerSignaturePad"
+                                class="signature-pad"></canvas>
+
+
+                        <div class="locked-signature-overlay">
+
+                            <span>
+                                <i class="fas fa-lock me-1"></i>
+                                Signature completed by Next Higher Line Manager
+                            </span>
+
+                        </div>
+
+
+                        <input type="hidden"
+                               id="HigherManagerSignature"
+                               name="HigherManagerSignature"
+                               value="@Model.HigherManagerSignature" />
+
+                    </div>
+
+
+                    <button type="button"
+                            id="clearHigherManagerSignature"
+                            class="btn btn-secondary btn-sm mt-2"
+                            disabled>
+
+                        <i class="fas fa-eraser me-1"></i>
+                        Clear Signature
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+        SIGNATURES
+        ===================================================== -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                SIGNATURES
+            </div>
+
+            <div class="row">
+
+                <!-- =================================================
+                     EMPLOYEE / SUPERVISEE SIGNATURE
+                     ================================================= -->
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="signature-container">
+
+                        <div class="signature-label">
+
+                            <i class="fas fa-user me-1"></i>
+
+                            Job Holder / Supervisee Signature
+
+                        </div>
+
+                        <canvas id="superviseeSignaturePad"
+                                class="signature-pad"></canvas>
+
+                        <!-- IMPORTANT:
+                             Your model property is SuperviseeSignature
+                             -->
+
+                        <input type="hidden"
+                               id="SuperviseeSignature"
+                               name="SuperviseeSignature"
+                               value="@Model.SuperviseeSignature" />
+
+                        <button type="button"
+                                id="clearSuperviseeSignature"
+                                class="btn btn-danger btn-sm mt-2">
+
+                            <i class="fas fa-eraser me-1"></i>
+
+                            Clear Signature
+
+                        </button>
+
+                        <div class="mt-3">
+
+                            <label class="form-label">
+                                Supervisee Sign Date
+                            </label>
+
+                            <input type="date"
+                                   name="SuperviseeSignDate"
+                                   class="form-control"
+                                   value="@(Model.SuperviseeSignDate.HasValue
+                                                                       ? Model.SuperviseeSignDate.Value.ToString("yyyy-MM-dd")
+                                                                       : "")" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SUPERVISOR SIGNATURE - LOCKED
+                     ================================================= -->
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="signature-container">
+
+                        <div class="signature-label">
+
+                            <i class="fas fa-user-tie me-1"></i>
+
+                            Supervisor Signature
+
+                        </div>
+
+                        <div class="supervisor-signature-locked">
+
+                            <canvas id="supervisorSignaturePad"
+                                    class="signature-pad"></canvas>
+
+                            <div class="signature-lock-overlay">
+
+                                <span>
+
+                                    <i class="fas fa-lock me-1"></i>
+
+                                    Supervisor only
+
+                                </span>
+
+                            </div>
+
+                            <input type="hidden"
+                                   id="SupervisorSignature"
+                                   name="SupervisorSignature"
+                                   value="@Model.SupervisorSignature" />
+
+                        </div>
+
+                        <button type="button"
+                                id="clearSupervisorSignature"
+                                class="btn btn-secondary btn-sm mt-2"
+                                disabled>
+
+                            <i class="fas fa-eraser me-1"></i>
+
+                            Clear Signature
+
+                        </button>
+
+                        <div class="mt-3">
+
+                            <label class="form-label">
+                                Supervisor Sign Date
+                            </label>
+
+                            <input type="date"
+                                   name="SupervisorSignDate"
+                                   class="form-control supervisor-locked"
+                                   value="@(Model.SupervisorSignDate.HasValue
+                                                                       ? Model.SupervisorSignDate.Value.ToString("yyyy-MM-dd")
+                                                                       : "")"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             SAVE BUTTONS
+             ===================================================== -->
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <a asp-controller="Pmds"
+               asp-action="Index"
+               class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left me-1"></i>
+
+                Back
+
+            </a>
+
+            <a href="/PMDS/PersonalAssistancePlan"
+               class="btn btn-success btn-lg">
+                Save Mid-Term Review
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
     <script>
 
-        /* =========================================================
-           C1 - ADD KRA
-           ========================================================= */
-
-        let c1KraIndex = 4;
-
-        function addC1Kra() {
-
-            const tbody = document.getElementById("c1KraBody");
-
-            const rowNumber = c1KraIndex + 1;
-
-            const row = document.createElement("tr");
-
-            row.className = "c1-kra-row";
-            row.setAttribute("data-kra", rowNumber);
-
-            row.innerHTML = `
-                <td>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span class="kra-number fw-bold text-success" style="min-width:18px;">${rowNumber}</span>
-                        <input name="KraEvaluations[${c1KraIndex}].KraDescription"
-                               class="form-control"
-                               placeholder="Enter KRA Description..." />
-                    </div>
-                </td>
-
-                <td>
-                    <input name="KraEvaluations[${c1KraIndex}].Weight"
-                           type="number"
-                           class="form-control text-center weight-input kra-weight"
-                           placeholder="Weight"
-                           min="0"
-                           max="100"
-                           step="1"
-                           inputmode="numeric" />
-                </td>
-
-                <td>
-                    <textarea name="KraEvaluations[${c1KraIndex}].AchievementStandard"
-                              class="form-control"
-                              rows="3"
-                              placeholder="Describe the standards achieved..."></textarea>
-                </td>
-
-                <td>
-                    <textarea name="KraEvaluations[${c1KraIndex}].SupervisorComments"
-                              class="form-control"
-                              rows="3"
-                              placeholder="Supervisor feedback..."></textarea>
-                </td>
-
-                <td class="text-center">
-                    <button type="button"
-                            class="btn-remove-kra"
-                            onclick="removeC1Kra(${rowNumber})">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            `;
-
-            tbody.appendChild(row);
-
-            c1KraIndex++;
-
-            attachWeightCalculator();
-            calculateTotalWeight();
-            updateC1Numbers();
-            updateC1Count();
-            toggleC1RemoveButtons();
-        }
-
-
-        /* =========================================================
-           C1 - REMOVE KRA
-           ========================================================= */
-
-        function removeC1Kra(number) {
-
-            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
-
-            if (rows.length <= 1) {
-                alert("At least 1 KRA is required.");
-                return;
-            }
-
-            const row = document.querySelector(`#c1KraBody tr.c1-kra-row[data-kra="${number}"]`);
-
-            if (row) row.remove();
-
-            reindexC1Kras();
-            attachWeightCalculator();
-            calculateTotalWeight();
-            updateC1Count();
-            toggleC1RemoveButtons();
-        }
-
-
-        /* =========================================================
-           C1 - UPDATE NUMBERS
-           ========================================================= */
-
-        function updateC1Numbers() {
-            document.querySelectorAll("#c1KraBody tr.c1-kra-row").forEach((row, index) => {
-                const numberCell = row.querySelector(".kra-number");
-                if (numberCell) numberCell.innerText = index + 1;
-            });
-        }
-
-
-        /* =========================================================
-           C1 - COUNT BADGE
-           ========================================================= */
-
-        function updateC1Count() {
-            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
-            const badge = document.getElementById("c1KraCount");
-            if (badge) badge.innerText = rows.length + " KRAs";
-        }
-
-
-        /* =========================================================
-           C1 - REINDEX
-           ========================================================= */
-
-        function reindexC1Kras() {
-
-            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
-
-            rows.forEach((row, index) => {
-
-                row.setAttribute("data-kra", index + 1);
-
-                row.querySelectorAll("input, textarea, select").forEach(el => {
-                    if (el.name) {
-                        el.name = el.name.replace(
-                            /KraEvaluations\[\d+\]/,
-                            `KraEvaluations[${index}]`
-                        );
-                    }
-                });
-
-                const btn = row.querySelector(".btn-remove-kra");
-                if (btn) btn.setAttribute("onclick", `removeC1Kra(${index + 1})`);
-            });
-
-            c1KraIndex = rows.length;
-            updateC1Numbers();
-        }
-
-
-        /* =========================================================
-           C1 - SHOW/HIDE REMOVE BUTTONS
-           ========================================================= */
-
-        function toggleC1RemoveButtons() {
-            const rows = document.querySelectorAll("#c1KraBody tr.c1-kra-row");
-            document.querySelectorAll("#c1KraBody .btn-remove-kra").forEach(btn => {
-                btn.style.display = rows.length > 1 ? "inline-block" : "none";
-            });
-        }
-
-
-        /* =========================================================
-           C2 - ADD KRA
-           ========================================================= */
-
-        let c2KraIndex = 4;
-
-        document.getElementById("addC2KraBtn").addEventListener("click", function () {
-
-            const tbody = document.getElementById("c2KraBody");
-            const totalRow = tbody.querySelector(".table-light");
-            const rowNumber = c2KraIndex + 1;
-
-            const row = document.createElement("tr");
-            row.className = "c2-kra-row";
-            row.setAttribute("data-kra", rowNumber);
-
-            row.innerHTML = `
-                <td class="kra-number">${rowNumber}</td>
-
-                <td>
-                    <div class="input-group input-group-sm mx-auto" style="max-width:100px;">
-                        <select name="KraEvaluations[${c2KraIndex}].Weight"
-                                class="form-select weight-input kra-weight"
-                                required>
-                            <option value="">—</option>
-                            <option value="10">10%</option>
-                            <option value="11">11%</option>
-                            <option value="12">12%</option>
-                            <option value="13">13%</option>
-                            <option value="14">14%</option>
-                            <option value="15">15%</option>
-                            <option value="16">16%</option>
-                            <option value="17">17%</option>
-                            <option value="18">18%</option>
-                            <option value="19">19%</option>
-                            <option value="20">20%</option>
-                            <option value="21">21%</option>
-                            <option value="22">22%</option>
-                            <option value="23">23%</option>
-                            <option value="24">24%</option>
-                            <option value="25">25%</option>
-                            <option value="26">26%</option>
-                            <option value="27">27%</option>
-                            <option value="28">28%</option>
-                            <option value="29">29%</option>
-                            <option value="30">30%</option>
-                        </select>
-                        <span class="input-group-text">%</span>
-                    </div>
-                </td>
-
-                <td>
-                    <select name="KraEvaluations[${c2KraIndex}].OwnRating" class="form-control select-rating text-center">
-                        <option value="">—</option>
-                        <option value="1">1 – Not Effective</option>
-                        <option value="2">2 – Partially Effective</option>
-                        <option value="3">3 – Fully Effective</option>
-                        <option value="4">4 – Highly Effective</option>
-                    </select>
-                </td>
-
-                <td>
-                    <select name="KraEvaluations[${c2KraIndex}].SupervisorRating" class="form-control select-rating text-center">
-                        <option value="">—</option>
-                        <option value="1">1 – Not Effective</option>
-                        <option value="2">2 – Partially Effective</option>
-                        <option value="3">3 – Fully Effective</option>
-                        <option value="4">4 – Highly Effective</option>
-                    </select>
-                </td>
-
-                <td>
-                    <select name="KraEvaluations[${c2KraIndex}].AgreedRating"
-                            class="form-control select-rating text-center"
-                            style="border-color:#006838;background:#e8f5ee;">
-                        <option value="">—</option>
-                        <option value="1">1 – Not Effective</option>
-                        <option value="2">2 – Partially Effective</option>
-                        <option value="3">3 – Fully Effective</option>
-                        <option value="4">4 – Highly Effective</option>
-                    </select>
-                </td>
-
-                <td class="text-center">
-                    <button type="button" class="btn-remove-kra remove-c2-kra">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            `;
-
-            tbody.insertBefore(row, totalRow);
-
-            c2KraIndex++;
-
-            attachWeightCalculator();
-            calculateTotalWeight();
-            updateC2Count();
-            toggleC2RemoveButtons();
-        });
-
-
-        /* =========================================================
-           C2 - REMOVE KRA
-           ========================================================= */
-
-        document.getElementById("c2KraBody").addEventListener("click", function (e) {
-
-            const button = e.target.closest(".remove-c2-kra");
-            if (!button) return;
-
-            const row = button.closest("tr");
-            row.remove();
-
-            reindexC2Kras();
-            attachWeightCalculator();
-            calculateTotalWeight();
-            updateC2Count();
-            toggleC2RemoveButtons();
-        });
-
-
-        /* =========================================================
-           C2 - REINDEX
-           ========================================================= */
-
-        function reindexC2Kras() {
-
-            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
-
-            rows.forEach((row, index) => {
-
-                row.setAttribute("data-kra", index + 1);
-
-                row.querySelectorAll("select, input").forEach(el => {
-                    if (el.name) {
-                        el.name = el.name.replace(
-                            /KraEvaluations\[\d+\]/,
-                            `KraEvaluations[${index}]`
-                        );
-                    }
-                });
-            });
-
-            c2KraIndex = rows.length;
-        }
-
-
-        /* =========================================================
-           C2 - COUNT BADGE
-           ========================================================= */
-
-        function updateC2Count() {
-            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
-            const badge = document.getElementById("c2KraCount");
-            if (badge) badge.innerText = rows.length + " KRAs";
-        }
-
-
-        /* =========================================================
-           C2 - SHOW/HIDE REMOVE BUTTONS
-           ========================================================= */
-
-        function toggleC2RemoveButtons() {
-            const rows = document.querySelectorAll("#c2KraBody tr.c2-kra-row");
-            document.querySelectorAll("#c2KraBody .remove-c2-kra").forEach(btn => {
-                btn.style.display = rows.length > 1 ? "inline-block" : "none";
-            });
-        }
-
-
-        /* =========================================================
-           WEIGHT CALCULATOR
-           ========================================================= */
-
-        function calculateTotalWeight() {
-
-            let total = 0;
-
-            document.querySelectorAll(".kra-weight").forEach(el => {
-                const value = parseFloat(el.value) || 0;
-                total += value;
-            });
-
-            const badge = document.getElementById("total-weight-badge");
-
-            if (badge) {
-                badge.innerText = total + "%";
-                if (total === 100) {
-                    badge.className = "badge bg-success fs-6";
-                } else {
-                    badge.className = "badge bg-danger fs-6";
-                }
-            }
-        }
-
-
-        /* =========================================================
-           ATTACH WEIGHT LISTENERS
-           ========================================================= */
-
-        function attachWeightCalculator() {
-            document.querySelectorAll(".kra-weight").forEach(el => {
-                if (!el.dataset.listenerAttached) {
-                    el.addEventListener("input", calculateTotalWeight);
-                    el.addEventListener("change", calculateTotalWeight);
-                    el.dataset.listenerAttached = "true";
-                }
-            });
-        }
-
-
-        /* =========================================================
-           DISPUTE TOGGLE
-           ========================================================= */
-
-        document.querySelectorAll('input[name="HasDispute"]').forEach(elem => {
-            elem.addEventListener("change", function (e) {
-                const box = document.getElementById("disputeFields");
-                box.style.display = e.target.value === "true" ? "block" : "none";
-            });
-        });
-
-
-        /* =========================================================
-           SIGNATURE PAD FACTORY
-           ========================================================= */
-
-        function createSignaturePad(canvasId, hiddenInputId, clearBtnId, label) {
+        /* ============================================================
+           SIGNATURE PAD
+           ============================================================ */
+
+        function createSignaturePad(canvasId, hiddenInputId, clearButtonId, label) {
 
             const canvas = document.getElementById(canvasId);
             const hiddenInput = document.getElementById(hiddenInputId);
-            const clearButton = document.getElementById(clearBtnId);
+            const clearButton = document.getElementById(clearButtonId);
 
-            if (!canvas) {
-                console.warn("Signature canvas not found:", canvasId);
-                return null;
+            if (!canvas || !hiddenInput) {
+                return;
             }
 
             const ctx = canvas.getContext("2d");
 
             let drawing = false;
-            let lastX = 0;
-            let lastY = 0;
+
 
             function resizeCanvas() {
-                const rect = canvas.getBoundingClientRect();
-                if (rect.width === 0) return;
 
-                const saved = hiddenInput && hiddenInput.value;
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
 
-                canvas.width = rect.width;
-                canvas.height = 250;
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
 
-                ctx.strokeStyle = "#000000";
-                ctx.fillStyle = "#000000";
-                ctx.lineWidth = 2.5;
+                ctx.scale(ratio, ratio);
+
+                ctx.lineWidth = 2;
                 ctx.lineCap = "round";
                 ctx.lineJoin = "round";
 
-                if (saved) {
-                    const img = new Image();
-                    img.onload = function () {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    };
-                    img.src = saved;
-                }
             }
 
-            function getPos(e) {
-                const rect = canvas.getBoundingClientRect();
-                if (e.touches && e.touches.length > 0) {
-                    return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-                }
-                return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-            }
-
-            function start(e) {
-                e.preventDefault();
-                drawing = true;
-                const p = getPos(e);
-                lastX = p.x;
-                lastY = p.y;
-                ctx.beginPath();
-                ctx.moveTo(lastX, lastY);
-            }
-
-            function move(e) {
-                if (!drawing) return;
-                e.preventDefault();
-                const p = getPos(e);
-                ctx.lineTo(p.x, p.y);
-                ctx.stroke();
-                lastX = p.x;
-                lastY = p.y;
-                save();
-            }
-
-            function end(e) {
-                if (!drawing) return;
-                if (e) e.preventDefault();
-                drawing = false;
-                ctx.closePath();
-                save();
-            }
-
-            function save() {
-                if (hiddenInput) hiddenInput.value = canvas.toDataURL("image/png");
-            }
-
-            canvas.addEventListener("mousedown", start);
-            canvas.addEventListener("mousemove", move);
-            canvas.addEventListener("mouseup", end);
-            canvas.addEventListener("mouseleave", end);
-
-            canvas.addEventListener("touchstart", start, { passive: false });
-            canvas.addEventListener("touchmove", move, { passive: false });
-            canvas.addEventListener("touchend", end, { passive: false });
-            canvas.addEventListener("touchcancel", end, { passive: false });
-
-            if (clearButton) {
-                clearButton.addEventListener("click", function () {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    if (hiddenInput) hiddenInput.value = "";
-                });
-            }
 
             resizeCanvas();
-            window.addEventListener("resize", resizeCanvas);
 
-            return {
-                canvas,
-                clear: function () {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    if (hiddenInput) hiddenInput.value = "";
+
+            function getPosition(event) {
+
+                const rect = canvas.getBoundingClientRect();
+
+                let clientX;
+                let clientY;
+
+                if (event.touches && event.touches.length > 0) {
+
+                    clientX = event.touches[0].clientX;
+                    clientY = event.touches[0].clientY;
+
                 }
-            };
+                else {
+
+                    clientX = event.clientX;
+                    clientY = event.clientY;
+
+                }
+
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+
+            }
+
+
+            function startDrawing(event) {
+
+                event.preventDefault();
+
+                drawing = true;
+
+                const pos = getPosition(event);
+
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+
+            }
+
+
+            function draw(event) {
+
+                if (!drawing) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const pos = getPosition(event);
+
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+
+            }
+
+
+            function stopDrawing(event) {
+
+                if (!drawing) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                drawing = false;
+
+                hiddenInput.value = canvas.toDataURL("image/png");
+
+            }
+
+
+            canvas.addEventListener("mousedown", startDrawing);
+            canvas.addEventListener("mousemove", draw);
+            canvas.addEventListener("mouseup", stopDrawing);
+            canvas.addEventListener("mouseleave", stopDrawing);
+
+            canvas.addEventListener("touchstart", startDrawing, {
+                passive: false
+            });
+
+            canvas.addEventListener("touchmove", draw, {
+                passive: false
+            });
+
+            canvas.addEventListener("touchend", stopDrawing, {
+                passive: false
+            });
+
+
+            if (clearButton) {
+
+                clearButton.addEventListener("click", function () {
+
+                    ctx.clearRect(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+                    hiddenInput.value = "";
+
+                });
+
+            }
+
+
+            /* Restore existing signature */
+
+            if (hiddenInput.value) {
+
+                const image = new Image();
+
+                image.onload = function () {
+
+                    ctx.drawImage(
+                        image,
+                        0,
+                        0,
+                        canvas.offsetWidth,
+                        canvas.offsetHeight
+                    );
+
+                };
+
+                image.src = hiddenInput.value;
+
+            }
+
+
+            window.addEventListener("resize", function () {
+
+                if (!hiddenInput.value) {
+                    resizeCanvas();
+                }
+
+            });
+
         }
 
 
-        /* =========================================================
-           INITIALIZE
-           ========================================================= */
+        /* ============================================================
+           LOCK SUPERVISOR SIGNATURE
+           ============================================================ */
 
-        document.addEventListener("DOMContentLoaded", function () {
+        function lockSupervisorSignature() {
 
-            createSignaturePad("superviseeSignaturePad", "SuperviseeSignature", "clearSuperviseeSignature", "Supervisee");
-            createSignaturePad("supervisorSignaturePad", "SupervisorSignature", "clearSupervisorSignature", "Supervisor");
-            createSignaturePad("higherManagerSignaturePad", "HigherManagerSignature", "clearHigherManagerSignature", "Higher Manager");
+            const canvas =
+                document.getElementById("supervisorSignaturePad");
 
-            attachWeightCalculator();
-            calculateTotalWeight();
+            const clearButton =
+                document.getElementById("clearSupervisorSignature");
 
-            updateC1Numbers();
-            updateC1Count();
-            updateC2Count();
+            if (canvas) {
+
+                canvas.style.pointerEvents = "none";
+                canvas.style.cursor = "not-allowed";
+
+            }
+
+            if (clearButton) {
+
+                clearButton.disabled = true;
+
+            }
+
+        }
+
+
+        /* ============================================================
+           LOCK HIGHER MANAGER FIELDS
+           ============================================================ */
+
+        function lockHigherManagerFields() {
+
+            const decision =
+                document.querySelector(
+                    '[name="HigherManagerDecision"]'
+                );
+
+            const surname =
+                document.querySelector(
+                    '[name="HigherManagerSurnameInitials"]'
+                );
+
+            const date =
+                document.querySelector(
+                    '[name="HigherManagerSignDate"]'
+                );
+
+            const canvas =
+                document.getElementById(
+                    "higherManagerSignaturePad"
+                );
+
+            const clearButton =
+                document.getElementById(
+                    "clearHigherManagerSignature"
+                );
+
+
+            if (decision) {
+
+                decision.readOnly = true;
+                decision.classList.add(
+                    "higher-manager-locked"
+                );
+
+            }
+
+
+            if (surname) {
+
+                surname.readOnly = true;
+                surname.classList.add(
+                    "higher-manager-locked"
+                );
+
+            }
+
+
+            if (date) {
+
+                date.readOnly = true;
+                date.classList.add(
+                    "higher-manager-locked"
+                );
+
+            }
+
+
+            if (canvas) {
+
+                canvas.style.pointerEvents = "none";
+                canvas.style.cursor = "not-allowed";
+
+            }
+
+
+            if (clearButton) {
+
+                clearButton.disabled = true;
+
+            }
+
+        }
+
+
+        /* ============================================================
+           C1 REINDEX
+           ============================================================ */
+
+        function reindexC1Kras() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#c1KraBody .kra-row"
+                );
+
+
+            rows.forEach(function (row, index) {
+
+                const number =
+                    row.querySelector(".kra-number");
+
+                if (number) {
+                    number.textContent = index + 1;
+                }
+
+
+                row.querySelectorAll(
+                    "input, textarea, select"
+                ).forEach(function (input) {
+
+                    if (input.name) {
+
+                        input.name =
+                            input.name.replace(
+                                /KraEvaluations\[\d+\]/g,
+                                "KraEvaluations[" + index + "]"
+                            );
+
+                    }
+
+                });
+
+            });
+
+        }
+
+
+        /* ============================================================
+           C1 REMOVE BUTTONS
+           ============================================================ */
+
+        function toggleC1RemoveButtons() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#c1KraBody .kra-row"
+                );
+
+
+            rows.forEach(function (row, index) {
+
+                const button =
+                    row.querySelector(".remove-c1");
+
+                if (!button) {
+                    return;
+                }
+
+                button.style.display =
+                    rows.length > 1
+                        ? "inline-block"
+                        : "none";
+
+            });
+
+        }
+
+
+        /* ============================================================
+           ADD C1 KRA
+           ============================================================ */
+
+        function addC1Kra() {
+
+            const body =
+                document.getElementById("c1KraBody");
+
+            const index =
+                body.querySelectorAll(".kra-row").length;
+
+
+            const row =
+                document.createElement("tr");
+
+            row.className = "kra-row";
+
+
+            row.innerHTML = `
+
+                <td class="text-center kra-number">
+                    ${index + 1}
+                </td>
+
+                <td>
+
+                    <input type="text"
+                           name="KraEvaluations[${index}].KraDescription"
+                           class="form-control"
+                           placeholder="Enter KRA"
+                           readonly />
+
+                </td>
+
+                <td>
+
+                    <input type="text"
+                           name="KraEvaluations[${index}].Weight"
+                           class="form-control text-center"
+                           placeholder="%"
+                           readonly />
+
+                </td>
+
+                <td>
+
+                    <textarea
+                        name="KraEvaluations[${index}].AchievementStandard"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter your achievements..."></textarea>
+
+                </td>
+
+                <td>
+
+                    <div class="locked-field-wrapper">
+
+                        <textarea
+                            name="KraEvaluations[${index}].SupervisorComments"
+                            class="form-control employee-locked"
+                            rows="4"
+                            placeholder="Supervisor feedback..."
+                            readonly></textarea>
+
+                    </div>
+
+                </td>
+
+                <td class="text-center">
+
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-c1">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
             toggleC1RemoveButtons();
+
+        }
+
+
+        /* ============================================================
+           REMOVE C1
+           ============================================================ */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(".remove-c1");
+
+                if (!button) {
+                    return;
+                }
+
+                const row =
+                    button.closest(".kra-row");
+
+                if (row) {
+
+                    row.remove();
+
+                    reindexC1Kras();
+
+                    toggleC1RemoveButtons();
+
+                }
+
+            }
+        );
+
+
+        /* ============================================================
+           C2 REINDEX
+           ============================================================ */
+
+        function reindexC2Kras() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#c2KraBody .kra-row"
+                );
+
+
+            rows.forEach(function (row, index) {
+
+                const number =
+                    row.querySelector(".kra-number");
+
+                if (number) {
+                    number.textContent = index + 1;
+                }
+
+
+                row.querySelectorAll(
+                    "input, textarea, select"
+                ).forEach(function (input) {
+
+                    if (input.name) {
+
+                        input.name =
+                            input.name.replace(
+                                /KraEvaluations\[\d+\]/g,
+                                "KraEvaluations[" + index + "]"
+                            );
+
+                    }
+
+                });
+
+            });
+
+        }
+
+
+        /* ============================================================
+           C2 REMOVE BUTTONS
+           ============================================================ */
+
+        function toggleC2RemoveButtons() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#c2KraBody .kra-row"
+                );
+
+
+            rows.forEach(function (row) {
+
+                const button =
+                    row.querySelector(".remove-c2");
+
+                if (!button) {
+                    return;
+                }
+
+                button.style.display =
+                    rows.length > 1
+                        ? "inline-block"
+                        : "none";
+
+            });
+
+        }
+
+
+        /* ============================================================
+           ADD C2 KRA
+           ============================================================ */
+
+        function addC2Kra() {
+
+            const body =
+                document.getElementById("c2KraBody");
+
+            const index =
+                body.querySelectorAll(".kra-row").length;
+
+
+            const row =
+                document.createElement("tr");
+
+            row.className = "kra-row";
+
+
+            row.innerHTML = `
+
+                <td class="text-center kra-number">
+                    ${index + 1}
+                </td>
+
+                <td>
+
+                    <input type="text"
+                           name="KraEvaluations[${index}].KraDescription"
+                           class="form-control"
+                           placeholder="Enter KRA"
+                           readonly />
+
+                    <input type="hidden"
+                           name="KraEvaluations[${index}].Id"
+                           value="0" />
+
+                </td>
+
+                <td>
+
+                    <input type="text"
+                           name="KraEvaluations[${index}].Weight"
+                           class="form-control text-center"
+                           placeholder="%"
+                           readonly />
+
+                </td>
+
+                <td>
+
+                    <select
+                        name="KraEvaluations[${index}].OwnRating"
+                        class="form-select">
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="1">
+                            1 - Does Not Meet
+                        </option>
+
+                        <option value="2">
+                            2 - Partially Meets
+                        </option>
+
+                        <option value="3">
+                            3 - Meets
+                        </option>
+
+                        <option value="4">
+                            4 - Exceeds
+                        </option>
+
+                        <option value="5">
+                            5 - Outstanding
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <div class="locked-field-wrapper">
+
+                        <select
+                            name="KraEvaluations[${index}].SupervisorRating"
+                            class="form-select employee-locked supervisor-rating"
+                            tabindex="-1"
+                            aria-disabled="true"
+                            style="pointer-events:none;">
+
+                            <option value="">
+                                Awaiting Supervisor
+                            </option>
+
+                            <option value="1">
+                                1 - Does Not Meet
+                            </option>
+
+                            <option value="2">
+                                2 - Partially Meets
+                            </option>
+
+                            <option value="3">
+                                3 - Meets
+                            </option>
+
+                            <option value="4">
+                                4 - Exceeds
+                            </option>
+
+                            <option value="5">
+                                5 - Outstanding
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <select
+                        name="KraEvaluations[${index}].AgreedRating"
+                        class="form-select">
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="1">
+                            1 - Does Not Meet
+                        </option>
+
+                        <option value="2">
+                            2 - Partially Meets
+                        </option>
+
+                        <option value="3">
+                            3 - Meets
+                        </option>
+
+                        <option value="4">
+                            4 - Exceeds
+                        </option>
+
+                        <option value="5">
+                            5 - Outstanding
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td class="text-center">
+
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-c2">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
             toggleC2RemoveButtons();
 
-            const disputeNo = document.getElementById("disputeNo");
-            if (disputeNo) disputeNo.checked = true;
-        });
+        }
+
+
+        /* ============================================================
+           REMOVE C2
+           ============================================================ */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(".remove-c2");
+
+                if (!button) {
+                    return;
+                }
+
+                const row =
+                    button.closest(".kra-row");
+
+                if (row) {
+
+                    row.remove();
+
+                    reindexC2Kras();
+
+                    toggleC2RemoveButtons();
+
+                }
+
+            }
+        );
+
+
+        /* ============================================================
+           DISPUTE TOGGLE
+           ============================================================ */
+
+        function toggleDisputeFields() {
+
+            const yes =
+                document.getElementById(
+                    "hasDisputeYes"
+                );
+
+            const fields =
+                document.getElementById(
+                    "disputeFields"
+                );
+
+
+            if (!yes || !fields) {
+                return;
+            }
+
+
+            if (yes.checked) {
+
+                fields.style.display = "block";
+
+            }
+            else {
+
+                fields.style.display = "none";
+
+            }
+
+        }
+
+
+        /* ============================================================
+           DOM READY
+           ============================================================ */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                /* Employee signature only */
+
+             createSignaturePad(
+            "superviseeSignaturePad",
+            "SuperviseeSignature",
+            "clearSuperviseeSignature",
+            "Job Holder / Supervisee"
+        );
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * Do NOT initialise the supervisor signature pad here.
+                 *
+                 * Do NOT initialise the higher manager signature pad here.
+                 *
+                 * Both are locked on the employee page.
+                 */
+
+
+                lockSupervisorSignature();
+
+                lockHigherManagerFields();
+
+
+                toggleC1RemoveButtons();
+
+                toggleC2RemoveButtons();
+
+
+                /* Dispute radio buttons */
+
+                const disputeRadios =
+                    document.querySelectorAll(
+                        'input[name="HasDispute"]'
+                    );
+
+
+                disputeRadios.forEach(function (radio) {
+
+                    radio.addEventListener(
+                        "change",
+                        toggleDisputeFields
+                    );
+
+                });
+
+
+                toggleDisputeFields();
+
+
+                /* Add C1 */
+
+                const addC1Button =
+                    document.getElementById(
+                        "addC1KraButton"
+                    );
+
+
+                if (addC1Button) {
+
+                    addC1Button.addEventListener(
+                        "click",
+                        addC1Kra
+                    );
+
+                }
+
+
+                /* Add C2 */
+
+                const addC2Button =
+                    document.getElementById(
+                        "addC2KraButton"
+                    );
+
+
+                if (addC2Button) {
+
+                    addC2Button.addEventListener(
+                        "click",
+                        addC2Kra
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ============================================================
+           FORM SUBMIT
+           ============================================================ */
+
+        document.getElementById("midTermReviewForm")
+            ?.addEventListener(
+                "submit",
+                function () {
+
+                    /*
+                     * Reindex both KRA collections before posting.
+                     */
+
+                    reindexC1Kras();
+
+                    reindexC2Kras();
+
+
+                    /*
+                     * Make sure locked fields remain readonly.
+                     */
+
+                    lockSupervisorSignature();
+
+                    lockHigherManagerFields();
+
+                }
+            );
 
     </script>
-</body>
-</html>
+
+}
