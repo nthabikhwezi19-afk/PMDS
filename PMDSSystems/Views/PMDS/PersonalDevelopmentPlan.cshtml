@@ -574,40 +574,21 @@
     <div class="page-header">
 
         <h2>
-
             PART B2: DCS Personal Development Plan
 
-            <select name="StartYear"
-                    id="StartYear"
-                    class="year-dropdown"
-                    required>
-
-                <option value="">Year</option>
-
-                @for (int year = 2020; year <= 2035; year++)
-                {
-                    <option value="@year">@year</option>
-                }
-
-            </select>
+            <span class="year-dropdown">
+                @(Model.StartYear?.ToString() ?? "")
+            </span>
 
             <span>/</span>
 
-            <select name="EndYear"
-                    id="EndYear"
-                    class="year-dropdown"
-                    required>
-
-                <option value="">Year</option>
-
-                @for (int year = 2021; year <= 2036; year++)
-                {
-                    <option value="@year">@year</option>
-                }
-
-            </select>
-
+            <span class="year-dropdown">
+                @(Model.EndYear?.ToString() ?? "")
+            </span>
         </h2>
+
+        <input type="hidden" name="StartYear" value="@Model.StartYear" />
+        <input type="hidden" name="EndYear" value="@Model.EndYear" />
 
         <p>
             <strong>Year under Review (Level 3 – 12)</strong>
@@ -857,13 +838,13 @@
 
 
             <!-- =================================================
-                 RACE / DISABILITY / NATURE OF DISABILITY
-                 ================================================= -->
+            RACE / DISABILITY
+            ================================================= -->
 
             <div class="row">
 
                 <!-- RACE -->
-                <div class="col-md-4">
+                <div class="col-md-6">
 
                     <div class="form-group">
 
@@ -884,7 +865,7 @@
 
 
                 <!-- DISABILITY -->
-                <div class="col-md-4">
+                <div class="col-md-6">
 
                     <div class="form-group">
 
@@ -903,9 +884,27 @@
 
                 </div>
 
+            </div>
 
-                <!-- NATURE OF DISABILITY -->
-                <div class="col-md-4">
+
+            <!-- =================================================
+                 NATURE OF DISABILITY
+                 Shown only when Disability = Yes
+                 ================================================= -->
+
+            <div class="row"
+                 id="disabilityDetailsContainer"
+                 style="display:@(
+                 string.Equals(
+                     Model.Disabled,
+                     "Yes",
+                     StringComparison.OrdinalIgnoreCase
+                 )
+                     ? "flex"
+                     : "none"
+          ); ">
+
+                <div class="col-md-12">
 
                     <div class="form-group">
 
@@ -925,7 +924,6 @@
                 </div>
 
             </div>
-
 
             <!-- =================================================
                  2. EDUCATIONAL BACKGROUND
@@ -1769,54 +1767,51 @@
         }
 
 
-        /* =====================================================
-           DISABILITY
-           ===================================================== */
+           /* =====================================================
+       DISABILITY
+       ===================================================== */
 
-        // const disabilityField =
-        //     document.getElementById("Disabled");
+    const disabilityField =
+        document.getElementById("Disabled");
 
-        // const disabilityDetailsContainer =
-        //     document.getElementById("disabilityDetailsContainer");
+    const disabilityDetailsContainer =
+        document.getElementById(
+            "disabilityDetailsContainer"
+        );
 
-        // const disabilityDetails =
-        //     document.getElementById("DisabilityDetails");
+    function toggleDisabilityDetails() {
 
-        // function toggleDisabilityDetails() {
+        if (!disabilityField ||
+            !disabilityDetailsContainer) {
+            return;
+        }
 
-        //     if (!disabilityField || !disabilityDetailsContainer) {
-        //         return;
-        //     }
+        const disabilityValue =
+            (disabilityField.value || "")
+                .trim()
+                .toLowerCase();
 
-        //     const value =
-        //         (disabilityField.value || "")
-        //             .trim()
-        //             .toLowerCase();
+        if (disabilityValue === "yes") {
 
-        //     if (value === "yes") {
+            disabilityDetailsContainer.style.display =
+                "flex";
 
-        //         disabilityDetailsContainer.style.display = "block";
+        } else {
 
-        //     } else {
+            disabilityDetailsContainer.style.display =
+                "none";
+        }
+    }
 
-        //         disabilityDetailsContainer.style.display = "none";
+    if (disabilityField) {
 
-        //         if (disabilityDetails) {
-        //             disabilityDetails.value = "";
-        //         }
-        //     }
-        // }
+        toggleDisabilityDetails();
 
-        // if (disabilityField) {
-
-        //     disabilityField.addEventListener(
-        //         "change",
-        //         toggleDisabilityDetails
-        //     );
-
-        //     toggleDisabilityDetails();
-        // }
-
+        disabilityField.addEventListener(
+            "change",
+            toggleDisabilityDetails
+        );
+    }
   
         /* =====================================================
            START YEAR / END YEAR

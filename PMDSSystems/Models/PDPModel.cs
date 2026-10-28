@@ -66,6 +66,11 @@
 
         public string? ActionPlan { get; set; }
 
+        public int? StartYear { get; set; }
+
+        public int? EndYear { get; set; }
+
+
         // ==========================================
         // RELATIONSHIPS
         // ==========================================
@@ -76,4 +81,5 @@
         public List<PDPJobRequirement> JobRequirements { get; set; }
             = new List<PDPJobRequirement>();
     }
+
 }

@@ -1525,9 +1525,10 @@
 
                     </label>
 
-                    <input asp-for="SuperviseeInitialsAndSurname"
-                           class="form-control"
-                           placeholder="Enter supervisee initials and surname" />
+                            <input asp-for="SuperviseeInitialsAndSurname"
+                                   value="@Model.EmployeeName"
+                                   class="form-control"
+                                   readonly />
 
                     <span asp-validation-for="SuperviseeInitialsAndSurname"
                           class="text-danger fs-7">

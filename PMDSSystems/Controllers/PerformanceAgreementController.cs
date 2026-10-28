@@ -279,8 +279,8 @@ namespace PMDSSystems.Controllers
                     "Your employee profile could not be found.";
 
                 return RedirectToAction(
-                    "Cycles",
-                    "PMDS"
+                    "Agreement",
+                    "PerformanceAgreement"
                 );
             }
 
@@ -648,15 +648,21 @@ namespace PMDSSystems.Controllers
                 // SAVE
                 // ----------------------------------------------------
 
-                _context.PerformanceAgreements.Add(
-                    model
-                );
-
                 await _context.SaveChangesAsync();
 
                 Console.WriteLine(
                     "PERFORMANCE AGREEMENT SAVED. ID = " +
                     model.Id
+                );
+
+                Console.WriteLine(
+                    "KRAs SAVED = " +
+                    model.KRAs.Count
+                );
+
+                return RedirectToAction(
+                    nameof(Agreement),
+                    new { agreementId = model.Id }
                 );
 
                 Console.WriteLine(
@@ -1497,7 +1503,165 @@ namespace PMDSSystems.Controllers
 
             return View(agreement);
         }
+        // ============================================================
+        // AGREEMENT - POST
+        // ============================================================
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Agreement(
+            int agreementId,
+     
+            string? EmployeeSignature,
+            string? SupervisorSignature,
+            DateTime SignatureDate)
+        {
+            Console.WriteLine("========================================");
+            Console.WriteLine("AGREEMENT POST");
+            Console.WriteLine("Agreement ID: " + agreementId);
+            Console.WriteLine("========================================");
+
+            // --------------------------------------------------------
+            // VALIDATE AGREEMENT ID
+            // --------------------------------------------------------
+
+            if (agreementId <= 0)
+            {
+                TempData["Error"] =
+                    "The Performance Agreement ID is invalid.";
+
+                return RedirectToAction(nameof(Create));
+            }
+
+            // --------------------------------------------------------
+            // FIND AGREEMENT
+            // --------------------------------------------------------
+
+            var agreement =
+                await _context.PerformanceAgreements
+                    .FirstOrDefaultAsync(
+                        p => p.Id == agreementId
+                    );
+
+            if (agreement == null)
+            {
+                TempData["Error"] =
+                    "The Performance Agreement could not be found.";
+
+                return RedirectToAction(nameof(Create));
+            }
+
+            // --------------------------------------------------------
+            // CURRENT USER
+            // --------------------------------------------------------
+
+            var currentUserId =
+                User.FindFirstValue(
+                    ClaimTypes.NameIdentifier
+                );
+
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                return Challenge();
+            }
+
+            var currentEmployee =
+                await _context.Employees
+                    .Include(e => e.Supervisor)
+                    .FirstOrDefaultAsync(
+                        e => e.UserId == currentUserId
+                    );
+
+            if (currentEmployee == null)
+            {
+                TempData["Error"] =
+                    "Your employee profile could not be found.";
+
+                return RedirectToAction(
+                    nameof(Agreement),
+                    new { agreementId }
+                );
+            }
+
+            // --------------------------------------------------------
+            // VALIDATE DATE
+            // --------------------------------------------------------
+
+            if (SignatureDate == default)
+            {
+                TempData["Error"] =
+                    "Please select the signature date.";
+
+                return RedirectToAction(
+                    nameof(Agreement),
+                    new { agreementId }
+                );
+            }
+
+            // --------------------------------------------------------
+            // SAVE EMPLOYEE SIGNATURE
+            // --------------------------------------------------------
+
+            if (!string.IsNullOrWhiteSpace(EmployeeSignature))
+            {
+                agreement.EmployeeSignature =
+                    EmployeeSignature;
+            }
+
+            // --------------------------------------------------------
+            // SAVE SUPERVISOR SIGNATURE ONLY IF CURRENT USER IS THE
+            // ASSIGNED SUPERVISOR
+            // --------------------------------------------------------
+
+            bool canSupervisorSign =
+                currentEmployee.Supervisor != null &&
+                currentEmployee.Supervisor.UserId ==
+                currentUserId;
+
+            if (canSupervisorSign &&
+                !string.IsNullOrWhiteSpace(SupervisorSignature))
+            {
+                agreement.SupervisorSignature =
+                    SupervisorSignature;
+            }
+
+          
+            // --------------------------------------------------------
+            // SAVE DATABASE CHANGES
+            // --------------------------------------------------------
+
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] =
+                    "Performance Agreement saved successfully.";
+
+                // ----------------------------------------------------
+                // REDIRECT TO PERSONAL DEVELOPMENT PLAN
+                // ----------------------------------------------------
+
+                return RedirectToAction(
+                    "PersonalDevelopmentPlan",
+                    "PMDS"
+                );
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine("========================================");
+                Console.WriteLine("AGREEMENT DATABASE ERROR");
+                Console.WriteLine(ex);
+                Console.WriteLine("========================================");
+
+                TempData["Error"] =
+                    "The agreement could not be saved.";
+
+                return RedirectToAction(
+                    nameof(Agreement),
+                    new { agreementId }
+                );
+            }
+        }
 
         // ============================================================
         // INDEX

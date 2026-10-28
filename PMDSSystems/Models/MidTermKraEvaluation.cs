@@ -31,12 +31,13 @@ namespace PMDSSystems.Models
         [Range(1, 100, ErrorMessage = "Weight must be between 1 and 100")]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Weight { get; set; }
-
         // ============================================================
         // PART C1 - MOTIVATION
         // ============================================================
 
         public string AchievementStandard { get; set; } = string.Empty;
+
+        public string EmployeeAchievement { get; set; } = string.Empty;
 
         public string SupervisorComments { get; set; } = string.Empty;
 

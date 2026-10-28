@@ -343,40 +343,35 @@
                 <!-- PERSAL NUMBER -->
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label asp-for="PersalNumber">Persal Number</label>
 
-                        <label>Persal Number</label>
-
-                        <input type="text"
-                               value="@Model?.PersalNumber"
+                        <input asp-for="PersalNumber"
                                class="form-control readonly-field"
                                readonly />
+
+                        <span asp-validation-for="PersalNumber"
+                              class="text-danger"></span>
 
                         <small class="readonly-note">
                             <i class="fas fa-lock me-1"></i>
                             Persal Number cannot be changed.
                         </small>
-
                     </div>
                 </div>
 
                 <!-- FIRST NAME -->
                 <div class="col-md-4">
                     <div class="form-group">
-
                         <label asp-for="FirstName">
                             First Name
                             <span class="required">*</span>
                         </label>
 
-                        <input type="text"
-                               id="FirstName"
-                               name="FirstName"
-                               value="@Model?.FirstName"
+                        <input asp-for="FirstName"
                                class="form-control" />
 
                         <span asp-validation-for="FirstName"
                               class="text-danger"></span>
-
                     </div>
                 </div>
 
@@ -388,13 +383,8 @@
                             Last Name
                             <span class="required">*</span>
                         </label>
-
-                        <input type="text"
-                               id="LastName"
-                               name="LastName"
-                               value="@Model?.LastName"
+                        <input asp-for="LastName"
                                class="form-control" />
-
                         <span asp-validation-for="LastName"
                               class="text-danger"></span>
 
@@ -413,10 +403,7 @@
                             Initials
                         </label>
 
-                        <input type="text"
-                               id="Initials"
-                               name="Initials"
-                               value="@Model?.Initials"
+                        <input asp-for="Initials"
                                class="form-control" />
 
                     </div>
@@ -431,10 +418,8 @@
                             <span class="required">*</span>
                         </label>
 
-                        <input type="email"
-                               id="Email"
-                               name="Email"
-                               value="@Model?.Email"
+                        <input asp-for="Email"
+                               type="email"
                                class="form-control" />
 
                         <span asp-validation-for="Email"
@@ -455,12 +440,12 @@
                            value="@Model?.IdentificationNumber"
                            class="form-control"
                            readonly />
-
                     <small class="text-muted">
                         ID Number cannot be changed.
                     </small>
                 </div>
 
+            </div>
 
             <!-- ================================================= -->
             <!-- 2. WORK INFORMATION -->

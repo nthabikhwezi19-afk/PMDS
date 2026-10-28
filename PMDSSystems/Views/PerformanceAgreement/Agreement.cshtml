@@ -467,11 +467,16 @@
          FORM
          ===================================================== -->
 
-    <form method="post"
+    <form asp-controller="PerformanceAgreement"
+          asp-action="Agreement"
+          method="post"
           id="performanceAgreementForm">
 
         @Html.AntiForgeryToken()
 
+        <input type="hidden"
+               name="agreementId"
+               value="@Model.Id" />
 
         <!-- =====================================================
              REPRESENTATIVES

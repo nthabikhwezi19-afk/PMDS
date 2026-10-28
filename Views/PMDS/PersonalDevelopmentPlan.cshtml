@@ -1,0 +1,2625 @@
+﻿
+@model PMDSSystems.Models.PDPModel
+
+@{
+    ViewData["Title"] = "Personal Development Plan";
+}
+<div style="background:#fff3cd; border:2px solid #856404; padding:15px; margin:20px 0;">
+    <h5>PDP DEBUG TEST</h5>
+
+    <p>
+        <strong>Age Group:</strong>
+        [@Model.AgeGroup]
+    </p>
+
+    <p>
+        <strong>Disability:</strong>
+        [@Model.Disabled]
+    </p>
+
+    <p>
+        <strong>Nature of Disability:</strong>
+        [@Model.DisabilityDetails]
+    </p>
+
+    <p>
+        <strong>Gender:</strong>
+        [@Model.Gender]
+    </p>
+
+    <p>
+        <strong>Race:</strong>
+        [@Model.Race]
+    </p>
+</div>
+
+<style>
+    /* =========================================================
+           GLOBAL
+           ========================================================= */
+
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* =========================================================
+           PAGE HEADER
+           ========================================================= */
+
+    .page-header {
+        background: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-top: 5px solid #006838;
+        border-left: 1px solid #e8edf0;
+        border-right: 1px solid #e8edf0;
+        border-bottom: 1px solid #e8edf0;
+    }
+
+        .page-header h2 {
+            color: #006838;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .page-header .sub-text {
+            color: #999;
+            font-size: 14px;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+    /* =========================================================
+           FORM CONTAINER
+           ========================================================= */
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 1px solid #e8edf0;
+        border-right: 1px solid #e8edf0;
+        border-bottom: 1px solid #e8edf0;
+    }
+
+    /* =========================================================
+           SECTION HEADERS
+           ========================================================= */
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #006838;
+    }
+
+        .section-header h4 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+            font-size: 18px;
+        }
+
+    .section-number {
+        background: #006838;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    /* =========================================================
+           FORM GROUPS
+           ========================================================= */
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 14px;
+        }
+
+    .required {
+        color: #dc3545;
+        margin-left: 3px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 2px solid #dce3e8;
+        padding: 8px 12px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        width: 100%;
+        background: white;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.15);
+            outline: none;
+        }
+
+    select.form-control {
+        appearance: auto;
+        cursor: pointer;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    /* =========================================================
+           TABLE
+           ========================================================= */
+
+    .table-container {
+        overflow-x: auto;
+        margin: 15px 0;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table thead th {
+            background: #006838;
+            color: white;
+            padding: 12px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #006838;
+        }
+
+        .table tbody td {
+            padding: 6px;
+            border: 1px solid #dce3e8;
+            vertical-align: middle;
+        }
+
+        .table tbody .form-control {
+            border: 1px solid #dce3e8;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+            .table tbody .form-control:focus {
+                border-color: #006838;
+                box-shadow: 0 0 0 0.15rem rgba(0,104,56,0.12);
+            }
+
+    /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+    .btn-success {
+        background-color: #006838;
+        border-color: #006838;
+    }
+
+        .btn-success:hover {
+            background-color: #004d28;
+            border-color: #004d28;
+        }
+
+    .btn-danger {
+        border-radius: 5px;
+    }
+
+    .divider {
+        border: none;
+        border-top: 2px dashed #006838;
+        margin: 30px 0;
+        opacity: 0.5;
+    }
+
+    /* =========================================================
+           YEAR DROPDOWN
+           ========================================================= */
+
+    .year-dropdown {
+        width: 110px;
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 6px 10px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #006838;
+        background-color: white;
+        border: 2px solid #006838;
+        border-radius: 6px;
+        vertical-align: middle;
+    }
+
+        .year-dropdown:focus {
+            border-color: #004d28;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.15);
+            outline: none;
+        }
+
+    /* =========================================================
+           SIGNATURE
+           ========================================================= */
+
+    .signature-wrapper {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .signature-pad {
+        width: 100%;
+        height: 180px;
+        border: 2px solid #dce3e8;
+        border-radius: 8px;
+        background-color: #ffffff;
+        cursor: crosshair;
+        display: block;
+        touch-action: none;
+        box-sizing: border-box;
+    }
+
+        .signature-pad:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.15);
+            outline: none;
+        }
+
+    .signature-actions {
+        margin-top: 8px;
+    }
+
+    /* =========================================================
+           SUPERVISOR SIGNATURE
+           ========================================================= */
+
+    .supervisor-signature-wrapper {
+        width: 100%;
+    }
+
+    .supervisor-signature-pad {
+        width: 100%;
+        height: 180px;
+        min-height: 180px;
+        max-height: 180px;
+        border: 2px solid #006838;
+        border-radius: 8px;
+        background-color: #ffffff;
+        display: block;
+        box-sizing: border-box;
+        touch-action: none;
+    }
+
+    .supervisor-signature-status {
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        box-sizing: border-box;
+    }
+
+    .supervisor-unlocked {
+        background-color: #e8f5ee;
+        border: 1px solid #a8d5bb;
+        color: #006838;
+    }
+
+        .supervisor-unlocked i {
+            color: #006838;
+        }
+
+    .supervisor-locked {
+        background-color: #f1f1f1;
+        border: 1px solid #d0d0d0;
+        color: #666;
+    }
+
+        .supervisor-locked i {
+            color: #777;
+        }
+
+    /* =========================================================
+           READ-ONLY SUPERVISOR SIGNATURE
+           ========================================================= */
+
+    .supervisor-readonly-container {
+        width: 100%;
+        height: 180px;
+        min-height: 180px;
+        max-height: 180px;
+        border: 2px solid #dce3e8;
+        border-radius: 8px;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .existing-supervisor-signature {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        object-position: center;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .signature-locked-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #999;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+        .signature-locked-placeholder i {
+            font-size: 28px;
+            color: #aaa;
+        }
+
+    /* =========================================================
+           SUPERVISOR DATE
+           ========================================================= */
+
+    .supervisor-date-field {
+        height: 42px;
+    }
+
+    /* =========================================================
+           OFFICE USE
+           ========================================================= */
+
+    .office-use-only {
+        background-color: #f1f1f1;
+        border: 1px solid #d0d0d0;
+        border-radius: 8px;
+        padding: 20px;
+        opacity: 0.85;
+    }
+
+    .office-notice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #e2e2e2;
+        color: #666;
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+        .office-notice i {
+            color: #777;
+            font-size: 16px;
+        }
+
+    .office-field {
+        background-color: #e0e0e0 !important;
+        color: #777 !important;
+        border-color: #c8c8c8 !important;
+        cursor: not-allowed !important;
+    }
+
+        .office-field:disabled {
+            opacity: 1 !important;
+        }
+
+    .office-section {
+        border-bottom-color: #999 !important;
+    }
+
+        .office-section h4 {
+            color: #777 !important;
+        }
+
+    .office-number {
+        background-color: #888 !important;
+    }
+
+    /* =========================================================
+           SAVE BUTTON
+           ========================================================= */
+
+    .btn-save-agreement {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 44px;
+        padding: 0 20px;
+        gap: 9px;
+        background: #006838;
+        color: #ffffff !important;
+        border: 2px solid #006838;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-sizing: border-box;
+        box-shadow: 0 3px 8px rgba(0,104,56,0.20);
+        transition: all 0.25s ease;
+    }
+
+        .btn-save-agreement:hover {
+            background: #004d28;
+            border-color: #004d28;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,77,40,0.30);
+        }
+
+    /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+    @@media (max-width: 768px) {
+
+        .container {
+            padding: 10px;
+        }
+
+        .page-header {
+            padding: 20px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .table thead th {
+            font-size: 12px;
+            padding: 8px 6px;
+        }
+
+        .table tbody .form-control {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .section-header h4 {
+            font-size: 16px;
+        }
+
+        .supervisor-signature-pad,
+        .supervisor-readonly-container {
+            height: 160px;
+            min-height: 160px;
+            max-height: 160px;
+        }
+
+        .supervisor-signature-status {
+            font-size: 12px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+
+        .page-header h2 {
+            font-size: 17px;
+        }
+
+        .form-container {
+            padding: 15px;
+        }
+
+        .year-dropdown {
+            width: 90px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+
+<div class="container">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+
+            PART B2: DCS Personal Development Plan
+
+            <select name="StartYear"
+                    id="StartYear"
+                    class="year-dropdown"
+                    required>
+
+                <option value="">Year</option>
+
+                @for (int year = 2020; year <= 2035; year++)
+                {
+                    <option value="@year">@year</option>
+                }
+
+            </select>
+
+            <span>/</span>
+
+            <select name="EndYear"
+                    id="EndYear"
+                    class="year-dropdown"
+                    required>
+
+                <option value="">Year</option>
+
+                @for (int year = 2021; year <= 2036; year++)
+                {
+                    <option value="@year">@year</option>
+                }
+
+            </select>
+
+        </h2>
+
+        <p>
+            <strong>Year under Review (Level 3 – 12)</strong>
+        </p>
+
+        <p class="sub-text">
+
+            <i class="fas fa-info-circle"
+               style="color:#006838;"></i>
+
+            The information required on this form will solely be used
+            to determine skills gaps and for skills development planning purposes.
+
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         FORM
+         ===================================================== -->
+
+    <div class="form-container">
+
+        <form asp-controller="PDP"
+              asp-action="SavePDP"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <!-- =================================================
+                 1. PERSONAL DETAILS
+                 ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">1</span>
+
+                <h4>Personal Details</h4>
+
+            </div>
+
+
+            <!-- Surname / Supervisor Position -->
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="Surname">
+                            Surname & Initials
+                        </label>
+
+                        <input type="text"
+                               id="Surname"
+                               name="Surname"
+                               value="@Model.Surname"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="SupervisorPosition">
+                            Supervisor's Position
+                        </label>
+
+                        <input type="text"
+                               id="SupervisorPosition"
+                               name="SupervisorPosition"
+                               value="@Model.SupervisorPosition"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Persal / Directorate -->
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="PersalNo">
+                            Persal No
+                        </label>
+
+                        <input type="text"
+                               id="PersalNo"
+                               name="PersalNo"
+                               value="@Model.PersalNo"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="Directorate">
+                            Directorate / Section
+                        </label>
+
+                        <input type="text"
+                               id="Directorate"
+                               name="Directorate"
+                               value="@Model.Directorate"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ID / Branch -->
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="IdNumber">
+                            ID Number
+                        </label>
+
+                        <input type="text"
+                               id="IdNumber"
+                               name="IdNumber"
+                               value="@Model.IdNumber"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label for="Branch">
+                            Branch / Region
+                        </label>
+
+                        <input type="text"
+                               id="Branch"
+                               name="Branch"
+                               value="@Model.Branch"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =================================================
+                 SALARY / GENDER / AGE GROUP
+                 ================================================= -->
+
+            <div class="row">
+
+                <!-- SALARY LEVEL -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="SalaryLevel">
+                            Salary Level
+                        </label>
+
+                        <input type="text"
+                               id="SalaryLevel"
+                               name="SalaryLevel"
+                               value="@Model.SalaryLevel"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <!-- GENDER -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="Gender">
+                            Gender
+                        </label>
+
+                        <input type="text"
+                               id="Gender"
+                               name="Gender"
+                               value="@Model.Gender"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <!-- AGE GROUP -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="AgeGroup">
+                            Age Group
+                        </label>
+
+                        <input type="text"
+                               id="AgeGroup"
+                               name="AgeGroup"
+                               value="@Model.AgeGroup"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RACE / DISABILITY / NATURE OF DISABILITY
+                 ================================================= -->
+
+            <div class="row">
+
+                <!-- RACE -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="Race">
+                            Race
+                        </label>
+
+                        <input type="text"
+                               id="Race"
+                               name="Race"
+                               value="@Model.Race"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <!-- DISABILITY -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="Disabled">
+                            Disability
+                        </label>
+
+                        <input type="text"
+                               id="Disabled"
+                               name="Disabled"
+                               value="@Model.Disabled"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+
+                <!-- NATURE OF DISABILITY -->
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label for="DisabilityDetails">
+                            Nature of Disability
+                        </label>
+
+                        <input type="text"
+                               id="DisabilityDetails"
+                               name="DisabilityDetails"
+                               value="@Model.DisabilityDetails"
+                               class="form-control"
+                               readonly />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 2. EDUCATIONAL BACKGROUND
+                 ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">2</span>
+
+                <h4>Educational Background</h4>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table class="table table-bordered"
+                       id="educationTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Qualification</th>
+                            <th>NQF Level</th>
+                            <th>Year Completed</th>
+
+                            <th style="width:100px;">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="educationTableBody">
+
+                        <tr>
+
+                            <td>
+
+                                <input type="text"
+                                       name="Qualification1"
+                                       class="form-control"
+                                       placeholder="Qualification" />
+
+                            </td>
+
+
+                            <td>
+
+                                <select name="NQFLevel1"
+                                        class="form-control">
+
+                                    <option value="">
+                                        -- Select NQF Level --
+                                    </option>
+
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">
+                                            NQF Level @i
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </td>
+
+
+                            <td>
+
+                                <select name="YearCompleted1"
+                                        class="form-control">
+
+                                    <option value="">
+                                        -- Select Year --
+                                    </option>
+
+                                    @for (int year = DateTime.Now.Year;
+                                                                        year >= 1980;
+                                                                        year--)
+                                    {
+                                        <option value="@year">
+                                            @year
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </td>
+
+
+                            <td class="text-center">
+
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-education"
+                                        style="display:none;">
+
+                                    <i class="fas fa-trash"></i>
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div style="margin-top:10px;margin-bottom:20px;">
+
+                <button type="button"
+                        id="addEducation"
+                        class="btn btn-success">
+
+                    <i class="fas fa-plus"></i>
+
+                    Add Qualification
+
+                </button>
+
+            </div>
+
+
+            <!-- WORKSHOPS -->
+
+            <div class="form-group">
+
+                <label>
+                    Workshops / Courses (Last 5 Years)
+                </label>
+
+                <textarea name="Workshops"
+                          class="form-control"
+                          placeholder="List workshops and courses attended in the last 5 years..."></textarea>
+
+            </div>
+
+
+            <!-- =================================================
+              CURRENT STUDIES / BURSARY
+              ================================================= -->
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="CurrentStudies">
+                            Current Studies
+                        </label>
+
+                        <input type="text"
+                               id="CurrentStudies"
+                               name="CurrentStudies"
+                               class="form-control"
+                               placeholder="Enter current studies" />
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="Bursary">
+                            Bursary Holder?
+                        </label>
+
+                        <select id="Bursary"
+                                name="Bursary"
+                                class="form-control">
+
+                            <option value="">-- Select --</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-6"
+                     id="bursaryDurationContainer"
+                     style="display: none;">
+
+                    <div class="form-group">
+
+                        <label for="BursaryDuration">
+                            Bursary Duration
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="text"
+                               id="BursaryDuration"
+                               name="BursaryDuration"
+                               class="form-control"
+                               placeholder="Enter bursary duration"
+                               disabled />
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- =================================================
+                 3. JOB REQUIREMENTS
+                 ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">3</span>
+
+                <h4>
+                    Job Requirements vs Training Required
+                </h4>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table class="table table-bordered"
+                       id="jobRequirementsTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Tasks / KPA</th>
+                            <th>Training Needed</th>
+                            <th>Type of Learning</th>
+                            <th>NQF</th>
+                            <th>Cost</th>
+                            <th>Impact</th>
+
+                            <th style="width:80px;">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="jobRequirementsTableBody">
+
+                        <tr>
+
+                            <td>
+
+                                <input type="text"
+                                       name="Task1"
+                                       class="form-control"
+                                       placeholder="Task/KPA" />
+
+                            </td>
+
+
+                            <td>
+
+                                <input type="text"
+                                       name="Training1"
+                                       class="form-control"
+                                       placeholder="Training needed" />
+
+                            </td>
+
+
+                            <td>
+
+                                <input type="text"
+                                       name="LearningType1"
+                                       class="form-control"
+                                       placeholder="Type of learning" />
+
+                            </td>
+
+
+                            <td>
+
+                                <select name="NQFLevel1"
+                                        class="form-control">
+
+                                    <option value="">
+                                        -- Select NQF Level --
+                                    </option>
+
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">
+                                            NQF Level @i
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </td>
+
+
+                            <td>
+
+                                <input type="text"
+                                       name="Cost1"
+                                       class="form-control"
+                                       placeholder="Cost" />
+
+                            </td>
+
+
+                            <td>
+
+                                <input type="text"
+                                       name="Impact1"
+                                       class="form-control"
+                                       placeholder="Impact" />
+
+                            </td>
+
+
+                            <td class="text-center">
+
+                                <button type="button"
+                                        class="btn btn-danger btn-sm remove-job-requirement"
+                                        style="display:none;">
+
+                                    <i class="fas fa-trash"></i>
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div style="margin-top:10px;margin-bottom:20px;">
+
+                <button type="button"
+                        id="addJobRequirement"
+                        class="btn btn-success">
+
+                    <i class="fas fa-plus"></i>
+
+                    Add Requirement
+
+                </button>
+
+            </div>
+
+
+            <hr class="divider" />
+
+
+            <!-- =================================================
+                 4. DECLARATION
+                 ================================================= -->
+
+            <div class="section-header">
+
+                <span class="section-number">4</span>
+
+                <h4>Declaration</h4>
+
+            </div>
+
+
+            <!-- EMPLOYEE -->
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee Signature
+                            <span class="required">*</span>
+                        </label>
+
+
+                        <div class="signature-wrapper">
+
+                            <canvas id="employeeSignaturePad"
+                                    class="signature-pad">
+                            </canvas>
+
+
+                            <div class="signature-actions">
+
+                                <button type="button"
+                                        id="clearEmployeeSignature"
+                                        class="btn btn-outline-danger btn-sm">
+
+                                    <i class="fas fa-eraser"></i>
+
+                                    Clear Signature
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <input type="hidden"
+                               id="EmployeeSignature"
+                               name="EmployeeSignature" />
+
+
+                        <small class="text-muted">
+                            Draw your signature in the box above.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>Employee Date</label>
+
+                        <input type="date"
+                               name="EmployeeDate"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================================
+                 SUPERVISOR DECLARATION
+                 ========================================================= -->
+            @{
+                bool canSupervisorSign =
+                ViewBag.CanSupervisorSign == true;
+
+                string existingSupervisorSignature =
+                ViewBag.ExistingSupervisorSignature as string ?? "";
+
+                string existingSupervisorDate =
+                ViewBag.ExistingSupervisorDate as string ?? "";
+
+                string supervisorName =
+                ViewBag.SupervisorName as string ?? "";
+            }
+
+
+            <div class="row">
+
+                <!-- SUPERVISOR SIGNATURE -->
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>
+                            Supervisor Signature
+                            <span class="required">*</span>
+                        </label>
+
+
+                        <div class="supervisor-signature-wrapper">
+
+                            @if (canSupervisorSign)
+                            {
+                                <div class="supervisor-signature-status supervisor-unlocked">
+
+                                    <i class="fas fa-unlock-alt"></i>
+
+                                    <span>
+                                        You are the assigned supervisor.
+                                        You may sign below.
+                                    </span>
+
+                                </div>
+
+
+                                <canvas id="supervisorSignaturePad"
+                                        class="signature-pad supervisor-signature-pad">
+                                </canvas>
+
+
+                                <div class="signature-actions">
+
+                                    <button type="button"
+                                            id="clearSupervisorSignature"
+                                            class="btn btn-outline-danger btn-sm">
+
+                                        <i class="fas fa-eraser"></i>
+
+                                        Clear Signature
+
+                                    </button>
+
+                                </div>
+
+
+                                <input type="hidden"
+                                       id="SupervisorSignature"
+                                       name="SupervisorSignature"
+                                       value="@existingSupervisorSignature" />
+
+
+                                <small class="text-muted">
+                                    Draw your supervisor signature in the box above.
+                                </small>
+                            }
+                            else
+                            {
+                                <div class="supervisor-signature-status supervisor-locked">
+
+                                    <i class="fas fa-lock"></i>
+
+                                    <span>
+                                        Supervisor signature locked.
+                                        Only the assigned supervisor can sign.
+                                    </span>
+
+                                </div>
+
+
+                                <div class="supervisor-readonly-container">
+
+                                    @if (!string.IsNullOrWhiteSpace(existingSupervisorSignature))
+                                    {
+                                        <img src="@existingSupervisorSignature"
+                                             class="existing-supervisor-signature"
+                                             alt="Supervisor Signature" />
+                                    }
+                                    else
+                                    {
+                                        <div class="signature-locked-placeholder">
+
+                                            <i class="fas fa-lock"></i>
+
+                                            <span>
+                                                Awaiting Supervisor Signature
+                                            </span>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                                <input type="hidden"
+                                       id="SupervisorSignature"
+                                       name="SupervisorSignature"
+                                       value="@existingSupervisorSignature" />
+
+
+                                <small class="text-muted">
+
+                                    <i class="fas fa-lock"></i>
+
+                                    This field can only be completed by the assigned supervisor.
+
+                                </small>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPERVISOR INFORMATION -->
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>
+                            Supervisor Name
+                        </label>
+
+                        <input type="text"
+                               id="SupervisorName"
+                               name="SupervisorName"
+                               class="form-control"
+                               value="@supervisorName"
+                               readonly />
+
+                        <small class="text-muted">
+                            Supervisor information is controlled by the system.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Supervisor Date
+                        </label>
+
+                        @if (canSupervisorSign)
+                        {
+                            <input type="date"
+                                   id="SupervisorDate"
+                                   name="SupervisorDate"
+                                   class="form-control supervisor-date-field"
+                                   value="@existingSupervisorDate" />
+
+                            <small class="text-muted">
+                                The date is captured when the supervisor signs.
+                            </small>
+                        }
+                        else
+                        {
+                            <input type="date"
+                                   id="SupervisorDate"
+                                   name="SupervisorDate"
+                                   class="form-control supervisor-date-field"
+                                   value="@existingSupervisorDate"
+                                   readonly
+                                   tabindex="-1" />
+
+                            <small class="text-muted">
+
+                                <i class="fas fa-lock"></i>
+
+                                Locked until completed by the supervisor.
+
+                            </small>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 5. OFFICE USE ONLY
+                 ================================================= -->
+
+            <div class="section-header office-section">
+
+                <span class="section-number office-number">
+                    5
+                </span>
+
+                <h4>
+                    FOR OFFICE USE ONLY
+                </h4>
+
+            </div>
+
+
+            <div class="office-use-only">
+
+                <div class="office-notice">
+
+                    <i class="fas fa-lock"></i>
+
+                    <span>
+                        This section is for official office use only.
+                        Employees cannot enter or modify these fields.
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+
+                            <label>
+                                Captured on database
+                            </label>
+
+                            <select name="CapturedOnDatabase"
+                                    class="form-control office-field"
+                                    disabled>
+
+                                <option value="">
+                                    -- Select --
+                                </option>
+
+                                <option value="Yes">
+                                    Yes
+                                </option>
+
+                                <option value="No">
+                                    No
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+
+                            <label>
+                                Date Captured
+                            </label>
+
+                            <input type="date"
+                                   name="DateCaptured"
+                                   class="form-control office-field"
+                                   disabled />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORM BUTTONS
+                 ================================================= -->
+
+            <div style="margin-top:30px;">
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-undo"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn-save-agreement">
+
+                    <i class="fas fa-save"></i>
+
+                    Save
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<div class="alert alert-warning mt-3">
+    <strong>DEBUG INFORMATION</strong><br />
+
+    AgeGroup:
+    <strong>[@Model.AgeGroup]</strong>
+    <br />
+
+    Disabled:
+    <strong>[@Model.Disabled]</strong>
+    <br />
+
+    DisabilityDetails:
+    <strong>[@Model.DisabilityDetails]</strong>
+</div>
+
+<!-- =========================================================
+     FONT AWESOME
+     ========================================================= -->
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+
+<script>
+    /* =========================================================
+       PDP JAVASCRIPT
+       ========================================================= */
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /* =====================================================
+           BURSARY
+           ===================================================== */
+
+        const bursary = document.getElementById("Bursary");
+        const bursaryDurationContainer =
+            document.getElementById("bursaryDurationContainer");
+        const bursaryDuration =
+            document.getElementById("BursaryDuration");
+
+        function updateBursaryDuration() {
+
+            if (!bursary || !bursaryDurationContainer || !bursaryDuration) {
+                return;
+            }
+
+            if (bursary.value === "Yes") {
+
+                bursaryDurationContainer.style.display = "block";
+
+                bursaryDuration.disabled = false;
+
+                bursaryDuration.required = true;
+
+            } else {
+
+                bursaryDurationContainer.style.display = "none";
+
+                bursaryDuration.disabled = true;
+
+                bursaryDuration.required = false;
+
+                bursaryDuration.value = "";
+            }
+        }
+
+        if (bursary) {
+            bursary.addEventListener("change", updateBursaryDuration);
+            updateBursaryDuration();
+        }
+
+
+        /* =====================================================
+           DISABILITY
+           ===================================================== */
+
+        // const disabilityField =
+        //     document.getElementById("Disabled");
+
+        // const disabilityDetailsContainer =
+        //     document.getElementById("disabilityDetailsContainer");
+
+        // const disabilityDetails =
+        //     document.getElementById("DisabilityDetails");
+
+        // function toggleDisabilityDetails() {
+
+        //     if (!disabilityField || !disabilityDetailsContainer) {
+        //         return;
+        //     }
+
+        //     const value =
+        //         (disabilityField.value || "")
+        //             .trim()
+        //             .toLowerCase();
+
+        //     if (value === "yes") {
+
+        //         disabilityDetailsContainer.style.display = "block";
+
+        //     } else {
+
+        //         disabilityDetailsContainer.style.display = "none";
+
+        //         if (disabilityDetails) {
+        //             disabilityDetails.value = "";
+        //         }
+        //     }
+        // }
+
+        // if (disabilityField) {
+
+        //     disabilityField.addEventListener(
+        //         "change",
+        //         toggleDisabilityDetails
+        //     );
+
+        //     toggleDisabilityDetails();
+        // }
+
+  
+        /* =====================================================
+           START YEAR / END YEAR
+           ===================================================== */
+
+        const startYear =
+            document.getElementById("StartYear");
+
+        const endYear =
+            document.getElementById("EndYear");
+
+        function updateEndYear() {
+
+            if (!startYear || !endYear) {
+                return;
+            }
+
+            const year =
+                parseInt(startYear.value);
+
+            if (isNaN(year)) {
+                return;
+            }
+
+            const nextYear = year + 1;
+
+            endYear.value = nextYear;
+
+            /*
+             * If EndYear is a select, make sure the option exists.
+             */
+            let optionExists = false;
+
+            for (let i = 0; i < endYear.options.length; i++) {
+
+                if (
+                    parseInt(endYear.options[i].value) === nextYear
+                ) {
+
+                    optionExists = true;
+                    break;
+                }
+            }
+
+            if (!optionExists) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = nextYear;
+                option.textContent = nextYear;
+
+                endYear.appendChild(option);
+
+                endYear.value = nextYear;
+            }
+        }
+
+        if (startYear) {
+
+            startYear.addEventListener(
+                "change",
+                updateEndYear
+            );
+
+            updateEndYear();
+        }
+
+
+          /* =====================================================
+       EDUCATION BACKGROUND
+       ===================================================== */
+    const educationTableBody =
+        document.getElementById("educationTableBody");
+
+    const addEducationButton =
+        document.getElementById("addEducation");
+
+    if (addEducationButton && educationTableBody) {
+
+        addEducationButton.addEventListener("click", function () {
+
+            const rowNumber =
+                educationTableBody.querySelectorAll("tr").length + 1;
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <input type="text"
+                           name="Qualification${rowNumber}"
+                           class="form-control"
+                           placeholder="Qualification" />
+                </td>
+
+                <td>
+                    <select name="EducationNQFLevel${rowNumber}"
+                            class="form-control">
+
+                        <option value="">
+                            -- Select NQF Level --
+                        </option>
+
+                        ${Array.from({ length: 10 }, (_, i) =>
+                            `<option value="${i + 1}">
+                                NQF Level ${i + 1}
+                            </option>`
+                        ).join("")}
+
+                    </select>
+                </td>
+
+                <td>
+                    <select name="YearCompleted${rowNumber}"
+                            class="form-control">
+
+                        <option value="">
+                            -- Select Year --
+                        </option>
+
+                        ${Array.from(
+                            { length: new Date().getFullYear() - 1979 },
+                            (_, i) => {
+                                const year =
+                                    new Date().getFullYear() - i;
+
+                                return `<option value="${year}">
+                                            ${year}
+                                        </option>`;
+                            }
+                        ).join("")}
+
+                    </select>
+                </td>
+
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-education">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+                </td>
+            `;
+
+            educationTableBody.appendChild(row);
+        });
+
+
+        educationTableBody.addEventListener("click", function (event) {
+
+            const button =
+                event.target.closest(".remove-education");
+
+            if (!button) {
+                return;
+            }
+
+            const row =
+                button.closest("tr");
+
+            if (row) {
+                row.remove();
+            }
+        });
+    }
+           /* =====================================================
+       JOB REQUIREMENTS
+       ===================================================== */
+
+        const jobRequirementsTableBody =
+        document.getElementById("jobRequirementsTableBody");
+
+    const addJobRequirementButton =
+        document.getElementById("addJobRequirement");
+
+    if (
+        addJobRequirementButton &&
+        jobRequirementsTableBody
+    ) {
+
+        addJobRequirementButton.addEventListener(
+            "click",
+            function () {
+
+                const rowNumber =
+                    jobRequirementsTableBody
+                        .querySelectorAll("tr")
+                        .length + 1;
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>
+                        <input type="text"
+                               name="Task${rowNumber}"
+                               class="form-control"
+                               placeholder="Task/KPA" />
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="Training${rowNumber}"
+                               class="form-control"
+                               placeholder="Training needed" />
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="LearningType${rowNumber}"
+                               class="form-control"
+                               placeholder="Type of learning" />
+                    </td>
+
+                    <td>
+                        <select name="JobNQFLevel${rowNumber}"
+                                class="form-control">
+
+                            <option value="">
+                                -- Select NQF Level --
+                            </option>
+
+                            ${Array.from({ length: 10 }, (_, i) =>
+                                `<option value="${i + 1}">
+                                    NQF Level ${i + 1}
+                                </option>`
+                            ).join("")}
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="Cost${rowNumber}"
+                               class="form-control"
+                               placeholder="Cost" />
+                    </td>
+
+                    <td>
+                        <input type="text"
+                               name="Impact${rowNumber}"
+                               class="form-control"
+                               placeholder="Impact" />
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-danger btn-sm remove-job-requirement">
+
+                            <i class="fas fa-trash"></i>
+
+                        </button>
+                    </td>
+                `;
+
+                jobRequirementsTableBody.appendChild(row);
+            }
+        );
+
+
+        jobRequirementsTableBody.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        ".remove-job-requirement"
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+                const row =
+                    button.closest("tr");
+
+                if (row) {
+                    row.remove();
+                }
+            }
+        );
+    }
+
+        /* =====================================================
+           EMPLOYEE SIGNATURE
+           ===================================================== */
+
+        const employeeCanvas =
+            document.getElementById(
+                "employeeSignaturePad"
+            );
+
+        const employeeSignatureInput =
+            document.getElementById(
+                "EmployeeSignature"
+            );
+
+        if (
+            employeeCanvas &&
+            employeeSignatureInput
+        ) {
+
+            const employeeContext =
+                employeeCanvas.getContext("2d");
+
+            let employeeDrawing = false;
+
+            function resizeEmployeeCanvas() {
+
+                const ratio =
+                    Math.max(
+                        window.devicePixelRatio || 1,
+                        1
+                    );
+
+                const rect =
+                    employeeCanvas.getBoundingClientRect();
+
+                employeeCanvas.width =
+                    rect.width * ratio;
+
+                employeeCanvas.height =
+                    rect.height * ratio;
+
+                employeeContext.scale(
+                    ratio,
+                    ratio
+                );
+
+                employeeContext.lineWidth = 2;
+                employeeContext.lineCap = "round";
+                employeeContext.lineJoin = "round";
+            }
+
+            resizeEmployeeCanvas();
+
+            window.addEventListener(
+                "resize",
+                resizeEmployeeCanvas
+            );
+
+
+            function getEmployeePosition(event) {
+
+                const rect =
+                    employeeCanvas.getBoundingClientRect();
+
+                return {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                };
+            }
+
+
+            employeeCanvas.addEventListener(
+                "pointerdown",
+                function (event) {
+
+                    employeeDrawing = true;
+
+                    const position =
+                        getEmployeePosition(event);
+
+                    employeeContext.beginPath();
+
+                    employeeContext.moveTo(
+                        position.x,
+                        position.y
+                    );
+                }
+            );
+
+
+            employeeCanvas.addEventListener(
+                "pointermove",
+                function (event) {
+
+                    if (!employeeDrawing) {
+                        return;
+                    }
+
+                    const position =
+                        getEmployeePosition(event);
+
+                    employeeContext.lineTo(
+                        position.x,
+                        position.y
+                    );
+
+                    employeeContext.stroke();
+                }
+            );
+
+
+            employeeCanvas.addEventListener(
+                "pointerup",
+                function () {
+
+                    employeeDrawing = false;
+
+                    employeeSignatureInput.value =
+                        employeeCanvas.toDataURL(
+                            "image/png"
+                        );
+                }
+            );
+
+
+            employeeCanvas.addEventListener(
+                "pointerleave",
+                function () {
+
+                    if (!employeeDrawing) {
+                        return;
+                    }
+
+                    employeeDrawing = false;
+
+                    employeeSignatureInput.value =
+                        employeeCanvas.toDataURL(
+                            "image/png"
+                        );
+                }
+            );
+        }
+
+
+        /* =====================================================
+           SUPERVISOR SIGNATURE
+           ===================================================== */
+
+        const supervisorCanvas =
+            document.getElementById(
+                "supervisorSignaturePad"
+            );
+
+        const supervisorSignatureInput =
+            document.getElementById(
+                "SupervisorSignature"
+            );
+
+
+        /*
+         * Supervisor signature is intentionally locked
+         * unless the controller/view has enabled it.
+         */
+        if (
+            supervisorCanvas &&
+            supervisorSignatureInput
+        ) {
+
+            const canSupervisorSign =
+                supervisorCanvas.dataset.canSign === "true";
+
+            if (!canSupervisorSign) {
+
+                supervisorCanvas.style.pointerEvents =
+                    "none";
+
+                supervisorCanvas.style.opacity =
+                    "0.6";
+
+            } else {
+
+                const supervisorContext =
+                    supervisorCanvas.getContext("2d");
+
+                let supervisorDrawing = false;
+
+
+                function resizeSupervisorCanvas() {
+
+                    const ratio =
+                        Math.max(
+                            window.devicePixelRatio || 1,
+                            1
+                        );
+
+                    const rect =
+                        supervisorCanvas.getBoundingClientRect();
+
+                    supervisorCanvas.width =
+                        rect.width * ratio;
+
+                    supervisorCanvas.height =
+                        rect.height * ratio;
+
+                    supervisorContext.scale(
+                        ratio,
+                        ratio
+                    );
+
+                    supervisorContext.lineWidth = 2;
+                    supervisorContext.lineCap = "round";
+                    supervisorContext.lineJoin = "round";
+                }
+
+                resizeSupervisorCanvas();
+
+
+                window.addEventListener(
+                    "resize",
+                    resizeSupervisorCanvas
+                );
+
+
+                function getSupervisorPosition(event) {
+
+                    const rect =
+                        supervisorCanvas.getBoundingClientRect();
+
+                    return {
+                        x: event.clientX - rect.left,
+                        y: event.clientY - rect.top
+                    };
+                }
+
+
+                supervisorCanvas.addEventListener(
+                    "pointerdown",
+                    function (event) {
+
+                        supervisorDrawing = true;
+
+                        const position =
+                            getSupervisorPosition(event);
+
+                        supervisorContext.beginPath();
+
+                        supervisorContext.moveTo(
+                            position.x,
+                            position.y
+                        );
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointermove",
+                    function (event) {
+
+                        if (!supervisorDrawing) {
+                            return;
+                        }
+
+                        const position =
+                            getSupervisorPosition(event);
+
+                        supervisorContext.lineTo(
+                            position.x,
+                            position.y
+                        );
+
+                        supervisorContext.stroke();
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointerup",
+                    function () {
+
+                        supervisorDrawing = false;
+
+                        supervisorSignatureInput.value =
+                            supervisorCanvas.toDataURL(
+                                "image/png"
+                            );
+                    }
+                );
+
+
+                supervisorCanvas.addEventListener(
+                    "pointerleave",
+                    function () {
+
+                        if (!supervisorDrawing) {
+                            return;
+                        }
+
+                        supervisorDrawing = false;
+
+                        supervisorSignatureInput.value =
+                            supervisorCanvas.toDataURL(
+                                "image/png"
+                            );
+                    }
+                );
+            }
+        }
+
+
+        /* =====================================================
+           CLEAR EMPLOYEE SIGNATURE
+           ===================================================== */
+
+        const clearEmployeeSignature =
+            document.getElementById(
+                "clearEmployeeSignature"
+            );
+
+        if (
+            clearEmployeeSignature &&
+            employeeCanvas &&
+            employeeSignatureInput
+        ) {
+
+            clearEmployeeSignature.addEventListener(
+                "click",
+                function () {
+
+                    const context =
+                        employeeCanvas.getContext("2d");
+
+                    context.clearRect(
+                        0,
+                        0,
+                        employeeCanvas.width,
+                        employeeCanvas.height
+                    );
+
+                    employeeSignatureInput.value = "";
+                }
+            );
+        }
+
+
+        /* =====================================================
+           CLEAR SUPERVISOR SIGNATURE
+           ===================================================== */
+
+        const clearSupervisorSignature =
+            document.getElementById(
+                "clearSupervisorSignature"
+            );
+
+        if (
+            clearSupervisorSignature &&
+            supervisorCanvas &&
+            supervisorSignatureInput
+        ) {
+
+            clearSupervisorSignature.addEventListener(
+                "click",
+                function () {
+
+                    const context =
+                        supervisorCanvas.getContext("2d");
+
+                    context.clearRect(
+                        0,
+                        0,
+                        supervisorCanvas.width,
+                        supervisorCanvas.height
+                    );
+
+                    supervisorSignatureInput.value = "";
+                }
+            );
+        }
+
+
+        /* =====================================================
+           FORM SUBMISSION
+           ===================================================== */
+
+        const form =
+            document.querySelector(
+                "form"
+            );
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    /*
+                     * Make absolutely sure the bursary duration
+                     * is enabled when Bursary = Yes so that
+                     * ASP.NET Core model binding receives it.
+                     */
+
+                    if (
+                        bursary &&
+                        bursaryDuration
+                    ) {
+
+                        if (
+                            bursary.value === "Yes"
+                        ) {
+
+                            bursaryDuration.disabled =
+                                false;
+
+                        } else {
+
+                            bursaryDuration.disabled =
+                                true;
+
+                            bursaryDuration.value =
+                                "";
+                        }
+                    }
+
+
+                    /*
+                     * Save employee signature one final time
+                     * before posting.
+                     */
+
+                    if (
+                        employeeCanvas &&
+                        employeeSignatureInput
+                    ) {
+
+                        const employeeContext =
+                            employeeCanvas.getContext("2d");
+
+                        const imageData =
+                            employeeContext.getImageData(
+                                0,
+                                0,
+                                employeeCanvas.width,
+                                employeeCanvas.height
+                            );
+
+                        let hasSignature = false;
+
+                        for (
+                            let i = 3;
+                            i < imageData.data.length;
+                            i += 4
+                        ) {
+
+                            if (
+                                imageData.data[i] !== 0
+                            ) {
+
+                                hasSignature = true;
+                                break;
+                            }
+                        }
+
+                        if (hasSignature) {
+
+                            employeeSignatureInput.value =
+                                employeeCanvas.toDataURL(
+                                    "image/png"
+                                );
+                        }
+                    }
+
+
+                    /*
+                     * Save supervisor signature one final time.
+                     */
+
+                    if (
+                        supervisorCanvas &&
+                        supervisorSignatureInput
+                    ) {
+
+                        const supervisorContext =
+                            supervisorCanvas.getContext("2d");
+
+                        const imageData =
+                            supervisorContext.getImageData(
+                                0,
+                                0,
+                                supervisorCanvas.width,
+                                supervisorCanvas.height
+                            );
+
+                        let hasSignature = false;
+
+                        for (
+                            let i = 3;
+                            i < imageData.data.length;
+                            i += 4
+                        ) {
+
+                            if (
+                                imageData.data[i] !== 0
+                            ) {
+
+                                hasSignature = true;
+                                break;
+                            }
+                        }
+
+                        if (hasSignature) {
+
+                            supervisorSignatureInput.value =
+                                supervisorCanvas.toDataURL(
+                                    "image/png"
+                                );
+                        }
+                    }
+                }
+            );
+        }
+
+    });
+</script>

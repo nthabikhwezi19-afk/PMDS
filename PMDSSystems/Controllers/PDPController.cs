@@ -139,76 +139,46 @@ namespace PMDSSystems.Controllers
             // 5. LOAD PMDS FORM
             // ============================================================
             var pmdsForm = await _context.PMDSForms
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x =>
-                    x.EmployeeId == employee.Id);
+             .AsNoTracking()
+             .Where(x => x.EmployeeId == employee.Id)
+             .OrderByDescending(x => x.StartYear)
+             .FirstOrDefaultAsync();
 
+            // Fallback: find Part A using Persal number if needed
+            if (pmdsForm == null)
+            {
+                pmdsForm = await _context.PMDSForms
+                    .AsNoTracking()
+                    .Where(x => x.PersalNumber == employee.PersalNumber)
+                    .OrderByDescending(x => x.StartYear)
+                    .FirstOrDefaultAsync();
+            }
+
+            // Keep the selected Part A cycle in the PDP model
             if (pmdsForm != null)
             {
                 ViewBag.StartYear = pmdsForm.StartYear;
                 ViewBag.EndYear = pmdsForm.EndYear;
-
-                Console.WriteLine(
-                    "Performance Cycle: " +
-                    pmdsForm.StartYear +
-                    "/" +
-                    pmdsForm.EndYear);
             }
             else
             {
                 ViewBag.StartYear = null;
                 ViewBag.EndYear = null;
-
-                Console.WriteLine(
-                    "WARNING: PMDS Form was not found.");
             }
 
 
             // ============================================================
-            // 6. AGE GROUP
+            // AGE GROUP - USE EMPLOYEE DROPDOWN VALUE
             // ============================================================
-            string ageGroup =
-                employee.AgeGroup ?? "";
+            string ageGroup = employee.AgeGroup ?? "";
 
-            // If AgeGroup is empty, calculate it from ID number
-            if (string.IsNullOrWhiteSpace(ageGroup))
-            {
-                ageGroup =
-                    CalculateAgeGroup(
-                        employee.IdentificationNumber);
-            }
+            bool hasDisability = employee.HasDisability == true;
 
+            string disabled = hasDisability ? "Yes" : "No";
 
-            // ============================================================
-            // 7. DISABILITY
-            // ============================================================
-            //
-            // IMPORTANT:
-            // HasDisability is bool?, therefore we explicitly compare
-            // it to true.
-            //
-            // true  = Yes
-            // false = No
-            // null  = No
-            // ============================================================
-
-            bool hasDisability =
-                employee.HasDisability == true;
-
-            string disabled =
-                hasDisability
-                    ? "Yes"
-                    : "No";
-
-
-            // ============================================================
-            // 8. DISABILITY DETAILS
-            // ============================================================
-            string disabilityDetails =
-                hasDisability
-                    ? employee.NatureOfDisability ?? ""
-                    : "";
-
+            string disabilityDetails = hasDisability
+                ? employee.NatureOfDisability ?? ""
+                : "";
 
             // ============================================================
             // 9. BUILD PDP MODEL
@@ -347,182 +317,6 @@ namespace PMDSSystems.Controllers
 
 
         // ============================================================
-        // CALCULATE AGE GROUP
-        // ============================================================
-        private string CalculateAgeGroup(
-            string? idNumber)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(idNumber))
-                {
-                    Console.WriteLine(
-                        "AGE GROUP: ID NUMBER IS EMPTY.");
-
-                    return "";
-                }
-
-                // Remove spaces and non-numeric characters
-                string cleanId =
-                    new string(
-                        idNumber
-                            .Where(char.IsDigit)
-                            .ToArray());
-
-                Console.WriteLine(
-                    "AGE GROUP: Clean ID = [" +
-                    cleanId +
-                    "]");
-
-
-                // South African ID number must have 13 digits
-                if (cleanId.Length != 13)
-                {
-                    Console.WriteLine(
-                        "AGE GROUP: ID NUMBER IS NOT 13 DIGITS.");
-
-                    return "";
-                }
-
-
-                // --------------------------------------------------------
-                // YEAR
-                // --------------------------------------------------------
-                int yy =
-                    int.Parse(
-                        cleanId.Substring(
-                            0,
-                            2));
-
-
-                // --------------------------------------------------------
-                // MONTH
-                // --------------------------------------------------------
-                int month =
-                    int.Parse(
-                        cleanId.Substring(
-                            2,
-                            2));
-
-
-                // --------------------------------------------------------
-                // DAY
-                // --------------------------------------------------------
-                int day =
-                    int.Parse(
-                        cleanId.Substring(
-                            4,
-                            2));
-
-
-                // --------------------------------------------------------
-                // DETERMINE CENTURY
-                // --------------------------------------------------------
-                int currentYear =
-                    DateTime.Today.Year;
-
-                int currentCentury =
-                    currentYear / 100;
-
-                int currentTwoDigitYear =
-                    currentYear % 100;
-
-                int year;
-
-                if (yy <= currentTwoDigitYear)
-                {
-                    year =
-                        (currentCentury * 100) +
-                        yy;
-                }
-                else
-                {
-                    year =
-                        ((currentCentury - 1) * 100) +
-                        yy;
-                }
-
-
-                // --------------------------------------------------------
-                // CREATE DATE OF BIRTH
-                // --------------------------------------------------------
-                DateTime dateOfBirth;
-
-                try
-                {
-                    dateOfBirth =
-                        new DateTime(
-                            year,
-                            month,
-                            day);
-                }
-                catch
-                {
-                    Console.WriteLine(
-                        "AGE GROUP: INVALID DATE IN ID NUMBER.");
-
-                    return "";
-                }
-
-
-                // --------------------------------------------------------
-                // CALCULATE AGE
-                // --------------------------------------------------------
-                int age =
-                    DateTime.Today.Year -
-                    dateOfBirth.Year;
-
-                if (dateOfBirth.Date >
-                    DateTime.Today.AddYears(-age))
-                {
-                    age--;
-                }
-
-
-                Console.WriteLine(
-                    "AGE GROUP: Date of Birth = " +
-                    dateOfBirth.ToString("yyyy-MM-dd"));
-
-                Console.WriteLine(
-                    "AGE GROUP: Age = " +
-                    age);
-
-
-                // --------------------------------------------------------
-                // AGE GROUPS
-                // --------------------------------------------------------
-                if (age < 18)
-                    return "Under 18";
-
-                if (age <= 24)
-                    return "18 - 24";
-
-                if (age <= 34)
-                    return "25 - 34";
-
-                if (age <= 44)
-                    return "35 - 44";
-
-                if (age <= 54)
-                    return "45 - 54";
-
-                if (age <= 64)
-                    return "55 - 64";
-
-                return "65+";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(
-                    "AGE GROUP ERROR: " +
-                    ex.Message);
-
-                return "";
-            }
-        }
-
-
-        // ============================================================
         // SAVE PDP
         // ============================================================
         [HttpPost]
@@ -589,19 +383,10 @@ namespace PMDSSystems.Controllers
 
 
             // ============================================================
-            // AUTO-POPULATE EMPLOYEE INFORMATION
+            // AGE GROUP - USE EMPLOYEE DROPDOWN VALUE
             // ============================================================
-
             string ageGroup =
                 employee.AgeGroup ?? "";
-
-            if (string.IsNullOrWhiteSpace(ageGroup))
-            {
-                ageGroup =
-                    CalculateAgeGroup(
-                        employee.IdentificationNumber);
-            }
-
 
             // ============================================================
             // DISABILITY

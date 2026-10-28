@@ -10,20 +10,10 @@
 
     var kraRecords = agreement?.KRAs?.ToList()
         ?? new List<PMDSSystems.Models.KRA>();
+    // Performance Agreement signature information
 
-    var employeeSignature = kraRecords
-        .Select(k => k.EmployeeSignature)
-        .FirstOrDefault(s => !string.IsNullOrWhiteSpace(s)) ?? "";
-
-    var supervisorSignature = kraRecords
-        .Select(k => k.SupervisorSignature)
-        .FirstOrDefault(s => !string.IsNullOrWhiteSpace(s)) ?? "";
-
-    var employeeSignatureDate = kraRecords
-        .Where(k => k.EmployeeSignatureDate.HasValue)
-        .Select(k => k.EmployeeSignatureDate)
-        .FirstOrDefault();
-
+    string? employeeSignature = agreement?.EmployeeSignature;
+    string? supervisorSignature = agreement?.SupervisorSignature;
     // Enables the drawing interface for a user in the Supervisor role.
     // The controller must still validate the assigned supervisor on save.
     bool canSupervisorSign = User.IsInRole("Supervisor");
@@ -868,7 +858,7 @@
                                                 aria-label="Saved employee signature"
                                                 aria-readonly="true"></canvas>
 
-                                        <div class="pa-signature-date">
+                                    @*     <div class="pa-signature-date">
                                             <div class="info-label">Employee Signature Date</div>
                                             <div class="info-value">
                                                 @if (employeeSignatureDate.HasValue)
@@ -879,7 +869,7 @@
                                                 {
                                                     <span>Signature date not recorded</span>
                                                 }
-                                            </div>
+                                            </div> *@
                                         </div>
 
                                         <div class="pa-signature-status @(string.IsNullOrWhiteSpace(employeeSignature) ? "pending" : "signed")">
@@ -934,7 +924,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
 
                 @if (canSupervisorSign)
                 {
@@ -946,7 +936,9 @@
 
                         @Html.AntiForgeryToken()
 
-                        <input type="hidden" name="id" value="@agreement.Id" />
+                        <input type="hidden"
+                               name="agreementId"
+                               value="@agreement.Id" />
                         <input type="hidden" name="SupervisorSignature" id="SupervisorSignature" value="" />
 
                         <div class="text-end pa-no-print">

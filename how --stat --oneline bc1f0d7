@@ -1,0 +1,48 @@
+[33m424e1bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/remotes/origin/master@{0}: update by push
+[33m424e1bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m refs/heads/master@{0}: commit: lastest system
+[33m424e1bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: lastest system
+[33mbc1f0d7[m HEAD@{1}: reset: moving to HEAD@{1}
+[33mbc1f0d7[m HEAD@{2}: reset: moving to origin/master
+[33mbc1f0d7[m refs/remotes/origin/master@{1}: update by push
+[33mbc1f0d7[m refs/heads/master@{1}: commit: 123
+[33mbc1f0d7[m HEAD@{3}: commit: 123
+[33m76940e9[m refs/remotes/origin/master@{2}: update by push
+[33m76940e9[m refs/heads/master@{2}: commit: year
+[33m76940e9[m HEAD@{4}: commit: year
+[33m2d30291[m refs/remotes/origin/master@{3}: update by push
+[33m2d30291[m refs/heads/master@{3}: commit: Transfer details
+[33m2d30291[m HEAD@{5}: commit: Transfer details
+[33m3280473[m refs/remotes/origin/master@{4}: update by push
+[33m3280473[m refs/heads/master@{4}: commit: Dates fully working
+[33m3280473[m HEAD@{6}: commit: Dates fully working
+[33m4a2fc6f[m refs/remotes/origin/master@{5}: update by push
+[33m4a2fc6f[m refs/heads/master@{5}: commit: appointment date in current rank
+[33m4a2fc6f[m HEAD@{7}: commit: appointment date in current rank
+[33mc1fd467[m refs/remotes/origin/master@{6}: update by push
+[33mc1fd467[m refs/heads/master@{6}: commit: AnnualAssesment
+[33mc1fd467[m HEAD@{8}: commit: AnnualAssesment
+[33mcc2d41a[m refs/remotes/origin/master@{7}: update by push
+[33mcc2d41a[m refs/heads/master@{7}: commit: JobWellDone
+[33mcc2d41a[m HEAD@{9}: commit: JobWellDone
+[33mf7ef21d[m refs/remotes/origin/master@{8}: update by push
+[33mf7ef21d[m refs/heads/master@{8}: commit: PDP
+[33mf7ef21d[m HEAD@{10}: commit: PDP
+[33m22d734f[m refs/remotes/origin/master@{9}: update by push
+[33m22d734f[m refs/heads/master@{9}: commit: kra button
+[33m22d734f[m HEAD@{11}: commit: kra button
+[33m5c0f399[m refs/remotes/origin/master@{10}: update by push
+[33m5c0f399[m refs/heads/master@{10}: commit: performace Agreement
+[33m5c0f399[m HEAD@{12}: commit: performace Agreement
+[33mfcb458d[m refs/remotes/origin/master@{11}: update by push
+[33mfcb458d[m refs/heads/master@{11}: commit: cycle 2
+[33mfcb458d[m HEAD@{13}: commit: cycle 2
+[33mac2e1a2[m refs/remotes/origin/master@{12}: update by push
+[33mac2e1a2[m refs/heads/master@{12}: commit: KRA
+[33mac2e1a2[m HEAD@{14}: commit: KRA
+[33m5bd8c26[m refs/remotes/origin/master@{13}: update by push
+[33m5bd8c26[m refs/heads/master@{13}: commit: Modelbinding
+[33m5bd8c26[m HEAD@{15}: commit: Modelbinding
+[33m863614f[m refs/remotes/origin/master@{14}: update by push
+[33m863614f[m refs/heads/master@{14}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Merge made by the 'ort' strategy.
+[33m863614f[m HEAD@{16}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Merge made by the 'ort' strategy.
+[33m64e7cfe[m refs/remotes/origin/master@{15}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: fast-forward

@@ -1,0 +1,1843 @@
+﻿@model PMDSSystems.Models.PersonalAssistancePlan
+
+@{
+    ViewData["Title"] = "Personal Assistance Plan";
+}
+
+<style>
+    /* =========================================================
+               GLOBAL
+            ========================================================= */
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Full-width page container */
+    .pap-page {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px 20px 40px 20px;
+        box-sizing: border-box;
+    }
+
+    /* =========================================================
+               ALERTS
+               ========================================================= */
+
+    .alert-success {
+        background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe3 100%);
+        border-color: #006838;
+        color: #004d28;
+        border-left: 5px solid #006838;
+        border-radius: 10px;
+        padding: 14px 20px;
+        box-shadow: 0 2px 10px rgba(0,104,56,0.1);
+        font-weight: 500;
+    }
+
+        .alert-success .btn-close {
+            color: #006838;
+        }
+
+    .alert-danger {
+        border-left: 5px solid #dc3545;
+        border-radius: 10px;
+        padding: 14px 20px;
+    }
+
+    .alert-warning {
+        background: linear-gradient(135deg, #fff8e7 0%, #ffeed4 100%);
+        border-left: 5px solid #ffc107;
+        border-radius: 8px;
+        padding: 12px 16px;
+    }
+
+    /* =========================================================
+               MAIN SECTIONS (all cards unified)
+               ========================================================= */
+
+    .pap-section,
+    .pap-card,
+    .personal-particulars {
+        width: 100%;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        border-top: 5px solid #006838;
+        padding: 28px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease;
+    }
+
+        .pap-section::before,
+        .pap-card::before,
+        .personal-particulars::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient( circle, rgba(0,104,56,0.03) 0%, transparent 70% );
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+    /* =========================================================
+               HEADER
+               ========================================================= */
+
+    .pap-header {
+        width: 100%;
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% ) !important;
+        border-radius: 12px !important;
+        padding: 28px 35px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+        .pap-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient( to right, #a8e6cf, #006838, #a8e6cf );
+        }
+
+        .pap-header h2 {
+            color: white;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 25px;
+            margin: 0;
+        }
+
+        .pap-header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin: 7px 0 0 0;
+            font-size: 14px;
+        }
+
+        .pap-header .badge {
+            background: #a8e6cf !important;
+            color: #004d28 !important;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+    /* =========================================================
+               SECTION HEADERS (unified)
+               ========================================================= */
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #006838;
+        position: relative;
+    }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: #006838;
+        }
+
+        .section-header h5 {
+            color: #006838;
+            font-weight: 700;
+            margin: 0;
+            font-size: 17px;
+            letter-spacing: 0.3px;
+        }
+
+        .section-header i {
+            color: #006838;
+            font-size: 19px;
+        }
+
+    .section-description {
+        color: #6c757d;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    /* =========================================================
+               PERSONAL PARTICULARS (grid inside card)
+               ========================================================= */
+
+    .personal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 30px;
+        width: 100%;
+    }
+
+    .personal-field {
+        width: 100%;
+    }
+
+    /* =========================================================
+               FORM CONTROLS
+               ========================================================= */
+
+    .form-control {
+        width: 100%;
+        min-height: 42px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        border: 2px solid #dce3e8;
+        padding: 9px 12px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        background: #ffffff;
+        color: #333;
+    }
+
+        .form-control:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.15);
+            outline: none;
+        }
+
+        /* =========================================================
+       VISIBLE PLACEHOLDER TEXT
+       ========================================================= */
+
+        .form-control::placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-size: 14px !important;
+        }
+
+        .form-control::-webkit-input-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .form-control::-moz-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .form-control:-ms-input-placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    /* Make sure textareas display placeholder correctly */
+
+    textarea.form-control {
+        background-color: #ffffff !important;
+        color: #333333 !important;
+        opacity: 1 !important;
+    }
+
+        textarea.form-control:empty {
+            color: #333333 !important;
+        }
+    textarea.form-control {
+        resize: vertical;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-label-custom {
+        font-weight: 600;
+        color: #333;
+        font-size: 13px;
+        margin-bottom: 7px;
+        display: block;
+    }
+
+        .form-label-custom i {
+            color: #006838;
+            margin-right: 5px;
+        }
+
+    .text-danger.fs-7 {
+        font-size: 12px;
+        color: #dc3545;
+        display: block;
+        margin-top: 4px;
+    }
+
+    /* =========================================================
+               REMEDIAL STEPS
+               ========================================================= */
+
+    .remedial-textarea {
+        width: 100%;
+        min-height: 180px;
+    }
+
+    /* =========================================================
+               MONTHLY PROGRESS
+               ========================================================= */
+
+    .timeline {
+        width: 100%;
+    }
+
+    .timeline-item {
+        width: 100%;
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1px dashed #dfe5e8;
+    }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+    .month-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .month-badge {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 14px;
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
+        color: white;
+        box-shadow: 0 2px 8px rgba(0,104,56,0.25);
+    }
+
+    .timeline-item h6 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #004d28;
+        margin: 0;
+    }
+
+    .timeline-item textarea {
+        width: 100%;
+        min-height: 70px;
+    }
+
+    /* =========================================================
+               RADIO BUTTONS
+               ========================================================= */
+
+    .form-check {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 25px;
+        margin-bottom: 8px;
+    }
+
+    .form-check-input {
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+        border: 2px solid #dce3e8;
+        margin-right: 7px;
+    }
+
+        .form-check-input:checked {
+            background-color: #006838;
+            border-color: #006838;
+        }
+
+        .form-check-input:focus {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0,104,56,0.15);
+        }
+
+    .form-check-label {
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+        .form-check-label.text-success {
+            color: #006838 !important;
+        }
+
+        .form-check-label.text-danger {
+            color: #dc3545 !important;
+        }
+
+    /* =========================================================
+               DECISION CONTAINER
+               ========================================================= */
+
+    #incapacityDecisionContainer {
+        animation: fadeInUp 0.3s ease;
+    }
+
+        #incapacityDecisionContainer .form-control {
+            border-color: #006838;
+        }
+
+    /* =========================================================
+               BUTTON
+               ========================================================= */
+
+    .button-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 25px 0;
+    }
+
+    .btn-save {
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
+        color: white;
+        padding: 13px 50px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        text-decoration: none;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 104, 56, 0.45);
+            color: white;
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
+        }
+
+    /* =========================================================
+               ANIMATION
+               ========================================================= */
+
+    @@ fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    /* =========================================================
+               RESPONSIVE
+               ========================================================= */
+
+    @@media (max-width: 992px) {
+        .pap-page
+
+    {
+        padding: 15px;
+    }
+
+    .personal-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .pap-section,
+    .pap-card,
+    .personal-particulars {
+        padding: 22px;
+    }
+
+    .pap-header {
+        padding: 22px;
+    }
+
+        .pap-header h2 {
+            font-size: 21px;
+        }
+
+    }
+
+    @@media (max-width: 768px) {
+        .pap-page
+
+    {
+        padding: 10px;
+    }
+
+    .personal-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .pap-section,
+    .pap-card,
+    .personal-particulars {
+        padding: 18px;
+    }
+
+    .pap-header {
+        padding: 18px;
+    }
+
+        .pap-header h2 {
+            font-size: 18px;
+        }
+
+        .pap-header .badge {
+            position: static !important;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+    .form-control {
+        font-size: 13px;
+    }
+
+    .form-check {
+        display: flex;
+    }
+
+    .btn-save {
+        width: 100%;
+        text-align: center;
+    }
+
+    }
+
+    @@media print {
+        .button-area
+
+    {
+        display: none !important;
+    }
+
+    .pap-section,
+    .pap-card,
+    .personal-particulars {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .pap-header {
+        background: #006838 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    }
+    /* =========================================================
+       PLACEHOLDER TEXT
+       ========================================================= */
+
+    textarea.form-control::placeholder,
+    input.form-control::placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        -webkit-text-fill-color: #555555 !important;
+    }
+
+    textarea.form-control::-webkit-input-placeholder,
+    input.form-control::-webkit-input-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+        -webkit-text-fill-color: #555555 !important;
+    }
+
+    textarea.form-control::-moz-placeholder,
+    input.form-control::-moz-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+    }
+
+    textarea.form-control:-ms-input-placeholder,
+    input.form-control:-ms-input-placeholder {
+        color: #555555 !important;
+        opacity: 1 !important;
+    }
+/* =========================================================
+   FORCE MONTHLY & MANAGER PLACEHOLDERS
+   ========================================================= */
+
+.monthly-placeholder,
+.manager-placeholder {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    opacity: 1 !important;
+}
+
+.monthly-placeholder::placeholder,
+.manager-placeholder::placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    -webkit-text-fill-color: #555555 !important;
+}
+
+.monthly-placeholder::-webkit-input-placeholder,
+.manager-placeholder::-webkit-input-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #555555 !important;
+}
+
+.monthly-placeholder::-moz-placeholder,
+.manager-placeholder::-moz-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+}
+
+.monthly-placeholder:-ms-input-placeholder,
+.manager-placeholder:-ms-input-placeholder {
+    color: #555555 !important;
+    opacity: 1 !important;
+}
+    /* =========================================================
+       FINAL DECISION RADIO BUTTONS
+       ========================================================= */
+
+    .decision-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+        .decision-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #006838;
+        }
+
+    .yes-option span {
+        color: #006838;
+    }
+
+    .no-option span {
+        color: #dc3545;
+    }
+
+
+    /* =========================================================
+       NEXT HIGHER MANAGER SECTION
+       ========================================================= */
+
+    #incapacityDecisionContainer {
+        animation: fadeInUp 0.3s ease;
+    }
+
+        #incapacityDecisionContainer[hidden] {
+            display: none !important;
+        }
+
+        #incapacityDecisionContainer:not([hidden]) {
+            display: block !important;
+        }
+    /* =========================================================
+       SIGNATURE SECTION
+    ========================================================= */
+
+    .signature-box {
+        background: #ffffff;
+        border: 1px solid #dce3e8;
+        border-radius: 10px;
+        padding: 22px;
+        height: 100%;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .signature-heading {
+        color: #006838;
+        font-weight: 700;
+        font-size: 16px;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #c9a84c;
+    }
+
+
+    /* =========================================================
+       DRAWABLE SIGNATURE PAD
+    ========================================================= */
+
+    .signature-pad-container {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background: #ffffff;
+        border: 2px solid #dce3e8;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .signature-pad-container:focus-within {
+            border-color: #006838;
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 56, 0.12);
+        }
+
+    .signature-pad {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+        background: #ffffff;
+        touch-action: none;
+    }
+
+
+    /* =========================================================
+       SIGNATURE PLACEHOLDER
+    ========================================================= */
+
+    .signature-placeholder {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 45px;
+        text-align: center;
+        color: #adb5bd;
+        font-size: 14px;
+        pointer-events: none;
+        user-select: none;
+    }
+
+
+    /* Hide placeholder once signature exists */
+
+    .signature-pad-container.has-signature
+    .signature-placeholder {
+        display: none;
+    }
+
+
+    /* Signature line */
+
+    .signature-pad-container::after {
+        content: "";
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        bottom: 35px;
+        border-bottom: 1px solid #999999;
+        pointer-events: none;
+    }
+
+
+    /* =========================================================
+       CLEAR BUTTON
+    ========================================================= */
+
+    .signature-box .btn-outline-danger {
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @@ (max-width: 768px) {
+        .signature-pad-container
+
+    {
+        height: 160px;
+    }
+
+    .signature-box {
+        padding: 18px;
+    }
+
+    }
+
+
+    /* =========================================================
+       LOCKED SUPERVISOR SIGNATURE
+       ========================================================= */
+    .supervisor-signature-locked {
+        position: relative;
+        background: #f8f9fa !important;
+        border: 2px solid #ced4da !important;
+        cursor: not-allowed !important;
+    }
+
+    /* Prevent the supervisor canvas from looking drawable */
+
+    .supervisor-signature-locked .signature-pad {
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+        background: #f8f9fa !important;
+    }
+
+    /* Lock overlay */
+
+    .signature-lock-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 13px;
+        font-weight: 700;
+        pointer-events: none;
+        user-select: none;
+        text-align: center;
+    }
+
+        .signature-lock-overlay i {
+            font-size: 28px;
+            margin-bottom: 6px;
+            color: #006838;
+        }
+
+        .signature-lock-overlay span {
+            color: #495057;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    /* Do not show the normal "Draw your signature here" message
+       for the locked supervisor canvas */
+
+    .supervisor-signature-locked
+    .signature-placeholder {
+        display: none !important;
+    }
+
+    /* Make locked supervisor section visually different */
+
+    .supervisor-signature-locked.has-signature
+    .signature-lock-overlay {
+        display: none;
+    }
+
+    /* Existing signature should still be visible */
+
+    .supervisor-signature-locked.has-signature {
+        background: #ffffff !important;
+        border-color: #006838 !important;
+    }
+
+    /* =========================================================
+       BACK BUTTON
+       Same appearance as Save Changes
+       ========================================================= */
+
+    .button-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    /* Both Save and Back use exactly the same styling */
+
+    .btn-save,
+    .btn-back {
+        background: linear-gradient( 135deg, #006838 0%, #004d28 100% );
+        color: white;
+        padding: 13px 50px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 104, 56, 0.35);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        /* Hover */
+
+        .btn-save:hover,
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 104, 56, 0.45);
+            color: white;
+            background: linear-gradient( 135deg, #004d28 0%, #003d1f 100% );
+        }
+
+    /* Mobile */
+
+    @@media (max-width: 768px) {
+
+        .btn-save,
+        .btn-back {
+            width: 100%;
+            text-align: center;
+        }
+
+        .button-area {
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
+
+   
+</style>
+
+<!-- =========================================================
+     FULL PAGE
+     ========================================================= -->
+
+<div class="pap-page">
+
+    <!-- SUCCESS MESSAGE -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4"
+             role="alert">
+
+            <i class="bi bi-check-circle-fill me-2"
+               style="font-size:18px;"></i>
+
+            <div>
+                @TempData["SuccessMessage"]
+            </div>
+
+            <button type="button"
+                    class="btn-close ms-auto"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    <form method="post"
+          action="/PMDS/SavePersonalAssistancePlan">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <div class="pap-header">
+
+            <span class="badge px-3 py-2 position-absolute top-0 end-0 m-3">
+                Performance Action
+            </span>
+
+            <p class="text-uppercase tracking-wider fw-bold">
+                Performance Management & Development System
+            </p>
+
+            <h2>
+                Personal Assistance Plan (PAP)
+            </h2>
+
+            <p>
+                To improve on unsatisfactory performance during
+                mid-term and/or final assessments.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             A. PERSONAL PARTICULARS  (NOW UNIFIED CARD)
+             ===================================================== -->
+
+        <div class="personal-particulars">
+
+            <div class="section-header">
+                <i class="bi bi-person-badge-fill"></i>
+                <h5>A. Personal Particulars</h5>
+            </div>
+
+            <p class="section-description">
+                Employee information – read-only fields populated from system records.
+            </p>
+
+            <div class="personal-grid">
+
+                <!-- Employee Name -->
+                <div class="personal-field">
+                    <label for="EmployeeName" class="form-label-custom">
+                        <i class="bi bi-person"></i>
+                        Employee Full Name
+                    </label>
+                    <input type="text"
+                           id="EmployeeName"
+                           name="EmployeeName"
+                           value="@Model.EmployeeName"
+                           class="form-control"
+                           readonly />
+                </div>
+
+                <!-- Post Designation -->
+                <div class="personal-field">
+                    <label for="PostDesignation" class="form-label-custom">
+                        <i class="bi bi-briefcase"></i>
+                        Post Designation
+                    </label>
+                    <input type="text"
+                           id="PostDesignation"
+                           name="Post"
+                           value="@Model.Post"
+                           class="form-control"
+                           readonly />
+                </div>
+
+                <!-- Persal Number -->
+                <div class="personal-field">
+                    <label for="PersalNo" class="form-label-custom">
+                        <i class="bi bi-hash"></i>
+                        Persal No
+                    </label>
+                    <input type="text"
+                           id="PersalNo"
+                           name="PersalNo"
+                           value="@Model.PersalNo"
+                           class="form-control"
+                           readonly />
+                </div>
+
+                <!-- Supervisor -->
+                <div class="personal-field">
+                    <label for="SupervisorName" class="form-label-custom">
+                        <i class="bi bi-person-check"></i>
+                        Name of Supervisor
+                    </label>
+                    <input type="text"
+                           id="SupervisorName"
+                           name="SupervisorName"
+                           value="@Model.SupervisorName"
+                           class="form-control"
+                           readonly />
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             B. REMEDIAL STEPS
+             ===================================================== -->
+
+        <div class="pap-section">
+
+            <div class="section-header">
+
+                <i class="bi bi-tools"></i>
+
+                <h5>
+                    B. Remedial Steps
+                </h5>
+
+            </div>
+
+
+            <p class="section-description">
+
+                Remedial steps initiated by Supervisor to improve
+                the skills development of the supervisee.
+
+            </p>
+
+
+            <label asp-for="RemedialSteps"
+                   class="form-label-custom">
+
+                <i class="bi bi-list-check"></i>
+
+                Initiated Development Actions
+                (Numbered/Bullet List)
+
+            </label>
+
+
+<textarea asp-for="RemedialSteps"
+          id="RemedialSteps"
+          class="form-control remedial-textarea"
+          rows="7"
+          placeholder="1. Work mentoring&#10;2. Specific system training&#10;3. Weekly feedback catch-ups..."></textarea>
+
+
+            <span asp-validation-for="RemedialSteps"
+                  class="text-danger fs-7">
+            </span>
+
+        </div>
+
+
+        <!-- =====================================================
+             C. MONTHLY PROGRESS REPORTS
+             ===================================================== -->
+
+        <div class="pap-section">
+
+            <div class="section-header">
+
+                <i class="bi bi-calendar-check"></i>
+
+                <h5>
+                    C. Monthly Progress Reports
+                </h5>
+
+            </div>
+
+
+            <div class="timeline">
+
+
+                <!-- MONTH 1 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            1
+                        </div>
+
+                        <h6>
+                            Month 1 Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month1Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 1st review meeting..."></textarea>
+                </div>
+
+
+                <!-- MONTH 2 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            2
+                        </div>
+
+                        <h6>
+                            Month 2 Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month2Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 2nd review meeting..."></textarea>
+
+                </div>
+
+
+                <!-- MONTH 3 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            3
+                        </div>
+
+                        <h6>
+                            Month 3 Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month3Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 3rd review meeting..."></textarea>
+                </div>
+
+
+                <!-- MONTH 4 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            4
+                        </div>
+
+                        <h6>
+                            Month 4 Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month4Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 4th review meeting..."></textarea>
+
+
+                </div>
+
+
+                <!-- MONTH 5 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            5
+                        </div>
+
+                        <h6>
+                            Month 5 Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month5Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 5th review meeting..."></textarea>
+                </div>
+
+
+                <!-- MONTH 6 -->
+
+                <div class="timeline-item">
+
+                    <div class="month-heading">
+
+                        <div class="month-badge">
+                            6
+                        </div>
+
+                        <h6>
+                            Month 6 (Final) Assessment Notes
+                        </h6>
+
+                    </div>
+
+                    <textarea asp-for="Month6Progress"
+                              class="form-control monthly-placeholder"
+                              rows="2"
+                              placeholder="Record feedback from 6th final review meeting..."></textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!-- =====================================================
+        SUPERVISOR FINAL DECISION
+        ===================================================== -->
+
+        <div class="pap-card">
+
+            <div class="section-header">
+
+                <i class="bi bi-award"></i>
+
+                <h5>
+                    Supervisor Final Decision
+                    (After 6th Meeting)
+                </h5>
+
+            </div>
+
+
+            <div class="row align-items-center mb-3">
+
+                <div class="col-md-6">
+
+                    <label class="form-label-custom">
+
+                        <i class="bi bi-question-circle"></i>
+
+                        Is the area of the employee's performance
+                        now up to standard?
+
+                    </label>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <!-- YES -->
+                    <div class="form-check">
+
+                        <input type="radio"
+                               class="form-check-input"
+                               name="SupervisorFinalDecision"
+                               id="performanceYes"
+                               value="YES" />
+
+                        <label class="form-check-label text-success"
+                               for="performanceYes">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            YES (Process Ended)
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- NO -->
+                    <div class="form-check">
+
+                        <input type="radio"
+                               class="form-check-input"
+                               name="SupervisorFinalDecision"
+                               id="performanceNo"
+                               value="NO" />
+
+                        <label class="form-check-label text-danger"
+                               for="performanceNo">
+
+                            <i class="bi bi-x-circle-fill"></i>
+
+                            NO (Refer for incapacity/extension)
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 NEXT HIGHER LINE MANAGER DECISION
+                 HIDDEN UNTIL NO IS CLICKED
+                 ===================================================== -->
+
+            <div id="nextHigherManagerSection"
+                 style="display: none !important;">
+
+                <div class="border-top pt-3 mt-3">
+
+                    <div class="alert alert-warning border-0 d-flex align-items-start">
+
+                        <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+
+                        <div>
+
+                            <strong>Action Required:</strong>
+
+                            Since performance is not up to standard,
+                            a decision must be taken by the next higher
+                            Line Manager regarding a further period of
+                            applying the Personal Assistance Plan or
+                            the institution of formal incapacity procedures.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label asp-for="NextHigherLineManagerDecision"
+                               class="form-label-custom">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                            Next Higher Line Manager Decision / Directives:
+
+                        </label>
+
+
+                        <textarea asp-for="NextHigherLineManagerDecision"
+                                  class="form-control manager-placeholder"
+                                  rows="4"
+                                  placeholder="Enter decision or steps here..."></textarea>
+
+
+                        <span asp-validation-for="NextHigherLineManagerDecision"
+                              class="text-danger fs-7">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =====================================================
+     SIGNATURES
+===================================================== -->
+
+<div class="pap-card">
+
+    <div class="section-header">
+
+        <i class="bi bi-vector-pen"></i>
+
+        <h5>
+            Signature at the End of the Personal Assistance Plan
+        </h5>
+
+    </div>
+
+    <p class="section-description">
+        The supervisee and supervisor must sign below to confirm the
+        Personal Assistance Plan process and final outcome.
+    </p>
+
+
+    <div class="row g-4">
+
+        <!-- =====================================================
+             SUPERVISEE SIGNATURE
+        ====================================================== -->
+
+        <div class="col-md-6">
+
+            <div class="signature-box">
+
+                <h6 class="signature-heading">
+                    <i class="bi bi-person-fill me-2"></i>
+                    Supervisee
+                </h6>
+
+
+                <!-- DRAWABLE SIGNATURE -->
+
+                <label class="form-label-custom">
+                    <i class="bi bi-pen me-1"></i>
+                    Supervisee Signature
+                </label>
+
+                <div class="signature-pad-container">
+
+                    <canvas id="superviseeSignatureCanvas"
+                            class="signature-pad">
+                    </canvas>
+
+                    <span id="superviseeSignaturePlaceholder"
+                          class="signature-placeholder">
+                        Draw your signature here
+                    </span>
+
+                </div>
+
+
+                <!-- HIDDEN SIGNATURE VALUE -->
+
+                <input type="hidden"
+                       asp-for="SuperviseeSignature"
+                       id="SuperviseeSignature" />
+
+
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm mt-2"
+                        onclick="clearSignature(
+                            'superviseeSignatureCanvas',
+                            'SuperviseeSignature',
+                            'superviseeSignaturePlaceholder'
+                        )">
+
+                    <i class="bi bi-eraser me-1"></i>
+                    Clear Signature
+
+                </button>
+
+
+                <!-- NAME -->
+
+                <div class="mt-4">
+
+                    <label asp-for="SuperviseeInitialsAndSurname"
+                           class="form-label-custom">
+
+                        <i class="bi bi-person"></i>
+
+                        Supervisee Name
+                        (Initials & Surname):
+
+                    </label>
+
+                    <input asp-for="SuperviseeInitialsAndSurname"
+                           class="form-control"
+                           placeholder="Enter supervisee initials and surname" />
+
+                    <span asp-validation-for="SuperviseeInitialsAndSurname"
+                          class="text-danger fs-7">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+                <!-- =====================================================
+                     SUPERVISOR SIGNATURE
+                ====================================================== -->
+
+                <div class="col-md-6">
+
+                    <div class="signature-box">
+
+                        <h6 class="signature-heading">
+                            <i class="bi bi-person-check-fill me-2"></i>
+                            Supervisor
+                        </h6>
+
+                        <!-- SUPERVISOR SIGNATURE -->
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-pen me-1"></i>
+                            Supervisor Signature
+                        </label>
+
+                        <!--
+                            LOCKED SUPERVISOR SIGNATURE PAD
+
+                            Employee cannot draw on this canvas.
+                            Existing supervisor signature can still be displayed.
+                        -->
+
+                        <div class="signature-pad-container supervisor-signature-locked">
+
+                            <canvas id="supervisorSignatureCanvas"
+                                    class="signature-pad"
+                                    aria-disabled="true">
+                            </canvas>
+
+                            <span id="supervisorSignaturePlaceholder"
+                                  class="signature-placeholder">
+                                Supervisor signature will be completed by the assigned supervisor
+                            </span>
+
+                            <!-- LOCK ICON -->
+                            <div class="signature-lock-overlay">
+                                <i class="bi bi-lock-fill"></i>
+                                <span>Supervisor Only</span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- HIDDEN SIGNATURE VALUE -->
+
+                        <input type="hidden"
+                               asp-for="SupervisorSignature"
+                               id="SupervisorSignature" />
+
+
+                        <!-- Supervisor name -->
+
+                        <div class="mt-4">
+
+                            <label asp-for="SupervisorInitialsAndSurname"
+                                   class="form-label-custom">
+
+                                <i class="bi bi-person-check"></i>
+
+                                Supervisor Name
+                                (Initials & Surname):
+
+                            </label>
+
+                            <input asp-for="SupervisorInitialsAndSurname"
+                                   class="form-control"
+                                   placeholder="Supervisor initials and surname"
+                                   readonly />
+
+                            <span asp-validation-for="SupervisorInitialsAndSurname"
+                                  class="text-danger fs-7">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================================================
+                     SAVE AND BACK BUTTONS
+                ===================================================== -->
+
+                <div class="button-area">
+
+                    <!-- BACK BUTTON -->
+
+                    <a asp-controller="Pmds"
+                       asp-action="Index"
+                       class="btn-back">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back
+
+                    </a>
+
+
+                    <!-- SAVE BUTTON -->
+
+                    <button type="submit"
+                            class="btn-save">
+
+                        <i class="bi bi-save me-2"></i>
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+</form>
+                <script>
+
+        // =========================================================
+        // SUPERVISOR FINAL DECISION
+        // =========================================================
+
+        const yesButton =
+            document.getElementById("performanceYes");
+
+        const noButton =
+            document.getElementById("performanceNo");
+
+        const nextManagerSection =
+            document.getElementById("nextHigherManagerSection");
+
+
+        if (yesButton &&
+            noButton &&
+            nextManagerSection) {
+
+            // Always hidden when page first loads
+            nextManagerSection.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+
+
+            // YES = process ends
+            yesButton.addEventListener("click", function () {
+
+                nextManagerSection.style.setProperty(
+                    "display",
+                    "none",
+                    "important"
+                );
+
+            });
+
+
+            // NO = refer to next higher line manager
+            noButton.addEventListener("click", function () {
+
+                nextManagerSection.style.setProperty(
+                    "display",
+                    "block",
+                    "important"
+                );
+
+            });
+
+        }
+
+
+            
+                // =============================================================
+                // LOCKED SUPERVISOR SIGNATURE
+                // =============================================================
+                // The employee cannot draw, modify or clear the supervisor
+                // signature. Existing saved signature is displayed only.
+                // =============================================================
+
+                function initialiseLockedSupervisorSignature(
+                canvasId,
+                hiddenInputId
+                ) {
+
+                const canvas =
+                document.getElementById(canvasId);
+
+                const hiddenInput =
+                document.getElementById(hiddenInputId);
+
+                if (!canvas || !hiddenInput) {
+                return;
+                }
+
+                const ctx =
+                canvas.getContext("2d");
+
+                // ---------------------------------------------------------
+                // RESIZE CANVAS
+                // ---------------------------------------------------------
+
+                function resizeCanvas() {
+
+                const rect =
+                canvas.getBoundingClientRect();
+
+                const ratio =
+                Math.max(
+                window.devicePixelRatio || 1,
+                1
+                );
+
+                canvas.width =
+                rect.width * ratio;
+
+                canvas.height =
+                rect.height * ratio;
+
+                canvas.style.width =
+                rect.width + "px";
+
+                canvas.style.height =
+                rect.height + "px";
+
+                ctx.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0
+                );
+
+                ctx.strokeStyle = "#000000";
+                ctx.fillStyle = "#000000";
+
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+
+
+                // -----------------------------------------------------
+                // RESTORE EXISTING SUPERVISOR SIGNATURE
+                // -----------------------------------------------------
+
+                if (hiddenInput.value) {
+
+                const image =
+                new Image();
+
+                image.onload = function () {
+
+                ctx.drawImage(
+                image,
+                0,
+                0,
+                rect.width,
+                rect.height
+                );
+
+                canvas.parentElement
+                .classList.add("has-signature");
+
+                };
+
+                image.src =
+                hiddenInput.value;
+                }
+                }
+
+
+                // ---------------------------------------------------------
+                // DO NOT ADD MOUSE OR TOUCH DRAWING EVENTS
+                // ---------------------------------------------------------
+                // This is intentional.
+                //
+                // There is NO:
+                // mousedown
+                // mousemove
+                // mouseup
+                // touchstart
+                // touchmove
+                // touchend
+                //
+                // Therefore the employee cannot draw on this canvas.
+                // ---------------------------------------------------------
+
+
+                resizeCanvas();
+
+
+                window.addEventListener(
+                "resize",
+                function () {
+
+                resizeCanvas();
+
+                }
+                );
+
+                }
+                
+
+</script>

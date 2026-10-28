@@ -1,0 +1,1251 @@
+﻿@model PMDSSystems.ViewModels.EmployeeAgreementViewModel
+
+@{
+    ViewData["Title"] = "Employee Performance Agreement";
+
+    var employee = Model.Employee;
+    var agreement = Model.Agreement;
+    var pdp = Model.PDP;
+    var partA = Model.PartA;
+
+    var kraRecords = agreement?.KRAs?.ToList()
+        ?? new List<PMDSSystems.Models.KRA>();
+    // Performance Agreement signature information
+
+    string? employeeSignature = agreement?.EmployeeSignature;
+    DateTime? employeeSignatureDate = agreement?.EmployeeSignatureDate;
+    string? supervisorSignature = agreement?.SupervisorSignature;
+   
+    // Enables the drawing interface for a user in the Supervisor role.
+    // The controller must still validate the assigned supervisor on save.
+    bool canSupervisorSign = User.IsInRole("Supervisor");
+
+    var employeeName = $"{employee?.FirstName} {employee?.LastName}".Trim();
+
+    var supervisorName = employee?.Supervisor == null
+        ? "Not assigned"
+        : $"{employee.Supervisor.FirstName} {employee.Supervisor.LastName}".Trim();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Employee Performance Agreement</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          rel="stylesheet" />
+
+    <style>
+        :root {
+            --dcs-green: #006838;
+            --dcs-dark-green: #004d2b;
+            --dcs-light-green: #eaf5ee;
+            --dcs-gold: #c9a84c;
+            --page-bg: #f4f6f9;
+            --border-color: #dfe7e2;
+            --text-color: #27352e;
+            --muted-color: #65736a;
+        }
+
+        body {
+            background: var(--page-bg);
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .main-container {
+            max-width: 1500px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--dcs-green), var(--dcs-dark-green));
+            color: white;
+            padding: 30px;
+            border-radius: 14px;
+            margin: 28px 0;
+            border-bottom: 4px solid var(--dcs-gold);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, .10);
+        }
+
+            .page-header h2 {
+                font-weight: 750;
+                margin-bottom: 10px;
+            }
+
+            .page-header p {
+                color: rgba(255,255,255,.9);
+                font-size: 15px;
+            }
+
+        .section-card {
+            background: white;
+            border-radius: 13px;
+            padding: 26px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.05);
+            border: 1px solid #e7ece8;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dcs-green);
+            font-size: 1.2rem;
+            font-weight: 750;
+            border-bottom: 2px solid #e5efe9;
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+        }
+
+        .info-item {
+            background: #f8faf9;
+            border: 1px solid #edf1ee;
+            border-radius: 9px;
+            padding: 15px;
+            height: 100%;
+            min-width: 0;
+        }
+
+        .info-label {
+            color: var(--muted-color);
+            font-size: .77rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+            margin-bottom: 7px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #27352e;
+            overflow-wrap: anywhere;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+
+        .summary-number {
+            font-size: 1.1rem;
+            color: var(--dcs-green);
+            font-weight: 750;
+        }
+
+        .kra-table-container {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .kra-table {
+            width: 100%;
+            min-width: 1100px;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+
+            .kra-table thead th {
+                background: var(--dcs-dark-green);
+                color: white;
+                padding: 16px 13px;
+                font-size: .78rem;
+                text-transform: uppercase;
+                letter-spacing: .35px;
+                font-weight: 750;
+                vertical-align: middle;
+                border-right: 1px solid rgba(255,255,255,.13);
+                border-bottom: 3px solid var(--dcs-gold);
+            }
+
+            .kra-table tbody td {
+                padding: 17px 13px;
+                vertical-align: top;
+                line-height: 1.65;
+                border-right: 1px solid #e8eee9;
+                border-bottom: 1px solid #e3eae5;
+                overflow-wrap: anywhere;
+                white-space: pre-line;
+                color: #344139;
+            }
+
+            .kra-table tbody tr:nth-child(even) {
+                background: #f8fbf9;
+            }
+
+            .kra-table tbody tr:hover {
+                background: #edf7f0;
+            }
+
+            .kra-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            .kra-table th:last-child,
+            .kra-table td:last-child {
+                border-right: none;
+            }
+
+        .kra-number {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 34px;
+            height: 34px;
+            padding: 0 8px;
+            background: var(--dcs-light-green);
+            color: var(--dcs-dark-green);
+            border: 1px solid #cfe4d5;
+            border-radius: 8px;
+            font-weight: 800;
+        }
+
+        .kra-name {
+            color: var(--dcs-dark-green);
+            font-weight: 750;
+            font-size: .91rem;
+        }
+
+        .weight-badge, .record-count {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: var(--dcs-light-green);
+            color: var(--dcs-dark-green);
+            border: 1px solid #cfe4d5;
+            white-space: nowrap;
+            font-size: .8rem;
+            font-weight: 800;
+        }
+
+        .kra-column-number {
+            width: 65px;
+        }
+
+        .kra-column-name {
+            width: 190px;
+        }
+
+        .kra-column-weight {
+            width: 95px;
+        }
+
+        .kra-column-activities {
+            width: 230px;
+        }
+
+        .kra-column-standards {
+            width: 240px;
+        }
+
+        .kra-column-bathopele {
+            width: 190px;
+        }
+
+        .kra-column-gafs {
+            width: 220px;
+        }
+
+        .table-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+            .table-section-header h5, .subsection-title {
+                color: var(--dcs-dark-green);
+                font-weight: 750;
+                margin: 0;
+            }
+
+        .table-hint {
+            color: var(--muted-color);
+            font-size: .8rem;
+        }
+
+        .empty-message {
+            background: #fff8e7;
+            border: 1px solid #f0e1b5;
+            border-left: 4px solid var(--dcs-gold);
+            padding: 16px;
+            border-radius: 8px;
+            color: #5f512d;
+        }
+
+        .status-message {
+            background: #f0f8f4;
+            border-left: 4px solid var(--dcs-green);
+            border-radius: 7px;
+            padding: 15px;
+        }
+
+        .btn-back {
+            background: var(--dcs-green);
+            color: white;
+            text-decoration: none;
+            padding: 11px 17px;
+            border-radius: 7px;
+            display: inline-block;
+            font-weight: 650;
+            border: 1px solid var(--dcs-green);
+        }
+
+            .btn-back:hover {
+                background: var(--dcs-dark-green);
+                border-color: var(--dcs-dark-green);
+                color: white;
+            }
+
+        .btn-print {
+            padding: 11px 17px;
+            border-radius: 7px;
+            font-weight: 650;
+        }
+
+        .agreement-document {
+            border: 1px solid #dce8e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .agreement-document-header {
+            background: var(--dcs-light-green);
+            border-bottom: 3px solid var(--dcs-gold);
+            padding: 24px;
+            text-align: center;
+        }
+
+            .agreement-document-header h3 {
+                color: var(--dcs-dark-green);
+                font-weight: 800;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+            }
+
+            .agreement-document-header p {
+                color: var(--muted-color);
+                margin-bottom: 0;
+                font-weight: 600;
+            }
+
+        .agreement-document-body {
+            padding: 25px;
+        }
+
+        .agreement-intro {
+            font-size: .96rem;
+            line-height: 1.8;
+            padding: 16px;
+            background: #f8faf9;
+            border-left: 4px solid var(--dcs-green);
+            border-radius: 6px;
+            margin-bottom: 22px;
+        }
+
+        .agreement-terms {
+            padding-left: 22px;
+            margin-bottom: 25px;
+        }
+
+            .agreement-terms li {
+                margin-bottom: 12px;
+                line-height: 1.8;
+            }
+
+        .agreement-period {
+            padding: 17px;
+            border: 1px solid #dce8e0;
+            border-radius: 8px;
+            background: #fbfcfb;
+            margin-bottom: 20px;
+        }
+
+        .agreement-person {
+            padding: 16px;
+            border: 1px solid #e3eae5;
+            border-radius: 8px;
+            background: #fff;
+            height: 100%;
+        }
+
+            .agreement-person .info-value {
+                font-size: 1rem;
+            }
+
+        .pa-signing-section {
+            margin-top: 25px;
+        }
+
+        .pa-signature-card {
+            height: 100%;
+            padding: 20px;
+            border: 1px solid #dce8e0;
+            border-radius: 10px;
+            background: #fbfcfb;
+        }
+
+            .pa-signature-card h6 {
+                color: var(--dcs-dark-green);
+                font-weight: 750;
+                text-transform: uppercase;
+                font-size: .85rem;
+                margin-bottom: 15px;
+            }
+
+        .pa-signature-canvas {
+            display: block;
+            width: 100%;
+            height: 150px;
+            background: white;
+            border: 2px solid #cde0d5;
+            border-radius: 8px;
+            touch-action: none;
+        }
+
+            .pa-signature-canvas.signature-locked {
+                background: #f5f6f7;
+                cursor: not-allowed;
+            }
+
+        .pa-signature-date {
+            background: #f0f8f4;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+            .pa-signature-date .info-value {
+                color: var(--dcs-green);
+                font-weight: 700;
+            }
+
+        .pa-signature-status {
+            padding: 10px;
+            border-radius: 7px;
+            font-size: .83rem;
+            margin-top: 12px;
+        }
+
+            .pa-signature-status.signed {
+                background: #eaf5ee;
+                color: var(--dcs-green);
+            }
+
+            .pa-signature-status.pending {
+                background: #fff8e7;
+                color: #735d20;
+            }
+
+        .pa-signature-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .pa-clear-button {
+            border: 1px solid var(--dcs-green);
+            color: var(--dcs-green);
+            background: white;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: .8rem;
+        }
+
+            .pa-clear-button:hover {
+                background: var(--dcs-green);
+                color: white;
+            }
+
+        .pa-save-button {
+            background: var(--dcs-green);
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 7px;
+            font-weight: 700;
+        }
+
+            .pa-save-button:hover {
+                background: var(--dcs-dark-green);
+                color: white;
+            }
+
+        .pdp-subsection {
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #e8eee9;
+        }
+
+        .subsection-title {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-text {
+            color: #758178;
+            font-size: .8rem;
+            text-align: center;
+            padding: 12px 0 24px;
+        }
+
+        @@media (max-width: 767.98px) {
+            .page-header {
+                padding: 22px;
+                margin-top: 16px;
+            }
+
+                .page-header h2 {
+                    font-size: 1.45rem;
+                }
+
+            .section-card {
+                padding: 18px;
+            }
+
+            .section-title {
+                font-size: 1.05rem;
+            }
+
+            .action-bar {
+                align-items: stretch !important;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+                .action-bar > * {
+                    width: 100%;
+                    text-align: center;
+                }
+
+            .agreement-document-body {
+                padding: 16px;
+            }
+        }
+
+        @@media print {
+            @@page {
+                size: landscape;
+                margin: 12mm;
+            }
+
+            body {
+                background: white !important;
+                color: black;
+                font-size: 10px;
+            }
+
+            .main-container {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .no-print, .pa-no-print {
+                display: none !important;
+            }
+
+            .page-header {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #888;
+                border-bottom: 3px solid var(--dcs-green);
+                box-shadow: none;
+                padding: 15px;
+                margin: 0 0 15px;
+            }
+
+                .page-header p {
+                    color: #333 !important;
+                }
+
+            .section-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                border-radius: 0;
+                padding: 14px;
+                margin-bottom: 15px;
+            }
+
+            .kra-table-container {
+                overflow: visible;
+                border-radius: 0;
+            }
+
+            .kra-table {
+                min-width: 0;
+                width: 100%;
+                font-size: 8px;
+            }
+
+                .kra-table thead {
+                    display: table-header-group;
+                }
+
+                    .kra-table thead th {
+                        background: #eaf5ee !important;
+                        color: #004d2b !important;
+                        padding: 6px 4px;
+                        font-size: 7px;
+                        overflow-wrap: anywhere;
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+
+                .kra-table tbody td {
+                    padding: 6px 4px;
+                    font-size: 8px;
+                }
+
+                .kra-table tr,
+                .pa-signing-section,
+                .pa-signature-card,
+                .agreement-document {
+                    break-inside: avoid;
+                }
+
+            .kra-column-number {
+                width: 5%;
+            }
+
+            .kra-column-name {
+                width: 13%;
+            }
+
+            .kra-column-weight {
+                width: 7%;
+            }
+
+            .kra-column-activities {
+                width: 18%;
+            }
+
+            .kra-column-standards {
+                width: 19%;
+            }
+
+            .kra-column-bathopele {
+                width: 16%;
+            }
+
+            .kra-column-gafs {
+                width: 22%;
+            }
+
+            .info-item, .agreement-person {
+                border: 1px solid #ddd;
+            }
+
+            a {
+                color: black !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid main-container py-2">
+
+        <header class="page-header">
+            <h2><i class="fa-solid fa-file-contract me-2"></i>Employee Performance Agreement</h2>
+            <p class="mb-0">Employee summary, Key Result Areas, Performance Agreement and Personal Development Plan.</p>
+        </header>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 no-print action-bar">
+            <a asp-controller="Supervisor" asp-action="MyEmployees" class="btn-back">
+                <i class="fa-solid fa-arrow-left me-2"></i>Back to Assigned Employees
+            </a>
+
+            <button type="button" class="btn btn-outline-secondary btn-print" onclick="window.print()">
+                <i class="fa-solid fa-print me-2"></i>Print Summary
+            </button>
+        </div>
+
+        <!-- PART A -->
+        <section class="section-card">
+            <h4 class="section-title"><i class="fa-solid fa-user"></i>Part A: Employee Summary</h4>
+
+            <div class="row g-3">
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Persal Number</div><div class="info-value">@(employee?.PersalNumber ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Employee Name</div><div class="info-value">@(string.IsNullOrWhiteSpace(employeeName) ? "Not recorded" : employeeName)</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Position</div><div class="info-value">@(employee?.Position ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Department</div><div class="info-value">@(employee?.Department ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Branch / Region</div><div class="info-value">@(employee?.BranchOrRegion ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Post Level</div><div class="info-value">@(employee?.PostLevel ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Salary Level</div><div class="info-value">@(employee?.SalaryLevel ?? "Not recorded")</div></div></div>
+                <div class="col-md-4 col-lg-3"><div class="info-item"><div class="info-label">Supervisor</div><div class="info-value">@supervisorName</div></div></div>
+
+                <div class="col-md-4 col-lg-3">
+                    <div class="info-item">
+                        <div class="info-label">Performance Cycle</div>
+                        <div class="info-value">
+                            @if (partA?.StartYear != null && partA.EndYear != null)
+                            {
+                                @($"{partA.StartYear}/{partA.EndYear}")
+                            }
+                            else if (agreement != null)
+                            {
+                                @($"{agreement.StartYear}/{agreement.EndYear}")
+                            }
+                            else
+                            {
+                                <span>Not recorded</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KEY RESULT AREAS TABLE -->
+        <section class="section-card">
+            <h4 class="section-title"><i class="fa-solid fa-table-list"></i>Key Result Areas (KRAs)</h4>
+
+            @if (agreement == null)
+            {
+                <div class="empty-message">No saved Performance Agreement was found for this employee.</div>
+            }
+            else
+            {
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4"><div class="info-item"><div class="info-label">Agreement Reference</div><div class="info-value summary-number">PA-@agreement.Id</div></div></div>
+                    <div class="col-md-4"><div class="info-item"><div class="info-label">Performance Cycle</div><div class="info-value">@agreement.StartYear / @agreement.EndYear</div></div></div>
+                    <div class="col-md-4"><div class="info-item"><div class="info-label">Number of KRAs</div><div class="info-value summary-number">@kraRecords.Count</div></div></div>
+                </div>
+
+                <div class="table-section-header">
+                    <h5><i class="fa-solid fa-list-check me-2"></i>KRA Details</h5>
+                    <span class="record-count">@kraRecords.Count KRA(s)</span>
+                </div>
+
+                @if (!kraRecords.Any())
+                {
+                    <div class="empty-message">No Key Result Areas have been saved for this agreement.</div>
+                }
+                else
+                {
+                    <p class="table-hint mb-3 no-print"><i class="fa-solid fa-arrows-left-right me-1"></i>Scroll horizontally to view all columns.</p>
+
+                    <div class="table-responsive kra-table-container">
+                        <table class="table kra-table">
+                            <colgroup>
+                                <col class="kra-column-number" />
+                                <col class="kra-column-name" />
+                                <col class="kra-column-weight" />
+                                <col class="kra-column-activities" />
+                                <col class="kra-column-standards" />
+                                <col class="kra-column-bathopele" />
+                                <col class="kra-column-gafs" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Key Result Area</th>
+                                    <th>Weight</th>
+                                    <th>Activities</th>
+                                    <th>Achievement Standards</th>
+                                    <th>Batho Pele Principles</th>
+                                    <th>Generic Assessment Factors (GAFs)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < kraRecords.Count; i++)
+                                {
+                                    var kra = kraRecords[i];
+                                    <tr>
+                                        <td><span class="kra-number">@(i + 1)</span></td>
+                                        <td><div class="kra-name">@(string.IsNullOrWhiteSpace(kra.Name) ? "Not recorded" : kra.Name)</div></td>
+                                        <td><span class="weight-badge">@(string.IsNullOrWhiteSpace(kra.Weight) ? "N/A" : kra.Weight)</span></td>
+                                        <td>@(string.IsNullOrWhiteSpace(kra.Activities) ? "Not recorded" : kra.Activities)</td>
+                                        <td>@(string.IsNullOrWhiteSpace(kra.Standards) ? "Not recorded" : kra.Standards)</td>
+                                        <td>@(string.IsNullOrWhiteSpace(kra.BathoPele) ? "Not recorded" : kra.BathoPele)</td>
+                                        <td>@(string.IsNullOrWhiteSpace(kra.GAFs) ? "Not recorded" : kra.GAFs)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="status-message mt-3"><i class="fa-solid fa-circle-check me-2"></i>The saved Key Result Areas are displayed above.</div>
+                }
+            }
+        </section>
+
+        <!-- PERFORMANCE AGREEMENT AND SIGNATURES -->
+        <section class="section-card">
+            <h4 class="section-title"><i class="fa-solid fa-file-signature"></i>Performance Agreement</h4>
+
+            @if (agreement == null)
+            {
+                <div class="empty-message">No saved Performance Agreement was found.</div>
+            }
+            else
+            {
+                <div class="agreement-document">
+                    <div class="agreement-document-header">
+                        <h3>PERFORMANCE AGREEMENT</h3>
+                        <p>Department of Correctional Services</p>
+                    </div>
+
+                    <div class="agreement-document-body">
+                        <div class="agreement-intro">
+                            Performance will be assessed according to the information contained in the Personal Workplan relating to the required Key Responsibility Areas (KRA's) and Generic Assessment Factors (GAF's).
+                        </div>
+
+                        <h5 class="subsection-title"><i class="fa-solid fa-users me-2"></i>Agreement Participants</h5>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="agreement-person">
+                                    <div class="info-label">Employee / Job Holder</div>
+                                    <div class="info-value">@(string.IsNullOrWhiteSpace(employeeName) ? "Not recorded" : employeeName)</div>
+                                    <div class="info-label mt-3">Position</div>
+                                    <div class="info-value">@(employee?.Position ?? "Not recorded")</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="agreement-person">
+                                    <div class="info-label">Supervisor / Supervisor Capacity</div>
+                                    <div class="info-value">@supervisorName</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="agreement-period">
+                            <div class="info-label">Agreement Period</div>
+                            <div class="info-value">
+                                This Performance Agreement is valid from
+                                <strong>1 April @agreement.StartYear</strong> to
+                                <strong>31 March @agreement.EndYear</strong>.
+                            </div>
+                        </div>
+
+                        <h5 class="subsection-title"><i class="fa-solid fa-clipboard-check me-2"></i>Purpose and Terms of the Agreement</h5>
+                        <ol class="agreement-terms">
+                            <li>To outline the expectations of the Supervisee.</li>
+                            <li>To continuously monitor and assess the performance of the Supervisee to determine if the performance expectations have been met.</li>
+                            <li>This agreement is valid for the performance period stated above.</li>
+                            <li>The contents of this agreement may be revised during the performance period where necessary and in accordance with the applicable performance management process.</li>
+                        </ol>
+
+                        <div class="status-message mb-4">
+                            <i class="fa-solid fa-circle-info me-2"></i>
+                            The employee and supervisor should review the employee summary, Key Result Areas and performance expectations before signing.
+                        </div>
+
+                        <h5 class="subsection-title"><i class="fa-solid fa-file-signature me-2"></i>Signatures and Acknowledgement</h5>
+
+                        <div class="pa-signing-section">
+                            <div class="row g-4">
+                                <!-- EMPLOYEE SIGNATURE -->
+                                <div class="col-md-6">
+                                    <div class="pa-signature-card">
+                                        <h6><i class="fa-solid fa-user-check me-2"></i>Employee / Job Holder</h6>
+
+                                        <canvas id="paEmployeeSignatureCanvas"
+                                                class="pa-signature-canvas signature-locked"
+                                                aria-label="Saved employee signature"
+                                                aria-readonly="true"></canvas>
+
+                                        <div class="pa-signature-date">
+                                            <div class="info-label">Employee Signature Date</div>
+                                            <div class="info-value">
+                                                @if (employeeSignatureDate.HasValue)
+                                                {
+                                                    @employeeSignatureDate.Value.ToString("dd MMMM yyyy")
+                                                }
+                                                else
+                                                {
+                                                    <span>Signature date not recorded</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="pa-signature-status @(string.IsNullOrWhiteSpace(employeeSignature) ? "pending" : "signed")">
+                                            @if (string.IsNullOrWhiteSpace(employeeSignature))
+                                            {
+                                                <i class="fa-solid fa-clock me-2"></i>
+                                        
+                                                <span>No employee signature has been saved.</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-solid fa-circle-check me-2"></i>
+                                        
+                                                <span>Employee signature recorded.</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SUPERVISOR SIGNATURE -->
+                                <div class="col-md-6">
+                                    <div class="pa-signature-card">
+                                        <h6><i class="fa-solid fa-user-tie me-2"></i>Assigned Supervisor</h6>
+
+                                        <canvas id="paSupervisorSignatureCanvas"
+                                                class="pa-signature-canvas"
+                                                aria-label="Supervisor signature"
+                                                aria-readonly="false"
+                                                style="cursor:crosshair;pointer-events:auto;touch-action:none;"></canvas>
+
+                                        @if (canSupervisorSign)
+                                        {
+                                            <div class="pa-signature-actions pa-no-print">
+                                                <button type="button" class="pa-clear-button" id="clearSupervisorSignature">
+                                                    <i class="fa-solid fa-eraser me-1"></i>Clear Signature
+                                                </button>
+                                                <span class="small text-muted">Draw with your mouse or touchscreen.</span>
+                                            </div>
+
+                                            <div class="pa-signature-status signed">
+                                                <i class="fa-solid fa-pen-to-square me-2"></i>You can draw your signature in the box above.
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="pa-signature-status pending">
+                                                <i class="fa-solid fa-lock me-2"></i>Sign-in must have the Supervisor role to submit a signature.
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (canSupervisorSign)
+                {
+                    <form id="supervisorAgreementSignatureForm"
+                          asp-controller="PerformanceAgreement"
+                          asp-action="Agreement"
+                          method="post"
+                          class="mt-4">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="id" value="@agreement.Id" />
+                        <input type="hidden" name="SupervisorSignature" id="SupervisorSignature" value="" />
+
+                        <div class="text-end pa-no-print">
+                            <button type="submit" class="pa-save-button">
+                                <i class="fa-solid fa-file-signature me-2"></i>Save Supervisor Signature
+                            </button>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+
+        <!-- PERSONAL DEVELOPMENT PLAN -->
+        <section class="section-card">
+            <h4 class="section-title"><i class="fa-solid fa-graduation-cap"></i>Personal Development Plan (PDP)</h4>
+
+            @if (pdp == null)
+            {
+                <div class="empty-message">
+                    <i class="fa-solid fa-circle-info me-2"></i>
+                    No saved Personal Development Plan was found for this employee.
+                </div>
+            }
+            else
+            {
+                <div class="row g-3">
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Employee</div><div class="info-value">@(string.IsNullOrWhiteSpace(pdp.Surname) ? employeeName : pdp.Surname)</div></div></div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <div class="info-label">PDP Cycle</div>
+                            <div class="info-value">
+                                @if (pdp.StartYear.HasValue && pdp.EndYear.HasValue)
+                                {
+                                    @($"{pdp.StartYear}/{pdp.EndYear}")
+                                }
+                                else
+                                {
+                                    <span>Not recorded</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Directorate</div><div class="info-value">@(pdp.Directorate ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Branch</div><div class="info-value">@(pdp.Branch ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Current Studies</div><div class="info-value">@(pdp.CurrentStudies ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Bursary</div><div class="info-value">@(pdp.Bursary ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Bursary Duration</div><div class="info-value">@(pdp.BursaryDuration ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Workshops</div><div class="info-value">@(pdp.Workshops ?? "Not recorded")</div></div></div>
+                    <div class="col-12"><div class="info-item"><div class="info-label">Development Goal</div><div class="info-value">@(pdp.Goal ?? "Not recorded")</div></div></div>
+                    <div class="col-12"><div class="info-item"><div class="info-label">Action Plan</div><div class="info-value">@(pdp.ActionPlan ?? "Not recorded")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Employee Signature Date</div><div class="info-value">@(pdp.EmployeeDate?.ToString("dd MMMM yyyy") ?? "Not signed")</div></div></div>
+                    <div class="col-md-6"><div class="info-item"><div class="info-label">Supervisor</div><div class="info-value">@(pdp.SupervisorName ?? pdp.Supervisor ?? "Not recorded")</div></div></div>
+                </div>
+
+                <div class="pdp-subsection">
+                    <h5 class="subsection-title"><i class="fa-solid fa-book-open me-2"></i>Education Records</h5>
+                    @if (pdp.Education == null || !pdp.Education.Any())
+                    {
+                        <p class="text-muted mb-0">No additional education records found.</p>
+                    }
+                    else
+                    {
+                        <span class="record-count"><i class="fa-solid fa-check-circle me-1"></i>@pdp.Education.Count education record(s) saved</span>
+                    }
+                </div>
+
+                <div class="pdp-subsection">
+                    <h5 class="subsection-title"><i class="fa-solid fa-briefcase me-2"></i>Job Requirements</h5>
+                    @if (pdp.JobRequirements == null || !pdp.JobRequirements.Any())
+                    {
+                        <p class="text-muted mb-0">No additional job requirement records found.</p>
+                    }
+                    else
+                    {
+                        <span class="record-count"><i class="fa-solid fa-check-circle me-1"></i>@pdp.JobRequirements.Count job requirement record(s) saved</span>
+                    }
+                </div>
+            }
+        </section>
+
+        <footer class="footer-text">PMDS — Employee Performance Records</footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const employeeSignature =
+                @Html.Raw(System.Text.Json.JsonSerializer.Serialize(employeeSignature));
+
+            const supervisorSignature =
+                @Html.Raw(System.Text.Json.JsonSerializer.Serialize(supervisorSignature));
+
+            const canSupervisorSign =
+                @Html.Raw(System.Text.Json.JsonSerializer.Serialize(canSupervisorSign));
+
+            function setupCanvas(canvasId, savedSignature, editable) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return null;
+
+                const ctx = canvas.getContext("2d");
+
+                let drawing = false;
+                let hasNewDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+
+                function resizeCanvas() {
+                    const rect = canvas.getBoundingClientRect();
+                    if (!rect.width || !rect.height) return;
+
+                    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+                    canvas.width = Math.round(rect.width * ratio);
+                    canvas.height = Math.round(rect.height * ratio);
+
+                    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+                    ctx.lineWidth = 2.5;
+                    ctx.lineCap = "round";
+                    ctx.lineJoin = "round";
+                    ctx.strokeStyle = "#000000";
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(0, 0, rect.width, rect.height);
+                }
+
+                function restoreSignature() {
+                    return new Promise(function (resolve) {
+                        if (!savedSignature) {
+                            resolve();
+                            return;
+                        }
+
+                        const image = new Image();
+
+                        image.onload = function () {
+                            const rect = canvas.getBoundingClientRect();
+                            ctx.fillStyle = "#ffffff";
+                            ctx.fillRect(0, 0, rect.width, rect.height);
+                            ctx.drawImage(image, 0, 0, rect.width, rect.height);
+                            resolve();
+                        };
+
+                        image.onerror = function () {
+                            console.warn("Could not load the saved signature.");
+                            resolve();
+                        };
+
+                        image.src = savedSignature;
+                    });
+                }
+
+                resizeCanvas();
+
+                if (!editable) {
+                    restoreSignature();
+
+                    return {
+                        canvas: canvas,
+                        clear: function () {},
+                        hasNewDrawing: function () { return false; }
+                    };
+                }
+
+                // Do not allow drawing until the existing signature has loaded.
+                canvas.style.pointerEvents = "none";
+
+                restoreSignature().then(function () {
+                    canvas.style.pointerEvents = "auto";
+                    canvas.style.cursor = "crosshair";
+                    canvas.style.touchAction = "none";
+                });
+
+                function getPosition(event) {
+                    const rect = canvas.getBoundingClientRect();
+
+                    return {
+                        x: event.clientX - rect.left,
+                        y: event.clientY - rect.top
+                    };
+                }
+
+                function startDrawing(event) {
+                    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+                    event.preventDefault();
+
+                    drawing = true;
+
+                    const point = getPosition(event);
+                    lastX = point.x;
+                    lastY = point.y;
+
+                    ctx.beginPath();
+                    ctx.arc(lastX, lastY, 1.25, 0, Math.PI * 2);
+                    ctx.fillStyle = "#000000";
+                    ctx.fill();
+
+                    if (canvas.setPointerCapture) {
+                        try {
+                            canvas.setPointerCapture(event.pointerId);
+                        } catch (_) {}
+                    }
+
+                    hasNewDrawing = true;
+                }
+
+                function draw(event) {
+                    if (!drawing) return;
+
+                    event.preventDefault();
+
+                    const point = getPosition(event);
+
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(point.x, point.y);
+                    ctx.strokeStyle = "#000000";
+                    ctx.lineWidth = 2.5;
+                    ctx.lineCap = "round";
+                    ctx.lineJoin = "round";
+                    ctx.stroke();
+
+                    lastX = point.x;
+                    lastY = point.y;
+                    hasNewDrawing = true;
+                }
+
+                function stopDrawing(event) {
+                    drawing = false;
+                    ctx.beginPath();
+
+                    if (
+                        event &&
+                        canvas.hasPointerCapture &&
+                        canvas.hasPointerCapture(event.pointerId)
+                    ) {
+                        try {
+                            canvas.releasePointerCapture(event.pointerId);
+                        } catch (_) {}
+                    }
+                }
+
+                canvas.addEventListener("pointerdown", startDrawing);
+                canvas.addEventListener("pointermove", draw);
+                canvas.addEventListener("pointerup", stopDrawing);
+                canvas.addEventListener("pointercancel", stopDrawing);
+                canvas.addEventListener("lostpointercapture", function () {
+                    drawing = false;
+                });
+
+                return {
+                    canvas: canvas,
+
+                    clear: function () {
+                        const rect = canvas.getBoundingClientRect();
+
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0, 0, rect.width, rect.height);
+
+                        drawing = false;
+                        hasNewDrawing = false;
+                        savedSignature = "";
+                    },
+
+                    hasNewDrawing: function () {
+                        return hasNewDrawing;
+                    }
+                };
+            }
+
+            setupCanvas("paEmployeeSignatureCanvas", employeeSignature, false);
+
+            const supervisorPad = setupCanvas(
+                "paSupervisorSignatureCanvas",
+                supervisorSignature,
+                canSupervisorSign
+            );
+
+            const clearButton = document.getElementById("clearSupervisorSignature");
+            const signatureInput = document.getElementById("SupervisorSignature");
+
+            if (clearButton && supervisorPad && canSupervisorSign) {
+                clearButton.addEventListener("click", function () {
+                    supervisorPad.clear();
+
+                    if (signatureInput) {
+                        signatureInput.value = "";
+                    }
+                });
+            }
+
+            const form = document.getElementById("supervisorAgreementSignatureForm");
+
+            if (form && supervisorPad && canSupervisorSign) {
+                form.addEventListener("submit", function (event) {
+                    if (!supervisorPad.hasNewDrawing()) {
+                        event.preventDefault();
+                        alert("Please draw your supervisor signature before saving.");
+                        return;
+                    }
+
+                    if (signatureInput) {
+                        signatureInput.value =
+                            supervisorPad.canvas.toDataURL("image/png");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

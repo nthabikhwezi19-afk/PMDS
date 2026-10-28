@@ -826,9 +826,33 @@ namespace PMDSSystems.Controllers
         // ============================================================
 
         [HttpGet]
-        public async Task<IActionResult> PersonalAssistancePlan(
-            int? id)
+        public async Task<IActionResult> PersonalAssistancePlan(int? id)
         {
+            // ========================================================
+            // GET LOGGED-IN USER
+            // ========================================================
+
+            var userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Challenge();
+            }
+
+            // ========================================================
+            // LOAD EMPLOYEE AND SUPERVISOR
+            // ========================================================
+
+            var employee = await _context.Employees
+                .Include(e => e.Supervisor)
+                .FirstOrDefaultAsync(e => e.UserId == userId);
+
+            if (employee == null)
+            {
+                return NotFound(
+                    "Your employee profile is not linked to your login account.");
+            }
+
             PersonalAssistancePlan pap;
 
             // ========================================================
@@ -838,55 +862,80 @@ namespace PMDSSystems.Controllers
             if (id.HasValue)
             {
                 pap = await _context.PersonalAssistancePlans
-                    .FindAsync(id.Value);
+                    .FirstOrDefaultAsync(p => p.Id == id.Value);
 
                 if (pap == null)
                 {
                     return NotFound();
                 }
-
-                return View(pap);
             }
-
-            // ========================================================
-            // NEW PAP
-            // ========================================================
-
-            pap = new PersonalAssistancePlan();
-
-            // ========================================================
-            // GET LOGGED-IN USER
-            // ========================================================
-
-            var userId =
-                _userManager.GetUserId(User);
-
-            if (!string.IsNullOrEmpty(userId))
+            else
             {
-                var employee =
-                    await _context.Employees
-                        .FirstOrDefaultAsync(
-                            e => e.UserId == userId);
+                // ====================================================
+                // NEW PAP
+                // ====================================================
 
-                if (employee != null)
-                {
-                    pap.PersalNo =
-                        employee.PersalNumber;
-
-                    pap.EmployeeName =
-                        $"{employee.FirstName} " +
-                        $"{employee.LastName}";
-
-                    pap.Post =
-                        employee.PostDesignation
-                        ?? employee.Position
-                        ?? string.Empty;
-
-                    pap.SupervisorName =
-                        employee.SupervisorSurnameInitials
-                        ?? string.Empty;
-                }
+                pap = new PersonalAssistancePlan();
             }
+
+            // ========================================================
+            // ALWAYS AUTO-POPULATE EMPLOYEE DETAILS
+            // ========================================================
+
+            pap.PersalNo =
+                employee.PersalNumber;
+
+            pap.EmployeeName =
+                $"{employee.FirstName} {employee.LastName}".Trim();
+
+            pap.Post =
+                employee.PostDesignation
+                ?? employee.Position
+                ?? string.Empty;
+
+            // This is the field shown at the signature section.
+            pap.SuperviseeInitialsAndSurname =
+                $"{employee.Initials} {employee.LastName}".Trim();
+
+            // ========================================================
+            // ALWAYS AUTO-POPULATE SUPERVISOR DETAILS
+            // ========================================================
+
+            if (employee.Supervisor != null)
+            {
+                pap.SupervisorName =
+                    $"{employee.Supervisor.FirstName} " +
+                    $"{employee.Supervisor.LastName}";
+
+                pap.SupervisorInitialsAndSurname =
+                    $"{employee.Supervisor.Initials} " +
+                    $"{employee.Supervisor.LastName}";
+            }
+            else
+            {
+                pap.SupervisorName =
+                    employee.SupervisorSurnameInitials
+                    ?? string.Empty;
+
+                pap.SupervisorInitialsAndSurname =
+                    employee.SupervisorSurnameInitials
+                    ?? string.Empty;
+            }
+
+            // ========================================================
+            // DEBUG
+            // ========================================================
+
+            Console.WriteLine("========================================");
+            Console.WriteLine("PERSONAL ASSISTANCE PLAN");
+            Console.WriteLine($"Employee: {pap.EmployeeName}");
+            Console.WriteLine(
+                $"Supervisee Initials and Surname: " +
+                $"{pap.SuperviseeInitialsAndSurname}");
+            Console.WriteLine(
+                $"Supervisor Initials and Surname: " +
+                $"{pap.SupervisorInitialsAndSurname}");
+            Console.WriteLine("========================================");
 
             return View(pap);
         }

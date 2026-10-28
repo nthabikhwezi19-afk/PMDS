@@ -39,6 +39,14 @@ namespace PMDSSystems.Models
         public int EndYear { get; set; }
 
         // ============================================================
+        // PERFORMANCE AGREEMENT SIGNATURES
+        // ============================================================
+        public string? EmployeeSignature { get; set; }
+
+        public string? SupervisorSignature { get; set; }
+
+    
+        // ============================================================
         // GAF
         // ============================================================
 
