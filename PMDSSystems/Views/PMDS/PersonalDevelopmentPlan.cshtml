@@ -4,34 +4,7 @@
 @{
     ViewData["Title"] = "Personal Development Plan";
 }
-<div style="background:#fff3cd; border:2px solid #856404; padding:15px; margin:20px 0;">
-    <h5>PDP DEBUG TEST</h5>
 
-    <p>
-        <strong>Age Group:</strong>
-        [@Model.AgeGroup]
-    </p>
-
-    <p>
-        <strong>Disability:</strong>
-        [@Model.Disabled]
-    </p>
-
-    <p>
-        <strong>Nature of Disability:</strong>
-        [@Model.DisabilityDetails]
-    </p>
-
-    <p>
-        <strong>Gender:</strong>
-        [@Model.Gender]
-    </p>
-
-    <p>
-        <strong>Race:</strong>
-        [@Model.Race]
-    </p>
-</div>
 
 <style>
     /* =========================================================
@@ -612,13 +585,12 @@
          ===================================================== -->
 
     <div class="form-container">
-
-        <form asp-controller="PDP"
-              asp-action="SavePDP"
+        <form action="/PDP/SavePDP"
               method="post">
 
             @Html.AntiForgeryToken()
 
+            <!-- Rest of PDP form -->
             <!-- =================================================
                  1. PERSONAL DETAILS
                  ================================================= -->
@@ -1695,20 +1667,7 @@
     </div>
 
 </div>
-<div class="alert alert-warning mt-3">
-    <strong>DEBUG INFORMATION</strong><br />
 
-    AgeGroup:
-    <strong>[@Model.AgeGroup]</strong>
-    <br />
-
-    Disabled:
-    <strong>[@Model.Disabled]</strong>
-    <br />
-
-    DisabilityDetails:
-    <strong>[@Model.DisabilityDetails]</strong>
-</div>
 
 <!-- =========================================================
      FONT AWESOME

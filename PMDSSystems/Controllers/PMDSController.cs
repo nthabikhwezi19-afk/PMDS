@@ -535,13 +535,32 @@ namespace PMDSSystems.Controllers
         // ============================================================
         // PERSONAL DEVELOPMENT PLAN (PDP)
         // ============================================================
+        // ============================================================
+        // PERSONAL DEVELOPMENT PLAN (PDP)
+        // ============================================================
 
         [HttpGet]
         public async Task<IActionResult> PersonalDevelopmentPlan()
         {
+            // ========================================================
+            // GET LOGGED-IN USER
+            // ========================================================
+
             var userId = _userManager.GetUserId(User);
 
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Challenge();
+            }
+
+
+            // ========================================================
+            // GET EMPLOYEE + SUPERVISOR
+            // ========================================================
+
             var employee = await _context.Employees
+                .Include(e => e.Supervisor)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.UserId == userId);
 
             if (employee == null)
@@ -550,41 +569,161 @@ namespace PMDSSystems.Controllers
                     "No employee record is linked to this account.");
             }
 
-            Employee? supervisor = null;
 
-            if (employee.SupervisorId.HasValue)
-            {
-                supervisor = await _context.Employees
-                    .FirstOrDefaultAsync(
-                        e => e.Id == employee.SupervisorId.Value);
-            }
+            // ========================================================
+            // LOAD LATEST PART A / PMDS CYCLE
+            // ========================================================
+
+            var pmdsForm = await _context.PMDSForms
+                .AsNoTracking()
+                .Where(p => p.EmployeeId == employee.Id)
+                .OrderByDescending(p => p.StartYear)
+                .FirstOrDefaultAsync();
+
+
+            // ========================================================
+            // DISABILITY
+            // ========================================================
+
+            bool hasDisability =
+                employee.HasDisability == true;
+
+            string disabilityStatus =
+                hasDisability
+                    ? "Yes"
+                    : "No";
+
+            string disabilityDetails =
+                hasDisability
+                    ? employee.NatureOfDisability ?? string.Empty
+                    : string.Empty;
+
+
+            // ========================================================
+            // BUILD PDP MODEL
+            // ========================================================
 
             var model = new PDPModel
             {
-                Id = employee.Id,
+                // ----------------------------------------------------
+                // EMPLOYEE DETAILS
+                // ----------------------------------------------------
 
-                Surname = employee.LastName,
+                Surname =
+                    string.IsNullOrWhiteSpace(employee.Initials)
+                        ? employee.LastName
+                        : $"{employee.LastName} {employee.Initials}",
 
-                PersalNo = employee.PersalNumber,
+                PersalNo =
+                    employee.PersalNumber,
 
-                Directorate = employee.Department,
+                Directorate =
+                    employee.Department,
 
-                IdNumber = employee.IdentificationNumber,
+                IdNumber =
+                    employee.IdentificationNumber,
 
-                Branch = employee.BranchOrRegion,
+                Branch =
+                    employee.BranchOrRegion,
 
-                SalaryLevel = employee.SalaryLevel,
+                SalaryLevel =
+                    employee.SalaryLevel,
 
-                Gender = employee.Gender,
 
-                Race = employee.Race,
+                // ----------------------------------------------------
+                // DEMOGRAPHICS
+                // ----------------------------------------------------
 
-                SupervisorPosition = supervisor?.PostLevel
+                Gender =
+                    employee.Gender,
+
+                Race =
+                    employee.Race,
+
+                AgeGroup =
+                    employee.AgeGroup,
+
+                Disabled =
+                    disabilityStatus,
+
+                DisabilityDetails =
+                    disabilityDetails,
+
+
+                // ----------------------------------------------------
+                // PERFORMANCE CYCLE
+                // ----------------------------------------------------
+
+                StartYear =
+                    pmdsForm?.StartYear,
+
+                EndYear =
+                    pmdsForm?.EndYear,
+
+
+                // ----------------------------------------------------
+                // SUPERVISOR
+                // ----------------------------------------------------
+
+                Supervisor =
+                    employee.Supervisor != null
+                        ? $"{employee.Supervisor.LastName} " +
+                          $"{employee.Supervisor.Initials}".Trim()
+                        : employee.SupervisorSurnameInitials,
+
+                SupervisorPosition =
+                    employee.Supervisor != null
+                        ? employee.Supervisor.Position
+                            ?? employee.Supervisor.PostLevel
+                        : employee.SupervisorRankPostLevel
             };
+
+
+            // ========================================================
+            // DEBUG
+            // ========================================================
+
+            Console.WriteLine(
+                "======================================");
+
+            Console.WriteLine(
+                "PERSONAL DEVELOPMENT PLAN");
+
+            Console.WriteLine(
+                $"Employee: {model.Surname}");
+
+            Console.WriteLine(
+                $"Age Group: [{model.AgeGroup}]");
+
+            Console.WriteLine(
+                $"Disability: [{model.Disabled}]");
+
+            Console.WriteLine(
+                $"Nature of Disability: " +
+                $"[{model.DisabilityDetails}]");
+
+            Console.WriteLine(
+                $"Gender: [{model.Gender}]");
+
+            Console.WriteLine(
+                $"Race: [{model.Race}]");
+
+            Console.WriteLine(
+                $"Start Year: [{model.StartYear}]");
+
+            Console.WriteLine(
+                $"End Year: [{model.EndYear}]");
+
+            Console.WriteLine(
+                "======================================");
+
+
+            // ========================================================
+            // RETURN VIEW
+            // ========================================================
 
             return View(model);
         }
-
 
         // ============================================================
         // SAVE PDP

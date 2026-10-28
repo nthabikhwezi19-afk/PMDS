@@ -681,29 +681,16 @@ namespace PMDSSystems.Controllers
             // ============================================================
 
             _context.PDPs.Add(pdp);
-      
+
             await _context.SaveChangesAsync();
 
-
-            // ============================================================
-            // SUCCESS MESSAGE
-            // ============================================================
-
             TempData["Success"] =
-                "First Cycle Completed Successfully!";
-
-
-            // ============================================================
-            // RETURN TO PDP
-            // ============================================================
+                "Personal Development Plan saved successfully!";
 
             return RedirectToAction(
-                "Create",
-                new
-                {
-                    persalNo =
-                        employee.PersalNumber
-                });
+                "Cycles",
+                "PMDS"
+            );
         }
     }
 }

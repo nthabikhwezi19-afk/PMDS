@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMDSSystems.Models
 {
@@ -45,6 +46,8 @@ namespace PMDSSystems.Models
         public string SupervisorRankPostLevel { get; set; } = string.Empty;
         public String? PreviousStation { get; set; }
         public DateTime? TransferDate { get; set; }
+
+        [Precision(5, 2)]
         public decimal? PreviousCyclePerformance { get; set; }
 
         // =========================

@@ -41,11 +41,23 @@ namespace PMDSSystems.Models
         // ============================================================
         // PERFORMANCE AGREEMENT SIGNATURES
         // ============================================================
+
         public string? EmployeeSignature { get; set; }
 
         public string? SupervisorSignature { get; set; }
 
-    
+
+        // ============================================================
+        // SUBMISSION / WORKFLOW STATUS
+        // ============================================================
+
+        public string Status { get; set; } = "Draft";
+
+        public bool SubmittedToSupervisor { get; set; } = false;
+
+        public DateTime? SubmittedToSupervisorDate { get; set; }
+
+
         // ============================================================
         // GAF
         // ============================================================

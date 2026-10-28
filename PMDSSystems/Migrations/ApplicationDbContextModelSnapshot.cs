@@ -501,7 +501,8 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("PreviousCyclePerformance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("PreviousStation")
                         .HasColumnType("nvarchar(max)");
@@ -589,6 +590,10 @@ namespace PMDSSystems.Migrations
 
                     b.Property<int>("AgreedRating")
                         .HasColumnType("int");
+
+                    b.Property<string>("EmployeeAchievement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KraDescription")
                         .IsRequired()
@@ -781,6 +786,9 @@ namespace PMDSSystems.Migrations
                     b.Property<string>("EmployeeSignature")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EndYear")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
@@ -798,6 +806,9 @@ namespace PMDSSystems.Migrations
 
                     b.Property<string>("SalaryLevel")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StartYear")
+                        .HasColumnType("int");
 
                     b.Property<string>("Supervisor")
                         .HasColumnType("nvarchar(max)");
@@ -868,7 +879,8 @@ namespace PMDSSystems.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("PreviousCyclePerformance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("PreviousStation")
                         .HasColumnType("nvarchar(max)");
@@ -920,6 +932,9 @@ namespace PMDSSystems.Migrations
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmployeeSignature")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EndYear")
                         .HasColumnType("int");
 
@@ -952,6 +967,19 @@ namespace PMDSSystems.Migrations
 
                     b.Property<int>("StartYear")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SubmittedToSupervisor")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("SubmittedToSupervisorDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SupervisorSignature")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TeamWork")
                         .HasColumnType("bit");

@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMDSSystems.Models
 {
@@ -108,6 +109,8 @@ namespace PMDSSystems.Models
         public string? EmployeeSignature { get; set; }
         public String? PreviousStation { get; set; }
         public DateTime? TransferDate { get; set; }
+
+        [Precision(5, 2)]
         public decimal? PreviousCyclePerformance { get; set; }
         public DateTime? DeclarationDate { get; set; }
  

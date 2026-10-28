@@ -627,227 +627,223 @@ namespace PMDSSystems.Controllers
                 + $"{employee.FirstName} "
                 + $"{employee.LastName}");
         }
+
         // ============================================================
         // EDIT EMPLOYEE - GET
         // ============================================================
+        // ============================================================
+        // EDIT EMPLOYEE - GET
+        // ============================================================
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // ========================================================
+            // VALIDATE ID
+            // ========================================================
 
-            if (string.IsNullOrWhiteSpace(userId))
+            if (!id.HasValue || id.Value <= 0)
             {
-                return Challenge();
+                return BadRequest("A valid employee ID is required.");
             }
 
-            // Employees editing their own details must always load the
-            // Employee record linked to their logged-in Identity account.
-            Employee? employee;
 
-            if (User.IsInRole("Employee"))
-            {
-                employee = await _context.Employees
-                    .Include(e => e.Supervisor)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(e => e.UserId == userId);
-            }
-            else
-            {
-                if (!id.HasValue || id.Value <= 0)
-                {
-                    return BadRequest("A valid employee ID is required.");
-                }
+            // ========================================================
+            // LOAD EMPLOYEE BEING EDITED
+            // ========================================================
 
-                employee = await _context.Employees
-                    .Include(e => e.Supervisor)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(e => e.Id == id.Value);
-            }
+            var employee = await _context.Employees
+                .Include(e => e.Supervisor)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == id.Value);
 
             if (employee == null)
             {
                 return NotFound(
-                    "No employee record is linked to the logged-in account.");
+                    $"Employee with ID {id.Value} was not found.");
             }
 
+
             // ========================================================
-            // POPULATE SUPERVISOR DETAILS
+            // SECURITY:
+            // EMPLOYEE MAY ONLY EDIT THEIR OWN RECORD
+            // ========================================================
+
+            if (User.IsInRole("Employee"))
+            {
+                var userId =
+                    User.FindFirstValue(
+                        ClaimTypes.NameIdentifier);
+
+                if (string.IsNullOrWhiteSpace(userId))
+                {
+                    return Challenge();
+                }
+
+                if (employee.UserId != userId)
+                {
+                    return Forbid();
+                }
+            }
+
+
+            // ========================================================
+            // SUPERVISOR INFORMATION
             // ========================================================
 
             if (employee.Supervisor != null)
             {
-                if (string.IsNullOrWhiteSpace(
-                        employee.SupervisorSurnameInitials))
+                var supervisorInitials =
+                    employee.Supervisor.Initials;
+
+                if (string.IsNullOrWhiteSpace(supervisorInitials) &&
+                    !string.IsNullOrWhiteSpace(employee.Supervisor.FirstName))
                 {
-                    var supervisorInitials = string.Empty;
-
-                    if (!string.IsNullOrWhiteSpace(
-                            employee.Supervisor.Initials))
-                    {
-                        supervisorInitials =
-                            employee.Supervisor.Initials.Trim();
-                    }
-                    else if (!string.IsNullOrWhiteSpace(
-                                 employee.Supervisor.FirstName))
-                    {
-                        supervisorInitials =
-                            string.Join(
-                                ".",
-                                employee.Supervisor.FirstName
-                                    .Split(
-                                        ' ',
-                                        StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(name => name[0])) + ".";
-                    }
-
-                    employee.SupervisorSurnameInitials =
-                        $"{employee.Supervisor.LastName} {supervisorInitials}"
-                            .Trim();
+                    supervisorInitials =
+                        string.Join(
+                            ".",
+                            employee.Supervisor.FirstName
+                                .Split(
+                                    ' ',
+                                    StringSplitOptions.RemoveEmptyEntries)
+                                .Select(name => name[0])) + ".";
                 }
 
-                if (string.IsNullOrWhiteSpace(
-                        employee.SupervisorRankPostLevel))
-                {
-                    employee.SupervisorRankPostLevel =
-                        !string.IsNullOrWhiteSpace(
-                            employee.Supervisor.PostLevel)
-                            ? employee.Supervisor.PostLevel
-                            : employee.Supervisor.Position;
-                }
+                employee.SupervisorSurnameInitials =
+                    $"{employee.Supervisor.LastName} {supervisorInitials}"
+                        .Trim();
+
+                employee.SupervisorRankPostLevel =
+                    !string.IsNullOrWhiteSpace(
+                        employee.Supervisor.PostLevel)
+                        ? employee.Supervisor.PostLevel
+                        : employee.Supervisor.Position;
             }
 
+
             // ========================================================
-            // GET THE MOST RECENT PART A RECORD
+            // LOAD MOST RECENT PART A
             // ========================================================
 
-            var existingPartA = await _context.PMDSForms
-                .AsNoTracking()
-                .Where(p => p.EmployeeId == employee.Id)
-                .OrderByDescending(p => p.Id)
-                .FirstOrDefaultAsync();
+            var existingPartA =
+                await _context.PMDSForms
+                    .AsNoTracking()
+                    .Where(p => p.EmployeeId == employee.Id)
+                    .OrderByDescending(p => p.Id)
+                    .FirstOrDefaultAsync();
+
+
+            // ========================================================
+            // USE PART A ONLY AS FALLBACK
+            // ========================================================
 
             if (existingPartA != null)
             {
-                // Department / Directorate
                 if (string.IsNullOrWhiteSpace(employee.Department))
                 {
-                    employee.Department = existingPartA.Directorate;
+                    employee.Department =
+                        existingPartA.Directorate;
                 }
 
-                // Post Designation
                 if (string.IsNullOrWhiteSpace(employee.PostDesignation))
                 {
                     employee.PostDesignation =
                         existingPartA.PostDesignation;
                 }
 
-                // Position
                 if (string.IsNullOrWhiteSpace(employee.Position))
                 {
                     employee.Position =
-                        !string.IsNullOrWhiteSpace(
-                            existingPartA.PostDesignation)
-                            ? existingPartA.PostDesignation
-                            : existingPartA.CurrentRank;
+                        existingPartA.PostDesignation
+                        ?? existingPartA.CurrentRank;
                 }
 
-                // Post Level
                 if (string.IsNullOrWhiteSpace(employee.PostLevel))
                 {
                     employee.PostLevel =
-                        !string.IsNullOrWhiteSpace(existingPartA.PostLevel)
-                            ? existingPartA.PostLevel
-                            : existingPartA.CurrentRank;
+                        existingPartA.PostLevel
+                        ?? existingPartA.CurrentRank;
                 }
 
-                // Appointment date in DCS
                 if (!employee.AppointmentInDcsDate.HasValue)
                 {
                     employee.AppointmentInDcsDate =
                         existingPartA.AppointmentDate;
                 }
 
-                // Appointment date in current rank
                 if (!employee.AppointmentDateInCurrentRank.HasValue)
                 {
                     employee.AppointmentDateInCurrentRank =
                         existingPartA.AppointmentDateInCurrentRank;
                 }
 
-                // OSD
                 if (string.IsNullOrWhiteSpace(employee.OSDDescription))
                 {
                     employee.OSDDescription =
-                        !string.IsNullOrWhiteSpace(
-                            existingPartA.OSDDescription)
-                            ? existingPartA.OSDDescription
-                            : existingPartA.RelatedOSDDescription;
+                        existingPartA.OSDDescription
+                        ?? existingPartA.RelatedOSDDescription;
                 }
 
-                // Previous station
                 if (string.IsNullOrWhiteSpace(employee.PreviousStation))
                 {
                     employee.PreviousStation =
                         existingPartA.PreviousStation;
                 }
 
-                // Transfer date
                 if (!employee.TransferDate.HasValue)
                 {
                     employee.TransferDate =
                         existingPartA.TransferDate;
                 }
 
-                // Previous performance
                 if (!employee.PreviousCyclePerformance.HasValue)
                 {
                     employee.PreviousCyclePerformance =
                         existingPartA.PreviousCyclePerformance;
                 }
-
-                // Supervisor fallback from Part A
-                if (string.IsNullOrWhiteSpace(
-                        employee.SupervisorSurnameInitials))
-                {
-                    employee.SupervisorSurnameInitials =
-                        existingPartA.SupervisorSurnameInitials;
-                }
-
-                if (string.IsNullOrWhiteSpace(
-                        employee.SupervisorRankPostLevel))
-                {
-                    employee.SupervisorRankPostLevel =
-                        existingPartA.SupervisorRankPostLevel;
-                }
             }
+
+
+            // ========================================================
+            // CENTRES / DROPDOWNS
+            // ========================================================
 
             LoadSupervisors();
 
+
             // ========================================================
-            // DEBUG VALUES SENT TO THE VIEW
+            // DEBUG
             // ========================================================
 
             Console.WriteLine("======================================");
-            Console.WriteLine("EDIT MODEL SENT TO VIEW");
-            Console.WriteLine($"Employee ID: {employee.Id}");
-            Console.WriteLine($"User ID: {employee.UserId}");
-            Console.WriteLine($"Persal: {employee.PersalNumber}");
-            Console.WriteLine($"Department: {employee.Department}");
-            Console.WriteLine($"Position: {employee.Position}");
-            Console.WriteLine(
-                $"Post Designation: {employee.PostDesignation}");
-            Console.WriteLine($"Post Level: {employee.PostLevel}");
-            Console.WriteLine($"Supervisor ID: {employee.SupervisorId}");
-            Console.WriteLine(
-                $"Supervisor: {employee.SupervisorSurnameInitials}");
-            Console.WriteLine(
-                $"Supervisor Rank: {employee.SupervisorRankPostLevel}");
-            Console.WriteLine($"Part A found: {existingPartA != null}");
+            Console.WriteLine("EDIT PAGE - EMPLOYEE LOADED");
             Console.WriteLine("======================================");
+
+            Console.WriteLine($"ID: [{employee.Id}]");
+            Console.WriteLine($"UserId: [{employee.UserId}]");
+            Console.WriteLine($"Persal: [{employee.PersalNumber}]");
+            Console.WriteLine($"FirstName: [{employee.FirstName}]");
+            Console.WriteLine($"LastName: [{employee.LastName}]");
+            Console.WriteLine($"Initials: [{employee.Initials}]");
+            Console.WriteLine($"Email: [{employee.Email}]");
+            Console.WriteLine($"ID Number: [{employee.IdentificationNumber}]");
+            Console.WriteLine($"Department: [{employee.Department}]");
+            Console.WriteLine($"Position: [{employee.Position}]");
+            Console.WriteLine($"Salary Level: [{employee.SalaryLevel}]");
+            Console.WriteLine($"Post Level: [{employee.PostLevel}]");
+            Console.WriteLine($"Age Group: [{employee.AgeGroup}]");
+            Console.WriteLine($"Gender: [{employee.Gender}]");
+            Console.WriteLine($"Race: [{employee.Race}]");
+            Console.WriteLine($"Disability: [{employee.HasDisability}]");
+
+            Console.WriteLine("======================================");
+
 
             return View(employee);
         }
+
+
         // ============================================================
         // EDIT EMPLOYEE - POST
         // ============================================================
@@ -886,6 +882,7 @@ namespace PMDSSystems.Controllers
             {
                 return NotFound("Employee record was not found.");
             }
+
 
             // ========================================================
             // SECURITY
@@ -1009,10 +1006,12 @@ namespace PMDSSystems.Controllers
             }
 
             // ========================================================
-            // DO NOT UPDATE THESE:
+            // PROTECTED FIELDS - NEVER UPDATED FROM EDIT FORM
+            // ========================================================
             //
             // Id
             // PersalNumber
+            // IdentificationNumber
             // UserId
             // SupervisorId
             // MustChangePassword
@@ -1026,7 +1025,7 @@ namespace PMDSSystems.Controllers
             existingEmployee.LastName = employee.LastName;
             existingEmployee.Initials = employee.Initials;
             existingEmployee.Email = employee.Email;
-            existingEmployee.IdentificationNumber = employee.IdentificationNumber;
+            
 
 
             // ========================================================
@@ -1139,8 +1138,16 @@ namespace PMDSSystems.Controllers
             existingEmployee.HasDisability =
                 employee.HasDisability;
 
-            existingEmployee.NatureOfDisability =
-                employee.NatureOfDisability;
+            // Only keep Nature of Disability when Disability = Yes
+            if (employee.HasDisability == true)
+            {
+                existingEmployee.NatureOfDisability =
+                    employee.NatureOfDisability;
+            }
+            else
+            {
+                existingEmployee.NatureOfDisability = null;
+            }
 
 
             // ========================================================
